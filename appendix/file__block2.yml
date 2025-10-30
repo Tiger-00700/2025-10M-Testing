@@ -1,0 +1,126 @@
+name: release-check
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  lint:
+    name: markdownlint
+    runs-on: ubuntu-latest
+    outputs:
+      report-path: ${{ steps.upload.outputs.artifact-path || '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node (for markdownlint)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install markdownlint-cli
+        run: npm install -g markdownlint-cli@0.33.0
+
+      - name: Run markdownlint
+        run:
+          mkdir -p artifacts
+          markdownlint "**/*.md" > artifacts/markdownlint-report.txt || true
+          echo "exit:$?" > artifacts/markdownlint-exitcode.txt
+
+      - name: Upload markdownlint report
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: markdownlint-report
+          path: artifacts/markdownlint-report.txt
+
+  smoke:
+    name: run-examples-smoke
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare artifacts dir
+        run: mkdir -p artifacts
+
+      - name: Run examples smoke scripts
+        run:
+          set -uo pipefail
+          EXAMPLES=( "examples/03_env" "examples/05_ingest" "examples/06_storage" "examples/07_batch" "examples/08_analysis" "examples/10_tdms" "examples/11_automation" "examples/12_tools" "examples/13_observability" "examples/16_project_playbook" "examples/17_practices" "examples/18_performance" "examples/19_ci_and_governance" "examples/20_trends" "examples/21_career_paths" )
+
+          FAILURES=0
+          SUMMARY="artifacts/smoke_summary.txt"
+          echo "Smoke run summary - $(date)" > "$SUMMARY"
+
+          for ex in "${EXAMPLES[@]}"; do
+            if [ -d "$ex" ]; then
+              echo "==> Running smoke for $ex" | tee -a "$SUMMARY"
+              pushd "$ex" >/dev/null
+
+              # bring up dependencies if docker-compose present (best-effort)
+              if [ -f docker-compose.yml ] || [ -f docker-compose.yaml ]; then
+                docker compose up -d || docker-compose up -d || true
+                echo "docker compose up (best-effort) executed for $ex" >> ../../"$SUMMARY"
+                sleep 8
+              fi
+
+              OUT="../../artifacts/$(basename $ex)_smoke.log"
+              if [ -x ./smoke.sh ] || [ -f ./smoke.sh ]; then
+                bash ./smoke.sh > "$OUT" 2>&1 || rc=$?
+              elif [ -f ./smoke.ps1 ]; then
+                pwsh -File ./smoke.ps1 *> "$OUT" 2>&1 || rc=$?
+              else
+                echo "NO_SMOKE_SCRIPT for $ex" | tee -a ../../"$SUMMARY"
+                rc=127
+              fi
+
+              # capture exit code (if not set by commands earlier)
+              rc=${rc:-0}
+              echo "$ex exit_code:$rc" | tee -a ../../"$SUMMARY"
+
+              # always copy any artifacts from example (if exists)
+              if [ -d artifacts ]; then
+                mkdir -p ../../artifacts/"$(basename $ex)"/
+                cp -r artifacts/* ../../artifacts/"$(basename $ex)"/ || true
+              fi
+
+              # bring down compose if present (best-effort)
+              if [ -f docker-compose.yml ] || [ -f docker-compose.yaml ]; then
+                docker compose down || docker-compose down || true
+              fi
+
+              popd >/dev/null
+
+              if [ "$rc" -ne 0 ]; then
+                FAILURES=$((FAILURES+1))
+                echo "FAILED: $ex (exit $rc)" | tee -a "$SUMMARY"
+              else
+                echo "OK: $ex" | tee -a "$SUMMARY"
+              fi
+
+              # reset rc for next loop
+              rc=0
+            else
+              echo "MISSING_DIR: $ex" | tee -a "$SUMMARY"
+            fi
+          done
+
+          echo "Total failures: $FAILURES" | tee -a "$SUMMARY"
+          if [ "$FAILURES" -ne 0 ]; then
+            echo "One or more examples smoke failed." >&2
+            exit 20
+          fi
+
+      - name: Collect top-level artifacts
+        run:
+          ls -la artifacts || true
+
+      - name: Upload smoke artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-check-artifacts
+          path: artifacts/

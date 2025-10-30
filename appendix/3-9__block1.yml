@@ -1,0 +1,51 @@
+# docker-compose.yml
+version: '3'
+services:
+  hadoop-namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: hadoop-namenode
+    restart: always
+    ports:
+      - 9870:9870
+      - 9000:9000
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+      - ./input:/input
+      - ./output:/output
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop.env
+
+  hadoop-datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: hadoop-datanode
+    restart: always
+    volumes:
+      - hadoop_datanode:/hadoop/dfs/data
+    environment:
+      SERVICE_PRECONDITION: "hadoop-namenode:9870"
+    env_file:
+      - ./hadoop.env
+
+  hadoop-resourcemanager:
+    image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
+    container_name: hadoop-resourcemanager
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "hadoop-namenode:9000 hadoop-datanode:9864"
+    env_file:
+      - ./hadoop.env
+
+  hadoop-nodemanager:
+    image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
+    container_name: hadoop-nodemanager
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "hadoop-namenode:9000 hadoop-datanode:9864 hadoop-resourcemanager:8088"
+    env_file:
+      - ./hadoop.env
+
+volumes:
+  hadoop_namenode:
+  hadoop_datanode:

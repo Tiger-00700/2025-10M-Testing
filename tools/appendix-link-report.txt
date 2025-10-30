@@ -1,0 +1,2504 @@
+Appendix link report
+References found: 500
+Missing targets: 0
+
+Source: book\1022.2025.book.md (line 40)
+  -> matched: ../appendix/promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 40)
+  -> matched: ../appendix/promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 40)
+  -> matched: promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 40)
+  -> matched: ../appendix/promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 4807)
+  -> matched: jenkins_install.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\jenkins_install.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 5043)
+  -> matched: ../appendix/promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 5043)
+  -> matched: ../appendix/promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 5043)
+  -> matched: promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 5043)
+  -> matched: ../appendix/promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 5058)
+  -> matched: smart_test_case_generator.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\smart_test_case_generator.py
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 5208)
+  -> matched: anomaly_detector.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\anomaly_detector.py
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 5257)
+  -> matched: root_cause_analyzer.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\root_cause_analyzer.py
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 5527)
+  -> matched: adaptive_assertion_engine.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\adaptive_assertion_engine.py
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 5969)
+  -> matched: create_test_environment.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\create_test_environment.py
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 6015)
+  -> matched: create_test_environment.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\create_test_environment.py
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 6018)
+  -> matched: create_test_environment.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\create_test_environment.py
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 6334)
+  -> matched: promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 6608)
+  -> matched: promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 6615)
+  -> matched: promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 6618)
+  -> matched: promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: book\1022.2025.book.md (line 6622)
+  -> matched: ./promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 130)
+  -> matched: ..\appendix\2-4__block1.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block1.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 130)
+  -> matched: ..\appendix\2-4__block1.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block1.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 130)
+  -> matched: 2-4__block1.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block1.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 130)
+  -> matched: ..\appendix\2-4__block1.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block1.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 132)
+  -> matched: ..\appendix\2-4__block2.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block2.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 132)
+  -> matched: ..\appendix\2-4__block2.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block2.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 132)
+  -> matched: 2-4__block2.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block2.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 132)
+  -> matched: ..\appendix\2-4__block2.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block2.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 236)
+  -> matched: ..\appendix\2-4__block3.sql
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block3.sql
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 236)
+  -> matched: ..\appendix\2-4__block3.sql
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block3.sql
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 236)
+  -> matched: 2-4__block3.sql
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block3.sql
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 236)
+  -> matched: ..\appendix\2-4__block3.sql
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block3.sql
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 238)
+  -> matched: ..\appendix\2-4__block4.sql
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block4.sql
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 238)
+  -> matched: ..\appendix\2-4__block4.sql
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block4.sql
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 238)
+  -> matched: 2-4__block4.sql
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block4.sql
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 238)
+  -> matched: ..\appendix\2-4__block4.sql
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block4.sql
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 295)
+  -> matched: ..\appendix\2-4__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 295)
+  -> matched: ..\appendix\2-4__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 295)
+  -> matched: 2-4__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 295)
+  -> matched: ..\appendix\2-4__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 394)
+  -> matched: ..\appendix\2-4__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block6.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 394)
+  -> matched: ..\appendix\2-4__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block6.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 394)
+  -> matched: 2-4__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block6.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 394)
+  -> matched: ..\appendix\2-4__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block6.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 440)
+  -> matched: ..\appendix\2-4__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 440)
+  -> matched: ..\appendix\2-4__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 440)
+  -> matched: 2-4__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 440)
+  -> matched: ..\appendix\2-4__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 495)
+  -> matched: ..\appendix\2-4__block8.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block8.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 495)
+  -> matched: ..\appendix\2-4__block8.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block8.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 495)
+  -> matched: 2-4__block8.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block8.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 495)
+  -> matched: ..\appendix\2-4__block8.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block8.sh
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 509)
+  -> matched: ..\appendix\2-4__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block9.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 509)
+  -> matched: ..\appendix\2-4__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block9.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 509)
+  -> matched: 2-4__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block9.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 509)
+  -> matched: ..\appendix\2-4__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block9.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 529)
+  -> matched: ..\appendix\2-4__block10.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block10.java
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 529)
+  -> matched: ..\appendix\2-4__block10.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block10.java
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 529)
+  -> matched: 2-4__block10.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block10.java
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 529)
+  -> matched: ..\appendix\2-4__block10.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block10.java
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 537)
+  -> matched: ..\appendix\2-4__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 537)
+  -> matched: ..\appendix\2-4__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 537)
+  -> matched: 2-4__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 537)
+  -> matched: ..\appendix\2-4__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 545)
+  -> matched: ..\appendix\2-4__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 545)
+  -> matched: ..\appendix\2-4__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 545)
+  -> matched: 2-4__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 545)
+  -> matched: ..\appendix\2-4__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 553)
+  -> matched: ..\appendix\2-4__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 553)
+  -> matched: ..\appendix\2-4__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 553)
+  -> matched: 2-4__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第4章-数据存储测试【进阶】.md (line 553)
+  -> matched: ..\appendix\2-4__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-4__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 70)
+  -> matched: ..\appendix\2-5__block1.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block1.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 70)
+  -> matched: ..\appendix\2-5__block1.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block1.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 70)
+  -> matched: 2-5__block1.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block1.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 70)
+  -> matched: ..\appendix\2-5__block1.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block1.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 89)
+  -> matched: ..\appendix\2-5__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 89)
+  -> matched: ..\appendix\2-5__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 89)
+  -> matched: 2-5__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 89)
+  -> matched: ..\appendix\2-5__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 108)
+  -> matched: ..\appendix\2-5__block3.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block3.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 108)
+  -> matched: ..\appendix\2-5__block3.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block3.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 108)
+  -> matched: 2-5__block3.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block3.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 108)
+  -> matched: ..\appendix\2-5__block3.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block3.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 127)
+  -> matched: ..\appendix\2-5__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 127)
+  -> matched: ..\appendix\2-5__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 127)
+  -> matched: 2-5__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 127)
+  -> matched: ..\appendix\2-5__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 146)
+  -> matched: ..\appendix\2-5__block5.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block5.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 146)
+  -> matched: ..\appendix\2-5__block5.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block5.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 146)
+  -> matched: 2-5__block5.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block5.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 146)
+  -> matched: ..\appendix\2-5__block5.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block5.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 165)
+  -> matched: ..\appendix\2-5__block6.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block6.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 165)
+  -> matched: ..\appendix\2-5__block6.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block6.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 165)
+  -> matched: 2-5__block6.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block6.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 165)
+  -> matched: ..\appendix\2-5__block6.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block6.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 184)
+  -> matched: ..\appendix\2-5__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 184)
+  -> matched: ..\appendix\2-5__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 184)
+  -> matched: 2-5__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 184)
+  -> matched: ..\appendix\2-5__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 203)
+  -> matched: ..\appendix\2-5__block8.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block8.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 203)
+  -> matched: ..\appendix\2-5__block8.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block8.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 203)
+  -> matched: 2-5__block8.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block8.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 203)
+  -> matched: ..\appendix\2-5__block8.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block8.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 222)
+  -> matched: ..\appendix\2-5__block9.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block9.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 222)
+  -> matched: ..\appendix\2-5__block9.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block9.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 222)
+  -> matched: 2-5__block9.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block9.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 222)
+  -> matched: ..\appendix\2-5__block9.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block9.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 241)
+  -> matched: ..\appendix\2-5__block10.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block10.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 241)
+  -> matched: ..\appendix\2-5__block10.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block10.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 241)
+  -> matched: 2-5__block10.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block10.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 241)
+  -> matched: ..\appendix\2-5__block10.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block10.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 260)
+  -> matched: ..\appendix\2-5__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 260)
+  -> matched: ..\appendix\2-5__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 260)
+  -> matched: 2-5__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 260)
+  -> matched: ..\appendix\2-5__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 279)
+  -> matched: ..\appendix\2-5__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 279)
+  -> matched: ..\appendix\2-5__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 279)
+  -> matched: 2-5__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 279)
+  -> matched: ..\appendix\2-5__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 298)
+  -> matched: ..\appendix\2-5__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 298)
+  -> matched: ..\appendix\2-5__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 298)
+  -> matched: 2-5__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 298)
+  -> matched: ..\appendix\2-5__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 321)
+  -> matched: ..\appendix\2-5__block14.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block14.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 321)
+  -> matched: ..\appendix\2-5__block14.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block14.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 321)
+  -> matched: 2-5__block14.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block14.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 321)
+  -> matched: ..\appendix\2-5__block14.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block14.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 340)
+  -> matched: ..\appendix\2-5__block15.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block15.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 340)
+  -> matched: ..\appendix\2-5__block15.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block15.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 340)
+  -> matched: 2-5__block15.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block15.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 340)
+  -> matched: ..\appendix\2-5__block15.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block15.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 359)
+  -> matched: ..\appendix\2-5__block16.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block16.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 359)
+  -> matched: ..\appendix\2-5__block16.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block16.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 359)
+  -> matched: 2-5__block16.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block16.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 359)
+  -> matched: ..\appendix\2-5__block16.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block16.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 378)
+  -> matched: ..\appendix\2-5__block17.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block17.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 378)
+  -> matched: ..\appendix\2-5__block17.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block17.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 378)
+  -> matched: 2-5__block17.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block17.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 378)
+  -> matched: ..\appendix\2-5__block17.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block17.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 397)
+  -> matched: ..\appendix\2-5__block18.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block18.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 397)
+  -> matched: ..\appendix\2-5__block18.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block18.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 397)
+  -> matched: 2-5__block18.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block18.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 397)
+  -> matched: ..\appendix\2-5__block18.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block18.java
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 416)
+  -> matched: ..\appendix\2-5__block19.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block19.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 416)
+  -> matched: ..\appendix\2-5__block19.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block19.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 416)
+  -> matched: 2-5__block19.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block19.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 416)
+  -> matched: ..\appendix\2-5__block19.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block19.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 435)
+  -> matched: ..\appendix\2-5__block20.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block20.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 435)
+  -> matched: ..\appendix\2-5__block20.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block20.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 435)
+  -> matched: 2-5__block20.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block20.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 435)
+  -> matched: ..\appendix\2-5__block20.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block20.py
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 458)
+  -> matched: ..\appendix\2-5__block21.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block21.yml
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 458)
+  -> matched: ..\appendix\2-5__block21.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block21.yml
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 458)
+  -> matched: 2-5__block21.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block21.yml
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 458)
+  -> matched: ..\appendix\2-5__block21.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block21.yml
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 461)
+  -> matched: ..\appendix\2-5__block22.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block22.sh
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 461)
+  -> matched: ..\appendix\2-5__block22.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block22.sh
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 461)
+  -> matched: 2-5__block22.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block22.sh
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 461)
+  -> matched: ..\appendix\2-5__block22.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block22.sh
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 463)
+  -> matched: ..\appendix\2-5__block23.properties
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block23.properties
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 463)
+  -> matched: ..\appendix\2-5__block23.properties
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block23.properties
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 463)
+  -> matched: 2-5__block23.properties
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block23.properties
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 463)
+  -> matched: ..\appendix\2-5__block23.properties
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block23.properties
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 465)
+  -> matched: ..\appendix\2-5__block24.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block24.json
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 465)
+  -> matched: ..\appendix\2-5__block24.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block24.json
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 465)
+  -> matched: 2-5__block24.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block24.json
+  -> exists: True
+
+Source: chapter\第2篇-第5章-数据处理测试【进阶】.md (line 465)
+  -> matched: ..\appendix\2-5__block24.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-5__block24.json
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 53)
+  -> matched: ..\appendix\2-6__block1.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block1.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 53)
+  -> matched: ..\appendix\2-6__block1.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block1.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 53)
+  -> matched: 2-6__block1.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block1.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 53)
+  -> matched: ..\appendix\2-6__block1.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block1.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 75)
+  -> matched: ..\appendix\2-6__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 75)
+  -> matched: ..\appendix\2-6__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 75)
+  -> matched: 2-6__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 75)
+  -> matched: ..\appendix\2-6__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 93)
+  -> matched: ..\appendix\2-6__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block3.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 93)
+  -> matched: ..\appendix\2-6__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block3.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 93)
+  -> matched: 2-6__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block3.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 93)
+  -> matched: ..\appendix\2-6__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block3.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 111)
+  -> matched: ..\appendix\2-6__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 111)
+  -> matched: ..\appendix\2-6__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 111)
+  -> matched: 2-6__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 111)
+  -> matched: ..\appendix\2-6__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 129)
+  -> matched: ..\appendix\2-6__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 129)
+  -> matched: ..\appendix\2-6__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 129)
+  -> matched: 2-6__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 129)
+  -> matched: ..\appendix\2-6__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 147)
+  -> matched: ..\appendix\2-6__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block6.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 147)
+  -> matched: ..\appendix\2-6__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block6.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 147)
+  -> matched: 2-6__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block6.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 147)
+  -> matched: ..\appendix\2-6__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block6.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 169)
+  -> matched: ..\appendix\2-6__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 169)
+  -> matched: ..\appendix\2-6__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 169)
+  -> matched: 2-6__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 169)
+  -> matched: ..\appendix\2-6__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 187)
+  -> matched: ..\appendix\2-6__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block8.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 187)
+  -> matched: ..\appendix\2-6__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block8.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 187)
+  -> matched: 2-6__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block8.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 187)
+  -> matched: ..\appendix\2-6__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block8.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 205)
+  -> matched: ..\appendix\2-6__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block9.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 205)
+  -> matched: ..\appendix\2-6__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block9.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 205)
+  -> matched: 2-6__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block9.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 205)
+  -> matched: ..\appendix\2-6__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block9.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 223)
+  -> matched: ..\appendix\2-6__block10.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block10.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 223)
+  -> matched: ..\appendix\2-6__block10.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block10.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 223)
+  -> matched: 2-6__block10.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block10.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 223)
+  -> matched: ..\appendix\2-6__block10.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block10.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 241)
+  -> matched: ..\appendix\2-6__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 241)
+  -> matched: ..\appendix\2-6__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 241)
+  -> matched: 2-6__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 241)
+  -> matched: ..\appendix\2-6__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 263)
+  -> matched: ..\appendix\2-6__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 263)
+  -> matched: ..\appendix\2-6__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 263)
+  -> matched: 2-6__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 263)
+  -> matched: ..\appendix\2-6__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 297)
+  -> matched: ..\appendix\2-6__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 297)
+  -> matched: ..\appendix\2-6__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 297)
+  -> matched: 2-6__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 297)
+  -> matched: ..\appendix\2-6__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 331)
+  -> matched: ..\appendix\2-6__block14.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block14.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 331)
+  -> matched: ..\appendix\2-6__block14.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block14.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 331)
+  -> matched: 2-6__block14.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block14.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 331)
+  -> matched: ..\appendix\2-6__block14.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block14.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 367)
+  -> matched: ..\appendix\2-6__block15.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block15.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 367)
+  -> matched: ..\appendix\2-6__block15.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block15.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 367)
+  -> matched: 2-6__block15.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block15.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 367)
+  -> matched: ..\appendix\2-6__block15.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block15.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 399)
+  -> matched: ..\appendix\2-6__block16.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block16.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 399)
+  -> matched: ..\appendix\2-6__block16.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block16.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 399)
+  -> matched: 2-6__block16.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block16.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 399)
+  -> matched: ..\appendix\2-6__block16.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block16.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 431)
+  -> matched: ..\appendix\2-6__block17.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block17.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 431)
+  -> matched: ..\appendix\2-6__block17.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block17.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 431)
+  -> matched: 2-6__block17.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block17.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 431)
+  -> matched: ..\appendix\2-6__block17.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block17.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 463)
+  -> matched: ..\appendix\2-6__block18.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block18.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 463)
+  -> matched: ..\appendix\2-6__block18.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block18.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 463)
+  -> matched: 2-6__block18.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block18.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 463)
+  -> matched: ..\appendix\2-6__block18.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block18.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 495)
+  -> matched: ..\appendix\2-6__block19.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block19.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 495)
+  -> matched: ..\appendix\2-6__block19.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block19.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 495)
+  -> matched: 2-6__block19.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block19.py
+  -> exists: True
+
+Source: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md (line 495)
+  -> matched: ..\appendix\2-6__block19.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-6__block19.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 33)
+  -> matched: ..\appendix\2-7__block1.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block1.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 33)
+  -> matched: ..\appendix\2-7__block1.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block1.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 33)
+  -> matched: 2-7__block1.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block1.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 33)
+  -> matched: ..\appendix\2-7__block1.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block1.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 114)
+  -> matched: ..\appendix\2-7__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 114)
+  -> matched: ..\appendix\2-7__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 114)
+  -> matched: 2-7__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 114)
+  -> matched: ..\appendix\2-7__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 263)
+  -> matched: ..\appendix\2-7__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block3.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 263)
+  -> matched: ..\appendix\2-7__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block3.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 263)
+  -> matched: 2-7__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block3.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 263)
+  -> matched: ..\appendix\2-7__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block3.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 424)
+  -> matched: ..\appendix\2-7__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 424)
+  -> matched: ..\appendix\2-7__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 424)
+  -> matched: 2-7__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 424)
+  -> matched: ..\appendix\2-7__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 609)
+  -> matched: ..\appendix\2-7__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 609)
+  -> matched: ..\appendix\2-7__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 609)
+  -> matched: 2-7__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第7章-大数据安全测试【进阶】.md (line 609)
+  -> matched: ..\appendix\2-7__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-7__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 45)
+  -> matched: ..\appendix\2-8__block1.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block1.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 45)
+  -> matched: ..\appendix\2-8__block1.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block1.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 45)
+  -> matched: 2-8__block1.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block1.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 45)
+  -> matched: ..\appendix\2-8__block1.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block1.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 68)
+  -> matched: ..\appendix\2-8__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 68)
+  -> matched: ..\appendix\2-8__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 68)
+  -> matched: 2-8__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 68)
+  -> matched: ..\appendix\2-8__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block2.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 74)
+  -> matched: ..\appendix\2-8__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block3.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 74)
+  -> matched: ..\appendix\2-8__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block3.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 74)
+  -> matched: 2-8__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block3.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 74)
+  -> matched: ..\appendix\2-8__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block3.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 80)
+  -> matched: ..\appendix\2-8__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 80)
+  -> matched: ..\appendix\2-8__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 80)
+  -> matched: 2-8__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 80)
+  -> matched: ..\appendix\2-8__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block4.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 86)
+  -> matched: ..\appendix\2-8__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 86)
+  -> matched: ..\appendix\2-8__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 86)
+  -> matched: 2-8__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 86)
+  -> matched: ..\appendix\2-8__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block5.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 92)
+  -> matched: ..\appendix\2-8__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block6.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 92)
+  -> matched: ..\appendix\2-8__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block6.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 92)
+  -> matched: 2-8__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block6.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 92)
+  -> matched: ..\appendix\2-8__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block6.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 98)
+  -> matched: ..\appendix\2-8__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 98)
+  -> matched: ..\appendix\2-8__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 98)
+  -> matched: 2-8__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 98)
+  -> matched: ..\appendix\2-8__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block7.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 104)
+  -> matched: ..\appendix\2-8__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block8.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 104)
+  -> matched: ..\appendix\2-8__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block8.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 104)
+  -> matched: 2-8__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block8.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 104)
+  -> matched: ..\appendix\2-8__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block8.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 110)
+  -> matched: ..\appendix\2-8__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block9.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 110)
+  -> matched: ..\appendix\2-8__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block9.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 110)
+  -> matched: 2-8__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block9.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 110)
+  -> matched: ..\appendix\2-8__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block9.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 116)
+  -> matched: ..\appendix\2-8__block10.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block10.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 116)
+  -> matched: ..\appendix\2-8__block10.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block10.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 116)
+  -> matched: 2-8__block10.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block10.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 116)
+  -> matched: ..\appendix\2-8__block10.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block10.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 122)
+  -> matched: ..\appendix\2-8__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 122)
+  -> matched: ..\appendix\2-8__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 122)
+  -> matched: 2-8__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 122)
+  -> matched: ..\appendix\2-8__block11.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block11.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 128)
+  -> matched: ..\appendix\2-8__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 128)
+  -> matched: ..\appendix\2-8__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 128)
+  -> matched: 2-8__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 128)
+  -> matched: ..\appendix\2-8__block12.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block12.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 134)
+  -> matched: ..\appendix\2-8__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 134)
+  -> matched: ..\appendix\2-8__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 134)
+  -> matched: 2-8__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 134)
+  -> matched: ..\appendix\2-8__block13.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block13.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 140)
+  -> matched: ..\appendix\2-8__block14.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block14.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 140)
+  -> matched: ..\appendix\2-8__block14.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block14.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 140)
+  -> matched: 2-8__block14.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block14.py
+  -> exists: True
+
+Source: chapter\第2篇-第8章-数据分析测试【进阶】.md (line 140)
+  -> matched: ..\appendix\2-8__block14.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\2-8__block14.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 311)
+  -> matched: ..\appendix\3-10__block1.txt
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block1.txt
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 311)
+  -> matched: ..\appendix\3-10__block1.txt
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block1.txt
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 328)
+  -> matched: ..\appendix\3-10__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block2.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 328)
+  -> matched: ..\appendix\3-10__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block2.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 328)
+  -> matched: 3-10__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block2.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 328)
+  -> matched: ..\appendix\3-10__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block2.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 537)
+  -> matched: ..\appendix\3-10__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block3.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 537)
+  -> matched: ..\appendix\3-10__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block3.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 537)
+  -> matched: 3-10__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block3.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 537)
+  -> matched: ..\appendix\3-10__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block3.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 1219)
+  -> matched: ..\appendix\3-10__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block4.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 1219)
+  -> matched: ..\appendix\3-10__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block4.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 1219)
+  -> matched: 3-10__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block4.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 1219)
+  -> matched: ..\appendix\3-10__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block4.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 1658)
+  -> matched: ..\appendix\3-10__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block5.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 1658)
+  -> matched: ..\appendix\3-10__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block5.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 1658)
+  -> matched: 3-10__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block5.py
+  -> exists: True
+
+Source: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md (line 1658)
+  -> matched: ..\appendix\3-10__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-10__block5.py
+  -> exists: True
+
+Source: chapter\第3篇-第9章-大数据测试环境搭建【入门】.md (line 129)
+  -> matched: ..\appendix\3-9__block1.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-9__block1.yml
+  -> exists: True
+
+Source: chapter\第3篇-第9章-大数据测试环境搭建【入门】.md (line 129)
+  -> matched: ..\appendix\3-9__block1.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-9__block1.yml
+  -> exists: True
+
+Source: chapter\第3篇-第9章-大数据测试环境搭建【入门】.md (line 129)
+  -> matched: 3-9__block1.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-9__block1.yml
+  -> exists: True
+
+Source: chapter\第3篇-第9章-大数据测试环境搭建【入门】.md (line 129)
+  -> matched: ..\appendix\3-9__block1.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-9__block1.yml
+  -> exists: True
+
+Source: chapter\第3篇-第9章-大数据测试环境搭建【入门】.md (line 134)
+  -> matched: ..\appendix\3-9__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-9__block2.py
+  -> exists: True
+
+Source: chapter\第3篇-第9章-大数据测试环境搭建【入门】.md (line 134)
+  -> matched: ..\appendix\3-9__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-9__block2.py
+  -> exists: True
+
+Source: chapter\第3篇-第9章-大数据测试环境搭建【入门】.md (line 134)
+  -> matched: 3-9__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-9__block2.py
+  -> exists: True
+
+Source: chapter\第3篇-第9章-大数据测试环境搭建【入门】.md (line 134)
+  -> matched: ..\appendix\3-9__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\3-9__block2.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 163)
+  -> matched: ..\appendix\4__block1.txt
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block1.txt
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 163)
+  -> matched: ..\appendix\4__block1.txt
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block1.txt
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 179)
+  -> matched: ..\appendix\4__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block2.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 179)
+  -> matched: ..\appendix\4__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block2.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 179)
+  -> matched: 4__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block2.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 179)
+  -> matched: ..\appendix\4__block2.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block2.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 185)
+  -> matched: ..\appendix\4__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block3.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 185)
+  -> matched: ..\appendix\4__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block3.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 185)
+  -> matched: 4__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block3.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 185)
+  -> matched: ..\appendix\4__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block3.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 191)
+  -> matched: ..\appendix\4__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block4.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 191)
+  -> matched: ..\appendix\4__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block4.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 191)
+  -> matched: 4__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block4.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 191)
+  -> matched: ..\appendix\4__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block4.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 207)
+  -> matched: ..\appendix\4__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block5.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 207)
+  -> matched: ..\appendix\4__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block5.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 207)
+  -> matched: 4__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block5.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 207)
+  -> matched: ..\appendix\4__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block5.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 211)
+  -> matched: ..\appendix\4__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block6.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 211)
+  -> matched: ..\appendix\4__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block6.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 211)
+  -> matched: 4__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block6.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 211)
+  -> matched: ..\appendix\4__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block6.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 217)
+  -> matched: ..\appendix\4__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block7.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 217)
+  -> matched: ..\appendix\4__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block7.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 217)
+  -> matched: 4__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block7.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 217)
+  -> matched: ..\appendix\4__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block7.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 229)
+  -> matched: ..\appendix\4__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block8.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 229)
+  -> matched: ..\appendix\4__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block8.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 229)
+  -> matched: 4__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block8.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 229)
+  -> matched: ..\appendix\4__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block8.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 235)
+  -> matched: ..\appendix\4__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block9.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 235)
+  -> matched: ..\appendix\4__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block9.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 235)
+  -> matched: 4__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block9.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 235)
+  -> matched: ..\appendix\4__block9.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block9.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 309)
+  -> matched: ..\appendix\4__block10.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block10.yml
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 309)
+  -> matched: ..\appendix\4__block10.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block10.yml
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 309)
+  -> matched: 4__block10.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block10.yml
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 309)
+  -> matched: ..\appendix\4__block10.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block10.yml
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 388)
+  -> matched: ..\appendix\4__block11.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block11.java
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 388)
+  -> matched: ..\appendix\4__block11.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block11.java
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 388)
+  -> matched: 4__block11.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block11.java
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 388)
+  -> matched: ..\appendix\4__block11.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block11.java
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 414)
+  -> matched: ..\appendix\4__block12.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block12.java
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 414)
+  -> matched: ..\appendix\4__block12.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block12.java
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 414)
+  -> matched: 4__block12.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block12.java
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 414)
+  -> matched: ..\appendix\4__block12.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block12.java
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 418)
+  -> matched: ..\appendix\4__block13.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block13.java
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 418)
+  -> matched: ..\appendix\4__block13.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block13.java
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 418)
+  -> matched: 4__block13.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block13.java
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 418)
+  -> matched: ..\appendix\4__block13.java
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block13.java
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 436)
+  -> matched: ..\appendix\4__block14.scala
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block14.scala
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 436)
+  -> matched: ..\appendix\4__block14.scala
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block14.scala
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 440)
+  -> matched: ..\appendix\4__block15.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block15.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 440)
+  -> matched: ..\appendix\4__block15.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block15.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 440)
+  -> matched: 4__block15.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block15.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 440)
+  -> matched: ..\appendix\4__block15.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block15.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 462)
+  -> matched: ..\appendix\4__block16.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block16.json
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 462)
+  -> matched: ..\appendix\4__block16.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block16.json
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 462)
+  -> matched: 4__block16.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block16.json
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 462)
+  -> matched: ..\appendix\4__block16.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block16.json
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 494)
+  -> matched: ..\appendix\4__block17.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block17.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 494)
+  -> matched: ..\appendix\4__block17.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block17.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 494)
+  -> matched: 4__block17.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block17.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 494)
+  -> matched: ..\appendix\4__block17.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block17.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 524)
+  -> matched: ..\appendix\4__block18.scala
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block18.scala
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 524)
+  -> matched: ..\appendix\4__block18.scala
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block18.scala
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 562)
+  -> matched: ..\appendix\4__block19.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block19.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 562)
+  -> matched: ..\appendix\4__block19.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block19.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 562)
+  -> matched: 4__block19.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block19.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 562)
+  -> matched: ..\appendix\4__block19.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block19.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 566)
+  -> matched: ..\appendix\4__block20.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block20.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 566)
+  -> matched: ..\appendix\4__block20.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block20.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 566)
+  -> matched: 4__block20.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block20.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 566)
+  -> matched: ..\appendix\4__block20.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block20.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 586)
+  -> matched: ..\appendix\4__block21.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block21.json
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 586)
+  -> matched: ..\appendix\4__block21.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block21.json
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 586)
+  -> matched: 4__block21.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block21.json
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 586)
+  -> matched: ..\appendix\4__block21.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block21.json
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 592)
+  -> matched: ..\appendix\4__block22.scala
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block22.scala
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 592)
+  -> matched: ..\appendix\4__block22.scala
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block22.scala
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 612)
+  -> matched: ..\appendix\4__block23.scala
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block23.scala
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 612)
+  -> matched: ..\appendix\4__block23.scala
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block23.scala
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 618)
+  -> matched: ..\appendix\4__block24.scala
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block24.scala
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 618)
+  -> matched: ..\appendix\4__block24.scala
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block24.scala
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 640)
+  -> matched: ..\appendix\4__block25.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block25.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 640)
+  -> matched: ..\appendix\4__block25.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block25.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 640)
+  -> matched: 4__block25.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block25.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 640)
+  -> matched: ..\appendix\4__block25.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block25.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 644)
+  -> matched: ..\appendix\4__block26.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block26.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 644)
+  -> matched: ..\appendix\4__block26.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block26.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 644)
+  -> matched: 4__block26.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block26.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 644)
+  -> matched: ..\appendix\4__block26.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block26.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 664)
+  -> matched: ..\appendix\4__block27.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block27.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 664)
+  -> matched: ..\appendix\4__block27.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block27.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 664)
+  -> matched: 4__block27.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block27.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 664)
+  -> matched: ..\appendix\4__block27.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block27.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 682)
+  -> matched: ..\appendix\4__block28.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block28.json
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 682)
+  -> matched: ..\appendix\4__block28.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block28.json
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 682)
+  -> matched: 4__block28.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block28.json
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 682)
+  -> matched: ..\appendix\4__block28.json
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block28.json
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 686)
+  -> matched: ..\appendix\4__block29.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block29.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 686)
+  -> matched: ..\appendix\4__block29.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block29.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 686)
+  -> matched: 4__block29.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block29.py
+  -> exists: True
+
+Source: chapter\第4篇-大数据测试自动化与工具【进阶】.md (line 686)
+  -> matched: ..\appendix\4__block29.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4__block29.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 57)
+  -> matched: ..\appendix\4-11__block1.txt
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block1.txt
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 57)
+  -> matched: ..\appendix\4-11__block1.txt
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block1.txt
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 163)
+  -> matched: ..\appendix\4-11__block2.txt
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block2.txt
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 163)
+  -> matched: ..\appendix\4-11__block2.txt
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block2.txt
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 221)
+  -> matched: ..\appendix\4-11__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block3.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 221)
+  -> matched: ..\appendix\4-11__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block3.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 221)
+  -> matched: 4-11__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block3.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 221)
+  -> matched: ..\appendix\4-11__block3.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block3.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 249)
+  -> matched: ..\appendix\4-11__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block4.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 249)
+  -> matched: ..\appendix\4-11__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block4.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 249)
+  -> matched: 4-11__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block4.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 249)
+  -> matched: ..\appendix\4-11__block4.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block4.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 293)
+  -> matched: ..\appendix\4-11__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block5.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 293)
+  -> matched: ..\appendix\4-11__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block5.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 293)
+  -> matched: 4-11__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block5.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 293)
+  -> matched: ..\appendix\4-11__block5.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block5.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 335)
+  -> matched: ..\appendix\4-11__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block6.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 335)
+  -> matched: ..\appendix\4-11__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block6.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 335)
+  -> matched: 4-11__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block6.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 335)
+  -> matched: ..\appendix\4-11__block6.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block6.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 377)
+  -> matched: ..\appendix\4-11__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block7.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 377)
+  -> matched: ..\appendix\4-11__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block7.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 377)
+  -> matched: 4-11__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block7.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 377)
+  -> matched: ..\appendix\4-11__block7.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block7.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 419)
+  -> matched: ..\appendix\4-11__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block8.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 419)
+  -> matched: ..\appendix\4-11__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block8.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 419)
+  -> matched: 4-11__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block8.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 419)
+  -> matched: ..\appendix\4-11__block8.py
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block8.py
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 461)
+  -> matched: ..\appendix\4-11__block9.groovy
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block9.groovy
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 461)
+  -> matched: ..\appendix\4-11__block9.groovy
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block9.groovy
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 563)
+  -> matched: ..\appendix\4-11__block10.txt
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block10.txt
+  -> exists: True
+
+Source: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md (line 563)
+  -> matched: ..\appendix\4-11__block10.txt
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\4-11__block10.txt
+  -> exists: True
+
+Source: chapter\第6篇-第21章-大数据测试人才与未来发展【专家】.md (line 224)
+  -> matched: ..\appendix\6-21__block1.txt
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\6-21__block1.txt
+  -> exists: True
+
+Source: chapter\第6篇-第21章-大数据测试人才与未来发展【专家】.md (line 224)
+  -> matched: ..\appendix\6-21__block1.txt
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\6-21__block1.txt
+  -> exists: True
+
+Source: chapter\附录.md (line 29)
+  -> matched: promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: chapter\附录.md (line 31)
+  -> matched: ../appendix/promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: chapter\附录.md (line 31)
+  -> matched: ../appendix/promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: chapter\附录.md (line 31)
+  -> matched: promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: chapter\附录.md (line 31)
+  -> matched: ../appendix/promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: chapter\附录.md (line 33)
+  -> matched: ../appendix/promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: chapter\附录.md (line 270)
+  -> matched: promql_assert.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\promql_assert.sh
+  -> exists: True
+
+Source: chapter\附录.md (line 272)
+  -> matched: ..\appendix\file__block1.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\file__block1.sh
+  -> exists: True
+
+Source: chapter\附录.md (line 272)
+  -> matched: ..\appendix\file__block1.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\file__block1.sh
+  -> exists: True
+
+Source: chapter\附录.md (line 272)
+  -> matched: file__block1.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\file__block1.sh
+  -> exists: True
+
+Source: chapter\附录.md (line 272)
+  -> matched: ..\appendix\file__block1.sh
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\file__block1.sh
+  -> exists: True
+
+Source: chapter\附录.md (line 330)
+  -> matched: ..\appendix\file__block2.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\file__block2.yml
+  -> exists: True
+
+Source: chapter\附录.md (line 330)
+  -> matched: ..\appendix\file__block2.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\file__block2.yml
+  -> exists: True
+
+Source: chapter\附录.md (line 330)
+  -> matched: file__block2.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\file__block2.yml
+  -> exists: True
+
+Source: chapter\附录.md (line 330)
+  -> matched: ..\appendix\file__block2.yml
+  -> resolved: E:\DONT TOUCH\10M-2025-Testing\appendix\file__block2.yml
+  -> exists: True
+

@@ -1,0 +1,899 @@
+{
+  "files": [
+    {
+      "path": "book/1022.2025.book.md",
+      "title": "大数据测试全栈指南：从入门到实战精通 ## 前言",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 1,
+        "example_kw_matches": 61,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 7,
+        "glossary_kw_matches": 4,
+        "appendix_links_found": 9,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [
+        "appendix/promql_assert.sh",
+        "appendix/jenkins_install.sh",
+        "appendix/.gitlab-ci.yml.example",
+        "appendix/promql_assert.sh",
+        "appendix/smart_test_case_generator.py",
+        "appendix/anomaly_detector.py",
+        "appendix/root_cause_analyzer.py",
+        "appendix/adaptive_assertion_engine.py",
+        "appendix/create_test_environment.py"
+      ],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures)."
+      ]
+    },
+    {
+      "path": "book/篇章结构.md",
+      "title": "大数据测试全栈指南：从入门到实战精通 - 篇章结构",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 5,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 1,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials."
+      ]
+    },
+    {
+      "path": "chapter/第1篇-大数据测试基础.md",
+      "title": "第一篇 大数据测试基础【入门】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 0,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding at least one concrete example or runnable snippet for reader practice.",
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第1篇-第1章-大数据测试概述.md",
+      "title": "第1篇-第1章 大数据测试概述",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 0,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding at least one concrete example or runnable snippet for reader practice.",
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第1篇-第2章-大数据技术生态与架构.md",
+      "title": "第1篇-第2章 大数据技术生态与架构【入门】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 0,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding at least one concrete example or runnable snippet for reader practice.",
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第1篇-第3章-大数据测试环境搭建【入门】.md",
+      "title": "第1篇-第3章 大数据测试环境搭建【入门】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 11,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 2,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第1篇-第4章-大数据测试数据管理【入门】.md",
+      "title": "第1篇-第4章 大数据测试数据管理【入门】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 0,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding at least one concrete example or runnable snippet for reader practice.",
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第2篇-大数据测试方法与技术【进阶】.md",
+      "title": "第二篇 大数据测试方法与技术【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 0,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding at least one concrete example or runnable snippet for reader practice.",
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第2篇-第3章-数据采集测试【进阶】.md",
+      "title": "第3章 数据采集测试【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 0,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 2,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding at least one concrete example or runnable snippet for reader practice.",
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第2篇-第4章-数据存储测试【进阶】.md",
+      "title": "第4章 数据存储测试【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 14,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 1,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 13,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [
+        "appendix/2-4__block1.sh",
+        "appendix/2-4__block2.sh",
+        "appendix/2-4__block3.sql",
+        "appendix/2-4__block4.sql",
+        "appendix/2-4__block5.py",
+        "appendix/2-4__block6.py",
+        "appendix/2-4__block7.py",
+        "appendix/2-4__block8.sh",
+        "appendix/2-4__block9.py",
+        "appendix/2-4__block10.java",
+        "appendix/2-4__block11.py",
+        "appendix/2-4__block12.py",
+        "appendix/2-4__block13.py"
+      ],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第2篇-第5章-数据处理测试【进阶】.md",
+      "title": "第5章 数据处理测试【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 22,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 1,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 24,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [
+        "appendix/2-5__block1.java",
+        "appendix/2-5__block2.py",
+        "appendix/2-5__block3.java",
+        "appendix/2-5__block4.py",
+        "appendix/2-5__block5.java",
+        "appendix/2-5__block6.java",
+        "appendix/2-5__block7.py",
+        "appendix/2-5__block8.java",
+        "appendix/2-5__block9.java",
+        "appendix/2-5__block10.py",
+        "appendix/2-5__block11.py",
+        "appendix/2-5__block12.py",
+        "appendix/2-5__block13.py",
+        "appendix/2-5__block14.java",
+        "appendix/2-5__block15.py",
+        "appendix/2-5__block16.java",
+        "appendix/2-5__block17.py",
+        "appendix/2-5__block18.java",
+        "appendix/2-5__block19.py",
+        "appendix/2-5__block20.py",
+        "appendix/2-5__block21.yml",
+        "appendix/2-5__block22.sh",
+        "appendix/2-5__block23.properties",
+        "appendix/2-5__block24.json"
+      ],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第2篇-第6章-数据质量管理与测试【进阶】.md",
+      "title": "第6章 数据质量管理与测试【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 5,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 7,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 19,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [
+        "appendix/2-6__block1.py",
+        "appendix/2-6__block2.py",
+        "appendix/2-6__block3.py",
+        "appendix/2-6__block4.py",
+        "appendix/2-6__block5.py",
+        "appendix/2-6__block6.py",
+        "appendix/2-6__block7.py",
+        "appendix/2-6__block8.py",
+        "appendix/2-6__block9.py",
+        "appendix/2-6__block10.py",
+        "appendix/2-6__block11.py",
+        "appendix/2-6__block12.py",
+        "appendix/2-6__block13.py",
+        "appendix/2-6__block14.py",
+        "appendix/2-6__block15.py",
+        "appendix/2-6__block16.py",
+        "appendix/2-6__block17.py",
+        "appendix/2-6__block18.py",
+        "appendix/2-6__block19.py"
+      ],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第2篇-第7章-大数据安全测试【进阶】.md",
+      "title": "第7章 大数据安全测试【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 10,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 1,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 5,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [
+        "appendix/2-7__block1.py",
+        "appendix/2-7__block2.py",
+        "appendix/2-7__block3.py",
+        "appendix/2-7__block4.py",
+        "appendix/2-7__block5.py"
+      ],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第2篇-第8章-数据分析测试【进阶】.md",
+      "title": "第8章 数据分析测试【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 11,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 14,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [
+        "appendix/2-8__block1.py",
+        "appendix/2-8__block2.py",
+        "appendix/2-8__block3.py",
+        "appendix/2-8__block4.py",
+        "appendix/2-8__block5.py",
+        "appendix/2-8__block6.py",
+        "appendix/2-8__block7.py",
+        "appendix/2-8__block8.py",
+        "appendix/2-8__block9.py",
+        "appendix/2-8__block10.py",
+        "appendix/2-8__block11.py",
+        "appendix/2-8__block12.py",
+        "appendix/2-8__block13.py",
+        "appendix/2-8__block14.py"
+      ],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第3篇-大数据测试环境与数据管理【入门_进阶】.md",
+      "title": "第3篇-大数据测试环境与数据管理【入门_进阶】.md",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 0,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding at least one concrete example or runnable snippet for reader practice.",
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第3篇-第10章-大数据测试数据管理【进阶】.md",
+      "title": "第3篇 大数据测试环境与数据管理【入门/进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 5,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 1,
+        "glossary_kw_matches": 1,
+        "appendix_links_found": 5,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [
+        "appendix/3-10__block1.txt",
+        "appendix/3-10__block2.py",
+        "appendix/3-10__block3.py",
+        "appendix/3-10__block4.py",
+        "appendix/3-10__block5.py"
+      ],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures)."
+      ]
+    },
+    {
+      "path": "chapter/第3篇-第9章-大数据测试环境搭建【入门】.md",
+      "title": "第3篇-第9章-大数据测试环境搭建【入门】.md",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 1,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 2,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [
+        "appendix/3-9__block1.yml",
+        "appendix/3-9__block2.py"
+      ],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第4篇-大数据测试自动化与工具【进阶】.md",
+      "title": "第四篇 大数据测试自动化与工具【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 15,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 29,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [
+        "appendix/4__block1.txt",
+        "appendix/4__block2.py",
+        "appendix/4__block3.py",
+        "appendix/4__block4.py",
+        "appendix/4__block5.py",
+        "appendix/4__block6.py",
+        "appendix/4__block7.py",
+        "appendix/4__block8.py",
+        "appendix/4__block9.py",
+        "appendix/4__block10.yml",
+        "appendix/4__block11.java",
+        "appendix/4__block12.java",
+        "appendix/4__block13.java",
+        "appendix/4__block14.scala",
+        "appendix/4__block15.py",
+        "appendix/4__block16.json",
+        "appendix/4__block17.py",
+        "appendix/4__block18.scala",
+        "appendix/4__block19.py",
+        "appendix/4__block20.py",
+        "appendix/4__block21.json",
+        "appendix/4__block22.scala",
+        "appendix/4__block23.scala",
+        "appendix/4__block24.scala",
+        "appendix/4__block25.py",
+        "appendix/4__block26.py",
+        "appendix/4__block27.py",
+        "appendix/4__block28.json",
+        "appendix/4__block29.py"
+      ],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第4篇-第11章-大数据测试自动化基础【进阶】.md",
+      "title": "第11章 大数据测试自动化基础【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 7,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 10,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [
+        "appendix/4-11__block1.txt",
+        "appendix/4-11__block2.txt",
+        "appendix/4-11__block3.py",
+        "appendix/4-11__block4.py",
+        "appendix/4-11__block5.py",
+        "appendix/4-11__block6.py",
+        "appendix/4-11__block7.py",
+        "appendix/4-11__block8.py",
+        "appendix/4-11__block9.groovy",
+        "appendix/4-11__block10.txt"
+      ],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第4篇-第12章-大数据测试工具详解【进阶】.md",
+      "title": "第12章 大数据测试工具详解【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 1,
+        "example_kw_matches": 2,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 1,
+        "glossary_kw_matches": 3,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "This chapter contains fenced code blocks; consider extracting runnable code to `appendix/` and linking to them consistently."
+      ]
+    },
+    {
+      "path": "chapter/第4篇-第13章-大数据系统可观测性与监控测试【进阶】.md",
+      "title": "第13章 大数据系统可观测性与监控测试【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 1,
+        "example_kw_matches": 18,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions.",
+        "This chapter contains fenced code blocks; consider extracting runnable code to `appendix/` and linking to them consistently."
+      ]
+    },
+    {
+      "path": "chapter/第5篇-大数据测试实战与案例分析【专家】.md",
+      "title": "第5篇-大数据测试实战与案例分析【专家】.md",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 0,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding at least one concrete example or runnable snippet for reader practice.",
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第5篇-第14章-大数据测试案例设计【进阶】.md",
+      "title": "第14章 大数据测试案例设计【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 1,
+        "example_kw_matches": 49,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 4,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions.",
+        "This chapter contains fenced code blocks; consider extracting runnable code to `appendix/` and linking to them consistently."
+      ]
+    },
+    {
+      "path": "chapter/第5篇-第15章-大数据行业应用测试【进阶】.md",
+      "title": "第15章 大数据行业应用测试【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 1,
+        "example_kw_matches": 2,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 1,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "This chapter contains fenced code blocks; consider extracting runnable code to `appendix/` and linking to them consistently."
+      ]
+    },
+    {
+      "path": "chapter/第5篇-第15章-行业大数据测试案例分析【专家】.md",
+      "title": "第5篇-第15章-行业大数据测试案例分析【专家】.md",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 0,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding at least one concrete example or runnable snippet for reader practice.",
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第5篇-第16章-大数据安全测试【进阶】.md",
+      "title": "第16章 大数据安全测试【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 1,
+        "example_kw_matches": 8,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 1,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions.",
+        "This chapter contains fenced code blocks; consider extracting runnable code to `appendix/` and linking to them consistently."
+      ]
+    },
+    {
+      "path": "chapter/第5篇-第16章-大数据测试项目实施与实战经验【专家】.md",
+      "title": "第5篇-第16章-大数据测试项目实施与实战经验【专家】.md",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 4,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第5篇-第17章-大数据测试自动化【进阶】.md",
+      "title": "第17章 大数据测试自动化【进阶】",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 1,
+        "example_kw_matches": 20,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions.",
+        "This chapter contains fenced code blocks; consider extracting runnable code to `appendix/` and linking to them consistently."
+      ]
+    },
+    {
+      "path": "chapter/第6篇-大数据测试趋势与展望【专家】.md",
+      "title": "第6篇-大数据测试趋势与展望【专家】.md",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 0,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding at least one concrete example or runnable snippet for reader practice.",
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第6篇-第18章-大规模数据处理性能测试【专家】.md",
+      "title": "第6篇-第18章-大规模数据处理性能测试【专家】.md",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 12,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第6篇-第19章-CI_CD、GitOps与运维治理【专家】.md",
+      "title": "第6篇-第19章-CI_CD、GitOps与运维治理【专家】.md",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 2,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第6篇-第20章-技术与方法演进【专家】.md",
+      "title": "第6篇-第20章-技术与方法演进【专家】.md",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 13,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 0,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/第6篇-第21章-大数据测试人才与未来发展【专家】.md",
+      "title": "第6篇-第21章-大数据测试人才与未来发展【专家】.md",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 1,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 0,
+        "glossary_kw_matches": 0,
+        "appendix_links_found": 1,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [
+        "appendix/6-21__block1.txt"
+      ],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures).",
+        "Add a references/进一步阅读 section or citations if this chapter references external materials.",
+        "If chapter introduces many domain terms, suggest pointing to the glossary/Appendix A or add short definitions."
+      ]
+    },
+    {
+      "path": "chapter/附录.md",
+      "title": "附录.md",
+      "counts": {
+        "images": 0,
+        "fenced_code_blocks": 0,
+        "example_kw_matches": 8,
+        "exercise_kw_matches": 0,
+        "reference_kw_matches": 4,
+        "glossary_kw_matches": 2,
+        "appendix_links_found": 2,
+        "appendix_links_missing": 0
+      },
+      "found_appendix": [
+        "appendix/file__block1.sh",
+        "appendix/file__block2.yml"
+      ],
+      "missing_appendix": [],
+      "suggestions": [
+        "Consider adding exercises or practice questions to reinforce learning (label as 练习/Exercise).",
+        "Consider adding at least one diagram/figure where concepts are complex (use images/figures)."
+      ]
+    }
+  ],
+  "summary": {
+    "total_files": 34,
+    "total_missing_appendix": 0
+  }
+}

@@ -1,0 +1,31 @@
+Appendix vs References:
+
+- Files present: 131
+- Referenced (unique): 131
+- Unreferenced: 0 (showing up to 30)
+- Missing referenced items: 0
+
+Examples vs References:
+
+- Files present: 60
+- Referenced paths: 46
+- Missing referenced: 0
+- Missing topics (by directory): 0
+- Skeleton topics: 16 (suppressed in Unreferenced)
+  ~ 01_ecosystem
+  ~ 03_env
+  ~ 05_ingest
+  ~ 06_storage
+  ~ 07_batch
+  ~ 08_analysis
+  ~ 10_tdms
+  ~ 11_automation
+  ~ 12_tools
+  ~ 13_observability
+  ~ 16_project_playbook
+  ~ 17_practices
+  ~ 18_performance
+  ~ 19_ci_and_governance
+  ~ 20_trends
+  ~ 21_career_paths
+- Unreferenced files: 0 (showing up to 30)

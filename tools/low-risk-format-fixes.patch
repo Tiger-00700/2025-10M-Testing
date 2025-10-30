@@ -1,0 +1,1856 @@
+--- chapter\第4篇-第13章-大数据系统可观测性与监控测试【进阶】.md
++++ chapter\第4篇-第13章-大数据系统可观测性与监控测试【进阶】.md.fixed
+@@ -72,19 +72,19 @@
+ 
+ class DataPipelineTracer:
+     """大数据流水线专用追踪工具类"""
+-    
++
+     @staticmethod
+     def create_context():
+         """创建新的追踪上下文"""
+         context = {}
+         inject(context)
+         return context
+-    
++
+     @staticmethod
+     def extract_context(headers):
+         """从headers中提取追踪上下文"""
+         return extract(headers)
+-    
++
+     @staticmethod
+     def with_context(context, func, *args, **kwargs):
+         """在指定上下文中执行函数"""
+@@ -97,17 +97,17 @@
+ def data_ingestion_stage(input_source, context=None):
+     """数据采集阶段的高级追踪实现"""
+     tracer = trace.get_tracer("data.ingestion")
+-    
++
+     # 定义子操作的追踪辅助函数
+     def _process_source_chunk(chunk_id, chunk_size):
+         with tracer.start_as_current_span(f"process_chunk_{chunk_id}") as span:
+             span.set_attribute("chunk.id", chunk_id)
+             span.set_attribute("chunk.size", chunk_size)
+-            
++
+             # 模拟处理延迟
+             processing_time = random.uniform(0.1, 0.5)
+             time.sleep(processing_time)
+-            
++
+             # 模拟可能的错误
+             if random.random() < 0.05:  # 5%概率失败
+                 span.set_status(Status(StatusCode.ERROR))
+@@ -116,31 +116,31 @@
+                     "retry_attempt": 1
+                 })
+                 raise Exception(f"处理块 {chunk_id} 超时")
+-            
++
+             span.set_attribute("processing.time_ms", int(processing_time * 1000))
+             span.add_event("chunk_processing_complete")
+             return chunk_size
+-    
++
+     try:
+         if context:
+             # 从外部上下文提取追踪信息
+             token = attach(DataPipelineTracer.extract_context(context))
+-            
++
+         with tracer.start_as_current_span("data_ingestion") as span:
+             # 添加关键属性
+             span.set_attribute("source.type", input_source["type"])
+             span.set_attribute("source.location", input_source["location"])
+             span.set_attribute("source.format", input_source.get("format", "unknown"))
+             span.set_attribute("source.partition_count", input_source.get("partitions", 1))
+-            
++
+             # 记录数据采集开始事件
+             span.add_event("ingestion_start")
+-            
++
+             # 模拟分块处理数据
+             total_records = 0
+             chunk_size = 10000
+             chunk_count = 10
+-            
++
+             for i in range(chunk_count):
+                 try:
+                     # 处理每个数据块
+@@ -153,18 +153,18 @@
+                         "error": str(e)
+                     })
+                     continue
+-            
++
+             # 采集完成后记录结果摘要
+             span.set_attribute("records.count", total_records)
+-            span.set_attribute("processing.success_rate", 
++            span.set_attribute("processing.success_rate",
+                               round(total_records / (chunk_count * chunk_size) * 100, 2))
+-            
++
+             span.add_event("ingestion_complete", {
+                 "records_processed": total_records,
+                 "status": "success",
+                 "processing_time_ms": int((time.time() - span.start_time) * 1000)
+             })
+-            
++
+             return {"status": "success", "count": total_records}
+     except Exception as e:
+         # 记录严重错误
+@@ -183,62 +183,62 @@
+ def data_transformation_stage(data, context=None):
+     """数据转换阶段的高级追踪实现"""
+     tracer = trace.get_tracer("data.transformation")
+-    
++
+     try:
+         if context:
+             token = attach(DataPipelineTracer.extract_context(context))
+-        
++
+         with tracer.start_as_current_span("data_transformation") as span:
+             span.set_attribute("input.records", data["count"])
+-            
++
+             # 记录转换开始事件
+             span.add_event("transformation_start", {
+                 "transformations": ["normalize", "enrich", "validate"],
+                 "parallel_degree": 8
+             })
+-            
++
+             # 模拟不同的转换操作
+             transformations = [
+                 ("normalize", 0.2),
+                 ("enrich", 0.5),
+                 ("validate", 0.3)
+             ]
+-            
++
+             for transform_name, weight in transformations:
+                 with tracer.start_as_current_span(f"transformation_{transform_name}") as child_span:
+                     child_span.set_attribute("transformation.type", transform_name)
+-                    
++
+                     # 模拟转换延迟
+                     processing_time = random.uniform(0.1 * weight, 0.5 * weight)
+                     time.sleep(processing_time)
+-                    
++
+                     child_span.set_attribute("processing.time_ms", int(processing_time * 1000))
+-                    
++
+                     # 记录转换特定的属性
+                     if transform_name == "validate":
+                         validation_rate = random.uniform(0.95, 1.0)
+                         child_span.set_attribute("validation.success_rate", round(validation_rate * 100, 2))
+-                    
++
+                     child_span.add_event(f"{transform_name}_complete")
+-            
++
+             # 转换完成后记录结果
+             transformed_records = int(data["count"] * random.uniform(0.95, 1.0))  # 模拟少量记录被过滤
+             span.set_attribute("output.records", transformed_records)
+-            
++
+             # 添加详细的转换指标
+             total_time = (time.time() - span.start_time) * 1000
+             span.set_attribute("transformation.time_ms", int(total_time))
+             span.set_attribute("data.quality.valid", round(random.uniform(95, 99), 2))
+             span.set_attribute("records.filtered", data["count"] - transformed_records)
+-            
++
+             # 添加数据特征信息
+             span.set_attribute("data.schema.version", "1.2.3")
+             span.set_attribute("data.compression.ratio", round(random.uniform(0.3, 0.8), 2))
+-            
++
+             span.add_event("transformation_complete", {
+                 "throughput_records_per_sec": int(transformed_records / (total_time / 1000))
+             })
+-            
++
+             return {"status": "success", "count": transformed_records}
+     except Exception as e:
+         # 记录错误信息
+@@ -257,37 +257,37 @@
+ def data_loading_stage(data, target_config, context=None):
+     """数据加载阶段的高级追踪实现"""
+     tracer = trace.get_tracer("data.loading")
+-    
++
+     try:
+         if context:
+             token = attach(DataPipelineTracer.extract_context(context))
+-        
++
+         with tracer.start_as_current_span("data_loading") as span:
+             span.set_attribute("input.records", data["count"])
+             span.set_attribute("target.type", target_config["type"])
+             span.set_attribute("target.location", target_config["location"])
+             span.set_attribute("target.format", target_config.get("format", "parquet"))
+-            
++
+             span.add_event("loading_start")
+-            
++
+             # 模拟加载操作
+             loading_time = random.uniform(0.5, 2.0)
+             time.sleep(loading_time)
+-            
++
+             # 模拟加载结果
+             loaded_records = int(data["count"] * random.uniform(0.98, 1.0))
+-            
++
+             # 记录加载指标
+             span.set_attribute("output.records", loaded_records)
+             span.set_attribute("loading.time_ms", int(loading_time * 1000))
+             span.set_attribute("loading.success_rate", round(loaded_records / data["count"] * 100, 2))
+-            
++
+             # 记录资源使用情况
+             span.set_attribute("resource.memory_mb", random.randint(200, 500))
+             span.set_attribute("resource.cpu_percent", round(random.uniform(40, 90), 2))
+-            
++
+             span.add_event("loading_complete")
+-            
++
+             return {"status": "success", "count": loaded_records}
+     except Exception as e:
+         if 'span' in locals():
+@@ -302,72 +302,72 @@
+ def execute_pipeline(input_source, target_config):
+     """执行完整的数据处理流水线，包含高级追踪上下文传递"""
+     tracer = trace.get_tracer("pipeline.coordinator")
+-    
++
+     # 创建流水线执行ID
+     pipeline_execution_id = f"pipeline-{int(time.time())}-{random.randint(1000, 9999)}"
+-    
++
+     with tracer.start_as_current_span("pipeline_execution") as root_span:
+         # 添加详细的元数据
+         root_span.set_attribute("pipeline.name", "daily_data_processing")
+         root_span.set_attribute("pipeline.execution_id", pipeline_execution_id)
+         root_span.set_attribute("execution.timestamp", str(int(time.time())))
+         root_span.set_attribute("execution.priority", "high")
+-        
++
+         # 记录流水线配置
+         root_span.add_event("pipeline_configured", {
+             "input_source_type": input_source["type"],
+             "target_type": target_config["type"],
+             "pipeline_version": "1.2.0"
+         })
+-        
++
+         # 创建上下文用于传递追踪信息
+         context = DataPipelineTracer.create_context()
+-        
++
+         # 记录流水线开始
+         root_span.add_event("pipeline_started")
+-        
++
+         try:
+             # 执行数据采集
+             ingestion_start = time.time()
+             root_span.add_event("ingestion_stage_started")
+             ingestion_result = data_ingestion_stage(input_source, context)
+             ingestion_duration = int((time.time() - ingestion_start) * 1000)
+-            
++
+             root_span.add_event("ingestion_stage_completed", {
+                 "records_ingested": ingestion_result["count"],
+                 "duration_ms": ingestion_duration
+             })
+-            
++
+             # 执行数据转换
+             transform_start = time.time()
+             root_span.add_event("transformation_stage_started")
+             transform_result = data_transformation_stage(ingestion_result, context)
+             transform_duration = int((time.time() - transform_start) * 1000)
+-            
++
+             root_span.add_event("transformation_stage_completed", {
+                 "records_transformed": transform_result["count"],
+                 "duration_ms": transform_duration
+             })
+-            
++
+             # 执行数据加载
+             load_start = time.time()
+             root_span.add_event("loading_stage_started")
+             load_result = data_loading_stage(transform_result, target_config, context)
+             load_duration = int((time.time() - load_start) * 1000)
+-            
++
+             root_span.add_event("loading_stage_completed", {
+                 "records_loaded": load_result["count"],
+                 "duration_ms": load_duration
+             })
+-            
++
+             # 记录流水线性能指标
+             total_duration = ingestion_duration + transform_duration + load_duration
+             root_span.set_attribute("execution.duration_ms", total_duration)
+-            root_span.set_attribute("execution.success_rate", 
++            root_span.set_attribute("execution.success_rate",
+                                   round(load_result["count"] / ingestion_result["count"] * 100, 2))
+-            root_span.set_attribute("throughput.records_per_sec", 
++            root_span.set_attribute("throughput.records_per_sec",
+                                   int(load_result["count"] / (total_duration / 1000)))
+-            
++
+             # 完成整个流水线
+             root_span.add_event("pipeline_completed", {
+                 "total_records_processed": load_result["count"],
+@@ -375,14 +375,14 @@
+                 "stages_completed": 3,
+                 "total_duration_ms": total_duration
+             })
+-            
++
+             return {
+-                "status": "success", 
++                "status": "success",
+                 "count": load_result["count"],
+                 "execution_id": pipeline_execution_id,
+                 "duration_ms": total_duration
+             }
+-            
++
+         except Exception as e:
+             # 记录流水线失败
+             root_span.set_status(Status(StatusCode.ERROR))
+@@ -403,18 +403,18 @@
+             "format": "json",
+             "partitions": 16
+         }
+-        
++
+         target_config = {
+             "type": "hive",
+             "location": "hdfs://namenode:8020/data/customer",
+             "format": "parquet",
+             "partition_by": ["date", "region"]
+         }
+-        
++
+         # 执行流水线
+         result = execute_pipeline(input_config, target_config)
+         print(f"流水线执行成功: {result}")
+-        
++
+     except Exception as e:
+         print(f"流水线执行失败: {e}")
+     finally:
+@@ -534,14 +534,14 @@
+         type: status_code
+         status_code:
+           status_codes: [ERROR]
+-      
++
+       # 2. 高延迟采样 - 采样处理时间超过2秒的追踪
+       - name: latency_policy
+         type: latency
+         latency:
+           threshold_ms: 2000
+           decision_wait: 5s
+-      
++
+       # 3. 关键服务采样 - 对关键服务提高采样率
+       - name: critical_service_policy
+         type: string_attribute
+@@ -551,7 +551,7 @@
+             - "data-ingestion-service"
+             - "data-quality-service"
+           enabled_regex_matching: true
+-      
++
+       # 4. 特定操作采样 - 对关键操作提高采样率
+       - name: critical_operation_policy
+         type: string_attribute
+@@ -561,7 +561,7 @@
+             - "pipeline_execution"
+             - "data_loading"
+           enabled_regex_matching: true
+-      
++
+       # 5. 速率限制采样 - 确保系统负载可控
+       - name: rate_limit_policy
+         type: rate_limiting
+@@ -586,7 +586,7 @@
+     # 追踪管道
+     traces:
+       receivers: [otlp]
+-      processors: 
++      processors:
+         - memory_limiter
+         - attributes
+         - resource
+@@ -595,13 +595,13 @@
+         - spanprocessor
+         - batch
+       exporters: [jaeger, elasticsearch]
+-    
++
+     # 指标管道
+     metrics:
+       receivers: [otlp]
+       processors: [memory_limiter, attributes, resource, batch]
+       exporters: [prometheus, logging]
+-    
++
+     # 日志管道
+     logs:
+       receivers: [otlp, filelog]
+@@ -673,7 +673,7 @@
+ 
+ # 数据处理计数器 - 带标签增强
+ PROCESSING_COUNTER = Counter(
+-    'bigdata_processing_total', 
++    'bigdata_processing_total',
+     'Total number of data records processed',
+     ['pipeline', 'stage', 'status', 'data_source', 'job_type']
+ )
+@@ -687,7 +687,7 @@
+ 
+ # 数据处理延迟直方图 - 优化的桶配置
+ PROCESSING_HISTOGRAM = Histogram(
+-    'bigdata_processing_seconds', 
++    'bigdata_processing_seconds',
+     'Time spent processing data',
+     ['pipeline', 'stage', 'data_volume'],
+     buckets=(0.01, 0.05, 0.1, 0.5, 1.0, 5.0, 10.0, 30.0, 60.0, 120.0, 300.0, 600.0)
+@@ -695,14 +695,14 @@
+ 
+ # 数据质量摘要 - 多维度评估
+ DATA_QUALITY_SUMMARY = Summary(
+-    'bigdata_data_quality_score', 
++    'bigdata_data_quality_score',
+     'Data quality score for processed data',
+     ['pipeline', 'data_type', 'quality_dimension']  # 质量维度：完整性、准确性、一致性等
+ )
+ 
+ # 系统资源仪表盘 - 增强版
+ RESOURCE_GAUGE = Gauge(
+-    'bigdata_resource_usage', 
++    'bigdata_resource_usage',
+     'Resource usage for big data processing',
+     ['resource_type', 'component', 'host', 'instance']
+ )
+@@ -760,8 +760,8 @@
+         yield
+     finally:
+         PROCESSING_HISTOGRAM.labels(
+-            pipeline=pipeline, 
+-            stage=stage, 
++            pipeline=pipeline,
++            stage=stage,
+             data_volume=data_volume
+         ).observe(time.time() - start_time)
+ 
+@@ -772,12 +772,12 @@
+         def wrapper(*args, **kwargs):
+             # 记录方法开始执行
+             TASK_STATUS_ENUM.labels(pipeline=pipeline, task_id=f"{stage}-{id(func)}").state('running')
+-            
++
+             try:
+                 # 测量执行时间
+                 with measure_processing_time(pipeline, stage):
+                     result = func(*args, **kwargs)
+-                
++
+                 # 记录成功状态
+                 TASK_STATUS_ENUM.labels(pipeline=pipeline, task_id=f"{stage}-{id(func)}").state('succeeded')
+                 return result
+@@ -785,12 +785,12 @@
+                 # 记录错误
+                 error_type = type(e).__name__
+                 ERROR_COUNTER.labels(
+-                    pipeline=pipeline, 
+-                    stage=stage, 
++                    pipeline=pipeline,
++                    stage=stage,
+                     error_type=error_type,
+                     severity='critical' if 'fatal' in str(e).lower() else 'warning'
+                 ).inc()
+-                
++
+                 # 更新任务状态为失败
+                 TASK_STATUS_ENUM.labels(pipeline=pipeline, task_id=f"{stage}-{id(func)}").state('failed')
+                 raise
+@@ -801,7 +801,7 @@
+ 
+ class DataPipelineMonitor:
+     """数据流水线监控类"""
+-    
++
+     def __init__(self, pipeline_name):
+         self.pipeline_name = pipeline_name
+         # 设置版本信息
+@@ -811,25 +811,25 @@
+             'build_date': '2023-10-23',
+             'environment': 'production'
+         })
+-    
++
+     @monitor_method(pipeline='etl_pipeline', stage='extract')
+     def extract_data(self, source_type, record_count):
+         """提取数据阶段"""
+         # 模拟提取延迟
+         time.sleep(random.uniform(0.2, 1.0))
+-        
++
+         # 模拟不同的数据量
+         batch_size_bytes = random.randint(10240, 104857600)
+         DATA_VOLUME_HISTOGRAM.labels(
+-            pipeline=self.pipeline_name, 
++            pipeline=self.pipeline_name,
+             stage='extract'
+         ).observe(batch_size_bytes)
+-        
++
+         # 模拟成功率
+         success_rate = random.uniform(0.9, 0.99)
+         successful_records = int(record_count * success_rate)
+         failed_records = record_count - successful_records
+-        
++
+         # 更新计数器
+         PROCESSING_COUNTER.labels(
+             pipeline=self.pipeline_name,
+@@ -838,7 +838,7 @@
+             data_source=source_type,
+             job_type='batch'
+         ).inc(successful_records)
+-        
++
+         if failed_records > 0:
+             PROCESSING_COUNTER.labels(
+                 pipeline=self.pipeline_name,
+@@ -847,22 +847,22 @@
+                 data_source=source_type,
+                 job_type='batch'
+             ).inc(failed_records)
+-        
++
+         # 更新数据质量指标 - 完整性
+         DATA_QUALITY_SUMMARY.labels(
+             pipeline=self.pipeline_name,
+             data_type=source_type,
+             quality_dimension='completeness'
+         ).observe(success_rate)
+-        
++
+         return {"status": "success", "processed": successful_records, "failed": failed_records}
+-    
++
+     @monitor_method(pipeline='etl_pipeline', stage='transform')
+     def transform_data(self, input_data, transformations=None):
+         """转换数据阶段"""
+         # 模拟转换延迟
+         time.sleep(random.uniform(0.5, 2.0))
+-        
++
+         # 模拟不同转换操作的成功率
+         transformations = transformations or ['clean', 'normalize', 'enrich', 'validate']
+         for transform in transformations:
+@@ -873,12 +873,12 @@
+                 data_type='transformed',
+                 quality_dimension=transform
+             ).observe(quality_score)
+-        
++
+         # 模拟整体转换成功率
+         success_rate = random.uniform(0.92, 0.98)
+         successful_records = int(input_data['processed'] * success_rate)
+         failed_records = input_data['processed'] - successful_records
+-        
++
+         # 更新计数器
+         PROCESSING_COUNTER.labels(
+             pipeline=self.pipeline_name,
+@@ -887,7 +887,7 @@
+             data_source='internal',
+             job_type='batch'
+         ).inc(successful_records)
+-        
++
+         if failed_records > 0:
+             PROCESSING_COUNTER.labels(
+                 pipeline=self.pipeline_name,
+@@ -896,20 +896,20 @@
+                 data_source='internal',
+                 job_type='batch'
+             ).inc(failed_records)
+-        
++
+         return {"status": "success", "processed": successful_records, "failed": failed_records}
+-    
++
+     @monitor_method(pipeline='etl_pipeline', stage='load')
+     def load_data(self, input_data, target_type):
+         """加载数据阶段"""
+         # 模拟加载延迟
+         time.sleep(random.uniform(0.3, 1.5))
+-        
++
+         # 模拟加载成功率
+         success_rate = random.uniform(0.95, 1.0)
+         successful_records = int(input_data['processed'] * success_rate)
+         failed_records = input_data['processed'] - successful_records
+-        
++
+         # 更新计数器
+         PROCESSING_COUNTER.labels(
+             pipeline=self.pipeline_name,
+@@ -918,7 +918,7 @@
+             data_source='internal',
+             job_type='batch'
+         ).inc(successful_records)
+-        
++
+         if failed_records > 0:
+             PROCESSING_COUNTER.labels(
+                 pipeline=self.pipeline_name,
+@@ -927,14 +927,14 @@
+                 data_source='internal',
+                 job_type='batch'
+             ).inc(failed_records)
+-        
++
+         # 更新数据质量指标 - 一致性
+         DATA_QUALITY_SUMMARY.labels(
+             pipeline=self.pipeline_name,
+             data_type=target_type,
+             quality_dimension='consistency'
+         ).observe(success_rate)
+-        
++
+         return {"status": "success", "processed": successful_records, "failed": failed_records}
+ 
+ def update_system_resources(interval=5):
+@@ -951,7 +951,7 @@
+                     host='localhost',
+                     instance='executor-1'
+                 ).set(cpu_usage)
+-                
++
+                 # 内存使用率
+                 memory = psutil.virtual_memory()
+                 RESOURCE_GAUGE.labels(
+@@ -960,7 +960,7 @@
+                     host='localhost',
+                     instance='executor-1'
+                 ).set(memory.percent)
+-                
++
+                 # 磁盘I/O
+                 disk_io = psutil.disk_io_counters()
+                 # 转换为每秒读写字节数
+@@ -971,14 +971,14 @@
+                     host='localhost',
+                     instance='datanode-1'
+                 ).set(disk_io.read_bytes / (interval * 1024 * 1024))  # MB
+-                
++
+                 RESOURCE_GAUGE.labels(
+                     resource_type='disk_write_bytes',
+                     component='hdfs_datanode',
+                     host='localhost',
+                     instance='datanode-1'
+                 ).set(disk_io.write_bytes / (interval * 1024 * 1024))  # MB
+-                
++
+                 # 网络流量
+                 net_io = psutil.net_io_counters()
+                 RESOURCE_GAUGE.labels(
+@@ -987,26 +987,26 @@
+                     host='localhost',
+                     instance='network-1'
+                 ).set(net_io.bytes_recv / (interval * 1024 * 1024))  # MB
+-                
++
+                 RESOURCE_GAUGE.labels(
+                     resource_type='network_sent_bytes',
+                     component='cluster',
+                     host='localhost',
+                     instance='network-1'
+                 ).set(net_io.bytes_sent / (interval * 1024 * 1024))  # MB
+-                
++
+                 # 模拟队列长度
+                 QUEUE_LENGTH_GAUGE.labels(
+                     queue_name='ingestion_queue',
+                     priority='high'
+                 ).set(random.randint(0, 1000))
+-                
++
+                 # 模拟并行度
+                 PARALLELISM_GAUGE.labels(
+                     pipeline='etl_pipeline',
+                     resource_pool='default'
+                 ).set(random.randint(1, 32))
+-                
++
+                 # 模拟缓存操作
+                 if random.random() < 0.7:  # 70%概率缓存命中
+                     CACHE_HIT_COUNTER.labels(
+@@ -1018,14 +1018,14 @@
+                         cache_name='data_lookup_cache',
+                         operation_type='miss'
+                     ).inc()
+-                    
++
+                 # 偶尔模拟缓存驱逐
+                 if random.random() < 0.05:
+                     CACHE_HIT_COUNTER.labels(
+                         cache_name='data_lookup_cache',
+                         operation_type='evict'
+                     ).inc()
+-                
++
+             except Exception as e:
+                 print(f"更新资源指标失败: {e}")
+                 # 记录错误但继续运行
+@@ -1035,9 +1035,9 @@
+                     error_type=type(e).__name__,
+                     severity='warning'
+                 ).inc()
+-            
++
+             time.sleep(interval)
+-    
++
+     # 启动后台线程
+     thread = threading.Thread(target=_update_loop, daemon=True)
+     thread.start()
+@@ -1049,54 +1049,54 @@
+     # 启动指标HTTP服务器
+     start_http_server(8000)
+     print("指标服务器启动在 http://localhost:8000/metrics")
+-    
++
+     # 启动资源监控线程
+     resource_thread = update_system_resources(interval=5)
+-    
++
+     # 创建监控实例
+     monitor = DataPipelineMonitor('etl_pipeline')
+-    
++
+     # 模拟持续的数据处理
+     pipeline_runs = 0
+     try:
+         while True:
+             pipeline_runs += 1
+             print(f"\n执行流水线运行 #{pipeline_runs}")
+-            
++
+             # 模拟数据提取
+             extract_result = monitor.extract_data(
+                 source_type=random.choice(['kafka', 'hdfs', 'database', 'api']),
+                 record_count=random.randint(5000, 20000)
+             )
+             print(f"提取结果: 成功={extract_result['processed']}, 失败={extract_result['failed']}")
+-            
++
+             # 模拟数据转换
+             transform_result = monitor.transform_data(
+                 input_data=extract_result,
+-                transformations=random.sample(['clean', 'normalize', 'enrich', 'validate', 'aggregate'], 
++                transformations=random.sample(['clean', 'normalize', 'enrich', 'validate', 'aggregate'],
+                                             k=random.randint(2, 5))
+             )
+             print(f"转换结果: 成功={transform_result['processed']}, 失败={transform_result['failed']}")
+-            
++
+             # 模拟数据加载
+             load_result = monitor.load_data(
+                 input_data=transform_result,
+                 target_type=random.choice(['hive', 'elasticsearch', 'data_lake', 'data_mart'])
+             )
+             print(f"加载结果: 成功={load_result['processed']}, 失败={load_result['failed']}")
+-            
++
+             # 随机模拟异常情况
+             if random.random() < 0.1:  # 10%概率触发异常
+                 print("模拟异常情况...")
+                 # 故意调用一个会失败的方法
+                 with measure_processing_time(pipeline='etl_pipeline', stage='error_test'):
+                     raise Exception("模拟的数据处理错误")
+-            
++
+             # 等待一段时间再执行下一次
+             sleep_time = random.uniform(2, 5)
+             print(f"等待 {sleep_time:.2f} 秒...")
+             time.sleep(sleep_time)
+-            
++
+     except KeyboardInterrupt:
+         print("\n接收到中断信号，正在退出...")
+     finally:
+@@ -1189,7 +1189,7 @@
+ 
+   - alert: ProcessingLatencyDegradation
+     expr: |
+-      histogram_quantile(0.95, sum(rate(bigdata_processing_seconds_bucket[5m])) by (le, pipeline, stage)) / 
++      histogram_quantile(0.95, sum(rate(bigdata_processing_seconds_bucket[5m])) by (le, pipeline, stage)) /
+       histogram_quantile(0.95, sum(rate(bigdata_processing_seconds_bucket[1h] offset 24h)) by (le, pipeline, stage)) > 1.5
+     for: 5m
+     labels:
+@@ -1215,7 +1215,7 @@
+   - alert: DataQualityAnomaly
+     expr: |
+       abs(
+-        (bigdata_data_quality_score_sum / bigdata_data_quality_score_count) - 
++        (bigdata_data_quality_score_sum / bigdata_data_quality_score_count) -
+         avg_over_time((bigdata_data_quality_score_sum / bigdata_data_quality_score_count)[24h:5m])
+       ) > 0.15
+     for: 10m
+@@ -1254,8 +1254,8 @@
+   # 6. 缓存效率告警
+   - alert: LowCacheHitRatio
+     expr: |
+-      sum(rate(bigdata_cache_operations_total{operation_type="hit"}[5m])) / 
+-      (sum(rate(bigdata_cache_operations_total{operation_type="hit"}[5m])) + 
++      sum(rate(bigdata_cache_operations_total{operation_type="hit"}[5m])) /
++      (sum(rate(bigdata_cache_operations_total{operation_type="hit"}[5m])) +
+        sum(rate(bigdata_cache_operations_total{operation_type="miss"}[5m])))
+       < 0.6
+     for: 10m
+@@ -1283,7 +1283,7 @@
+   - alert: ResourceUtilizationAnomaly
+     expr: |
+       abs(
+-        bigdata_resource_usage{resource_type="cpu"} - 
++        bigdata_resource_usage{resource_type="cpu"} -
+         avg_over_time(bigdata_resource_usage{resource_type="cpu"}[24h:5m])
+       ) > 30
+     for: 15m
+@@ -1914,6 +1914,7 @@
+ ```python
+ 
+ # 使用Python实现大数据环境下的结构化日志收集和处理
++
+ import logging
+ import json
+ import time
+@@ -1934,6 +1935,7 @@
+ OTLPSpanExporter
+ 
+ # 初始化OpenTelemetry追踪器，实现日志与追踪的关联
++
+ resource = Resource(attributes={SERVICE_NAME: "bigdata-logging-service"})
+ trace_provider = TracerProvider(resource=resource)
+ trace_provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter(endpoint="http://otel-collector:4317")))
+@@ -1941,13 +1943,14 @@
+ tracer = trace.get_tracer("bigdata.pipeline")
+ 
+ # 高级结构化日志格式化器
++
+ class EnhancedJSONFormatter(logging.Formatter):
+     def __init__(self, service_name="bigdata-pipeline", version="1.0.0", environment="production"):
+         super().__init__()
+         self.service_name = service_name
+         self.version = version
+         self.environment = environment
+-    
++
+     def format(self, record):
+         # 基础日志结构
+         log_data = {
+@@ -1970,16 +1973,16 @@
+             "service.version": self.version,
+             "environment": self.environment
+         }
+-        
++
+         # 从记录中提取追踪信息（支持与OpenTelemetry集成）
+         if hasattr(record, 'trace_id'):
+             log_data["trace.id"] = record.trace_id
+             # 为高基数字段生成哈希，优化存储性能
+             log_data["trace.id_hash"] = hashlib.md5(str(record.trace_id).encode()).hexdigest()[:12]
+-        
++
+         if hasattr(record, 'span_id'):
+             log_data["span.id"] = record.span_id
+-        
++
+         # 增加异常信息（结构化格式）
+         if record.exc_info:
+             log_data["error"] = {
+@@ -1987,33 +1990,34 @@
+                 "message": str(record.exc_info[1]) if record.exc_info[1] else "Unknown",
+                 "stack_trace": self.formatException(record.exc_info)
+             }
+-        
++
+         # 增加大数据处理特定字段
+-        for field in ['pipeline', 'stage', 'record_count', 'processing_time_ms', 
++        for field in ['pipeline', 'stage', 'record_count', 'processing_time_ms',
+                       'data_quality', 'event_type', 'partition', 'retry_count']:
+             if hasattr(record, field):
+                 log_data[field] = getattr(record, field)
+-        
++
+         # 增加自定义字段（通过extra传入）
+         if hasattr(record, 'custom_fields'):
+             log_data.update(record.custom_fields)
+-        
++
+         return json.dumps(log_data)
+ 
+ # 配置高级日志记录器
++
+ class LoggingConfig:
+     @staticmethod
+     def get_logger(name="bigdata-pipeline", level=logging.INFO):
+         logger = logging.getLogger(name)
+         logger.setLevel(level)
+-        
++
+         # 避免重复添加处理器
+         if not logger.handlers:
+             # 控制台处理器
+             console_handler = logging.StreamHandler()
+             console_handler.setFormatter(EnhancedJSONFormatter())
+             logger.addHandler(console_handler)
+-            
++
+             # 文件处理器（轮转）
+             file_handler = logging.handlers.RotatingFileHandler(
+                 f"logs/{name}.log",
+@@ -2022,12 +2026,13 @@
+             )
+             file_handler.setFormatter(EnhancedJSONFormatter())
+             logger.addHandler(file_handler)
+-        
++
+         return logger
+ 
+ logger = LoggingConfig.get_logger()
+ 
+ # 健壮的外部系统连接器
++
+ class ExternalConnectors:
+     # 配置连接池和重试策略
+     @staticmethod
+@@ -2043,7 +2048,7 @@
+             sniff_on_connection_fail=True,
+             sniffer_timeout=60
+         )
+-    
++
+     @staticmethod
+     def get_kafka_producer():
+         return Producer({
+@@ -2059,6 +2064,7 @@
+         })
+ 
+ # 初始化外部连接器
++
+ try:
+     es_client = ExternalConnectors.get_elasticsearch_client()
+     kafka_producer = ExternalConnectors.get_kafka_producer()
+@@ -2069,6 +2075,7 @@
+     kafka_producer = None
+ 
+ # 高级日志处理队列和线程池
++
+ class AdvancedLogProcessor:
+     def __init__(self, queue_size=100000, worker_count=4):
+         self.queue = queue.Queue(maxsize=queue_size)
+@@ -2081,7 +2088,7 @@
+             "failed": 0,
+             "batch_size": 0
+         }
+-    
++
+     def start(self):
+         """启动日志处理工作线程"""
+         self.running = True
+@@ -2091,21 +2098,21 @@
+             worker.start()
+             self.workers.append(worker)
+         logger.info(f"启动了 {self.worker_count} 个日志处理工作线程")
+-    
++
+     def stop(self):
+         """优雅停止所有工作线程"""
+         self.running = False
+         for worker in self.workers:
+             worker.join(timeout=5)
+         logger.info(f"日志处理线程已停止，处理统计: {self.stats}")
+-    
++
+     def _worker_thread(self, worker_id):
+         """工作线程实现，包含错误处理和重试逻辑"""
+         batch_size = 500
+         batch_timeout = 0.5
+         batch = []
+         last_batch_time = time.time()
+-        
++
+         while self.running:
+             try:
+                 # 尝试获取日志条目
+@@ -2114,26 +2121,26 @@
+                     batch.append(log_entry)
+                 except queue.Empty:
+                     pass
+-                
++
+                 # 检查批处理条件
+                 current_time = time.time()
+-                if (len(batch) >= batch_size or 
++                if (len(batch) >= batch_size or
+                     (batch and current_time - last_batch_time >= batch_timeout)):
+                     # 执行批量处理
+                     self._process_batch(batch.copy(), worker_id)
+                     batch = []
+                     last_batch_time = current_time
+-                
++
+             except Exception as e:
+-                logger.error(f"工作线程 {worker_id} 异常: {str(e)}", 
++                logger.error(f"工作线程 {worker_id} 异常: {str(e)}",
+                            extra={"exception": traceback.format_exc()})
+                 time.sleep(0.1)  # 避免忙等
+-    
++
+     def _process_batch(self, batch, worker_id):
+         """批量处理日志条目，支持多种输出目标"""
+         if not batch:
+             return
+-        
++
+         try:
+             # 1. 批量发送到Elasticsearch
+             if es_client:
+@@ -2150,24 +2157,24 @@
+                         self.stats["processed"] += success
+                         self.stats["failed"] += len(failed)
+                         self.stats["batch_size"] += len(batch)
+-                    
++
+                     if failed:
+                         logger.warning(f"部分日志发送到Elasticsearch失败: {len(failed)}")
+                         # 重试失败的条目
+                         for item in failed:
+                             self.queue.put(item["_source"])
+-                            
++
+                 except Exception as e:
+                     logger.error(f"批量发送到Elasticsearch失败: {str(e)}")
+                     # 回退到队列
+                     for entry in batch:
+                         self.queue.put(entry)
+-            
++
+             # 2. 发送关键日志到Kafka（错误级别以上）
+             if kafka_producer:
+-                error_logs = [entry for entry in batch 
++                error_logs = [entry for entry in batch
+                              if entry.get("level") in ["ERROR", "CRITICAL", "FATAL"]]
+-                
++
+                 for log in error_logs:
+                     try:
+                         kafka_producer.produce(
+@@ -2178,20 +2185,20 @@
+                         )
+                     except Exception as e:
+                         logger.error(f"发送到Kafka失败: {str(e)}")
+-                
++
+                 kafka_producer.poll(0)
+-            
++
+         except Exception as e:
+             logger.error(f"批处理失败: {str(e)}")
+             # 确保队列任务完成
+             for _ in batch:
+                 self.queue.task_done()
+-    
++
+     def _kafka_delivery_callback(self, err, msg):
+         """Kafka消息发送回调"""
+         if err:
+             logger.error(f"Kafka消息发送失败: {str(err)}")
+-        
++
+     def add_log(self, log_entry):
+         """添加日志到处理队列，包含背压处理"""
+         try:
+@@ -2205,7 +2212,7 @@
+             if log_entry.get("level") in ["DEBUG", "INFO"]:
+                 if random.random() > 0.1:  # 90%的低级别日志被丢弃
+                     return False
+-            
++
+             # 尝试阻塞添加关键日志
+             try:
+                 self.queue.put(log_entry, block=True, timeout=0.1)
+@@ -2213,16 +2220,18 @@
+             except queue.Full:
+                 logger.error("日志队列溢出，丢弃日志")
+                 return False
+-    
++
+     def flush(self):
+         """强制刷新队列中的所有日志"""
+         self.queue.join()
+ 
+ # 初始化高级日志处理器
++
+ log_processor = AdvancedLogProcessor(worker_count=8)
+ log_processor.start()
+ 
+ # 分布式追踪辅助类
++
+ class DistributedContext:
+     @staticmethod
+     def create_context():
+@@ -2235,7 +2244,7 @@
+             "context_id": trace_id,
+             "timestamp": datetime.now().isoformat()
+         }
+-    
++
+     @staticmethod
+     def inject_context(log_extra, context):
+         """将分布式上下文注入日志extra字段"""
+@@ -2246,17 +2255,18 @@
+         return log_extra
+ 
+ # 大数据处理日志装饰器
++
+ def log_processing_stage(pipeline_name, stage_name):
+     """用于大数据处理阶段的日志装饰器"""
+     def decorator(func):
+         def wrapper(*args, **kwargs):
+             # 创建追踪上下文
+             context = DistributedContext.create_context()
+-            
++
+             # 记录开始日志
+             start_time = time.time()
+             batch_size = kwargs.get("batch_size", len(args[0]) if args else 0)
+-            
++
+             logger.info(
+                 f"开始处理阶段",
+                 extra=DistributedContext.inject_context({
+@@ -2268,22 +2278,22 @@
+                     "retry_count": kwargs.get("retry_count", 0)
+                 }, context)
+             )
+-            
++
+             try:
+                 # 执行实际处理逻辑
+                 with tracer.start_as_current_span(f"{pipeline_name}.{stage_name}") as span:
+                     span.set_attribute("pipeline.name", pipeline_name)
+                     span.set_attribute("stage.name", stage_name)
+                     span.set_attribute("record.count", batch_size)
+-                    
++
+                     result = func(*args, **kwargs)
+-                    
++
+                     # 记录完成日志
+                     processing_time = time.time() - start_time
+                     successful_records = result.get("processed", batch_size)
+                     failed_records = batch_size - successful_records
+                     data_quality = result.get("quality", 1.0)
+-                    
++
+                     # 构建结构化日志条目
+                     process_log = {
+                         "@timestamp": datetime.now().isoformat(),
+@@ -2302,10 +2312,10 @@
+                         "event_type": "stage_complete",
+                         "throughput": round(successful_records / max(processing_time, 0.001), 2)
+                     }
+-                    
++
+                     # 添加到日志处理器
+                     log_processor.add_log(process_log)
+-                    
++
+                     # 如果有失败记录，记录错误日志
+                     if failed_records > 0:
+                         error_percentage = (failed_records / batch_size) * 100
+@@ -2324,9 +2334,9 @@
+                             "error_details": result.get("errors", [])
+                         }
+                         log_processor.add_log(error_log)
+-                    
++
+                     return result
+-                    
++
+             except Exception as e:
+                 # 异常日志，包含详细上下文
+                 processing_time = time.time() - start_time
+@@ -2349,26 +2359,27 @@
+                     }
+                 }
+                 log_processor.add_log(error_log)
+-                
++
+                 raise
+-        
++
+         return wrapper
+-    
++
+     return decorator
+ 
+ # 模拟大数据处理阶段
++
+ @log_processing_stage("customer_data_etl", "extract")
+ def extract_stage(data_source, batch_size, **kwargs):
+     """模拟数据提取阶段"""
+     # 模拟处理延迟
+     processing_time = random.uniform(0.1, 2.0)
+     time.sleep(processing_time)
+-    
++
+     # 模拟处理结果
+     success_rate = random.uniform(0.97, 1.0)
+     successful_records = int(batch_size * success_rate)
+     failed_records = batch_size - successful_records
+-    
++
+     # 生成一些错误详情
+     errors = []
+     if failed_records > 0:
+@@ -2379,7 +2390,7 @@
+                 "record_index": random.randint(0, batch_size - 1),
+                 "message": f"示例错误消息"
+             })
+-    
++
+     return {
+         "success": True,
+         "processed": successful_records,
+@@ -2394,11 +2405,11 @@
+     # 模拟处理延迟
+     processing_time = random.uniform(0.2, 3.0)
+     time.sleep(processing_time)
+-    
++
+     # 模拟处理结果
+     success_rate = random.uniform(0.95, 1.0)
+     successful_records = int(batch_size * success_rate)
+-    
++
+     return {
+         "success": True,
+         "processed": successful_records,
+@@ -2411,11 +2422,11 @@
+     # 模拟处理延迟
+     processing_time = random.uniform(0.15, 2.5)
+     time.sleep(processing_time)
+-    
++
+     # 模拟处理结果
+     success_rate = random.uniform(0.98, 1.0)
+     successful_records = int(batch_size * success_rate)
+-    
++
+     return {
+         "success": True,
+         "processed": successful_records,
+@@ -2428,11 +2439,11 @@
+     # 模拟处理延迟
+     processing_time = random.uniform(0.5, 5.0)
+     time.sleep(processing_time)
+-    
++
+     # 模拟处理结果
+     success_rate = random.uniform(0.96, 1.0)
+     successful_records = int(batch_size * success_rate)
+-    
++
+     # 增加分析特定指标
+     return {
+         "success": True,
+@@ -2446,6 +2457,7 @@
+     }
+ 
+ # ETL流水线执行类
++
+ class DataPipeline:
+     def __init__(self, name, stages):
+         self.name = name
+@@ -2456,17 +2468,17 @@
+             "successful_records": 0,
+             "total_time_ms": 0
+         }
+-    
++
+     def execute(self, initial_batch_size, **kwargs):
+         """执行完整的数据处理流水线"""
+         pipeline_start = time.time()
+         self.metrics["executions"] += 1
+         self.metrics["total_records"] += initial_batch_size
+-        
++
+         try:
+             # 创建流水线级别的上下文
+             pipeline_context = DistributedContext.create_context()
+-            
++
+             # 记录流水线开始
+             logger.info(
+                 f"开始执行数据流水线",
+@@ -2477,7 +2489,7 @@
+                     "configuration": kwargs
+                 }, pipeline_context)
+             )
+-            
++
+             # 执行各阶段
+             current_batch_size = initial_batch_size
+             for stage_func in self.stages:
+@@ -2488,12 +2500,12 @@
+                     **kwargs
+                 )
+                 current_batch_size = result["processed"]
+-            
++
+             # 记录流水线完成
+             pipeline_time = time.time() - pipeline_start
+             self.metrics["successful_records"] += current_batch_size
+             self.metrics["total_time_ms"] += int(pipeline_time * 1000)
+-            
++
+             logger.info(
+                 f"数据流水线执行完成",
+                 extra=DistributedContext.inject_context({
+@@ -2505,9 +2517,9 @@
+                     "metrics": self.metrics
+                 }, pipeline_context)
+             )
+-            
++
+             return {"success": True, "processed": current_batch_size}
+-            
++
+         except Exception as e:
+             # 记录流水线失败
+             pipeline_time = time.time() - pipeline_start
+@@ -2524,6 +2536,7 @@
+             raise
+ 
+ # 创建并配置流水线
++
+ customer_etl_pipeline = DataPipeline(
+     "customer_data_etl",
+     [extract_stage, transform_stage, load_stage]
+@@ -2535,13 +2548,14 @@
+ )
+ 
+ # 主程序 - 模拟ETL流水线执行
++
+ print("启动大数据日志收集与处理示例...")
+ try:
+     cycle_count = 0
+     while True:
+         cycle_count += 1
+         print(f"执行周期 {cycle_count}")
+-        
++
+         # 执行客户数据ETL流水线
+         try:
+             customer_etl_pipeline.execute(
+@@ -2551,7 +2565,7 @@
+             )
+         except Exception as e:
+             print(f"ETL流水线执行失败，但继续运行: {str(e)}")
+-        
++
+         # 执行每日分析流水线（每3个周期执行一次）
+         if cycle_count % 3 == 0:
+             try:
+@@ -2562,19 +2576,20 @@
+                 )
+             except Exception as e:
+                 print(f"分析流水线执行失败，但继续运行: {str(e)}")
+-        
++
+         # 定期刷新日志
+         log_processor.flush()
+-        
++
+         # 等待下一轮
+         time.sleep(10)
+-        
++
+         # 为演示目的，限制执行次数
+         if cycle_count >= 5:
+             print("演示完成，退出循环")
+             break
+-            
++
+ # 优雅退出处理
++
+ except KeyboardInterrupt:
+     print("收到中断信号，正在停止...")
+ except Exception as e:
+@@ -2597,8 +2612,11 @@
+ ```yaml
+ 
+ # 大数据环境高级Logstash配置 - logstash.conf
++
+ input {
++
+   # Kafka输入优化配置
++
+   kafka {
+     bootstrap_servers => "kafka-broker1:9092,kafka-broker2:9092,kafka-broker3:9092"
+     topics => ["bigdata-logs", "app-metrics", "service-logs"]
+@@ -2621,8 +2639,9 @@
+     sasl_username => "${LOGSTASH_KAFKA_USERNAME}"
+     sasl_password => "${LOGSTASH_KAFKA_PASSWORD}"
+   }
+-  
++
+   # 多源文件输入配置
++
+   file {
+     id => "hadoop_logs"
+     path => ["/var/log/hadoop/*/*.log", "/var/log/hadoop/*.log"]
+@@ -2639,7 +2658,7 @@
+     close_older => 86400
+     ignore_older => 604800
+   }
+-  
++
+   file {
+     id => "spark_logs"
+     path => ["/var/log/spark/*/*.log", "/var/log/spark/*.log"]
+@@ -2655,8 +2674,9 @@
+     }
+     close_older => 86400
+   }
+-  
++
+   # HTTP输入 - 用于接收API和微服务日志
++
+   http {
+     id => "http_api_logs"
+     port => 8080
+@@ -2668,7 +2688,9 @@
+ }
+ 
+ filter {
++
+   # 数据类型转换 - 预处理优化
++
+   if [level] or [log_level] or [severity] {
+     mutate {
+       rename => {
+@@ -2678,8 +2700,9 @@
+       lowercase => ["level"]
+     }
+   }
+-  
++
+   # 结构化日志处理
++
+   if [message] =~ "^{" {
+     json {
+       source => "message"
+@@ -2689,7 +2712,7 @@
+       skip_on_invalid_json => true
+       tag_on_failure => ["_jsonparsefailure"]
+     }
+-    
++
+     # 字段扁平化 - 简化查询
+     ruby {
+       code => 'if event.get("parsed_log") && event.get("parsed_log").is_a?(Hash)
+@@ -2701,8 +2724,9 @@
+                 end'
+     }
+   }
+-  
++
+   # 多格式日志解析 - 使用条件过滤
++
+   if [type] == "hadoop" {
+     grok {
+       match => {
+@@ -2734,8 +2758,9 @@
+       overwrite => ["message"]
+     }
+   }
+-  
++
+   # 数据处理流水线特定字段提取
++
+   if [pipeline] {
+     mutate {
+       add_field => {
+@@ -2750,7 +2775,7 @@
+         "throughput" => "float"
+       }
+     }
+-    
++
+     # 性能指标计算
+     if [record_count] and [processing_time_ms] and [processing_time_ms] > 0 {
+       ruby {
+@@ -2758,16 +2783,18 @@
+       }
+     }
+   }
+-  
++
+   # 异常检测与标签化
++
+   if [level] =~ "(error|critical|fatal)" {
+     mutate {
+       add_tag => ["_critical", "_requires_attention"]
+       add_field => { "priority" => "high" }
+     }
+   }
+-  
++
+   # 高基数字段处理 - 性能优化
++
+   if [trace_id] {
+     fingerprint {
+       source => ["trace_id"]
+@@ -2784,8 +2811,9 @@
+                 end'
+     }
+   }
+-  
++
+   # 时间戳规范化处理
++
+   date {
+     match => [
+       "timestamp", "ISO8601",
+@@ -2798,8 +2826,9 @@
+     remove_field => ["timestamp", "event_time", "time"]
+     tag_on_failure => ["_dateparsefailure"]
+   }
+-  
++
+   # 环境和集群信息增强
++
+   mutate {
+     add_field => {
+       "environment" => "%{[env]}"
+@@ -2819,8 +2848,9 @@
+       "environment", "^test", "testing"
+     ]
+   }
+-  
++
+   # 地理位置和节点信息增强
++
+   if [host] and [host] =~ "^data-node" {
+     mutate {
+       add_field => { "node_type" => "data_node" }
+@@ -2833,7 +2863,9 @@
+ }
+ 
+ output {
++
+   # 错误路由 - 将解析失败的日志单独存储
++
+   if "_jsonparsefailure" in [tags] or "_grokparsefailure" in [tags] {
+     elasticsearch {
+       id => "failed_parsing_output"
+@@ -2847,8 +2879,9 @@
+       ssl => true
+     }
+   }
+-  
++
+   # 主要Elasticsearch输出 - 按环境和类型分片
++
+   elasticsearch {
+     id => "primary_elasticsearch_output"
+     hosts => ["elasticsearch:9200"]
+@@ -2877,8 +2910,9 @@
+     dead_letter_queue_enabled => true
+     dead_letter_queue_path => "/data/logstash/dlq"
+   }
+-  
++
+   # 告警输出 - 多级告警路由
++
+   if [priority] == "high" or [level] =~ "(error|critical|fatal)" {
+     # 高优先级告警路由到专门的Kafka主题
+     kafka {
+@@ -2895,7 +2929,7 @@
+       sasl_username => "${LOGSTASH_KAFKA_USERNAME}"
+       sasl_password => "${LOGSTASH_KAFKA_PASSWORD}"
+     }
+-    
++
+     # 同时发送到专用告警索引
+     elasticsearch {
+       id => "alerts_elasticsearch_output"
+@@ -2909,8 +2943,9 @@
+       ssl => true
+     }
+   }
+-  
++
+   # 性能指标输出 - 分离存储用于时序分析
++
+   if [source_type] == "data_pipeline" {
+     elasticsearch {
+       id => "metrics_elasticsearch_output"
+@@ -2927,8 +2962,9 @@
+       ssl => true
+     }
+   }
+-  
++
+   # 调试输出 - 仅在开发环境启用
++
+   if [environment] == "development" {
+     stdout {
+       codec => rubydebug
+@@ -2943,56 +2979,62 @@
+ ```kql
+ 
+ # 1. 高级错误分析 - 按组件和错误类型分组
+-level:ERROR OR level:CRITICAL 
+-| stats count() as error_count, 
+-       values(error.type) as error_types, 
+-       avg(processing_time_ms) as avg_processing_time 
+-       by component, pipeline, stage 
++
++level:ERROR OR level:CRITICAL
++| stats count() as error_count,
++       values(error.type) as error_types,
++       avg(processing_time_ms) as avg_processing_time
++       by component, pipeline, stage
+ | sort error_count desc
+ 
+ # 2. 异常检测查询 - 识别异常延迟模式
+-pipeline:* 
++
++pipeline:*
+ | where processing_time_ms > 0
+-| stats avg(processing_time_ms) as avg_latency, 
+-       stddev(processing_time_ms) as stddev_latency, 
+-       percentiles(processing_time_ms, 95) as p95_latency 
+-       by pipeline, stage, kubernetes.pod_name 
++| stats avg(processing_time_ms) as avg_latency,
++       stddev(processing_time_ms) as stddev_latency,
++       percentiles(processing_time_ms, 95) as p95_latency
++       by pipeline, stage, kubernetes.pod_name
+ | eval threshold = avg_latency + (3 * stddev_latency)
+ | where p95_latency > threshold
+ 
+ # 3. 多维度数据质量分析
+-pipeline:* 
+-| stats avg(data_quality) as avg_quality, 
+-       min(data_quality) as min_quality, 
+-       max(data_quality) as max_quality 
+-       by pipeline, stage, environment, date_format(@timestamp, "yyyy-MM-dd") 
++
++pipeline:*
++| stats avg(data_quality) as avg_quality,
++       min(data_quality) as min_quality,
++       max(data_quality) as max_quality
++       by pipeline, stage, environment, date_format(@timestamp, "yyyy-MM-dd")
+ | where avg_quality < 0.95
+ | sort min_quality asc
+ 
+ # 4. 资源使用关联分析
+-kubernetes.pod_name:* 
+-| stats avg(cpu_usage_percent) as avg_cpu, 
+-       max(memory_usage_bytes) as max_memory, 
+-       avg(processing_time_ms) as avg_latency 
+-       by kubernetes.pod_name, kubernetes.node_name 
++
++kubernetes.pod_name:*
++| stats avg(cpu_usage_percent) as avg_cpu,
++       max(memory_usage_bytes) as max_memory,
++       avg(processing_time_ms) as avg_latency
++       by kubernetes.pod_name, kubernetes.node_name
+ | where avg_cpu > 75 or max_memory > 4000000000
+ 
+ # 5. 分布式追踪分析
+-pipeline:* AND trace_id:* 
++
++pipeline:* AND trace_id:*
+ | where @timestamp > now()-1h
+-| stats count() as event_count, 
+-       min(@timestamp) as start_time, 
+-       max(@timestamp) as end_time, 
+-       values(event_type) as event_types 
+-       by trace_id, pipeline 
++| stats count() as event_count,
++       min(@timestamp) as start_time,
++       max(@timestamp) as end_time,
++       values(event_type) as event_types
++       by trace_id, pipeline
+ | eval duration_ms = (end_time - start_time) / 1000000
+ | sort duration_ms desc
+ 
+ # 6. 按时间段的错误率趋势 - 高级时间分析
+-level:ERROR 
+-| timechart span=15m 
+-       count() as error_count, 
+-       count(if(level="ERROR", 1, null)) / count() * 100 as error_percentage 
++
++level:ERROR
++| timechart span=15m
++       count() as error_count,
++       count(if(level="ERROR", 1, null)) / count() * 100 as error_percentage
+        by pipeline, environment
+ | where error_percentage > 5
+ 
+@@ -3138,6 +3180,7 @@
+ ```kql
+ 
+ # 创建异常检测作业 - 处理延迟异常检测
++
+ POST _ml/anomaly_detectors/bigdata-latency-detector
+ {
+   "description": "大数据处理延迟异常检测",
+@@ -3385,7 +3428,7 @@
+     - DAG执行时间、任务调度延迟
+     - 数据倾斜指标（任务执行时间差异）
+     - RDD缓存命中率
+-    
++
+   - **Kafka指标**：
+     - 消息吞吐量（每秒生产/消费消息数）
+     - 积压量（消费者滞后消息数）
+@@ -3394,7 +3437,7 @@
+     - 副本同步状态、ISR集合大小
+     - 生产者/消费者错误率
+     - 请求队列大小、请求处理时间
+-    
++
+   - **HDFS指标**：
+     - 读写延迟、IOPS、吞吐量
+     - 块分布、副本健康度
+@@ -3402,7 +3445,7 @@
+     - DataNode磁盘使用率、心跳状态
+     - 文件操作延迟、小文件数量
+     - 安全模式触发次数
+-    
++
+   - **YARN指标**：
+     - 资源分配率、Container启动时间
+     - 队列资源使用率、队列深度
+@@ -3554,17 +3597,17 @@
+     - 测试刚好低于阈值、等于阈值、高于阈值的边界情况
+     - 测试快速达到阈值和缓慢达到阈值的触发差异
+     - 测试多指标复合阈值条件的准确性
+-  
++
+   - **基于趋势的告警测试**：
+     - 测试各种趋势模式（上升、下降、波动）的识别准确性
+     - 验证趋势计算的时间窗口配置有效性
+     - 测试趋势告警的误报防护机制
+-  
++
+   - **基于复合条件的告警测试**：
+     - 验证AND、OR、NOT等逻辑组合的正确性
+     - 测试多指标间相关性条件的准确性
+     - 验证基于历史数据对比的条件告警
+-  
++
+   - **基于机器学习的异常检测告警测试**：
+     - 验证模型在正常模式下的误报率
+     - 测试模型识别未知异常模式的能力
+@@ -3594,12 +3637,12 @@
+     - 各渠道的连接稳定性和认证机制
+     - 大消息内容的处理能力
+     - 附件和格式化内容的支持
+-  
++
+   - **通知时效性测试**：
+     - 不同负载下的通知延迟分布
+     - 通知队列的处理能力
+     - 高峰期通知送达保障
+-  
++
+   - **通知可靠性测试**：
+     - 通知失败的重试机制
+     - 通知系统故障恢复后的消息补发
+@@ -3629,17 +3672,17 @@
+     - 验证基于父告警的抑制规则
+     - 测试基于标签匹配的抑制规则
+     - 评估抑制时间窗口的合理性
+-  
++
+   - **告警聚合测试**：
+     - 测试时间窗口内的告警聚合
+     - 验证基于内容相似度的智能聚合
+     - 评估聚合后告警的信息完整性
+-  
++
+   - **告警静默测试**：
+     - 验证静默规则的精确匹配
+     - 测试静默到期后的告警恢复
+     - 评估静默覆盖范围的合理性
+-  
++
+   - **告警风暴控制测试**：
+     - 模拟大规模故障场景下的告警风暴
+     - 验证速率限制和断路器机制
+@@ -4968,6 +5011,7 @@
+ ```python
+ 
+ # OpenTelemetry追踪实现示例
++
+ from opentelemetry import trace
+ from opentelemetry.sdk.trace import TracerProvider
+ from opentelemetry.sdk.trace.export import BatchSpanProcessor
+@@ -4975,6 +5019,7 @@
+ from opentelemetry.sdk.resources import SERVICE_NAME, Resource
+ 
+ # 配置追踪器
++
+ resource = Resource(attributes={SERVICE_NAME: "bigdata-processing-service"})
+ provider = TracerProvider(resource=resource)
+ exporter = JaegerExporter(
+@@ -4988,6 +5033,7 @@
+ tracer = trace.get_tracer(__name__)
+ 
+ # 在数据处理函数中使用追踪
++
+ def process_data(input_data, data_type):
+     with tracer.start_as_current_span("process_data") as span:
+         # 添加Span属性
+@@ -5021,6 +5067,7 @@
+ ```yaml
+ 
+ # Prometheus配置示例 - prometheus.yml
++
+ global:
+   scrape_interval: 15s
+   evaluation_interval: 15s

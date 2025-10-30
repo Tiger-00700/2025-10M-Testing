@@ -1,0 +1,110 @@
+Book structure parsed from book/1022.2025.book.md
+Chapters found: 45; with matching files: 45
+
+01. 第9章 （环境搭建）→ 运行附录 E 的快速 smoke (line 10)
+    - MATCH: chapter\第3篇-第9章-大数据测试环境搭建【入门】.md
+02. 第11章 与第 19 章，并执行附录 E 中的 CI (line 14)
+    - MATCH: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md
+03. 第1章 大数据测试概述【入门】 (line 36)
+    - MATCH: chapter\第1篇-第1章-大数据测试概述.md
+04. 第9章 / 附录 E）。 (line 41)
+    - MATCH: chapter\第3篇-第9章-大数据测试环境搭建【入门】.md
+05. 第2章 大数据技术生 (line 226)
+    - MATCH: chapter\第1篇-第2章-大数据技术生态与架构.md
+06. 第9章 ）。 (line 233)
+    - MATCH: chapter\第3篇-第9章-大数据测试环境搭建【入门】.md
+07. 第3章 大数据测试环境搭建【入门】 #### 3.1 测试环境类型与特点 (line 587)
+    - MATCH: chapter\第1篇-第3章-大数据测试环境搭建【入门】.md
+    - MATCH: chapter\第2篇-第3章-数据采集测试【进阶】.md
+08. 第4章  (line 837)
+    - MATCH: chapter\第1篇-第4章-大数据测试数据管理【入门】.md
+    - MATCH: chapter\第2篇-第4章-数据存储测试【进阶】.md
+09. 第3章 数据采集测试【进阶】 <!-- scope-note-start --> 本章范围说明 (line 1194)
+    - MATCH: chapter\第1篇-第3章-大数据测试环境搭建【入门】.md
+    - MATCH: chapter\第2篇-第3章-数据采集测试【进阶】.md
+10. 第5章 ）与后端存储低级一致性（见第 4 章） (line 1200)
+    - MATCH: chapter\第2篇-第5章-数据处理测试【进阶】.md
+11. 第4章 数据存储测试【进阶】 <!-- scope-note-start --> 本章范围 (line 1278)
+    - MATCH: chapter\第1篇-第4章-大数据测试数据管理【入门】.md
+    - MATCH: chapter\第2篇-第4章-数据存储测试【进阶】.md
+12. 第10章 ）；time-travel 的实现细节移至附录 (line 1282)
+    - MATCH: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md
+13. 第5章 数据处理测试【进阶】 <!-- scope-note-start --> 本章范围 (line 1338)
+    - MATCH: chapter\第2篇-第5章-数据处理测试【进阶】.md
+14. 第3章 ）与存储低级一致性（见第 4 章）。 (line 1342)
+    - MATCH: chapter\第1篇-第3章-大数据测试环境搭建【入门】.md
+    - MATCH: chapter\第2篇-第3章-数据采集测试【进阶】.md
+15. 第6章 数据质量管理与测试【进阶】 (line 1372)
+    - MATCH: chapter\第2篇-第6章-数据质量管理与测试【进阶】.md
+16. 第4章 ；测试数据生成与脱敏治理请参见第 10 (line 1380)
+    - MATCH: chapter\第1篇-第4章-大数据测试数据管理【入门】.md
+    - MATCH: chapter\第2篇-第4章-数据存储测试【进阶】.md
+17. 第7章 大数据安 (line 1423)
+    - MATCH: chapter\第2篇-第7章-大数据安全测试【进阶】.md
+    - MATCH: chapter\第5篇-第16章-大数据安全测试【进阶】.md
+18. 第8章 数据分析测试【进阶】 <!-- scope-note-start --> (line 1457)
+    - MATCH: chapter\第2篇-第8章-数据分析测试【进阶】.md
+19. 第4章 ）；模型生产化 (line 1464)
+    - MATCH: chapter\第1篇-第4章-大数据测试数据管理【入门】.md
+    - MATCH: chapter\第2篇-第4章-数据存储测试【进阶】.md
+20. 第10章 与第 16 章。 (line 1466)
+    - MATCH: chapter\第3篇-第10章-大数据测试数据管理【进阶】.md
+21. 第9章 大数据测试环境搭建【入门】 <!-- scope-note-start --> 本章范围说明 (line 1478)
+    - MATCH: chapter\第3篇-第9章-大数据测试环境搭建【入门】.md
+22. 第19章 ）。 (line 1481)
+    - MATCH: chapter\第6篇-第19章-CI_CD、GitOps与运维治理【专家】.md
+23. 第4章 ）；关于湖仓 time-travel 的验证请见第 6 (line 1663)
+    - MATCH: chapter\第1篇-第4章-大数据测试数据管理【入门】.md
+    - MATCH: chapter\第2篇-第4章-数据存储测试【进阶】.md
+24. 第4章 ）；关于湖仓 time-travel 的验证请见第 6 (line 1849)
+    - MATCH: chapter\第1篇-第4章-大数据测试数据管理【入门】.md
+    - MATCH: chapter\第2篇-第4章-数据存储测试【进阶】.md
+25. 第11章 大数据测试自动化基础【进阶】 <!-- scope-note-start --> 本章范围说明 (line 2071)
+    - MATCH: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md
+26. 第19章 ）；示例脚本请参见附录 C/附录 E。 (line 2074)
+    - MATCH: chapter\第6篇-第19章-CI_CD、GitOps与运维治理【专家】.md
+27. 第12章 大数据测试工具详解【进阶】 <!-- (line 2243)
+    - MATCH: chapter\第4篇-第12章-大数据测试工具详解【进阶】.md
+28. 第13章 大数据系统可观测性与监控测试【进阶】 (line 2952)
+    - MATCH: chapter\第4篇-第13章-大数据系统可观测性与监控测试【进阶】.md
+29. 第19章 ）。 (line 2956)
+    - MATCH: chapter\第6篇-第19章-CI_CD、GitOps与运维治理【专家】.md
+30. 第14章 大数据测试案例设计【进阶】 <!-- scope-note-start --> 本章范围说明 (line 3049)
+    - MATCH: chapter\第5篇-第14章-大数据测试案例设计【进阶】.md
+31. 第16章 ）；本章仅保留案例设计原则、模板与 (line 3052)
+    - MATCH: chapter\第5篇-第16章-大数据安全测试【进阶】.md
+    - MATCH: chapter\第5篇-第16章-大数据测试项目实施与实战经验【专家】.md
+32. 第15章 （侧重行业场景）与第 16 章（项目实施细则）。 (line 3056)
+    - MATCH: chapter\第5篇-第15章-大数据行业应用测试【进阶】.md
+    - MATCH: chapter\第5篇-第15章-行业大数据测试案例分析【专家】.md
+33. 第16章 ）；避免与第 16 重复的管理性段落 (line 3067)
+    - MATCH: chapter\第5篇-第16章-大数据安全测试【进阶】.md
+    - MATCH: chapter\第5篇-第16章-大数据测试项目实施与实战经验【专家】.md
+34. 第16章 大数据测试项目实施与实战经 (line 3075)
+    - MATCH: chapter\第5篇-第16章-大数据安全测试【进阶】.md
+    - MATCH: chapter\第5篇-第16章-大数据测试项目实施与实战经验【专家】.md
+35. 第19章 附录 (line 3100)
+    - MATCH: chapter\第6篇-第19章-CI_CD、GitOps与运维治理【专家】.md
+    - MATCH: chapter\附录.md
+36. 第17章 大数据测试实战经验精要【专家】 <!-- (line 3116)
+    - MATCH: chapter\第5篇-第17章-大数据测试自动化【进阶】.md
+37. 第16章 ）或工具安装细节（见附录 B）。 (line 3121)
+    - MATCH: chapter\第5篇-第16章-大数据安全测试【进阶】.md
+    - MATCH: chapter\第5篇-第16章-大数据测试项目实施与实战经验【专家】.md
+38. 第18章 大规模数据处理性能测试【专家】 <!-- scope-note-start --> 本章范围说明 (line 3151)
+    - MATCH: chapter\第6篇-第18章-大规模数据处理性能测试【专家】.md
+39. 第13章 ）；工具安装参见附录 B。 (line 3154)
+    - MATCH: chapter\第4篇-第13章-大数据系统可观测性与监控测试【进阶】.md
+40. 第19章 CI/CD、GitOps 与运维治理【专家】 <!-- scope-note-start --> 本章范 (line 3162)
+    - MATCH: chapter\第6篇-第19章-CI_CD、GitOps与运维治理【专家】.md
+41. 第11章 ）；可观测性技术实现（见第 13 章）。 (line 3170)
+    - MATCH: chapter\第4篇-第11章-大数据测试自动化基础【进阶】.md
+42. 第20章 技术与方法演进【专家】 <!-- (line 3309)
+    - MATCH: chapter\第6篇-第20章-技术与方法演进【专家】.md
+43. 第21章 大数据测试人才与未来发展【专家】 <!-- (line 3579)
+    - MATCH: chapter\第6篇-第21章-大数据测试人才与未来发展【专家】.md
+44. 第3章 （采集）：如何模拟背压与数据丢失？ — 参考：附录 (line 3984)
+    - MATCH: chapter\第1篇-第3章-大数据测试环境搭建【入门】.md
+    - MATCH: chapter\第2篇-第3章-数据采集测试【进阶】.md
+45. 第19章 （CI/CD）：如何在流水线做 PromQL 与 trace 断言？ — 参考：附录 (line 3990)
+    - MATCH: chapter\第6篇-第19章-CI_CD、GitOps与运维治理【专家】.md
