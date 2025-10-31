@@ -76,6 +76,9 @@ function Normalize-Title([string]$s) {
 
 function Normalize-ForFuzzy([string]$s) {
   $s = Normalize-Title $s
+  # drop numbering like 9, 9.1, 4.1.1 and other digits to improve title-only similarity
+  $s = ($s -replace '^\s*\d+(?:\.\d+)*\s*', ' ')
+  $s = ($s -replace '\d+', ' ')
   $s = ($s -replace "[\p{P}\p{S}]", ' ')
   $s = Normalize-Whitespace $s
   return $s
