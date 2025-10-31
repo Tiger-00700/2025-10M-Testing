@@ -6,9 +6,15 @@ $reportDir = Join-Path -Path 'tools' -ChildPath 'reports'
 if (-not (Test-Path $reportDir)) { throw "Reports directory not found: $reportDir" }
 
 # Find newest timestamp by filename pattern yyyyMMdd-HHmmss
-$organized = Get-ChildItem -Path $reportDir -Filter 'organized-*.md' -File | Sort-Object Name | Select-Object -Last 1
-$log = Get-ChildItem -Path $reportDir -Filter 'organize-log-*.md' -File | Sort-Object Name | Select-Object -Last 1
-$toc = Get-ChildItem -Path $reportDir -Filter 'toc-*.txt' -File | Sort-Object Name | Select-Object -Last 1
+$organized = Get-ChildItem -Path $reportDir -Filter 'organized-*.md' -File |
+  Where-Object { $_.Name -notmatch '-latest' } |
+  Sort-Object Name | Select-Object -Last 1
+$log = Get-ChildItem -Path $reportDir -Filter 'organize-log-*.md' -File |
+  Where-Object { $_.Name -notmatch '-latest' } |
+  Sort-Object Name | Select-Object -Last 1
+$toc = Get-ChildItem -Path $reportDir -Filter 'toc-*.txt' -File |
+  Where-Object { $_.Name -notmatch '-latest' } |
+  Sort-Object Name | Select-Object -Last 1
 
 if (-not $organized -or -not $log -or -not $toc) {
   throw 'Required report files not found to create latest pointers.'
