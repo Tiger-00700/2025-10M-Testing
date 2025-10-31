@@ -89,7 +89,15 @@ function Get-AliasKeys([string]$norm) {
     '概述'=@('简介','总览','引言');
     '架构设计原则'=@('架构原则','设计原则','架构要点','架构准则');
     '生态系统层次'=@('生态系统层级','生态分层');
-    '技术栈及其应用场景'=@('技术栈与应用场景','技术栈应用场景','技术栈和应用场景')
+    '技术栈及其应用场景'=@('技术栈与应用场景','技术栈应用场景','技术栈和应用场景');
+    '测试环境类型与特点'=@('测试环境类型','环境类型与特点','环境类型','类型与特点','测试环境特点');
+    '本地测试环境搭建'=@('本地环境搭建','搭建本地测试环境','本地测试环境部署','本地环境部署');
+    '单机模式搭建'=@('单机模式环境搭建','单机部署','单机模式部署');
+    '伪分布式模式搭建'=@('伪分布式部署','伪分布式环境搭建');
+    '基于 docker 的本地环境'=@('docker 本地环境','docker 环境搭建','基于 docker 的环境');
+    '数据存储重要性'=@('数据存储的重要性','存储重要性');
+    '测试环境需求分析与规划'=@('测试环境需求分析','测试环境规划','环境需求分析与规划');
+    '测试环境需求分析维度'=@('测试环境需求维度','环境需求分析维度','需求分析维度')
   }
   $out = New-Object System.Collections.Generic.List[string]
   foreach ($k in $aliases.Keys) {
@@ -184,7 +192,7 @@ function Find-Candidate([System.Collections.Generic.List[SectionNode]]$index, [s
     if ($s -gt $bestScore) { $bestScore=$s; $best=$n }
   }
   # slightly relax thresholds to recover borderline matches
-  $threshold = if ($prefLevel -le 2) { 0.62 } elseif ($prefLevel -eq 3) { 0.66 } else { 0.72 }
+  $threshold = if ($prefLevel -le 2) { 0.62 } elseif ($prefLevel -eq 3) { 0.66 } else { 0.70 }
   if ($best -and $bestScore -ge $threshold) { return @{ mode='fuzzy'; node=$best; score=$bestScore } }
   return $null
 }
