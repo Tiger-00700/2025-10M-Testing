@@ -324,7 +324,7 @@ function Read-FileLines([string]$path) {
   return [System.IO.File]::ReadAllLines($path, [System.Text.Encoding]::UTF8)
 }
 
-function Assemble-ByOutline {
+function Invoke-ByOutline {
   param(
     [string]$OutlinePath = 'book/篇章结构.md',
     [string]$BasePath = 'book/1022.2025.newbook.md',
@@ -390,5 +390,5 @@ function Assemble-ByOutline {
 }
 
 if ($MyInvocation.InvocationName -ne '.') {
-  Assemble-ByOutline @Args
+  Invoke-ByOutline @Args
 }
