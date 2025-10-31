@@ -81,33 +81,50 @@ function Normalize-ForFuzzy([string]$s) {
   $s = ($s -replace '\d+', ' ')
   # unify common conjunctions and synonyms to improve matching recall
   $s = ($s -replace '[与及和]', '与')
-  $s = ($s -replace '特性|性质', '特点')
+  $s = ($s -replace '特性|性质|特征', '特点')
   $s = ($s -replace '部署|构建|安装', '搭建')
   $s = ($s -replace '分类', '类型')
   $s = ($s -replace '意义|价值', '重要性')
+  $s = ($s -replace '海量数据', '大数据')
+  $s = ($s -replace '比较', '对比')
   $s = ($s -replace "[\p{P}\p{S}]", ' ')
   $s = Normalize-Whitespace $s
   return $s
 }
 
 function Get-AliasKeys([string]$norm) {
+  # Allow outline headings with numeric prefixes (e.g., "1.1 标题") to trigger aliases
+  $normStripped = ( ($norm -replace '^\s*\d+(?:\.\d+)*\s*', ' ') ).Trim()
   $aliases = @{
+    '大数据的概念与特点'=@('大数据概念与特点','大数据概念','大数据定义','大数据简介','大数据概述','大数据特点','大数据特性');
     '概述'=@('简介','总览','引言');
     '架构设计原则'=@('架构原则','设计原则','架构要点','架构准则');
     '生态系统层次'=@('生态系统层级','生态分层');
     '技术栈及其应用场景'=@('技术栈与应用场景','技术栈应用场景','技术栈和应用场景');
     '测试环境类型与特点'=@('测试环境类型','环境类型与特点','环境类型','类型与特点','测试环境特点');
-    '本地测试环境搭建'=@('本地环境搭建','搭建本地测试环境','本地测试环境部署','本地环境部署');
-    '单机模式搭建'=@('单机模式环境搭建','单机部署','单机模式部署');
-    '伪分布式模式搭建'=@('伪分布式部署','伪分布式环境搭建');
-    '基于 docker 的本地环境'=@('docker 本地环境','docker 环境搭建','基于 docker 的环境');
-    '数据存储重要性'=@('数据存储的重要性','存储重要性');
+    '测试环境类型'=@('测试环境类型与特点','环境类型');
+    '测试环境特点对比'=@('测试环境特点','特点对比','环境类型与特点','类型与特点','测试环境类型与特点');
+    '本地测试环境搭建'=@('本地环境搭建','搭建本地测试环境','本地测试环境部署','本地环境部署','本地测试环境构建','本地测试环境安装');
+  '单机模式搭建'=@('单机模式环境搭建','单机部署','单机模式部署','单机模式安装','单机安装','单机构建','本地测试环境搭建');
+  '伪分布式模式搭建'=@('伪分布式部署','伪分布式环境搭建','伪分布式安装','伪分布式构建','本地测试环境搭建');
+  '基于 docker 的本地环境'=@('docker 本地环境','docker 环境搭建','基于 docker 的环境','基于 docker 的本地测试环境','docker 本地测试环境','docker compose 本地环境','docker 环境准备与配置');
+  '数据存储重要性'=@('数据存储的重要性','存储重要性','数据存储意义','数据存储价值','数据存储作用','数据存储地位','存储的重要性','数据存储测试目标');
     '测试环境需求分析与规划'=@('测试环境需求分析','测试环境规划','环境需求分析与规划');
-    '测试环境需求分析维度'=@('测试环境需求维度','环境需求分析维度','需求分析维度')
+    '测试环境需求分析维度'=@('测试环境需求维度','环境需求分析维度','需求分析维度','需求分析的维度','测试环境类型需求分析');
+    '集群测试环境搭建'=@('集群环境搭建','集群测试环境部署');
+    '硬件配置要求'=@('集群测试环境搭建');
+    '云测试环境配置'=@('云测试环境');
+    '主流云平台对比'=@('云测试环境配置','云测试环境');
+    '数据脱敏技术'=@('数据脱敏技术详解','数据脱敏测试','数据加密与脱敏测试');
+    '数据脱敏验证方法'=@('数据脱敏测试','数据加密与脱敏测试');
+    '敏感数据测试最佳实践'=@('测试数据安全管理最佳实践','敏感数据测试治理');
   }
   $out = New-Object System.Collections.Generic.List[string]
   foreach ($k in $aliases.Keys) {
-    if ($norm -eq (Normalize-Title $k)) {
+    $kNorm = (Normalize-Title $k)
+    if ($norm -eq $kNorm -or $normStripped -eq $kNorm) {
+      # include the key itself as an alias target to allow prefix/equality matches when titles embed extra text
+      $out.Add($kNorm)
       foreach ($v in $aliases[$k]) { $out.Add((Normalize-Title $v)) }
     }
   }
@@ -182,10 +199,20 @@ function Find-Candidate([System.Collections.Generic.List[SectionNode]]$index, [s
   $exact = $index | Where-Object { $_.NormKey -eq $norm -and ($prefLevel -le 0 -or $_.Level -eq $prefLevel) }
   if ($exact) { return @{ mode='exact'; node=$exact[0]; score=1.0 } }
   foreach ($alias in (Get-AliasKeys $norm)) {
-    $hit = $index | Where-Object { $_.NormKey -eq $alias -and ($prefLevel -le 0 -or $_.Level -eq $prefLevel) }
+    $hit = $index | Where-Object {
+      $curr = $_
+      $currNorm = $curr.NormKey
+      $currNoNum = (Normalize-Title ( $curr.Title -replace '^\s*\d+(?:\.\d+)*\s*', ' ' ))
+      (($currNorm -eq $alias) -or ($currNoNum -eq $alias) -or ($currNoNum.StartsWith($alias))) -and ($prefLevel -le 0 -or $curr.Level -eq $prefLevel)
+    }
     if ($hit) { return @{ mode='alias'; node=$hit[0]; score=0.98 } }
     # alias any-level fall back
-    $hitAny = $index | Where-Object { $_.NormKey -eq $alias }
+    $hitAny = $index | Where-Object {
+      $curr = $_
+      $currNorm = $curr.NormKey
+      $currNoNum = (Normalize-Title ( $curr.Title -replace '^\s*\d+(?:\.\d+)*\s*', ' ' ))
+      ($currNorm -eq $alias) -or ($currNoNum -eq $alias) -or ($currNoNum.StartsWith($alias))
+    }
     if ($hitAny) { return @{ mode='alias-any'; node=$hitAny[0]; score=0.96 } }
   }
   $exactAny = $index | Where-Object { $_.NormKey -eq $norm }
@@ -197,8 +224,8 @@ function Find-Candidate([System.Collections.Generic.List[SectionNode]]$index, [s
     if ($prefLevel -gt 0 -and $n.Level -eq $prefLevel) { $s = [Math]::Min(1.0, $s + 0.03) }
     if ($s -gt $bestScore) { $bestScore=$s; $best=$n }
   }
-  # slightly relax thresholds to recover borderline matches
-  $threshold = if ($prefLevel -le 2) { 0.62 } elseif ($prefLevel -eq 3) { 0.66 } else { 0.70 }
+  # slightly relax thresholds to recover borderline matches (deeper levels can be a bit looser)
+  $threshold = if ($prefLevel -le 2) { 0.62 } elseif ($prefLevel -eq 3) { 0.66 } elseif ($prefLevel -eq 4) { 0.70 } else { 0.66 }
   if ($best -and $bestScore -ge $threshold) { return @{ mode='fuzzy'; node=$best; score=$bestScore } }
   return $null
 }
