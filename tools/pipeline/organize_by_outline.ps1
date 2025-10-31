@@ -314,7 +314,7 @@ function Find-Candidate([System.Collections.Generic.List[SectionNode]]$index, [s
     if ($s -gt $bestScore) { $bestScore=$s; $best=$n }
   }
   # slightly relax thresholds to recover borderline matches (deeper levels can be a bit looser)
-  $threshold = if ($prefLevel -le 2) { 0.62 } elseif ($prefLevel -eq 3) { 0.66 } elseif ($prefLevel -eq 4) { 0.70 } else { 0.66 }
+  $threshold = if ($prefLevel -le 2) { 0.62 } elseif ($prefLevel -eq 3) { 0.66 } elseif ($prefLevel -eq 4) { 0.70 } else { 0.68 }
   if ($best -and $bestScore -ge $threshold) { return @{ mode='fuzzy'; node=$best; score=$bestScore } }
   return $null
 }
