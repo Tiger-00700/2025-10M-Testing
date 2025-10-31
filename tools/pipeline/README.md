@@ -33,6 +33,32 @@ pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File "tools/tmp/report_missing.
 
 Outputs are timestamped in `tools/reports/`.
 
+## Post-run utilities
+
+3. Update stable "latest" links
+
+Use this after a successful run to refresh stable pointers used by the root README:
+
+```powershell
+pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File "tools/pipeline/update_latest.ps1"
+```
+
+This writes/refreshes:
+
+- `tools/reports/organized-latest.md`
+- `tools/reports/organize-log-latest.md`
+- `tools/reports/toc-latest.txt`
+
+4. Generate a quality summary
+
+Produces a compact distribution of match modes and heading levels for the most recent run:
+
+```powershell
+pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File "tools/tmp/report_quality.ps1"
+```
+
+The report is saved as `tools/reports/quality-<ts>.md`. In CI, the newest file may also be copied to `tools/reports/quality-latest.md` for convenience.
+
 ## Matching strategy
 
 - Normalization:
