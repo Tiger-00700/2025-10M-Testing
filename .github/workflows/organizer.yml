@@ -23,6 +23,16 @@ jobs:
         run: |
           pwsh -NoLogo -NoProfile -File "tools/pipeline/update_latest.ps1"
 
+      - name: Augment book with examples and scripts
+        shell: pwsh
+        run: |
+          pwsh -NoLogo -NoProfile -File "tools/pipeline/augment_book.ps1"
+
+      - name: Generate appendix drafts
+        shell: pwsh
+        run: |
+          pwsh -NoLogo -NoProfile -File "tools/pipeline/generate_appendices.ps1"
+
       - name: Generate quality report
         shell: pwsh
         run: |
@@ -31,6 +41,11 @@ jobs:
           $reportDir = "tools/reports"
           $q = Get-ChildItem -Path $reportDir -Filter 'quality-*.md' -File | Sort-Object Name | Select-Object -Last 1
           if ($q) { Copy-Item -LiteralPath $q.FullName -Destination (Join-Path $reportDir 'quality-latest.md') -Force }
+
+      - name: Markdown checks (links/images/code fences)
+        shell: pwsh
+        run: |
+          pwsh -NoLogo -NoProfile -File "tools/pipeline/check_markdown.ps1"
 
       - name: Fail if Missing > 0
         shell: pwsh
@@ -53,3 +68,7 @@ jobs:
           name: reports
           path: |
             tools/reports/**
+            book/附录-图表目录.md
+            book/附录-代码清单.md
+            book/附录-脚本索引.md
+            book/1022.2025.newbook.augmented.md
