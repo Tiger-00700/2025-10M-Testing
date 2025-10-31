@@ -79,6 +79,12 @@ function Normalize-ForFuzzy([string]$s) {
   # drop numbering like 9, 9.1, 4.1.1 and other digits to improve title-only similarity
   $s = ($s -replace '^\s*\d+(?:\.\d+)*\s*', ' ')
   $s = ($s -replace '\d+', ' ')
+  # unify common conjunctions and synonyms to improve matching recall
+  $s = ($s -replace '[与及和]', '与')
+  $s = ($s -replace '特性|性质', '特点')
+  $s = ($s -replace '部署|构建|安装', '搭建')
+  $s = ($s -replace '分类', '类型')
+  $s = ($s -replace '意义|价值', '重要性')
   $s = ($s -replace "[\p{P}\p{S}]", ' ')
   $s = Normalize-Whitespace $s
   return $s
