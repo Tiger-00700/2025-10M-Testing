@@ -1,0 +1,55 @@
+name: Organizer Pipeline
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch: {}
+
+jobs:
+  organize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run organizer
+        shell: pwsh
+        run: |
+          pwsh -NoLogo -NoProfile -File "tools/pipeline/organize_by_outline.ps1"
+
+      - name: Update latest pointers
+        shell: pwsh
+        run: |
+          pwsh -NoLogo -NoProfile -File "tools/pipeline/update_latest.ps1"
+
+      - name: Generate quality report
+        shell: pwsh
+        run: |
+          pwsh -NoLogo -NoProfile -File "tools/tmp/report_quality.ps1"
+          # Copy newest quality report to a stable latest alias for convenience
+          $reportDir = "tools/reports"
+          $q = Get-ChildItem -Path $reportDir -Filter 'quality-*.md' -File | Sort-Object Name | Select-Object -Last 1
+          if ($q) { Copy-Item -LiteralPath $q.FullName -Destination (Join-Path $reportDir 'quality-latest.md') -Force }
+
+      - name: Fail if Missing > 0
+        shell: pwsh
+        run: |
+          $log = Get-Content "tools/reports/organize-log-latest.md" -Raw
+          if ($log -match 'Missing\s*[:=]\s*(\d+)') {
+            $m = [int]$Matches[1]
+            Write-Host ("Detected Missing={0}" -f $m)
+            if ($m -gt 0) {
+              Write-Error ("Missing > 0: {0}" -f $m)
+              exit 1
+            }
+          } else {
+            Write-Warning 'Could not find Missing count in organize-log-latest.md'
+          }
+
+      - name: Upload reports artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            tools/reports/**
