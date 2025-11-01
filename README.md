@@ -1,14 +1,46 @@
 # 2025-10M-Testing
 
-## Latest assembled manuscript
+## Canonical manuscript and generated outputs
 
-The editorial pipeline outputs are timestamped under `tools/reports/`.
-For stable links, use the "latest" pointers:
+- Canonical source: `book/1022.2025.newbook.md`
+- Generated during local build:
+	- Augmented book: `book/1022.2025.newbook.augmented.md`
+	- Appendices: `book/附录-图表目录.md`, `book/附录-代码清单.md`, `book/附录-脚本索引.md`
 
-- Organized manuscript: [`tools/reports/organized-latest.md`](tools/reports/organized-latest.md)
-- Run log (Missing summary): [`tools/reports/organize-log-latest.md`](tools/reports/organize-log-latest.md)
-- TOC snapshot: [`tools/reports/toc-latest.txt`](tools/reports/toc-latest.txt)
+All build logs and QA reports are timestamped under `tools/reports/`.
 
-## Pipeline usage
+## Archive pattern for legacy chapter files
 
-See `tools/pipeline/README.md` for how to run the organizer and the Missing report.
+All files under `chapter/` follow a minimal, standardized archive pattern:
+
+1) Place `<!-- markdownlint-disable MD025 -->` at the very top (suppresses “multiple top-level headings”).
+2) Keep a short navigation stub that points readers to the canonical book above.
+3) Wrap the legacy content in a single block (e.g., `<!-- archived-content:begin --> … <!-- archived-content:end -->`).
+
+Our CI verifies this; non-compliance will fail the build (see “CI validations” below).
+
+## CI validations (enforced on PRs/branches)
+
+Two fast checks run in CI and can be executed locally:
+
+- Referenced assets inventory: `tools/inventory_referenced_assets.py`
+	- Reads `book/1022.2025.newbook.md` and verifies that all referenced items under `examples/` and `appendix/` exist.
+	- Fails the build if any referenced asset is missing.
+	- Writes a report under `tools/reports/inventory-assets-*.md`.
+
+- Archive compliance scan: `tools/inventory_archive_status.py`
+	- Ensures each `chapter/*.md` has the MD025 suppression at file top and exactly one archived-content block.
+	- Fails the build if any file is non-compliant.
+	- Writes a report under `tools/reports/archive-status-*.md`.
+
+Both scripts exit non-zero on failure so CI can gate merges. Unused assets are reported but do not fail the build.
+
+## Local build and tooling
+
+- Build orchestrator (PowerShell): `tools/pipeline/build_all.ps1`
+	- Produces the augmented book, appendices, quality report, and runs markdown checks.
+- Validator scripts and how-to: see `tools/README.md` for quick local run snippets on Windows PowerShell.
+
+## More details
+
+See `tools/pipeline/README.md` for organizer details and `tools/README.md` for validation scripts and troubleshooting.
