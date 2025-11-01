@@ -13,6 +13,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
       - name: Build (newbook-only)
         shell: pwsh
         env:
@@ -31,22 +36,6 @@ jobs:
         run: |
           pwsh -NoLogo -NoProfile -File "tools/pipeline/build_all.ps1" -SkipOrganize
 
-      - name: Upload reports artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: reports
-          path: |
-            tools/reports/**
-            book/附录-图表目录.md
-            book/附录-代码清单.md
-            book/附录-脚本索引.md
-            book/1022.2025.newbook.augmented.md
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
       - name: Run assets reference inventory
         run: |
           python tools/inventory_referenced_assets.py
@@ -58,3 +47,14 @@ jobs:
       - name: Run chapter alignment & link validator
         run: |
           python tools/validate_chapters_against_book.py
+
+      - name: Upload reports artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            tools/reports/**
+            book/附录-图表目录.md
+            book/附录-代码清单.md
+            book/附录-脚本索引.md
+            book/1022.2025.newbook.augmented.md
