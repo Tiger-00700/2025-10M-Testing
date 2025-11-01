@@ -6,6 +6,7 @@
 - 直接阅读：book/1022.2025.newbook.md
 - 增强版（包含示例与脚本嵌入）：book/1022.2025.newbook.augmented.md
 
+<!-- archived-content:begin -->
 <!--
 archived-content:start
 [NOTE] 该区块为历史内容的注释归档，避免与新书重复呈现；如需查看，请在编辑器中展开注释。
@@ -233,4 +234,5 @@ archived-content:start
 3. **知识共享**：促进团队成员之间的知识交流
 
 4. **持续改进**：不断优化测试流程和方法
+<!-- archived-content:end -->
 <!-- archived-content:end -->
