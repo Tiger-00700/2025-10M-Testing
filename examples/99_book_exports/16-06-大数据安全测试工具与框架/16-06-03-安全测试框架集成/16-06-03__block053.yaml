@@ -1,0 +1,53 @@
+# Jenkins安全测试流水线示例
+pipeline {
+    agent any
+
+    stages {
+        stage('代码检出') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('依赖检查') {
+            steps {
+                sh 'dependency-check --project "BigDataApp" --scan "." --format "ALL" --out "reports/dependency-check"
+            }
+        }
+
+        stage('静态代码分析') {
+            steps {
+                sh 'sonar-scanner -Dsonar.projectKey=BigDataApp -Dsonar.sources=. -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=$SONAR_TOKEN'
+            }
+        }
+
+        stage('容器镜像扫描') {
+            steps {
+                sh 'docker build -t bigdata-app:latest .'
+                sh 'trivy image --severity HIGH,CRITICAL --exit-code 1 bigdata-app:latest || true'
+            }
+        }
+
+        stage('动态安全测试') {
+            steps {
+                // 假设应用已在测试环境启动
+                sh 'zap-cli quick-scan --self-contained --start-options "-config api.disablekey=true" http://test-app:8080 > reports/zap-report.html'
+            }
+        }
+
+        stage('合规性检查') {
+            steps {
+                sh 'inspec exec compliance-profile --reporter html:reports/compliance.html'
+            }
+        }
+    }
+
+    post {
+        always {
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'reports', reportFiles: 'dependency-check-report.html,zap-report.html,compliance.html', reportName: '安全测试报告'])
+        }
+        failure {
+            mail to: 'security-team@example.com', subject: '安全测试失败', body: '构建 ${env.BUILD_NUMBER} 的安全测试失败，请查看报告。'
+        }
+    }
+}

@@ -1,0 +1,28 @@
+# 创建异常检测作业 - 处理延迟异常检测
+POST _ml/anomaly_detectors/bigdata-latency-detector
+{
+  "description": "大数据处理延迟异常检测",
+  "analysis_config": {
+    "bucket_span": "5m",
+    "detectors": [
+      {
+        "function": "metric",
+        "field_name": "processing_time_ms",
+        "by_field_name": "pipeline",
+        "detector_description": "检测各流水线处理延迟异常"
+      }
+    ],
+    "influencers": ["pipeline", "stage", "environment"]
+  },
+  "data_description": {
+    "time_field": "@timestamp"
+  },
+  "datafeed_config": {
+    "indices": ["bigdata-logs-*"],
+    "query": {
+      "match": {
+        "source_type": "data_pipeline"
+      }
+    }
+  }
+}

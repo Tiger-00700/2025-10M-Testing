@@ -1,0 +1,53 @@
+# 1. 高级错误分析 - 按组件和错误类型分组
+level:ERROR OR level:CRITICAL
+| stats count() as error_count,
+       values(error.type) as error_types,
+       avg(processing_time_ms) as avg_processing_time
+       by component, pipeline, stage
+| sort error_count desc
+
+# 2. 异常检测查询 - 识别异常延迟模式
+pipeline:*
+| where processing_time_ms > 0
+| stats avg(processing_time_ms) as avg_latency,
+       stddev(processing_time_ms) as stddev_latency,
+       percentiles(processing_time_ms, 95) as p95_latency
+       by pipeline, stage, kubernetes.pod_name
+| eval threshold = avg_latency + (3 * stddev_latency)
+| where p95_latency > threshold
+
+# 3. 多维度数据质量分析
+pipeline:*
+| stats avg(data_quality) as avg_quality,
+       min(data_quality) as min_quality,
+       max(data_quality) as max_quality
+       by pipeline, stage, environment, date_format(@timestamp, "yyyy-MM-dd")
+| where avg_quality < 0.95
+| sort min_quality asc
+
+# 4. 资源使用关联分析
+kubernetes.pod_name:*
+| stats avg(cpu_usage_percent) as avg_cpu,
+       max(memory_usage_bytes) as max_memory,
+       avg(processing_time_ms) as avg_latency
+       by kubernetes.pod_name, kubernetes.node_name
+| where avg_cpu > 75 or max_memory > 4000000000
+
+# 5. 分布式追踪分析
+pipeline:* AND trace_id:*
+| where @timestamp > now()-1h
+| stats count() as event_count,
+       min(@timestamp) as start_time,
+       max(@timestamp) as end_time,
+       values(event_type) as event_types
+       by trace_id, pipeline
+| eval duration_ms = (end_time - start_time) / 1000000
+| sort duration_ms desc
+
+# 6. 按时间段的错误率趋势 - 高级时间分析
+level:ERROR
+| timechart span=15m
+       count() as error_count,
+       count(if(level="ERROR", 1, null)) / count() * 100 as error_percentage
+       by pipeline, environment
+| where error_percentage > 5

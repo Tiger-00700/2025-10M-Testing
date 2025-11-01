@@ -87,6 +87,28 @@ if (-not $SkipOrganize) {
 }
 
 if (-not $SkipAugment) {
+  Invoke-Step -Name 'Export book code to examples & links variant' -Action {
+    & python "tools/export_book_code_to_examples.py"
+  }
+
+  # Post-process the links-only book to clean invalid appendix links and
+  # convert plain-text script mentions into valid examples/ links
+  Invoke-Step -Name 'Fix invalid appendix links in links book' -Action {
+    & python "tools/fix_invalid_links_in_links_book.py"
+  }
+
+  Invoke-Step -Name 'Link script mentions to examples' -Action {
+    & python "tools/link_scripts_to_examples.py"
+  }
+
+  Invoke-Step -Name 'Migrate placeholders to semantic examples' -Action {
+    & python "tools/migrate_migrated_placeholders_to_semantic.py"
+  }
+
+  Invoke-Step -Name 'Organize examples into part directories' -Action {
+    & python "tools/migrate_examples_to_part_dirs.py"
+  }
+
   Invoke-Step -Name 'Augment newbook' -Action {
     Invoke-PwshFile -Path (Join-Path $repoRoot 'tools/pipeline/augment_book.ps1')
   }

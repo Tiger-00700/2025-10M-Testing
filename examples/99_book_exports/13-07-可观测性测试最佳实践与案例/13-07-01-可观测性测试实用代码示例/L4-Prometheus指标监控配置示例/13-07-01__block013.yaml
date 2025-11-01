@@ -1,0 +1,38 @@
+# Prometheus配置示例 - prometheus.yml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+
+  - 'alert_rules.yml'
+
+scrape_configs:
+
+  - job_name: 'hadoop'
+
+    static_configs:
+
+      - targets: ['namenode:9100', 'datanode:9100']
+
+    metrics_path: '/metrics'
+
+  - job_name: 'spark'
+
+    static_configs:
+
+      - targets: ['spark-master:8080', 'spark-worker:8081']
+
+    metrics_path: '/metrics/executors'
+
+  - job_name: 'kafka'
+
+    static_configs:
+
+      - targets: ['kafka:9308']
+
+  - job_name: 'flink'
+
+    static_configs:
+
+      - targets: ['flink-jobmanager:9249']

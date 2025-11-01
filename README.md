@@ -4,8 +4,10 @@
 
 - Canonical source: `book/1022.2025.newbook.md`
 - Generated during local build:
+	- Links-only book (inline code → links): `book/1022.2025.newbook.links.md`
 	- Augmented book: `book/1022.2025.newbook.augmented.md`
 	- Appendices: `book/附录-图表目录.md`, `book/附录-代码清单.md`, `book/附录-脚本索引.md`
+	- Exported scripts from book: `examples/99_book_exports/newbook__blockNN.*`
 
 All build logs and QA reports are timestamped under `tools/reports/`.
 
@@ -39,6 +41,7 @@ Both scripts exit non-zero on failure so CI can gate merges. Unused assets are r
 
 - Build orchestrator (PowerShell): `tools/pipeline/build_all.ps1`
 	- Produces the augmented book, appendices, quality report, and runs markdown checks.
+	- Also exports fenced code blocks from the canonical book into `examples/99_book_exports/` and generates the links-only variant.
 - Validator scripts and how-to: see `tools/README.md` for quick local run snippets on Windows PowerShell.
 
 ## More details

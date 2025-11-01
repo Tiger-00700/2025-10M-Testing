@@ -5,11 +5,16 @@ $ErrorActionPreference = 'Stop'
 # Paths
 $repoRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSCommandPath))
 $bookPath = Join-Path $repoRoot 'book/1022.2025.newbook.md'
+$linksPath = Join-Path $repoRoot 'book/1022.2025.newbook.links.md'
 $organizedLatest = Join-Path $repoRoot 'tools/reports/organized-latest.md'
 $examplesDir = Join-Path $repoRoot 'examples'
 $appendixDir = Join-Path $repoRoot 'appendix'
 $outPath = Join-Path $repoRoot 'book/1022.2025.newbook.augmented.md'
 
+if (Test-Path $linksPath) {
+  Write-Host ("Using links-only book: {0}" -f ($linksPath.Replace($repoRoot + [IO.Path]::DirectorySeparatorChar, ''))) -ForegroundColor DarkGray
+  $bookPath = $linksPath
+}
 if (-not (Test-Path $bookPath)) { throw "Book not found: $bookPath" }
 if (-not (Test-Path $organizedLatest)) { throw "Organized latest not found: $organizedLatest (run organizer first)" }
 

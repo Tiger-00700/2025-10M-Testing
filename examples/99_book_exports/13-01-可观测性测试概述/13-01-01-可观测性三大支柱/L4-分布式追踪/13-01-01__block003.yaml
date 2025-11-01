@@ -1,0 +1,224 @@
+# OpenTelemetry Collector高级配置示例 - collector-config.yaml
+receivers:
+  # OTLP接收器配置
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+        # 大数据环境优化参数
+        max_recv_msg_size_mib: 16
+        read_buffer_size: 65536
+      http:
+        endpoint: 0.0.0.0:4318
+        # 配置批处理和压缩
+        cors:
+          allowed_origins:
+
+            - "*"
+
+  # 直接从文件系统读取日志（可选）
+  filelog:
+    include:
+
+      - /var/log/hadoop/*.log
+
+      - /var/log/spark/*.log
+
+    start_at: beginning
+
+# 处理器配置
+exporters:
+  # Jaeger导出器
+  jaeger:
+    endpoint: jaeger-collector:14250
+    tls:
+      insecure: true
+    # 配置重试策略
+    retry_on_failure:
+      enabled: true
+      initial_interval: 5s
+      max_interval: 30s
+      max_elapsed_time: 10m
+
+  # Elasticsearch导出器（用于长期存储和高级分析）
+  elasticsearch:
+    endpoints:
+
+      - https://elasticsearch:9200
+
+    index: "traces-%{+2006.01.02}"
+    # 认证配置
+    auth:
+      username: ${ES_USERNAME}
+      password: ${ES_PASSWORD}
+    # 批处理配置
+    bulk_size: 5000
+    flush_interval: 10s
+
+  # Zipkin导出器（兼容模式）
+  zipkin:
+    endpoint: "http://zipkin:9411/api/v2/spans"
+
+  # 日志导出器
+  logging:
+    loglevel: info
+    sampling_initial: 10
+    sampling_thereafter: 100
+
+processors:
+  # 批处理处理器（减少网络调用和开销）
+  batch:
+    timeout: 1s
+    send_batch_size: 1024
+    send_batch_max_size: 2048
+
+  # 内存限制处理器（防止OOM）
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 1000
+    spike_limit_mib: 200
+
+  # 属性处理器（添加/修改/删除属性）
+  attributes:
+    actions:
+
+      - key: environment
+
+        action: upsert
+        value: production
+
+      - key: cluster
+
+        action: upsert
+        value: data-lake-cluster-1
+
+      - key: sensitive_data
+
+        action: delete
+
+  # 资源处理器（修改资源属性）
+  resource:
+    attributes:
+
+      - key: deployment.environment
+
+        action: upsert
+        value: production
+
+  # 先进的采样配置
+  probabilistic_sampler:
+    hash_seed: 22
+    sampling_percentage: 5.0  # 默认5%采样率，大数据环境降低采样率
+
+  # 尾部采样（智能采样策略）
+  tail_sampling:
+    decision_wait: 10s
+    num_traces: 10000
+    expected_new_traces_per_sec: 2000
+    policies:
+      # 1. 错误优先采样 - 100%采样包含错误的追踪
+
+      - name: error_policy
+
+        type: status_code
+        status_code:
+          status_codes: [ERROR]
+
+      # 2. 高延迟采样 - 采样处理时间超过2秒的追踪
+
+      - name: latency_policy
+
+        type: latency
+        latency:
+          threshold_ms: 2000
+          decision_wait: 5s
+
+      # 3. 关键服务采样 - 对关键服务提高采样率
+
+      - name: critical_service_policy
+
+        type: string_attribute
+        string_attribute:
+          key: service.name
+          values:
+
+            - "data-ingestion-service"
+
+            - "data-quality-service"
+
+          enabled_regex_matching: true
+
+      # 4. 特定操作采样 - 对关键操作提高采样率
+
+      - name: critical_operation_policy
+
+        type: string_attribute
+        string_attribute:
+          key: operation.name
+          values:
+
+            - "pipeline_execution"
+
+            - "data_loading"
+
+          enabled_regex_matching: true
+
+      # 5. 速率限制采样 - 确保系统负载可控
+
+      - name: rate_limit_policy
+
+        type: rate_limiting
+        rate_limiting:
+          spans_per_second: 50
+
+  # 追踪缩减处理器（减少数据量）
+  spanprocessor:
+    include_all_attributes: false
+    include_all_events: false
+    include_all_links: false
+    attributes:
+      actions:
+
+        - key: user_id
+
+          action: hash
+
+        - key: ip_address
+
+          action: hash
+
+# 针对不同信号的服务管道配置
+service:
+  pipelines:
+    # 追踪管道
+    traces:
+      receivers: [otlp]
+      processors:
+
+        - memory_limiter
+
+        - attributes
+
+        - resource
+
+        - probabilistic_sampler
+
+        - tail_sampling
+
+        - spanprocessor
+
+        - batch
+
+      exporters: [jaeger, elasticsearch]
+
+    # 指标管道
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter, attributes, resource, batch]
+      exporters: [prometheus, logging]
+
+    # 日志管道
+    logs:
+      receivers: [otlp, filelog]
+      processors: [memory_limiter, attributes, resource, batch]
+      exporters: [elasticsearch, logging]
