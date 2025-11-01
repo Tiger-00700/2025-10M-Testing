@@ -54,3 +54,7 @@ jobs:
       - name: Run archive compliance check
         run: |
           python tools/inventory_archive_status.py
+
+      - name: Run chapter alignment & link validator
+        run: |
+          python tools/validate_chapters_against_book.py
