@@ -41,3 +41,16 @@ jobs:
             book/附录-代码清单.md
             book/附录-脚本索引.md
             book/1022.2025.newbook.augmented.md
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run assets reference inventory
+        run: |
+          python tools/inventory_referenced_assets.py
+
+      - name: Run archive compliance check
+        run: |
+          python tools/inventory_archive_status.py

@@ -149,6 +149,10 @@ def main() -> int:
     out.write_text('\n'.join(lines), encoding='utf-8')
     print(f"Report written: {out}")
     print(f"References: {len(refs)}, Present: {len(referenced_present)}, Missing: {len(referenced_missing)}, Unused: {len(unused_existing)}")
+    # Fail CI if any referenced assets are missing
+    if len(referenced_missing) > 0:
+        print("ERROR: Referenced assets missing. See report above.", file=sys.stderr)
+        return 2
     return 0
 
 
