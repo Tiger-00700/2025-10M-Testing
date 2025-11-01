@@ -1,3 +1,10 @@
+# 第6篇-第19章-CI_CD、GitOps与运维治理【专家】
+
+> 本章内容以《book/1022.2025.newbook.md》为准，请阅读对应章节（此目录仅保留导航指引以避免内容冗余）。
+
+- 直接阅读：book/1022.2025.newbook.md
+- 增强版（包含示例与脚本嵌入）：book/1022.2025.newbook.augmented.md
+
 ### 第19章 CI/CD、GitOps与运维治理【专家】 <!--
 
 scope-note-start --> 本章范围说明：
