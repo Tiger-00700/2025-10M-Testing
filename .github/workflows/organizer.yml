@@ -42,6 +42,11 @@ jobs:
           $q = Get-ChildItem -Path $reportDir -Filter 'quality-*.md' -File | Sort-Object Name | Select-Object -Last 1
           if ($q) { Copy-Item -LiteralPath $q.FullName -Destination (Join-Path $reportDir 'quality-latest.md') -Force }
 
+      - name: Fix appendix links in organized-latest
+        shell: pwsh
+        run: |
+          pwsh -NoLogo -NoProfile -File "tools/pipeline/fix_links_in_reports.ps1"
+
       - name: Markdown checks (links/images/code fences)
         shell: pwsh
         run: |

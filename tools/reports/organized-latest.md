@@ -1,4 +1,4 @@
-﻿## 第一篇 大数据测试基础【入门】
+## 第一篇 大数据测试基础【入门】
 
 ## 第1章 大数据测试概述【入门】
 
@@ -3553,12 +3553,12 @@
 
 以下是使用 Docker Compose 编排 Hadoop 伪分布式环境的示例代码：
 
-[脚本：3-9__block1.yml](..\appendix\3-9__block1.yml)
+[脚本：3-9__block1.yml](../../appendix/3-9__block1.yml)
 #### 9.3.3.4 Python 自动化部署脚本
 
 下面是一个用于自动化部署和验证基于 Docker 的大数据测试环境的 Python 脚本：
 
-[脚本：3-9__block2.py](..\appendix\3-9__block2.py)
+[脚本：3-9__block2.py](../../appendix/3-9__block2.py)
 #### 9.3.3.5 数据持久化与管理
 
 - **Docker 数据卷**：使用命名数据卷存储 HDFS 数据，确保容器重启后数据不丢失
@@ -4657,7 +4657,7 @@
 
 #### 10.3.2.2 系统组件关系
 
-[脚本：3-10__block1.txt](..\appendix\3-10__block1.txt)
+[脚本：3-10__block1.txt](../../appendix/3-10__block1.txt)
 #### 10.3.2.3 数据流与交互模式
 
 - **请求处理流程**：用户请求通过接口层接收，经过认证授权后分发到相应服务处理
@@ -4674,7 +4674,7 @@
 
 下面是一个使用Python实现的简化版测试数据管理平台核心组件示例：
 
-[脚本：3-10__block2.py](..\appendix\3-10__block2.py)
+[脚本：3-10__block2.py](../../appendix/3-10__block2.py)
 #### 10.3.3.1 核心功能解析
 
 - **TestDataMetadata类**：管理测试数据的元数据信息，包括基本属性、版本历史和标签等
@@ -4942,7 +4942,7 @@
 
 下面是一个使用Python实现的测试数据安全管理系统示例，包含访问控制、加密和审计功能：
 
-[脚本：3-10__block3.py](..\appendix\3-10__block3.py)
+[脚本：3-10__block3.py](../../appendix/3-10__block3.py)
 
 #### 10.4.3 核心安全功能实现
 
@@ -5750,7 +5750,7 @@
 
 下面是一个使用Python实现的敏感数据保护测试框架，包含数据识别、脱敏和验证功能：
 
-[脚本：3-10__block4.py](..\appendix\3-10__block4.py)
+[脚本：3-10__block4.py](../../appendix/3-10__block4.py)
 #### 10.5.3.1 敏感数据识别引擎架构
 
 **SensitiveDataIdentifier类**是敏感数据保护的第一道防线，负责准确识别各类敏感信息：
@@ -6592,7 +6592,7 @@
 
 #### 11.2.2.2 组件化架构
 
-[脚本：4__block1.txt](..\appendix\4__block1.txt)
+[脚本：4__block1.txt](../../appendix/4__block1.txt)
 
 #### 11.2.2.3 事件驱动架构
 
@@ -6608,19 +6608,19 @@
 
 用于创建不同类型的测试执行器和报告生成器：
 
-[脚本：4__block2.py](..\appendix\4__block2.py)
+[脚本：4__block2.py](../../appendix/4__block2.py)
 
 #### 11.2.3.2 策略模式
 
 用于实现不同的数据验证策略：
 
-[脚本：4__block3.py](..\appendix\4__block3.py)
+[脚本：4__block3.py](../../appendix/4__block3.py)
 
 #### 11.2.3.3 观察者模式
 
 用于测试执行过程中的事件通知：
 
-[脚本：4__block4.py](..\appendix\4__block4.py)
+[脚本：4__block4.py](../../appendix/4__block4.py)
 
 
 ##### 概述
@@ -6809,7 +6809,7 @@
 
 #### 11.2.2.2 组件化架构
 
-[脚本：4__block1.txt](..\appendix\4__block1.txt)
+[脚本：4__block1.txt](../../appendix/4__block1.txt)
 
 #### 11.2.2.3 事件驱动架构
 
@@ -6825,19 +6825,19 @@
 
 用于创建不同类型的测试执行器和报告生成器：
 
-[脚本：4__block2.py](..\appendix\4__block2.py)
+[脚本：4__block2.py](../../appendix/4__block2.py)
 
 #### 11.2.3.2 策略模式
 
 用于实现不同的数据验证策略：
 
-[脚本：4__block3.py](..\appendix\4__block3.py)
+[脚本：4__block3.py](../../appendix/4__block3.py)
 
 #### 11.2.3.3 观察者模式
 
 用于测试执行过程中的事件通知：
 
-[脚本：4__block4.py](..\appendix\4__block4.py)
+[脚本：4__block4.py](../../appendix/4__block4.py)
 
 
 ##### 数据流架构
@@ -6882,7 +6882,7 @@
 
 #### 11.2.2.2 组件化架构
 
-[脚本：4__block1.txt](..\appendix\4__block1.txt)
+[脚本：4__block1.txt](../../appendix/4__block1.txt)
 
 #### 11.2.2.3 事件驱动架构
 
@@ -6898,19 +6898,19 @@
 
 用于创建不同类型的测试执行器和报告生成器：
 
-[脚本：4__block2.py](..\appendix\4__block2.py)
+[脚本：4__block2.py](../../appendix/4__block2.py)
 
 #### 11.2.3.2 策略模式
 
 用于实现不同的数据验证策略：
 
-[脚本：4__block3.py](..\appendix\4__block3.py)
+[脚本：4__block3.py](../../appendix/4__block3.py)
 
 #### 11.2.3.3 观察者模式
 
 用于测试执行过程中的事件通知：
 
-[脚本：4__block4.py](..\appendix\4__block4.py)
+[脚本：4__block4.py](../../appendix/4__block4.py)
 
 
 ##### 安全架构设计
@@ -6952,17 +6952,17 @@
 
 #### 11.3.1.2 分布式执行支持
 
-[脚本：4__block5.py](..\appendix\4__block5.py)
+[脚本：4__block5.py](../../appendix/4__block5.py)
 
 #### 11.3.1.3 智能重试机制
 
-[脚本：4__block6.py](..\appendix\4__block6.py)
+[脚本：4__block6.py](../../appendix/4__block6.py)
 
 ### 11.3.2 测试数据管理组件
 
 #### 11.3.2.1 数据生成器
 
-[脚本：4__block7.py](..\appendix\4__block7.py)
+[脚本：4__block7.py](../../appendix/4__block7.py)
 
 #### 11.3.2.2 数据版本控制
 
@@ -6974,13 +6974,13 @@
 
 #### 11.3.2.3 数据清理与恢复
 
-[脚本：4__block8.py](..\appendix\4__block8.py)
+[脚本：4__block8.py](../../appendix/4__block8.py)
 
 ### 11.3.3 结果分析与报告组件
 
 #### 11.3.3.1 测试结果分析器
 
-[脚本：4__block9.py](..\appendix\4__block9.py)
+[脚本：4__block9.py](../../appendix/4__block9.py)
 
 #### 11.3.3.2 报告生成器
 
@@ -7017,14 +7017,14 @@
 
 #### 11.3.1.2 PyTest框架示例
 
-[脚本：4-11__block5.py](..\appendix\4-11__block5.py)
+[脚本：4-11__block5.py](../../appendix/4-11__block5.py)
 
 
 ##### 测试数据管理组件
 
 #### 11.3.2.1 数据生成器
 
-[脚本：4__block7.py](..\appendix\4__block7.py)
+[脚本：4__block7.py](../../appendix/4__block7.py)
 
 #### 11.3.2.2 数据版本控制
 
@@ -7036,7 +7036,7 @@
 
 #### 11.3.2.3 数据清理与恢复
 
-[脚本：4__block8.py](..\appendix\4__block8.py)
+[脚本：4__block8.py](../../appendix/4__block8.py)
 
 
 ##### 测试执行管理组件
@@ -7079,7 +7079,7 @@
 
 #### 11.3.3.2 并行执行管理器实现示例
 
-[脚本：4-11__block7.py](..\appendix\4-11__block7.py)
+[脚本：4-11__block7.py](../../appendix/4-11__block7.py)
 
 
 ##### 结果收集与分析组件
@@ -7122,7 +7122,7 @@
 
 #### 11.3.4.2 报告生成器实现示例
 
-[脚本：4-11__block8.py](..\appendix\4-11__block8.py)
+[脚本：4-11__block8.py](../../appendix/4-11__block8.py)
 
 
 ##### CI/CD 集成组件
@@ -7165,7 +7165,7 @@ CI/CD 集成组件负责与持续集成和持续部署系统的集成。主要�
 
 #### 11.3.5.2 Jenkins Pipeline集成示例
 
-[脚本：4-11__block9.groovy](..\appendix\4-11__block9.groovy)
+[脚本：4-11__block9.groovy](../../appendix/4-11__block9.groovy)
 
 
 #### 11.4 测试自动化技术选型
@@ -7268,7 +7268,7 @@ CI/CD 集成组件负责与持续集成和持续部署系统的集成。主要�
 
 #### 11.4.4.1 框架选择决策矩阵
 
-[脚本：4-11__block10.txt](..\appendix\4-11__block10.txt)
+[脚本：4-11__block10.txt](../../appendix/4-11__block10.txt)
 
 ### 11.4.5 基础设施与云服务选择
 
@@ -7615,7 +7615,7 @@ Apache NiFi提供了强大的测试框架，用于验证数据流程(Pipeline)�
 
 #### 12.1.1.3 使用示例
 
-[脚本：4__block11.java](..\appendix\4__block11.java)
+[脚本：4__block11.java](../../appendix/4__block11.java)
 
 #### 12.1.1.4 高级测试技巧
 
@@ -7641,11 +7641,11 @@ Apache Beam提供了专门的测试工具，支持批处理和流处理的单元
 
 #### 12.1.2.3 批处理测试示例
 
-[脚本：4__block12.java](..\appendix\4__block12.java)
+[脚本：4__block12.java](../../appendix/4__block12.java)
 
 #### 12.1.2.4 流处理测试示例
 
-[脚本：4__block13.java](..\appendix\4__block13.java)
+[脚本：4__block13.java](../../appendix/4__block13.java)
 
 ### 12.1.3 Spark测试工具
 
@@ -7663,11 +7663,11 @@ Spark Testing Base是一个为Spark应用提供测试支持的库，简化了Spa
 
 #### 12.1.3.3 使用示例
 
-[脚本：4__block14.scala](..\appendix\4__block14.scala)
+[脚本：4__block14.scala](../../appendix/4__block14.scala)
 
 #### 12.1.3.4 与pytest集成示例（Python）
 
-[脚本：4__block15.py](..\appendix\4__block15.py)
+[脚本：4__block15.py](../../appendix/4__block15.py)
 
 
 ##### API 测试工具
@@ -8381,7 +8381,7 @@ JMeter是一个开源的性能测试工具，可用于测试大数据系统的AP
 
 #### 12.2.1.3 测试计划示例（JSON格式）
 
-[脚本：4__block16.json](..\appendix\4__block16.json)
+[脚本：4__block16.json](../../appendix/4__block16.json)
 
 #### 12.2.1.4 性能指标分析
 
@@ -8413,7 +8413,7 @@ Locust是一个基于Python的分布式性能测试工具，使用代码定义�
 
 #### 12.2.2.3 测试脚本示例
 
-[脚本：4__block17.py](..\appendix\4__block17.py)
+[脚本：4__block17.py](../../appendix/4__block17.py)
 
 #### 12.2.2.4 分布式测试配置
 
@@ -8443,7 +8443,7 @@ Gatling是一个基于Scala的高性能负载测试工具，特别适合测试�
 
 #### 12.2.3.3 测试脚本示例
 
-[脚本：4__block18.scala](..\appendix\4__block18.scala)
+[脚本：4__block18.scala](../../appendix/4__block18.scala)
 
 #### 12.2.3.4 报告分析
 
@@ -9303,11 +9303,11 @@ Great Expectations是一个开源的数据质量工具，用于验证、记录�
 
 #### 12.3.1.3 使用示例
 
-[脚本：4__block19.py](..\appendix\4__block19.py)
+[脚本：4__block19.py](../../appendix/4__block19.py)
 
 #### 12.3.1.4 自定义验证规则
 
-[脚本：4__block20.py](..\appendix\4__block20.py)
+[脚本：4__block20.py](../../appendix/4__block20.py)
 
 ### 12.3.2 Apache Griffin
 
@@ -9327,13 +9327,13 @@ Apache Griffin是一个开源的大数据质量解决方案，用于分布式环
 
 #### 12.3.2.3 Griffin配置示例（JSON格式）
 
-[脚本：4__block21.json](..\appendix\4__block21.json)
+[脚本：4__block21.json](../../appendix/4__block21.json)
 
 #### 12.3.2.4 与Spark集成
 
 Apache Griffin可以与Apache Spark集成，利用Spark的分布式计算能力进行大规模数据质量评估：
 
-[脚本：4__block22.scala](..\appendix\4__block22.scala)
+[脚本：4__block22.scala](../../appendix/4__block22.scala)
 
 ### 12.3.3 Deequ
 
@@ -9353,13 +9353,13 @@ Deequ是Amazon开发的基于Spark的开源数据质量工具，专为大规模�
 
 #### 12.3.3.3 使用示例
 
-[脚本：4__block23.scala](..\appendix\4__block23.scala)
+[脚本：4__block23.scala](../../appendix/4__block23.scala)
 
 #### 12.3.3.3 自动约束建议
 
 Deequ可以基于数据特征自动生成约束建议，帮助快速建立数据质量规则：
 
-[脚本：4__block24.scala](..\appendix\4__block24.scala)
+[脚本：4__block24.scala](../../appendix/4__block24.scala)
 
 
 ##### 数据验证工具
@@ -10044,11 +10044,11 @@ Apache Ranger是一个全面的大数据安全框架，提供集中式的安全�
 
 #### 12.4.1.3 权限验证测试示例
 
-[脚本：4__block25.py](..\appendix\4__block25.py)
+[脚本：4__block25.py](../../appendix/4__block25.py)
 
 #### 12.4.1.4 安全审计验证
 
-[脚本：4__block26.py](..\appendix\4__block26.py)
+[脚本：4__block26.py](../../appendix/4__block26.py)
 
 ### 12.4.2 Kerberos安全测试
 
@@ -10068,7 +10068,7 @@ Kerberos是一种网络认证协议，在大数据环境中广泛用于提供强
 
 #### 12.4.2.3 测试脚本示例
 
-[脚本：4__block27.py](..\appendix\4__block27.py)
+[脚本：4__block27.py](../../appendix/4__block27.py)
 
 ### 12.4.3 敏感数据扫描工具
 
@@ -10086,11 +10086,11 @@ Apache Atlas提供数据分类和元数据管理功能，可以识别和标记�
 
 #### 12.4.3.3 Atlas数据分类配置示例
 
-[脚本：4__block28.json](..\appendix\4__block28.json)
+[脚本：4__block28.json](../../appendix/4__block28.json)
 
 #### 12.4.3.4 自定义敏感数据扫描器
 
-[脚本：4__block29.py](..\appendix\4__block29.py)
+[脚本：4__block29.py](../../appendix/4__block29.py)
 通过本章的学习，读者将全面了解各类大数据测试工具的特点、功能和使用方法，掌握如何选择合适的工具来解决不同场景下的测试需求，为构建完整的大数据测试体系提供支持。后续章节将深入探讨大数据系统的可观测性与监控测试技术。
 
 
@@ -12357,7 +12357,7 @@ Apache Atlas提供数据分类和元数据管理功能，可以识别和标记�
 
 下面是一个使用Python实现的敏感数据保护测试框架，包含数据识别、脱敏和验证功能：
 
-[脚本：3-10__block4.py](..\appendix\3-10__block4.py)
+[脚本：3-10__block4.py](../../appendix/3-10__block4.py)
 #### 10.5.3.1 敏感数据识别引擎架构
 
 **SensitiveDataIdentifier类**是敏感数据保护的第一道防线，负责准确识别各类敏感信息：
@@ -12807,7 +12807,7 @@ Apache Atlas提供数据分类和元数据管理功能，可以识别和标记�
 
 #### 11.4.4.1 框架选择决策矩阵
 
-[脚本：4-11__block10.txt](..\appendix\4-11__block10.txt)
+[脚本：4-11__block10.txt](../../appendix/4-11__block10.txt)
 
 ### 11.4.5 基础设施与云服务选择
 
@@ -16453,7 +16453,7 @@ Apache Atlas提供数据分类和元数据管理功能，可以识别和标记�
 #### 组织架构调整 （来自：第6篇-第21章-大数据测试人才与未来发展【专家】）
 
 **混合式组织结构示例**：
-[脚本：6-21__block1.txt](..\appendix\6-21__block1.txt)
+[脚本：6-21__block1.txt](../../appendix/6-21__block1.txt)
 
 ### 21.3 个人发展规划
 
@@ -16608,7 +16608,7 @@ Apache Atlas提供数据分类和元数据管理功能，可以识别和标记�
 #### 组织架构调整 （来自：第6篇-第21章-大数据测试人才与未来发展【专家】）
 
 **混合式组织结构示例**：
-[脚本：6-21__block1.txt](..\appendix\6-21__block1.txt)
+[脚本：6-21__block1.txt](../../appendix/6-21__block1.txt)
 
 
 ###### 转型准备阶段
@@ -16705,7 +16705,7 @@ Apache Atlas提供数据分类和元数据管理功能，可以识别和标记�
 ###### 组织架构调整
 
 **混合式组织结构示例**：
-[脚本：6-21__block1.txt](..\appendix\6-21__block1.txt)
+[脚本：6-21__block1.txt](../../appendix/6-21__block1.txt)
 
 
 ###### 流程优化
@@ -16855,7 +16855,7 @@ Apache Atlas提供数据分类和元数据管理功能，可以识别和标记�
 
 #### 11.4.4.1 框架选择决策矩阵
 
-[脚本：4-11__block10.txt](..\appendix\4-11__block10.txt)
+[脚本：4-11__block10.txt](../../appendix/4-11__block10.txt)
 
 ### 11.4.5 基础设施与云服务选择
 
@@ -17004,7 +17004,7 @@ Apache Atlas提供数据分类和元数据管理功能，可以识别和标记�
 
 #### 11.2.2.2 组件化架构
 
-[脚本：4__block1.txt](..\appendix\4__block1.txt)
+[脚本：4__block1.txt](../../appendix/4__block1.txt)
 
 #### 11.2.2.3 事件驱动架构
 
@@ -17020,19 +17020,19 @@ Apache Atlas提供数据分类和元数据管理功能，可以识别和标记�
 
 用于创建不同类型的测试执行器和报告生成器：
 
-[脚本：4__block2.py](..\appendix\4__block2.py)
+[脚本：4__block2.py](../../appendix/4__block2.py)
 
 #### 11.2.3.2 策略模式
 
 用于实现不同的数据验证策略：
 
-[脚本：4__block3.py](..\appendix\4__block3.py)
+[脚本：4__block3.py](../../appendix/4__block3.py)
 
 #### 11.2.3.3 观察者模式
 
 用于测试执行过程中的事件通知：
 
-[脚本：4__block4.py](..\appendix\4__block4.py)
+[脚本：4__block4.py](../../appendix/4__block4.py)
 
 
 ###### 监控工具整合策略
@@ -17321,9 +17321,9 @@ Apache Atlas提供数据分类和元数据管理功能，可以识别和标记�
 
 - 第 19 章（CI/CD）：如何在流水线做 PromQL 与 trace 断言？ — 参考：promql_assert.sh（内嵌示例见书正文）、examples/13_observability（Jaeger 查询示例，待补充）、examples/19_ci_and_governance
 
- - 第 19 章（CI/CD）：如何在流水线做 PromQL 与 trace 断言？ — 参考：[promql_assert.sh](../appendix/promql_assert.sh)（内嵌示例见书正文）、examples/13_observability（Jaeger 查询示例，待补充）、examples/19_ci_and_governance
+ - 第 19 章（CI/CD）：如何在流水线做 PromQL 与 trace 断言？ — 参考：[promql_assert.sh](../../appendix/promql_assert.sh)（内嵌示例见书正文）、examples/13_observability（Jaeger 查询示例，待补充）、examples/19_ci_and_governance
 
-注：已把附录 C 中若干脚本提取到仓库目录 `../appendix/`（例如 `../appendix/promql_assert.sh`），并创建了
+注：已把附录 C 中若干脚本提取到仓库目录 `../../appendix/`（例如 `../../appendix/promql_assert.sh`），并创建了
 `../examples/` 的 smoke stub 目录以便 CI/审阅。请用真实实现替换 stub 后再执行 smoke 验证。
 
 ---
@@ -17564,7 +17564,7 @@ artifact:ARTIFACT_PATH"。以下以子条目形式列出，便于渲染与逐项
 
 1) promql_assert.sh（Prometheus 指标断言）
 
-[脚本：file__block1.sh](..\appendix\file__block1.sh)
+[脚本：file__block1.sh](../../appendix/file__block1.sh)
 
 
 ### 附录 E 示例仓与可运行实验
@@ -17573,11 +17573,13 @@ artifact:ARTIFACT_PATH"。以下以子条目形式列出，便于渲染与逐项
 
 - 最小步骤（示例）：docker-compose up → 运行 examples/03_env/smoke.sh →
 
-  promql 断言（使用 [`promql_assert.sh`](../appendix/promql_assert.sh)）→ 保存
+  promql 断言（使用 [`promql_assert.sh`](../../appendix/promql_assert.sh)）→ 保存
   artifact。
 
 - 附录 E 将包含：docker-compose 示例、Testcontainers Java/Python 示例、CI
 
   release-check 示例、示例数据与 README。
+
+
 
 
