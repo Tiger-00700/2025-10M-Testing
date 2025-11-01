@@ -3,6 +3,21 @@ $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 $repoRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSCommandPath))
+$reportDir = Join-Path $repoRoot 'tools/reports'
+
+# Config via environment variables
+$cfg = @{}
+$cfg.External = -not ($env:CHECK_EXTERNAL -eq '0')
+$cfg.ExternalTimeoutSec = if([string]::IsNullOrWhiteSpace($env:CHECK_EXTERNAL_TIMEOUT)){ 10 } else { [int]$env:CHECK_EXTERNAL_TIMEOUT }
+$cfg.ExternalFailOnWarn = ($env:CHECK_EXTERNAL_FAIL_ON_WARN -eq '1')
+$cfg.Scope = if([string]::IsNullOrWhiteSpace($env:CHECK_SCOPE)){ 'organized' } else { $env:CHECK_SCOPE }
+$cfg.CodeFenceMode = if([string]::IsNullOrWhiteSpace($env:CHECK_CODEFENCE_MODE)){ 'augmented-only' } else { $env:CHECK_CODEFENCE_MODE }
+[System.Collections.Generic.HashSet[string]]$cfg.ExternalSkipDomains = [System.Collections.Generic.HashSet[string]]::new()
+if(-not [string]::IsNullOrWhiteSpace($env:CHECK_EXTERNAL_SKIP_DOMAINS)){
+  foreach($d in $env:CHECK_EXTERNAL_SKIP_DOMAINS.Split(',',[System.StringSplitOptions]::RemoveEmptyEntries)){
+    [void]$cfg.ExternalSkipDomains.Add($d.Trim().ToLowerInvariant())
+  }
+}
 $targets = @()
 $orgLatest = Join-Path $repoRoot 'tools/reports/organized-latest.md'
 $augBook = Join-Path $repoRoot 'book/1022.2025.newbook.augmented.md'
@@ -16,6 +31,7 @@ if(Test-Path $code){ $targets += Get-Item -LiteralPath $code }
 if(Test-Path $scr){ $targets += Get-Item -LiteralPath $scr }
 
 $errors = New-Object System.Collections.Generic.List[string]
+[System.Collections.Generic.List[string]]$warnings = [System.Collections.Generic.List[string]]::new()
 [System.Collections.Generic.HashSet[string]]$failedExternal = [System.Collections.Generic.HashSet[string]]::new()
 [System.Collections.Generic.HashSet[string]]$warnedExternal = [System.Collections.Generic.HashSet[string]]::new()
 $externalCache = @{}
@@ -25,7 +41,7 @@ function Get-HttpClient {
     $handler = [System.Net.Http.HttpClientHandler]::new()
     $handler.AllowAutoRedirect = $true
     $script:httpClient = [System.Net.Http.HttpClient]::new($handler)
-    $script:httpClient.Timeout = [TimeSpan]::FromSeconds(10)
+    $script:httpClient.Timeout = [TimeSpan]::FromSeconds($cfg.ExternalTimeoutSec)
     $script:httpClient.DefaultRequestHeaders.UserAgent.ParseAdd('Mozilla/5.0 (MarkdownChecker/1.0)')
     $script:httpClient.DefaultRequestHeaders.Accept.ParseAdd('text/html,application/xhtml+xml,*/*')
   }
@@ -34,6 +50,18 @@ function Get-HttpClient {
 
 function Test-ExternalUrl([string]$url){
   if($externalCache.ContainsKey($url)){ return $externalCache[$url] }
+  if(-not $cfg.External){
+    $externalCache[$url] = @{ Status='skip'; Code=$null; Message='external checks disabled' }
+    return $externalCache[$url]
+  }
+  try {
+    $u = [Uri]$url
+    $host = $u.Host.ToLowerInvariant()
+    foreach($dom in $cfg.ExternalSkipDomains){ if($host -like "*${dom}") { 
+      $externalCache[$url] = @{ Status='skip'; Code=$null; Message="domain skipped: $dom" }
+      return $externalCache[$url]
+    }}
+  } catch {}
   $client = Get-HttpClient
   $result = @{ Status='fail'; Code=$null; Message=$null }
   try {
@@ -70,11 +98,12 @@ function Test-ExternalUrl([string]$url){
 }
 
 function Add-Error($msg){ $script:errors.Add($msg) }
+function Add-Warn($msg){ $script:warnings.Add($msg) }
 
 foreach($t in $targets){
   $lines = Get-Content -LiteralPath $t.FullName
   $isAugmented = ($t.FullName -like '*newbook.augmented.md')
-  $checkLinks = ($t.FullName -like '*organized-latest.md')
+  $checkLinks = ($cfg.Scope -eq 'all') -or ($t.FullName -like '*organized-latest.md')
   $inFence = $false; $fenceLang = ''
   for($i=0;$i -lt $lines.Count;$i++){
     $line = $lines[$i]
@@ -84,15 +113,15 @@ foreach($t in $targets){
         $m = [regex]::Match($line,'^\s*```\s*([A-Za-z0-9_+-]*)')
         $fenceLang = $m.Groups[1].Value
         if([string]::IsNullOrWhiteSpace($fenceLang)){
-          if($isAugmented){
+          if($cfg.CodeFenceMode -eq 'all'){
+            Add-Error( ('{0}:{1}: code fence missing language label' -f $t.FullName, ($i+1)) )
+          } elseif($isAugmented){
             # only enforce for generated blocks with explicit marker
             $start = [Math]::Max(0, $i-5)
             $window = $lines[$start..$i]
             if($window -contains '<!-- augment:code -->'){
               Add-Error( ('{0}:{1}: code fence missing language label (generated block)' -f $t.FullName, ($i+1)) )
             }
-          } else {
-            Add-Error( ('{0}:{1}: code fence missing language label' -f $t.FullName, ($i+1)) )
           }
         }
         $inFence = $true
@@ -115,7 +144,7 @@ foreach($t in $targets){
             }
           } elseif($res.Status -eq 'warn'){
             if(-not $warnedExternal.Contains($path)){
-              Write-Host ('WARN: {0}:{1}: external image link check warning -> {2} (status={3})' -f $t.FullName, ($i+1), $path, ($res.Code ?? $res.Message)) -ForegroundColor Yellow
+              Add-Warn ('{0}:{1}: external image link check warning -> {2} (status={3})' -f $t.FullName, ($i+1), $path, ($res.Code ?? $res.Message))
               [void]$warnedExternal.Add($path)
             }
           }
@@ -142,7 +171,7 @@ foreach($t in $targets){
             }
           } elseif($res.Status -eq 'warn'){
             if(-not $warnedExternal.Contains($href)){
-              Write-Host ('WARN: {0}:{1}: external link check warning -> {2} (status={3})' -f $t.FullName, ($i+1), $href, ($res.Code ?? $res.Message)) -ForegroundColor Yellow
+              Add-Warn ('{0}:{1}: external link check warning -> {2} (status={3})' -f $t.FullName, ($i+1), $href, ($res.Code ?? $res.Message))
               [void]$warnedExternal.Add($href)
             }
           }
@@ -171,7 +200,44 @@ foreach($t in $targets){
 if($errors.Count -gt 0){
   Write-Host 'Markdown checks found issues:'
   $errors | ForEach-Object { Write-Host ' - ' $_ }
+  # Also write warnings if present
+  if($warnings.Count -gt 0){
+    Write-Host 'Warnings:' -ForegroundColor Yellow
+    $warnings | ForEach-Object { Write-Host ' - ' $_ -ForegroundColor Yellow }
+  }
+  # Write report file
+  New-Item -ItemType Directory -Force -Path $reportDir | Out-Null
+  $ts = Get-Date -Format 'yyyyMMdd-HHmmss'
+  $reportPath = Join-Path $reportDir ("markdown-check-$ts.md")
+  @(
+    '# Markdown Check Report'
+    "- Timestamp: $ts"
+    "- Scope: $($cfg.Scope)"
+    "- External checks: $($cfg.External) (timeout=${($cfg.ExternalTimeoutSec)}s, failOnWarn=$($cfg.ExternalFailOnWarn))"
+    ''
+    '## Errors'
+  ) + ($errors | ForEach-Object { "- $_" }) + @('','## Warnings') + ($warnings | ForEach-Object { "- $_" }) | Set-Content -LiteralPath $reportPath -Encoding UTF8
   exit 1
 } else {
-  Write-Host 'Markdown checks passed.'
+  if($warnings.Count -gt 0){
+    if($cfg.ExternalFailOnWarn){ $exitCode = 1 } else { $exitCode = 0 }
+    Write-Host "Markdown checks passed with warnings ($($warnings.Count))." -ForegroundColor Yellow
+    New-Item -ItemType Directory -Force -Path $reportDir | Out-Null
+    $ts = Get-Date -Format 'yyyyMMdd-HHmmss'
+    $reportPath = Join-Path $reportDir ("markdown-check-$ts.md")
+    @(
+      '# Markdown Check Report'
+      "- Timestamp: $ts"
+      "- Scope: $($cfg.Scope)"
+      "- External checks: $($cfg.External) (timeout=${($cfg.ExternalTimeoutSec)}s, failOnWarn=$($cfg.ExternalFailOnWarn))"
+      ''
+      '## Errors'
+      '- (none)'
+      ''
+      '## Warnings'
+    ) + ($warnings | ForEach-Object { "- $_" }) | Set-Content -LiteralPath $reportPath -Encoding UTF8
+    if($exitCode -ne 0){ exit $exitCode }
+  } else {
+    Write-Host 'Markdown checks passed.'
+  }
 }

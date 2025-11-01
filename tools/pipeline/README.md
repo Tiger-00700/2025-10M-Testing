@@ -22,6 +22,14 @@ This folder contains the canonical PowerShell script for assembling the manuscri
   - Normalizes appendix links in `tools/reports/organized-latest.md` to CI-friendly relative paths.
 - `check_markdown.ps1`
   - QA checks: ensures language labels for generated code fences and validates links/images in `organized-latest.md`, including external URL reachability (with timeouts and HEAD/GET fallback). External transient issues (auth/rate limit/timeouts) are reported as warnings.
+  - Environment toggles:
+    - `CHECK_SCOPE` = `organized` (default) | `all` — where to validate links/images
+    - `CHECK_CODEFENCE_MODE` = `augmented-only` (default) | `all` — enforce code fence language labels
+    - `CHECK_EXTERNAL` = `1` (default) | `0` — enable/disable external link checks
+    - `CHECK_EXTERNAL_TIMEOUT` = seconds (default `10`)
+    - `CHECK_EXTERNAL_FAIL_ON_WARN` = `1` to fail on external warnings (default `0`)
+    - `CHECK_EXTERNAL_SKIP_DOMAINS` = comma-separated domains to skip (e.g. `linkedin.com,twitter.com`)
+  - Writes a markdown report: `tools/reports/markdown-check-<ts>.md` (errors and warnings summary)
 - `build_all.ps1`
   - One-shot local orchestrator: organize ➜ update_latest ➜ augment ➜ appendices ➜ link-fix ➜ quality report ➜ markdown checks.
 - `../tmp/report_missing.ps1`
