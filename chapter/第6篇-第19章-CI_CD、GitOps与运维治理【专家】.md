@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD025 -->
 # 第6篇-第19章-CI_CD、GitOps与运维治理【专家】
 
 > 本章内容以《book/1022.2025.newbook.md》为准，请阅读对应章节（此目录仅保留导航指引以避免内容冗余）。
@@ -5,9 +6,13 @@
 - 直接阅读：book/1022.2025.newbook.md
 - 增强版（包含示例与脚本嵌入）：book/1022.2025.newbook.augmented.md
 
-### 第19章 CI/CD、GitOps与运维治理【专家】 <!--
+<!--
+archived-content:start
+[NOTE] 该区块为历史内容的注释归档，避免与新书重复呈现；如需查看，请在编辑器中展开注释。
+-->
 
-scope-note-start --> 本章范围说明：
+### 第19章 CI/CD、GitOps与运维治理【专家】
+<!--scope-note-start --> 本章范围说明：
 
 - 覆盖：CI/CD流水线设计、质量门、GitOps与把测试断言（PromQL/契约/trace）纳入发布流程。
 
@@ -228,3 +233,4 @@ scope-note-start --> 本章范围说明：
 3. **知识共享**：促进团队成员之间的知识交流
 
 4. **持续改进**：不断优化测试流程和方法
+<!-- archived-content:end -->
