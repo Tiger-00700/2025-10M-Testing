@@ -17,6 +17,15 @@ jobs:
         shell: pwsh
         env:
           CHECK_INCLUDE_ORGANIZED: "0"
+          # External link check settings
+          # Enable/disable external link checks (1=on, 0=off)
+          CHECK_EXTERNAL: "1"
+          # Timeout in seconds per request (HEAD with GET fallback)
+          CHECK_EXTERNAL_TIMEOUT: "10"
+          # Treat external link warnings (401/403/429/timeouts/SSL) as failures (1=yes, 0=no)
+          CHECK_EXTERNAL_FAIL_ON_WARN: "0"
+          # Comma-separated domains to skip (partial match allowed), e.g., "linkedin.com,x.com"
+          CHECK_EXTERNAL_SKIP_DOMAINS: "linkedin.com,x.com"
         run: |
           pwsh -NoLogo -NoProfile -File "tools/pipeline/build_all.ps1" -SkipOrganize
 
