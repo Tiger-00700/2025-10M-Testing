@@ -21,7 +21,7 @@ This folder contains the canonical PowerShell script for assembling the manuscri
 - `fix_links_in_reports.ps1`
   - Normalizes appendix links in `tools/reports/organized-latest.md` to CI-friendly relative paths.
 - `check_markdown.ps1`
-  - QA checks: ensures language labels for generated code fences and validates links/images in `organized-latest.md`.
+  - QA checks: ensures language labels for generated code fences and validates links/images in `organized-latest.md`, including external URL reachability (with timeouts and HEAD/GET fallback). External transient issues (auth/rate limit/timeouts) are reported as warnings.
 - `build_all.ps1`
   - One-shot local orchestrator: organize ➜ update_latest ➜ augment ➜ appendices ➜ link-fix ➜ quality report ➜ markdown checks.
 - `../tmp/report_missing.ps1`

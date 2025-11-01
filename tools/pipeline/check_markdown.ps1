@@ -16,6 +16,58 @@ if(Test-Path $code){ $targets += Get-Item -LiteralPath $code }
 if(Test-Path $scr){ $targets += Get-Item -LiteralPath $scr }
 
 $errors = New-Object System.Collections.Generic.List[string]
+[System.Collections.Generic.HashSet[string]]$failedExternal = [System.Collections.Generic.HashSet[string]]::new()
+[System.Collections.Generic.HashSet[string]]$warnedExternal = [System.Collections.Generic.HashSet[string]]::new()
+$externalCache = @{}
+
+function Get-HttpClient {
+  if(-not $script:httpClient){
+    $handler = [System.Net.Http.HttpClientHandler]::new()
+    $handler.AllowAutoRedirect = $true
+    $script:httpClient = [System.Net.Http.HttpClient]::new($handler)
+    $script:httpClient.Timeout = [TimeSpan]::FromSeconds(10)
+    $script:httpClient.DefaultRequestHeaders.UserAgent.ParseAdd('Mozilla/5.0 (MarkdownChecker/1.0)')
+    $script:httpClient.DefaultRequestHeaders.Accept.ParseAdd('text/html,application/xhtml+xml,*/*')
+  }
+  return $script:httpClient
+}
+
+function Test-ExternalUrl([string]$url){
+  if($externalCache.ContainsKey($url)){ return $externalCache[$url] }
+  $client = Get-HttpClient
+  $result = @{ Status='fail'; Code=$null; Message=$null }
+  try {
+    $req = [System.Net.Http.HttpRequestMessage]::new([System.Net.Http.HttpMethod]::Head, $url)
+    $resp = $client.Send($req, [System.Net.Http.HttpCompletionOption]::ResponseHeadersRead)
+    $code = [int]$resp.StatusCode
+    $resp.Dispose(); $req.Dispose()
+    if($code -eq 405 -or $code -eq 501){
+      # fallback to GET with headers-only completion
+      $req2 = [System.Net.Http.HttpRequestMessage]::new([System.Net.Http.HttpMethod]::Get, $url)
+      $resp2 = $client.Send($req2, [System.Net.Http.HttpCompletionOption]::ResponseHeadersRead)
+      $code = [int]$resp2.StatusCode
+      $resp2.Dispose(); $req2.Dispose()
+    }
+    $result.Code = $code
+    if($code -ge 200 -and $code -lt 400){
+      $result.Status = 'ok'
+    } elseif($code -in 401,403,429){
+      $result.Status = 'warn'
+    } else {
+      $result.Status = 'fail'
+    }
+  } catch {
+    $msg = $_.Exception.Message
+    $result.Message = $msg
+    if($msg -match '(timed out|resolve|Name or service not known|No such host|SSL|certificate)'){
+      $result.Status = 'warn'
+    } else {
+      $result.Status = 'fail'
+    }
+  }
+  $externalCache[$url] = $result
+  return $result
+}
 
 function Add-Error($msg){ $script:errors.Add($msg) }
 
@@ -54,7 +106,21 @@ foreach($t in $targets){
       # image links
       foreach($m in [regex]::Matches($line,'!\[(.*?)\]\((.*?)\)')){
         $path = $m.Groups[2].Value
-        if($path -match '^(http|https)://'){ continue }
+        if($path -match '^(http|https)://'){
+          $res = Test-ExternalUrl $path
+          if($res.Status -eq 'fail'){
+            if(-not $failedExternal.Contains($path)){
+              Add-Error( ('{0}:{1}: external image link unreachable -> {2} (status={3})' -f $t.FullName, ($i+1), $path, ($res.Code ?? $res.Message)) )
+              [void]$failedExternal.Add($path)
+            }
+          } elseif($res.Status -eq 'warn'){
+            if(-not $warnedExternal.Contains($path)){
+              Write-Host ('WARN: {0}:{1}: external image link check warning -> {2} (status={3})' -f $t.FullName, ($i+1), $path, ($res.Code ?? $res.Message)) -ForegroundColor Yellow
+              [void]$warnedExternal.Add($path)
+            }
+          }
+          continue
+        }
         $full = Join-Path (Split-Path -Parent $t.FullName) $path
         if(-not (Test-Path $full)){
           # try repo-root relative
@@ -67,7 +133,22 @@ foreach($t in $targets){
       # markdown links
       foreach($m in [regex]::Matches($line,'\[(.*?)\]\((.*?)\)')){
         $href = $m.Groups[2].Value
-        if($href -match '^(http|https|mailto):'){ continue }
+        if($href -match '^(http|https)://'){
+          $res = Test-ExternalUrl $href
+          if($res.Status -eq 'fail'){
+            if(-not $failedExternal.Contains($href)){
+              Add-Error( ('{0}:{1}: external link unreachable -> {2} (status={3})' -f $t.FullName, ($i+1), $href, ($res.Code ?? $res.Message)) )
+              [void]$failedExternal.Add($href)
+            }
+          } elseif($res.Status -eq 'warn'){
+            if(-not $warnedExternal.Contains($href)){
+              Write-Host ('WARN: {0}:{1}: external link check warning -> {2} (status={3})' -f $t.FullName, ($i+1), $href, ($res.Code ?? $res.Message)) -ForegroundColor Yellow
+              [void]$warnedExternal.Add($href)
+            }
+          }
+          continue
+        }
+        if($href -match '^(mailto):'){ continue }
         if($href -match '#'){
           $parts = $href.Split('#',2)
           $hrefPath = $parts[0]
