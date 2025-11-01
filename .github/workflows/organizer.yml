@@ -26,6 +26,8 @@ jobs:
           CHECK_EXTERNAL_FAIL_ON_WARN: "0"
           # Comma-separated domains to skip (partial match allowed), e.g., "linkedin.com,x.com"
           CHECK_EXTERNAL_SKIP_DOMAINS: "linkedin.com,x.com"
+          # Check scope: 'all' to validate links in newbook and appendices (organized excluded above)
+          CHECK_SCOPE: "all"
         run: |
           pwsh -NoLogo -NoProfile -File "tools/pipeline/build_all.ps1" -SkipOrganize
 
