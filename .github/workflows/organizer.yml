@@ -40,6 +40,10 @@ jobs:
         run: |
           python tools/inventory_referenced_assets.py
 
+      - name: Enforce placeholder policy (examples/)
+        run: |
+          python tools/check_placeholders.py --max-bytes 2048
+
       - name: Run archive compliance check
         run: |
           python tools/inventory_archive_status.py
