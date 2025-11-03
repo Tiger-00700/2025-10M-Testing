@@ -166,6 +166,8 @@ def update_book_links(
 	fail_on_ambiguous: bool = False,
 	report_json: Optional[Path] = None,
 	report_md: Optional[Path] = None,
+	mark_unresolved: bool = False,
+	unresolved_suffix: str = "（失效）",
 ) -> Tuple[int, int, LinkReport]:
 	"""Update examples links in the book based on existing files.
 
@@ -193,6 +195,11 @@ def update_book_links(
 				text, url, examples_index, examples_root, report=report
 			)
 			checked += 1 if new_url.startswith("examples/") else 0
+			# If still unresolved and marking requested, annotate the link text
+			if mark_unresolved and new_url.replace("\\", "/").startswith("examples/"):
+				target = (examples_root.parent / new_url).resolve()
+				if not target.is_file():
+					new_text = f"{text}{unresolved_suffix}"
 			if new_url != url:
 				updated += 1
 				report.updated += 1
@@ -259,6 +266,8 @@ def main(argv: List[str]) -> int:
 	parser.add_argument("--fail-on-ambiguous", action="store_true", help="Exit non-zero if ambiguous matches are found")
 	parser.add_argument("--report-json", default=None, help="Write JSON report to this path")
 	parser.add_argument("--report-md", default=None, help="Write Markdown report to this path")
+	parser.add_argument("--mark-unresolved", action="store_true", help="Annotate unresolved examples links in the book text")
+	parser.add_argument("--unresolved-suffix", default="（失效）", help="Suffix to append to link text when marking unresolved")
 
 	args = parser.parse_args(argv)
 
@@ -289,6 +298,8 @@ def main(argv: List[str]) -> int:
 		fail_on_ambiguous=args.fail_on_ambiguous,
 		report_json=report_json_path,
 		report_md=report_md_path,
+		mark_unresolved=args.mark_unresolved,
+		unresolved_suffix=args.unresolved_suffix,
 	)
 	print(
 		f"Checked links: {checked}; Updated: {updated}; Dry-run: {args.dry_run}; Ambiguous: {rep.ambiguous}; Unresolved: {rep.unresolved}"
