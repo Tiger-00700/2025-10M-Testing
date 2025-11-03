@@ -48,6 +48,10 @@ jobs:
         run: |
           python tools/validate_chapters_against_book.py
 
+      - name: Enforce env path consistency (03_environment)
+        run: |
+          python tools/check_env_path_consistency.py
+
       - name: Upload reports artifact
         uses: actions/upload-artifact@v4
         with:
