@@ -1,0 +1,5 @@
+# Glob patterns relative to repo root (use forward slashes)
+# Allow real small files that aren't placeholders
+examples/**/README.md
+examples/**/smoke.sh
+examples/**/smoke.ps1

@@ -30,7 +30,7 @@ jobs:
 
       - name: Enforce placeholder policy (examples/)
         run: |
-          python tools/check_placeholders.py --max-bytes 2048
+          python tools/check_placeholders.py --max-bytes 2048 --allow-file tools/placeholder_whitelist.txt
 
       - name: Enforce env path consistency (03_environment)
         run: |
