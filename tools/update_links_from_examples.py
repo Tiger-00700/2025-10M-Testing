@@ -1,9 +1,12 @@
 import argparse
+import json
 import os
 import re
 import sys
+from dataclasses import dataclass, asdict
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 
 def build_examples_index(examples_root: Path) -> Dict[str, List[Path]]:
@@ -21,13 +24,73 @@ def build_examples_index(examples_root: Path) -> Dict[str, List[Path]]:
 
 
 LINK_RE = re.compile(r"\[(?P<text>[^\]]+)\]\((?P<url>[^)]+)\)")
-BLOCK_NAME_RE = re.compile(
-	r"(?P<name>\d+(?:-\d+)*__block\d+\.(?:[A-Za-z0-9]+))"
-)
+BLOCK_NAME_RE = re.compile(r"(?P<name>\d+(?:-\d+)*__block\d+\.(?:[A-Za-z0-9]+))")
+
+
+def _tokens_from_path(path: str) -> List[str]:
+	# Split on typical separators and keep non-empty parts
+	raw = re.split(r"[\\/]+", path)
+	tokens: List[str] = []
+	for part in raw:
+		if not part:
+			continue
+		# further split by -, _, space, and remove file extension dot
+		sub = re.split(r"[\-_.\s]+", part)
+		for s in sub:
+			if s:
+				tokens.append(s)
+	return tokens
+
+
+def _score_candidate(candidate_rel: str, hint_rel_dir: str) -> Tuple[int, int]:
+	"""Score a candidate by overlap with hint dir tokens and common prefix length.
+
+	Returns a tuple (score, common_prefix_len) for tie-breaking.
+	"""
+	cand_tokens = _tokens_from_path(candidate_rel)
+	hint_tokens = _tokens_from_path(hint_rel_dir)
+
+	# Basic overlap score
+	overlap = len(set(cand_tokens) & set(hint_tokens))
+
+	# Common prefix length by segments
+	cand_segments = candidate_rel.split('/')
+	hint_segments = hint_rel_dir.split('/')
+	cpl = 0
+	for a, b in zip(cand_segments, hint_segments):
+		if a == b:
+			cpl += 1
+		else:
+			break
+
+	# Prefer deeper (more specific) paths slightly
+	depth_bonus = len(cand_segments) // 10
+
+	return overlap + cpl + depth_bonus, cpl
+
+
+@dataclass
+class LinkReport:
+	total_links: int = 0
+	examples_links_checked: int = 0
+	updated: int = 0
+	unchanged: int = 0
+	unresolved: int = 0
+	ambiguous: int = 0
+	ambiguous_samples: List[Dict[str, object]] = None  # list of {text, url, candidates}
+
+	def __post_init__(self):
+		if self.ambiguous_samples is None:
+			self.ambiguous_samples = []
 
 
 def find_replacement(
-	link_text: str, link_url: str, examples_index: Dict[str, List[Path]], examples_root: Path
+	link_text: str,
+	link_url: str,
+	examples_index: Dict[str, List[Path]],
+	examples_root: Path,
+	report: Optional[LinkReport] = None,
+	fail_on_tie: bool = True,
 ) -> Tuple[str, str]:
 	"""Return (new_text, new_url) if a replacement is found; else return original.
 
@@ -54,15 +117,56 @@ def find_replacement(
 		basename = m.group("name")
 		matches = examples_index.get(basename, [])
 		if len(matches) == 1:
-			# Build a repo-root relative URL with forward slashes
+			# Unique match
 			rel = matches[0].relative_to(examples_root.parent).as_posix()
 			return (link_text, rel)
+		elif len(matches) > 1:
+			# Use hint from current URL's directory to choose the best candidate
+			hint_rel = norm_url[len("examples/") :]
+			hint_dir = hint_rel if hint_rel.endswith('/') else '/'.join(hint_rel.split('/')[:-1])
+			if hint_dir:
+				scored: List[Tuple[int, int, Path]] = []
+				for p in matches:
+					rel_cand = p.relative_to(examples_root.parent).as_posix()
+					score, cpl = _score_candidate(rel_cand, f"examples/{hint_dir}")
+					scored.append((score, cpl, p))
+				# pick best by score then common prefix; if tie exact, mark ambiguous
+				scored.sort(key=lambda t: (t[0], t[1], t[2].as_posix()))
+				best = scored[-1]
+				# Check for tie
+				ties = [s for s in scored if s[0] == best[0] and s[1] == best[1]]
+				if len(ties) == 1:
+					rel = best[2].relative_to(examples_root.parent).as_posix()
+					return (link_text, rel)
+				else:
+					# ambiguous
+					if report is not None:
+						report.ambiguous += 1
+						report.ambiguous_samples.append(
+							{
+								"text": link_text,
+								"url": norm_url,
+								"candidates": [p[2].relative_to(examples_root.parent).as_posix() for p in ties],
+							}
+						)
+					# keep original URL if tie and failing on tie
+					return (link_text, link_url)
 
 	# Nothing better found
+	# Mark unresolved if still not a file and nothing better found
+	if report is not None:
+		report.unresolved += 1
 	return (link_text, norm_url)
 
 
-def update_book_links(book_path: Path, examples_root: Path, dry_run: bool = False) -> Tuple[int, int]:
+def update_book_links(
+	book_path: Path,
+	examples_root: Path,
+	dry_run: bool = False,
+	fail_on_ambiguous: bool = False,
+	report_json: Optional[Path] = None,
+	report_md: Optional[Path] = None,
+) -> Tuple[int, int, LinkReport]:
 	"""Update examples links in the book based on existing files.
 
 	Returns (checked_count, updated_count).
@@ -74,6 +178,7 @@ def update_book_links(book_path: Path, examples_root: Path, dry_run: bool = Fals
 
 	checked = 0
 	updated = 0
+	report = LinkReport()
 	new_lines: List[str] = []
 
 	for line in lines:
@@ -81,10 +186,19 @@ def update_book_links(book_path: Path, examples_root: Path, dry_run: bool = Fals
 			nonlocal checked, updated
 			text = match.group("text")
 			url = match.group("url")
-			new_text, new_url = find_replacement(text, url, examples_index, examples_root)
+			# Count only examples links in report
+			if url.replace("\\", "/").startswith("examples/"):
+				report.examples_links_checked += 1
+			new_text, new_url = find_replacement(
+				text, url, examples_index, examples_root, report=report
+			)
 			checked += 1 if new_url.startswith("examples/") else 0
 			if new_url != url:
 				updated += 1
+				report.updated += 1
+			else:
+				report.unchanged += 1
+			report.total_links += 1
 			return f"[{new_text}]({new_url})"
 
 		# Replace all markdown links in the line
@@ -96,7 +210,35 @@ def update_book_links(book_path: Path, examples_root: Path, dry_run: bool = Fals
 		newline = "\r\n" if "\r\n" in original else "\n"
 		book_path.write_text(newline.join(new_lines) + newline, encoding="utf-8")
 
-	return checked, updated
+	# Write reports if requested
+	if report_json is not None:
+		report_json.parent.mkdir(parents=True, exist_ok=True)
+		report_json.write_text(json.dumps(asdict(report), ensure_ascii=False, indent=2), encoding="utf-8")
+	if report_md is not None:
+		report_md.parent.mkdir(parents=True, exist_ok=True)
+		lines_out = []
+		lines_out.append(f"# Link Check Report ({datetime.now().strftime('%Y-%m-%d %H:%M:%S')})")
+		lines_out.append("")
+		lines_out.append(f"- Total links scanned: {report.total_links}")
+		lines_out.append(f"- examples/ links: {report.examples_links_checked}")
+		lines_out.append(f"- Updated: {report.updated}")
+		lines_out.append(f"- Unchanged: {report.unchanged}")
+		lines_out.append(f"- Unresolved (still not a file): {report.unresolved}")
+		lines_out.append(f"- Ambiguous (multiple candidates with tie): {report.ambiguous}")
+		if report.ambiguous_samples:
+			lines_out.append("")
+			lines_out.append("## Ambiguous samples")
+			for s in report.ambiguous_samples[:20]:
+				lines_out.append(f"- {s['text']} -> {s['url']}")
+				for c in s["candidates"]:
+					lines_out.append(f"  - candidate: {c}")
+		report_md.write_text("\n".join(lines_out) + "\n", encoding="utf-8")
+
+	if fail_on_ambiguous and report.ambiguous > 0:
+		print(f"ERROR: Ambiguous links detected: {report.ambiguous}", file=sys.stderr)
+		sys.exit(4)
+
+	return checked, updated, report
 
 
 def main(argv: List[str]) -> int:
@@ -114,6 +256,9 @@ def main(argv: List[str]) -> int:
 		help="Path to the examples directory (default: examples)",
 	)
 	parser.add_argument("--dry-run", action="store_true", help="Do not write changes, only report")
+	parser.add_argument("--fail-on-ambiguous", action="store_true", help="Exit non-zero if ambiguous matches are found")
+	parser.add_argument("--report-json", default=None, help="Write JSON report to this path")
+	parser.add_argument("--report-md", default=None, help="Write Markdown report to this path")
 
 	args = parser.parse_args(argv)
 
@@ -128,8 +273,26 @@ def main(argv: List[str]) -> int:
 		print(f"Examples dir not found: {examples_root}", file=sys.stderr)
 		return 3
 
-	checked, updated = update_book_links(book_path, examples_root, dry_run=args.dry_run)
-	print(f"Checked links: {checked}; Updated: {updated}; Dry-run: {args.dry_run}")
+	# Default report paths if not provided and in dry-run
+	report_json_path = Path(args.report_json) if args.report_json else None
+	report_md_path = Path(args.report_md) if args.report_md else None
+	if args.dry_run and (report_json_path is None or report_md_path is None):
+		ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+		reports_dir = Path("tools") / "reports"
+		report_json_path = report_json_path or (reports_dir / f"links-report-{ts}.json")
+		report_md_path = report_md_path or (reports_dir / f"links-report-{ts}.md")
+
+	checked, updated, rep = update_book_links(
+		book_path,
+		examples_root,
+		dry_run=args.dry_run,
+		fail_on_ambiguous=args.fail_on_ambiguous,
+		report_json=report_json_path,
+		report_md=report_md_path,
+	)
+	print(
+		f"Checked links: {checked}; Updated: {updated}; Dry-run: {args.dry_run}; Ambiguous: {rep.ambiguous}; Unresolved: {rep.unresolved}"
+	)
 	return 0
 
 

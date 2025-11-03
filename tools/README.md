@@ -28,6 +28,31 @@ Run on Windows PowerShell:
 
 - `pwsh`: `python tools/inventory_referenced_assets.py`
 
+### 2) Links updater (examples/)
+
+- Script: `tools/update_links_from_examples.py`
+- Purpose: Check and (optionally) fix Markdown links in `book/1022.2025.newbook.links.md` that point to `examples/` files.
+- Strategy:
+  - If a link already points to an existing file, keep as-is.
+  - If a link is broken but the visible text contains a `__blockNNN.ext` basename, it finds candidate files under `examples/` and picks the best match using URL directory context and token overlap scoring.
+  - If multiple candidates tie, the link is left unchanged and recorded as ambiguous.
+- Useful options:
+  - `--dry-run` — do not write changes; still produces reports.
+  - `--fail-on-ambiguous` — exit non-zero when ambiguous matches exist (useful for CI).
+  - `--report-json <path>` and `--report-md <path>` — write detailed reports.
+- Examples (PowerShell):
+  - Dry run with CI-like reporting:
+    - `python tools/update_links_from_examples.py --dry-run --fail-on-ambiguous --report-json tools/reports/links-ci.json --report-md tools/reports/links-ci.md`
+  - Apply fixes in place:
+    - `python tools/update_links_from_examples.py`
+
+### 3) CI integration
+
+- Workflow: `.github/workflows/links-and-inventory.yml`
+- Runs on pull requests:
+  - Links updater (dry-run, fail on ambiguous) — emits JSON/Markdown report artifacts.
+  - Assets inventory — fails when any referenced asset is missing.
+
 ### 2) Archive compliance scan
 
 - Script: `tools/inventory_archive_status.py`

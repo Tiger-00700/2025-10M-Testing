@@ -1,0 +1,38 @@
+name: Links and Inventory Checks
+
+on:
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  validate-links-and-inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run links updater (dry-run)
+        run: |
+          python tools/update_links_from_examples.py \
+            --dry-run \
+            --fail-on-ambiguous \
+            --report-json tools/reports/ci-links.json \
+            --report-md tools/reports/ci-links.md
+
+      - name: Run assets inventory
+        run: |
+          python tools/inventory_referenced_assets.py
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: link-and-inventory-reports
+          path: |
+            tools/reports/*.md
+            tools/reports/*.json
