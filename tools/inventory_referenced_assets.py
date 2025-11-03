@@ -16,12 +16,13 @@ import re
 import sys
 from pathlib import Path
 from datetime import datetime
-from typing import Iterable, Set
+from typing import Iterable, Set, List
+
+import argparse
 
 ROOT = Path(__file__).resolve().parents[1]
 BOOK = ROOT / 'book' / '1022.2025.newbook.md'
 BOOK_LINKS = ROOT / 'book' / '1022.2025.newbook.links.md'
-TARGET_DIRS = ['examples', 'appendix']
 
 # Match markdown links/images and plain-text path mentions
 # Examples:
@@ -69,9 +70,9 @@ def extract_references(text: str) -> Set[str]:
     return refs
 
 
-def list_existing_assets() -> Set[str]:
+def list_existing_assets(target_dirs: List[str]) -> Set[str]:
     existing: Set[str] = set()
-    for base in TARGET_DIRS:
+    for base in target_dirs:
         base_path = ROOT / base
         if not base_path.exists():
             continue
@@ -98,15 +99,19 @@ def expand_directories(refs: Iterable[str]) -> Set[str]:
     return expanded
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description='Inventory references in books to examples/ and appendix/.')
+    ap.add_argument('--only-canonical', action='store_true', help='Only consider canonical book (ignore links-only variant)')
+    ap.add_argument('--targets', default='examples,appendix', help='Comma-separated list of top-level target dirs to include (default: examples,appendix)')
+    args = ap.parse_args(argv)
     sources = []
     if BOOK.exists():
         sources.append(BOOK)
     else:
         print(f"ERROR: book file not found: {BOOK}", file=sys.stderr)
         return 2
-    # If links-only variant exists, include it as well
-    if BOOK_LINKS.exists():
+    # If links-only variant exists, include it unless only-canonical is requested
+    if not args.only_canonical and BOOK_LINKS.exists():
         sources.append(BOOK_LINKS)
 
     refs: Set[str] = set()
@@ -114,7 +119,8 @@ def main() -> int:
         text = src.read_text(encoding='utf-8')
         refs.update(extract_references(text))
 
-    existing = list_existing_assets()
+    target_dirs = [t.strip() for t in args.targets.split(',') if t.strip()]
+    existing = list_existing_assets(target_dirs)
 
     # Compute present/missing and unused
     referenced_present = sorted([r for r in refs if (ROOT / r).exists()])
@@ -123,7 +129,7 @@ def main() -> int:
     # Unused: everything existing under targets but not covered by any referenced item.
     # If a directory is referenced, treat all its children as covered.
     covered = expand_directories(referenced_present)
-    unused_existing = sorted([e for e in existing if e.split('/', 1)[0] in TARGET_DIRS and e not in covered])
+    unused_existing = sorted([e for e in existing if e.split('/', 1)[0] in target_dirs and e not in covered])
 
     # Write report
     reports_dir = ROOT / 'tools' / 'reports'
@@ -140,7 +146,7 @@ def main() -> int:
         lines.append("Sources:")
         for s in sources:
             lines.append(f"- {s.relative_to(ROOT).as_posix()}")
-    lines.append(f"Targets: examples/, appendix/")
+    lines.append(f"Targets: {', '.join([t + '/' for t in target_dirs])}")
     lines.append("")
     lines.append(f"- Total references found: {len(refs)}")
     lines.append(f"- Present: {len(referenced_present)}")

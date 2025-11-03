@@ -7,6 +7,7 @@ populated.
 """
 from __future__ import annotations
 import re
+import argparse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,11 +40,15 @@ def extract(text: str) -> set[str]:
     return refs
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description='Ensure placeholders exist for referenced examples paths.')
+    ap.add_argument('--only-canonical', action='store_true', help='Only consider canonical book references')
+    args = ap.parse_args(argv)
+
     refs: set[str] = set()
     if BOOK.exists():
         refs |= extract(BOOK.read_text(encoding='utf-8'))
-    if BOOK_LINKS.exists():
+    if not args.only_canonical and BOOK_LINKS.exists():
         refs |= extract(BOOK_LINKS.read_text(encoding='utf-8'))
     created = 0
     for r in sorted(refs):
