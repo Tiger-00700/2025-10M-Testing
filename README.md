@@ -6,7 +6,7 @@
 - Generated during local build:
 	- Links-only book (inline code → links): `book/1022.2025.newbook.links.md`
 	- Augmented book: `book/1022.2025.newbook.augmented.md`
-	- Appendices: `book/附录-图表目录.md`, `book/附录-代码清单.md`, `book/附录-脚本索引.md`
+	- Appendices: `book/附录-图表目录.md`, `book/附录-代码清单.md`, `book/附录-脚本索引.md`, `book/附录-课后思考练习题索引.md`
 	- Exported scripts from book: `examples/99_book_exports/newbook__blockNN.*`
 
 All build logs and QA reports are timestamped under `tools/reports/`.

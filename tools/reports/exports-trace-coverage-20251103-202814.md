@@ -1,0 +1,94 @@
+# Exports Coverage (trace) Report
+
+- newbook__block002.py: 0/291 lines ≈ 0.0%
+- newbook__block004.py: 0/336 lines ≈ 0.0%
+- newbook__block012.py: 0/41 lines ≈ 0.0%
+- newbook__block015.py: 0/17 lines ≈ 0.0%
+- newbook__block016.py: 0/12 lines ≈ 0.0%
+- newbook__block017.py: 0/15 lines ≈ 0.0%
+- newbook__block018.py: 0/11 lines ≈ 0.0%
+- newbook__block019.py: 0/17 lines ≈ 0.0%
+- newbook__block020.py: 0/11 lines ≈ 0.0%
+- newbook__block021.py: 0/28 lines ≈ 0.0%
+- newbook__block022.py: 0/19 lines ≈ 0.0%
+- newbook__block023.py: 0/28 lines ≈ 0.0%
+- newbook__block024.py: 0/24 lines ≈ 0.0%
+- newbook__block025.py: 0/25 lines ≈ 0.0%
+- newbook__block026.py: 0/22 lines ≈ 0.0%
+- newbook__block027.py: 0/18 lines ≈ 0.0%
+- newbook__block028.py: 0/15 lines ≈ 0.0%
+- newbook__block029.py: 0/22 lines ≈ 0.0%
+- newbook__block030.py: 0/19 lines ≈ 0.0%
+- newbook__block031.py: 0/22 lines ≈ 0.0%
+- newbook__block032.py: 0/13 lines ≈ 0.0%
+- newbook__block033.py: 0/25 lines ≈ 0.0%
+- newbook__block034.py: 0/28 lines ≈ 0.0%
+- newbook__block035.py: 0/22 lines ≈ 0.0%
+- newbook__block036.py: 0/21 lines ≈ 0.0%
+- newbook__block037.py: 0/35 lines ≈ 0.0%
+- newbook__block038.py: 0/16 lines ≈ 0.0%
+- newbook__block040.py: 0/10 lines ≈ 0.0%
+- newbook__block041.py: 0/13 lines ≈ 0.0%
+- newbook__block042.py: 0/18 lines ≈ 0.0%
+- newbook__block043.py: 0/45 lines ≈ 0.0%
+- newbook__block045.py: 0/35 lines ≈ 0.0%
+- newbook__block046.py: 0/54 lines ≈ 0.0%
+- newbook__block047.py: 0/37 lines ≈ 0.0%
+- newbook__block049.py: 0/59 lines ≈ 0.0%
+- newbook__block051.py: 0/104 lines ≈ 0.0%
+- newbook__block052.py: 0/91 lines ≈ 0.0%
+- newbook__block055.py: 0/73 lines ≈ 0.0%
+- newbook__block057.py: 0/65 lines ≈ 0.0%
+- newbook__block059.py: 0/92 lines ≈ 0.0%
+- newbook__block061.py: 0/98 lines ≈ 0.0%
+- newbook__block064.py: 0/277 lines ≈ 0.0%
+- newbook__block066.py: 0/174 lines ≈ 0.0%
+- newbook__block067.py: 0/320 lines ≈ 0.0%
+
+## Import failures
+- newbook__block002.py: invalid character '【' (U+3010) (newbook__block002.py, line 2)
+- newbook__block004.py: invalid character '【' (U+3010) (newbook__block004.py, line 4)
+- newbook__block012.py: invalid character '【' (U+3010) (newbook__block012.py, line 2)
+- newbook__block015.py: invalid character '【' (U+3010) (newbook__block015.py, line 2)
+- newbook__block016.py: invalid character '【' (U+3010) (newbook__block016.py, line 4)
+- newbook__block017.py: invalid character '【' (U+3010) (newbook__block017.py, line 2)
+- newbook__block018.py: invalid character '【' (U+3010) (newbook__block018.py, line 4)
+- newbook__block019.py: invalid character '【' (U+3010) (newbook__block019.py, line 2)
+- newbook__block020.py: invalid character '【' (U+3010) (newbook__block020.py, line 4)
+- newbook__block021.py: invalid character '【' (U+3010) (newbook__block021.py, line 2)
+- newbook__block022.py: invalid character '【' (U+3010) (newbook__block022.py, line 4)
+- newbook__block023.py: invalid character '【' (U+3010) (newbook__block023.py, line 2)
+- newbook__block024.py: invalid character '【' (U+3010) (newbook__block024.py, line 4)
+- newbook__block025.py: invalid character '【' (U+3010) (newbook__block025.py, line 2)
+- newbook__block026.py: invalid character '【' (U+3010) (newbook__block026.py, line 4)
+- newbook__block027.py: invalid character '【' (U+3010) (newbook__block027.py, line 2)
+- newbook__block028.py: invalid character '【' (U+3010) (newbook__block028.py, line 4)
+- newbook__block029.py: invalid character '【' (U+3010) (newbook__block029.py, line 2)
+- newbook__block030.py: invalid character '【' (U+3010) (newbook__block030.py, line 4)
+- newbook__block031.py: invalid character '【' (U+3010) (newbook__block031.py, line 2)
+- newbook__block032.py: invalid character '【' (U+3010) (newbook__block032.py, line 4)
+- newbook__block033.py: invalid character '【' (U+3010) (newbook__block033.py, line 2)
+- newbook__block034.py: invalid character '【' (U+3010) (newbook__block034.py, line 4)
+- newbook__block035.py: invalid character '【' (U+3010) (newbook__block035.py, line 2)
+- newbook__block036.py: invalid character '【' (U+3010) (newbook__block036.py, line 4)
+- newbook__block037.py: invalid character '【' (U+3010) (newbook__block037.py, line 2)
+- newbook__block038.py: invalid character '【' (U+3010) (newbook__block038.py, line 4)
+- newbook__block040.py: invalid character '【' (U+3010) (newbook__block040.py, line 4)
+- newbook__block041.py: invalid character '【' (U+3010) (newbook__block041.py, line 2)
+- newbook__block042.py: invalid character '【' (U+3010) (newbook__block042.py, line 2)
+- newbook__block043.py: invalid character '【' (U+3010) (newbook__block043.py, line 2)
+- newbook__block045.py: invalid character '【' (U+3010) (newbook__block045.py, line 2)
+- newbook__block046.py: invalid character '【' (U+3010) (newbook__block046.py, line 2)
+- newbook__block047.py: invalid character '【' (U+3010) (newbook__block047.py, line 2)
+- newbook__block049.py: invalid character '【' (U+3010) (newbook__block049.py, line 2)
+- newbook__block051.py: invalid character '【' (U+3010) (newbook__block051.py, line 2)
+- newbook__block052.py: invalid character '【' (U+3010) (newbook__block052.py, line 2)
+- newbook__block055.py: invalid character '【' (U+3010) (newbook__block055.py, line 2)
+- newbook__block057.py: invalid character '【' (U+3010) (newbook__block057.py, line 2)
+- newbook__block059.py: invalid character '【' (U+3010) (newbook__block059.py, line 2)
+- newbook__block061.py: invalid character '【' (U+3010) (newbook__block061.py, line 2)
+- newbook__block064.py: invalid character '【' (U+3010) (newbook__block064.py, line 2)
+- newbook__block066.py: invalid character '【' (U+3010) (newbook__block066.py, line 2)
+- newbook__block067.py: invalid character '【' (U+3010) (newbook__block067.py, line 2)
+
+Overall (approx.): 0/2718 lines ≈ 0.0%

@@ -1,0 +1,25 @@
+{
+  "timestamp": "20251103-210058",
+  "counts": {
+    "ps1": 0,
+    "sh": 0,
+    "sql": 0
+  },
+  "results": {
+    "ps1": {
+      "tool": "ps1",
+      "available": true,
+      "items": []
+    },
+    "sh": {
+      "tool": "sh",
+      "available": true,
+      "items": []
+    },
+    "sql": {
+      "tool": "sql",
+      "available": true,
+      "items": []
+    }
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "timestamp": "20251103-210058",
+  "python": {
+    "total_files": 43,
+    "unique_modules": [
+      "contextlib",
+      "cryptography",
+      "datetime",
+      "deap",
+      "docker",
+      "functools",
+      "hashlib",
+      "json",
+      "kubernetes",
+      "matplotlib",
+      "numpy",
+      "opentelemetry",
+      "os",
+      "pandas",
+      "prometheus_client",
+      "psutil",
+      "pymongo",
+      "pytest",
+      "random",
+      "re",
+      "requests",
+      "scipy",
+      "sklearn",
+      "socket",
+      "ssl",
+      "subprocess",
+      "threading",
+      "time"
+    ],
+    "missing_modules": [
+      "cryptography",
+      "deap",
+      "docker",
+      "kubernetes",
+      "matplotlib",
+      "numpy",
+      "opentelemetry",
+      "pandas",
+      "prometheus_client",
+      "psutil",
+      "pymongo",
+      "pytest",
+      "requests",
+      "scipy",
+      "sklearn"
+    ],
+    "per_file_imports": {
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block002.py": [
+        "opentelemetry",
+        "random",
+        "time"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block004.py": [
+        "contextlib",
+        "functools",
+        "prometheus_client",
+        "psutil",
+        "random",
+        "threading",
+        "time"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block012.py": [
+        "opentelemetry"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block015.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block016.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block017.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block018.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block019.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block020.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block021.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block022.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block023.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block024.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block025.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block026.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block027.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block028.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block029.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block030.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block031.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block032.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block033.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block034.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block035.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block036.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block037.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block038.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block040.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block041.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block042.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block043.py": [
+        "pandas",
+        "sklearn"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block045.py": [
+        "numpy",
+        "scipy"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block046.py": [
+        "numpy",
+        "pandas",
+        "sklearn"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block047.py": [
+        "cryptography",
+        "hashlib",
+        "ssl"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block049.py": [
+        "re",
+        "socket",
+        "subprocess"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block051.py": [
+        "json",
+        "requests",
+        "time"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block052.py": [
+        "requests",
+        "socket",
+        "threading",
+        "time"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block055.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block057.py": [],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block061.py": [
+        "pymongo",
+        "pytest",
+        "time"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block064.py": [
+        "datetime",
+        "json",
+        "matplotlib",
+        "os",
+        "pandas"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block066.py": [
+        "deap",
+        "numpy",
+        "pandas",
+        "random",
+        "sklearn"
+      ],
+      "E:\\DONT TOUCH\\10M-2025-Testing\\examples\\99_book_exports\\newbook__block067.py": [
+        "docker",
+        "kubernetes",
+        "random",
+        "subprocess",
+        "threading",
+        "time"
+      ]
+    }
+  },
+  "shell": {
+    "unique_commands": [],
+    "per_file_commands": {},
+    "total_files": 0
+  },
+  "powershell": {
+    "unique_commands": [],
+    "per_file_commands": {},
+    "total_files": 0
+  },
+  "hints": {
+    "python_pip_install": [
+      "cryptography",
+      "deap",
+      "docker",
+      "kubernetes",
+      "matplotlib",
+      "numpy",
+      "opentelemetry",
+      "pandas",
+      "prometheus_client",
+      "psutil",
+      "pymongo",
+      "pytest",
+      "requests",
+      "scipy",
+      "sklearn"
+    ],
+    "shell_requirements": [],
+    "powershell_requirements": []
+  }
+}

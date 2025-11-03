@@ -1,0 +1,524 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "大数据处理系统全面监控",
+    "description": "大数据流水线的端到端监控仪表盘",
+    "tags": ["bigdata", "etl", "monitoring"],
+    "timezone": "browser",
+    "refresh": "30s",
+    "schemaVersion": 36,
+    "version": 1,
+    "uid": "bigdata-pipeline-dashboard",
+    "panels": [
+      // 1. 概览面板组
+      {
+        "title": "系统概览",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "sum(rate(bigdata_processing_total{status='success'}[5m]))",
+            "legendFormat": "总处理吞吐量 (记录/秒)",
+            "refId": "A"
+          },
+          {
+            "expr": "sum(rate(bigdata_processing_total{status='failure'}[5m])) / sum(rate(bigdata_processing_total[5m])) * 100",
+            "legendFormat": "总体错误率 (%)",
+            "refId": "B"
+          },
+          {
+            "expr": "max(bigdata_queue_length)",
+            "legendFormat": "最大队列长度",
+            "refId": "C"
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(bigdata_processing_seconds_bucket[5m])) by (le))",
+            "legendFormat": "P95处理延迟 (秒)",
+            "refId": "D"
+          }
+        ],
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": ["lastNotNull"],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        }
+      },
+
+      // 2. 数据处理吞吐量面板
+      {
+        "title": "数据处理吞吐量",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "sum(rate(bigdata_processing_total{status='success'}[5m])) by (pipeline, stage)",
+            "legendFormat": "{{pipeline}}-{{stage}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "ops",
+            "label": "记录/秒",
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "options": {
+          "alertThreshold": true,
+          "legend": {
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        }
+      },
+
+      // 3. 错误率面板
+      {
+        "title": "错误率监控",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "sum(rate(bigdata_processing_total{status='failure'}[5m])) by (pipeline, stage) / sum(rate(bigdata_processing_total[5m])) by (pipeline, stage) * 100",
+            "legendFormat": "{{pipeline}}-{{stage}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "percent",
+            "label": "错误率 (%)",
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "options": {
+          "alertThreshold": true,
+          "legend": {
+            "displayMode": "table",
+            "placement": "bottom"
+          }
+        }
+      },
+
+      // 4. 资源使用情况面板
+      {
+        "title": "系统资源使用情况",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 16},
+        "targets": [
+          {
+            "expr": "bigdata_resource_usage{resource_type=\"cpu\"}",
+            "legendFormat": "CPU: {{component}} ({{instance}})",
+            "refId": "A"
+          },
+          {
+            "expr": "bigdata_resource_usage{resource_type=\"memory\"}",
+            "legendFormat": "内存: {{component}} ({{instance}})",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "percent",
+            "label": "使用率 (%)",
+            "logBase": 1,
+            "max": "100",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "options": {
+          "alertThreshold": true,
+          "legend": {
+            "displayMode": "table",
+            "placement": "bottom"
+          }
+        }
+      },
+
+      // 5. 数据处理延迟面板
+      {
+        "title": "数据处理延迟 (分位数)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 24},
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.5, sum(rate(bigdata_processing_seconds_bucket[5m])) by (le, pipeline, stage))",
+            "legendFormat": "P50 {{pipeline}}/{{stage}}",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(bigdata_processing_seconds_bucket[5m])) by (le, pipeline, stage))",
+            "legendFormat": "P95 {{pipeline}}/{{stage}}",
+            "refId": "B"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(bigdata_processing_seconds_bucket[5m])) by (le, pipeline, stage))",
+            "legendFormat": "P99 {{pipeline}}/{{stage}}",
+            "refId": "C"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "s",
+            "label": "秒",
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "options": {
+          "alertThreshold": true,
+          "legend": {
+            "displayMode": "table",
+            "placement": "bottom"
+          }
+        }
+      },
+
+      // 6. 数据质量面板
+      {
+        "title": "数据质量指标",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 32},
+        "targets": [
+          {
+            "expr": "bigdata_data_quality_score_sum / bigdata_data_quality_score_count",
+            "legendFormat": "{{pipeline}}-{{quality_dimension}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "percent",
+            "label": "质量分数",
+            "logBase": 1,
+            "max": "1",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ]
+      },
+
+      // 7. 队列状态面板
+      {
+        "title": "队列状态监控",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 32},
+        "targets": [
+          {
+            "expr": "bigdata_queue_length",
+            "legendFormat": "{{queue_name}} ({{priority}})",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "none",
+            "label": "队列长度",
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ]
+      },
+
+      // 8. 缓存效率面板
+      {
+        "title": "缓存效率监控",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 40},
+        "targets": [
+          {
+            "expr": "sum(rate(bigdata_cache_operations_total{operation_type='hit'}[5m])) by (cache_name)",
+            "legendFormat": "{{cache_name}} 命中",
+            "refId": "A"
+          },
+          {
+            "expr": "sum(rate(bigdata_cache_operations_total{operation_type='miss'}[5m])) by (cache_name)",
+            "legendFormat": "{{cache_name}} 未命中",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "ops",
+            "label": "操作/秒",
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ]
+      },
+
+      // 9. 任务状态面板
+      {
+        "title": "任务状态分布",
+        "type": "piechart",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 40},
+        "targets": [
+          {
+            "expr": "count(bigdata_task_status) by (state)",
+            "legendFormat": "{{state}}",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "displayLabels": ["name", "value"],
+          "pieType": "pie"
+        }
+      },
+
+      // 10. 数据批次大小面板
+      {
+        "title": "数据批次大小分布",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 48},
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.5, sum(rate(bigdata_batch_size_bytes_bucket[5m])) by (le, pipeline, stage))",
+            "legendFormat": "P50 {{pipeline}}/{{stage}}",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(bigdata_batch_size_bytes_bucket[5m])) by (le, pipeline, stage))",
+            "legendFormat": "P95 {{pipeline}}/{{stage}}",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "bytes",
+            "label": "字节",
+            "logBase": 10,
+            "max": null,
+            "min": "1024",
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ]
+      },
+
+      // 11. 网络和磁盘I/O面板
+      {
+        "title": "网络和磁盘I/O监控",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 56},
+        "targets": [
+          {
+            "expr": "bigdata_resource_usage{resource_type=~\"network.*\"}",
+            "legendFormat": "网络 {{resource_type}}",
+            "refId": "A"
+          },
+          {
+            "expr": "bigdata_resource_usage{resource_type=~\"disk.*\"}",
+            "legendFormat": "磁盘 {{resource_type}}",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "MB",
+            "label": "MB/秒",
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ]
+      }
+    ],
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "注释 & 警报",
+          "type": "dashboard"
+        },
+        {
+          "datasource": "Prometheus",
+          "enable": true,
+          "expr": "ALERTS{severity=\"critical\"}",
+          "iconColor": "rgba(255, 96, 96, 1)",
+          "name": "严重警报",
+          "showIn": 0
+        },
+        {
+          "datasource": "Prometheus",
+          "enable": true,
+          "expr": "ALERTS{severity=\"warning\"}",
+          "iconColor": "rgba(255, 230, 46, 1)",
+          "name": "警告警报",
+          "showIn": 0
+        }
+      ]
+    },
+    "templating": {
+      "list": [
+        {
+          "allValue": null,
+          "current": {
+            "selected": true,
+            "text": "All",
+            "value": ["$__all"]
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(bigdata_processing_total, pipeline)",
+          "includeAll": true,
+          "label": "流水线",
+          "multi": true,
+          "name": "pipeline",
+          "options": [],
+          "query": {
+            "query": "label_values(bigdata_processing_total, pipeline)",
+            "refId": "StandardVariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "allValue": null,
+          "current": {
+            "selected": true,
+            "text": "All",
+            "value": ["$__all"]
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(bigdata_processing_total, stage)",
+          "includeAll": true,
+          "label": "阶段",
+          "multi": true,
+          "name": "stage",
+          "options": [],
+          "query": {
+            "query": "label_values(bigdata_processing_total, stage)",
+            "refId": "StandardVariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ]
+    }
+  }
+}

@@ -1,0 +1,109 @@
+> 【章节重点难点总结】
+
+- 要点：RBAC/ABAC、KMS、密钥轮换、审计与告警
+- 难点：性能与安全的权衡、跨组件信任链验证
+
+> 【课后思考/练习题】
+
+1. 设计一次端到端数据加密（At-Rest/In-Transit）的验证方案。
+2. 如何验证最低权限原则在数据湖的落地有效？
+
+
+## Kubernetes安全配置检查示例（使用kube-bench）
+
+> 【阅读提示】本篇聚焦：Kubernetes安全配置检查示例（使用kube-bench）。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kube-bench
+  namespace: security
+spec:
+  template:
+    spec:
+      hostPID: true
+      containers:
+
+        - name: kube-bench
+
+          image: aquasec/kube-bench:latest
+
+          command: ["kube-bench"]
+          volumeMounts:
+
+            - name: var-lib-kubelet
+
+              mountPath: /var/lib/kubelet
+
+              readOnly: true
+
+            - name: etc-systemd
+
+              mountPath: /etc/systemd
+
+              readOnly: true
+
+            - name: etc-kubernetes
+
+              mountPath: /etc/kubernetes
+
+              readOnly: true
+      restartPolicy: Never
+      volumes:
+
+        - name: var-lib-kubelet
+
+          hostPath:
+
+            path: /var/lib/kubelet
+
+        - name: etc-systemd
+
+          hostPath:
+
+            path: /etc/systemd
+
+        - name: etc-kubernetes
+
+          hostPath:
+
+            path: /etc/kubernetes
+---
+
+## 容器镜像安全扫描配置（使用Trivy）
+
+> 【阅读提示】本篇聚焦：容器镜像安全扫描配置（使用Trivy）。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: trivy-scan
+  namespace: security
+spec:
+  template:
+    spec:
+      containers:
+
+        - name: trivy
+
+          image: aquasec/trivy:latest
+
+          command: ["trivy", "image", "--severity=CRITICAL,HIGH", "--exit-code=1", "your-bigdata-image:latest"]
+          env:
+
+            - name: TRIVY_CACHE_DIR
+
+              value: /tmp/trivy-cache
+
+          volumeMounts:
+
+            - name: trivy-cache
+
+              mountPath: /tmp/trivy-cache
+
+      restartPolicy: Never
+      volumes:
+
+        - name: trivy-cache
+
+          emptyDir: {}
