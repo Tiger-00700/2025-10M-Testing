@@ -1,0 +1,7 @@
+# Line ending normalization
+
+# Use LF for POSIX shell scripts across all platforms
+*.sh text eol=lf
+
+# Use CRLF for PowerShell scripts for better Windows editing experience
+*.ps1 text eol=crlf

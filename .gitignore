@@ -1,0 +1,6 @@
+# Coverage data
+.coverage
+
+# Reports: ignore timestamped outputs but keep the latest snapshots
+tools/reports/*
+!tools/reports/*-latest.*
