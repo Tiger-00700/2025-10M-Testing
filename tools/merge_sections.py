@@ -1,6 +1,7 @@
 import re
 import sys
 from pathlib import Path
+from typing import List, Dict, Any, Optional
 
 
 """
@@ -27,6 +28,9 @@ SRC_1030 = Path("book/1030.2025.book.md")
 
 # Headings to consider for content enrichment (case-insensitive substring match)
 ENRICH_KEYS = ["Hadoop", "Spark", "Kafka", "HBase", "Presto"]
+
+# Optional config file to force-merge specific titles
+CONFIG_YML = Path("tools/merge_config.yml")
 
 # Simple path normalization mapping (extend as needed)
 PATH_MAP = {
@@ -121,6 +125,49 @@ def enrich_section(target_md: str, title: str, extra_block: str, source_label: s
     return target_md[:insertion_point] + supplement + target_md[insertion_point:]
 
 
+def replace_section(md: str, title: str, new_section: str) -> str:
+    """Replace the section with 'title' with 'new_section' (which should include its own heading).
+    If the title does not exist, append at end.
+    """
+    blocks = split_by_heading(md)
+    for i, (level, t, start, end) in enumerate(blocks):
+        if t == title:
+            return md[:start] + new_section.rstrip() + "\n\n" + md[end:]
+    # Not found → append
+    return md.rstrip() + "\n\n" + new_section.rstrip() + "\n"
+
+
+ANCHOR_RE = re.compile(r"<a\s+id=\"([^\"]+)\"\s*>\s*</a>")
+
+
+def fix_duplicate_anchors(text: str) -> str:
+    seen: Dict[str, int] = {}
+
+    def repl(m: re.Match) -> str:
+        aid = m.group(1)
+        cnt = seen.get(aid, 0)
+        seen[aid] = cnt + 1
+        if cnt == 0:
+            return m.group(0)
+        # suffix duplicates deterministically: -{cnt}
+        return m.group(0).replace(f'"{aid}"', f'"{aid}-{cnt}"')
+
+    return ANCHOR_RE.sub(repl, text)
+
+
+def load_config() -> Dict[str, Any]:
+    if not CONFIG_YML.exists():
+        return {}
+    try:
+        import yaml  # type: ignore
+    except Exception:
+        return {}
+    try:
+        return yaml.safe_load(CONFIG_YML.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return {}
+
+
 def main():
     canonical = load_text(CANONICAL)
     if not canonical:
@@ -148,6 +195,45 @@ def main():
 
     merged = canonical
     enrich_count = 0
+
+    cfg = load_config()
+    forced = cfg.get("forced", []) if isinstance(cfg, dict) else []
+    # Build source dict for fast lookup
+    src_map = {SRC_LINKS.name: links, SRC_1030.name: md1030}
+    # Forced replacements (match by contains by default)
+    for item in forced:
+        try:
+            title_pat: str = item.get("title")
+            source_sel: str = (item.get("source") or "links").lower()
+            match_by: str = (item.get("match_by") or "contains").lower()
+        except Exception:
+            continue
+
+        if not title_pat:
+            continue
+
+        # Find target title
+        target_title: Optional[str] = None
+        for t in tgt_idx.keys():
+            if (match_by == "exact" and t == title_pat) or (
+                match_by != "exact" and title_pat.lower() in t.lower()
+            ):
+                target_title = t
+                break
+        if not target_title:
+            continue
+
+        # Choose source text
+        src_label = SRC_LINKS.name if source_sel == "links" else SRC_1030.name
+        src_text = src_map.get(src_label) or ""
+        sec = find_section_text(src_text, target_title) or find_section_text(src_text, title_pat)
+        if not sec:
+            continue
+        # Replace entire section
+        merged = replace_section(merged, target_title, sec)
+
+    # Heuristic enrichments where source is significantly longer
+    tgt_idx = build_title_index(merged)
     for title in list(tgt_idx.keys()):
         # Only consider enrich keys
         if not any(k.lower() in title.lower() for k in ENRICH_KEYS):
@@ -161,6 +247,9 @@ def main():
         if len(src_sec) > len(tgt_sec) * 1.25:
             merged = enrich_section(merged, title, src_sec, label)
             enrich_count += 1
+
+    # De-duplicate anchors deterministically
+    merged = fix_duplicate_anchors(merged)
 
     if merged != original:
         bak = CANONICAL.with_suffix(CANONICAL.suffix + ".bak")

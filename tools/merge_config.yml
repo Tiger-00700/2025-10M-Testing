@@ -1,0 +1,33 @@
+# Titles to force-merge into the canonical manuscript.
+# match_by: contains|exact
+forced:
+  - title: "Hadoop"
+    source: links
+    match_by: contains
+  - title: "Spark"
+    source: links
+    match_by: contains
+  - title: "Kafka"
+    source: links
+    match_by: contains
+  - title: "HBase"
+    source: links
+    match_by: contains
+  - title: "Presto"
+    source: links
+    match_by: contains
+  - title: "可观测性"
+    source: links
+    match_by: contains
+  - title: "数据质量"
+    source: links
+    match_by: contains
+  - title: "安全"
+    source: 1030
+    match_by: contains
+  - title: "CI/CD"
+    source: 1030
+    match_by: contains
+  - title: "性能测试"
+    source: 1030
+    match_by: contains

@@ -144,33 +144,33 @@ if (-not $SkipQA) {
   Write-Host 'Skipping QA steps by request' -ForegroundColor Yellow
 }
 
-Write-Host "All steps completed successfully." -ForegroundColor Green
-
   # Extra: Export code blocks and run smoke checks (integrated exporter)
   Invoke-Step -Name 'Export fenced code blocks from book' -Action {
-    & python "tools/export_code_blocks.py"
+    & python tools/export_code_blocks.py
   }
 
   Invoke-Step -Name 'Run exports smoke checks' -Action {
-    & python "tools/run_exports_smoke.py"
+    & python tools/run_exports_smoke.py
   }
 
   # Pytest + coverage for exported Python examples
   Invoke-Step -Name 'Run pytest coverage for exports' -Action {
-    & python "tools/run_pytest_coverage.py"
+    & python tools/run_pytest_coverage.py
   }
 
   # Lint exported scripts (PowerShell/Shell/SQL)
   Invoke-Step -Name 'Lint script exports' -Action {
-    & python "tools/lint_script_exports.py"
+    & python tools/lint_script_exports.py
   }
 
   # Generate minimal environment requirements report
   Invoke-Step -Name 'Report minimal environment requirements' -Action {
-    & python "tools/report_min_environment.py"
+    & python tools/report_min_environment.py
   }
 
   # Export warnings report for mislabelled or heavy-dependency python fences
   Invoke-Step -Name 'Export warnings report' -Action {
-    & python "tools/report_export_warnings.py"
+    & python tools/report_export_warnings.py
   }
+
+Write-Host "All steps completed successfully." -ForegroundColor Green
