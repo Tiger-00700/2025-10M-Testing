@@ -1,6 +1,28 @@
 # Coverage data
 .coverage
+# Coverage data
+.coverage
 
 # Reports: ignore timestamped outputs but keep the latest snapshots
 tools/reports/*
 !tools/reports/*-latest.*
+
+# Python caches
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# pytest cache
+.pytest_cache/
+**/.pytest_cache/
+
+# Python virtual envs
+.venv/
+**/.venv/
+
+# Ignore extra .gitignore/.gitattributes files in subfolders, but keep root ones tracked
+**/.gitignore
+**/.gitattributes
+!/.gitignore
+!/.gitattributes
