@@ -5,3 +5,23 @@
 
 # Use CRLF for PowerShell scripts for better Windows editing experience
 *.ps1 text eol=crlf
+
+# Normalize LF for common text/code files to ensure consistent diffs
+*.md       text eol=lf
+*.txt      text eol=lf
+*.py       text eol=lf
+*.yml      text eol=lf
+*.yaml     text eol=lf
+*.json     text eol=lf
+*.sql      text eol=lf
+*.java     text eol=lf
+*.scala    text eol=lf
+*.groovy   text eol=lf
+*.properties text eol=lf
+*.csv      text eol=lf
+
+# Windows-specific script/config types prefer CRLF
+*.psm1     text eol=crlf
+*.psd1     text eol=crlf
+*.bat      text eol=crlf
+*.cmd      text eol=crlf
