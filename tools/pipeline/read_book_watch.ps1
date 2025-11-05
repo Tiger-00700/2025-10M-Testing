@@ -59,7 +59,25 @@ $pyExe = Join-Path $repoRoot '.venv/Scripts/python.exe'
 if(-not (Test-Path $pyExe)) { $pyExe = 'python' }
 $serverScript = Join-Path $repoRoot 'tools/server/preview_server.py'
 if(-not (Test-Path $serverScript)) { throw "Preview server not found: $serverScript" }
-$server = Start-Process -FilePath $pyExe -ArgumentList @($serverScript,'--dir',$outDir,'--port',$Port) -PassThru
+$serverLog = Join-Path $outDir 'server.out.log'
+$serverErr = Join-Path $outDir 'server.err.log'
+$argList = '"{0}" --dir "{1}" --port {2}' -f $serverScript, $outDir, $Port
+$server = Start-Process -FilePath $pyExe -ArgumentList $argList -RedirectStandardOutput $serverLog -RedirectStandardError $serverErr -WindowStyle Hidden -PassThru
+
+# Wait briefly and verify server is listening (non-blocking retries)
+$ok = $false
+for($i=0; $i -lt 8 -and -not $ok; $i++){
+    Start-Sleep -Milliseconds 250
+    try {
+        $probe = Invoke-WebRequest -UseBasicParsing -TimeoutSec 1 -Uri ("http://127.0.0.1:{0}/__reload" -f $Port)
+        if($probe.StatusCode -ge 200){ $ok = $true }
+    } catch { }
+}
+if(-not $ok){
+    Write-Warning "[watch] Server didn't start on 127.0.0.1:$Port. Checking logs: $serverLog ; $serverErr"
+    if(Test-Path $serverLog){ Write-Host '--- server stdout (tail) ---'; Get-Content -Tail 50 $serverLog | Write-Host }
+    if(Test-Path $serverErr){ Write-Host '--- server stderr (tail) ---'; Get-Content -Tail 50 $serverErr | Write-Host }
+}
 
 $url = "http://127.0.0.1:$Port/book.html"
 Start-Process $url
