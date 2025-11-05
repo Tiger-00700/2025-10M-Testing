@@ -67,3 +67,60 @@ See `tools/pipeline/README.md` for organizer details and `tools/README.md` for v
 ## CI line-endings check (non-blocking)
 
 CI runs a non-blocking check to report line-ending deviations against our policy (LF for code/text; CRLF for Windows scripts like .ps1/.psm1/.psd1/.bat/.cmd). The job logs warnings but does not fail the build. See `.github/workflows/line-endings.yml`.
+
+## Typesetting bundle (one-click)
+
+You can produce a typesetting-ready bundle (HTML/DOCX/PDF + resources) from the frozen manuscript in one command.
+
+### Prerequisites (best-effort rendering)
+
+- Windows PowerShell 7+ (pwsh)
+- Python virtual env is already provided at `.venv/`
+- Optional for DOCX/PDF (recommended):
+	- pandoc (adds DOCX/PDF generation)
+	- One PDF engine:
+		- XeLaTeX (TeX Live/MiKTeX) for high-quality PDF, or
+		- wkhtmltopdf as a lightweight alternative
+
+If pandoc is missing, the script will fall back to Python markdown to generate HTML only.
+
+Python fallback requires the `markdown` package; in the repo venv:
+
+```powershell
+"E:/DONT TOUCH/10M-2025-Testing/.venv/Scripts/python.exe" -m pip install -U markdown
+```
+
+### One-click bundle
+
+Run from the repo root (note the quotes for spaces in path):
+
+```powershell
+& "tools/pipeline/make_typeset_bundle.ps1"
+```
+
+The script pulls from `book/1022.2025.newbook.augmented.frozen.md` and creates a timestamped release under `tools/releases/` with both a folder and a ZIP, for example:
+
+- Folder: `tools/releases/book-YYYYMMDD-HHMMSS/`
+- ZIP: `tools/releases/book-YYYYMMDD-HHMMSS.zip`
+
+Contents include:
+
+- `book.md` (copied frozen manuscript)
+- `book.html` (always if pandoc or Python fallback is present)
+- `book.docx`, `book.pdf` (when pandoc + PDF engine available)
+- `appendices/` (all `book/附录-*.md`)
+- `examples/99_book_exports/` (exported code blocks)
+- `reports/organized-latest.md`, `reports/toc-latest.txt`
+- `bundle.json` (manifest summarizing formats generated and any failures)
+
+### Customization
+
+- To change pandoc options (templates, metadata, CSS), edit `tools/pipeline/make_typeset_bundle.ps1` and add flags to the pandoc invocations.
+- If you maintain a DOCX reference template or a Pandoc YAML metadata file, point pandoc to them with `--reference-doc` or `--metadata-file`.
+
+### Troubleshooting
+
+- Execution policy: if PowerShell blocks the script, run from a terminal launched as Administrator or use `-ExecutionPolicy Bypass -File`.
+- Paths with spaces: always wrap paths in quotes and use the call operator `&`.
+- Pandoc not found: install pandoc and ensure it is in PATH, then re-run the command to enable DOCX/PDF.
+- PDF engine missing: install XeLaTeX (TeX Live/MiKTeX) or wkhtmltopdf to enable PDF output.
