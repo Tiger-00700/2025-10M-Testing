@@ -16,6 +16,7 @@ code{{background:#f6f8fa;padding:0 .2rem}}
 .toc ul{{list-style:disc;margin-left:1.25rem}}
 a{{color:#0969da;text-decoration:none}}
 a:hover{{text-decoration:underline}}
+{extra_css}
 </style>
 </head>
 <body>
@@ -49,7 +50,18 @@ def main():
     })
     body = md.convert(text)
     toc = md.toc
-    html = TEMPLATE.format(title=src.stem, toc=toc, body=body)
+    # Optionally embed external CSS from tools/templates/book.css
+    extra_css = ""
+    try:
+        tpl_css = (Path(__file__).resolve().parent / 'templates' / 'book.css')
+        if tpl_css.exists():
+            css_raw = tpl_css.read_text(encoding='utf-8')
+            # Escape braces to avoid str.format conflicts
+            extra_css = css_raw.replace('{', '{{').replace('}', '}}')
+    except Exception:
+        extra_css = ""
+
+    html = TEMPLATE.format(title=src.stem, toc=toc, body=body, extra_css=extra_css)
     dst.write_text(html, encoding="utf-8")
     print(f"[OK] HTML written: {dst}")
 

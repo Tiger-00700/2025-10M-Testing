@@ -113,10 +113,23 @@ Contents include:
 - `reports/organized-latest.md`, `reports/toc-latest.txt`
 - `bundle.json` (manifest summarizing formats generated and any failures)
 
+### Publisher templates integration
+
+Drop your publisher assets under `tools/templates/` and they will be picked up automatically by the one-click script:
+
+- `tools/templates/reference.docx` — DOCX reference template (Pandoc `--reference-doc`), used when generating `.docx`.
+- `tools/templates/metadata.yaml` — Pandoc metadata/variables (via `--metadata-file`) applied to all formats (HTML/DOCX/PDF) when Pandoc is available. You can set title, authors, TOC depth, page geometry, fonts, colorlinks, etc.
+- `tools/templates/book.css` — HTML/CSS stylesheet. If Pandoc is present, it is passed with `--css` for HTML. If Pandoc is missing, the Python HTML fallback will inline this CSS automatically for visual consistency.
+
+Notes:
+
+- Fonts named in `metadata.yaml` (e.g., Noto Serif CJK SC) must be installed on the machine to take effect in PDF (XeLaTeX) and may affect HTML rendering.
+- If you don’t provide a `reference.docx`, Pandoc’s default DOCX theme is used.
+- All templates present under `tools/templates/` are copied into each release folder under `templates/` for traceability.
+
 ### Customization
 
-- To change pandoc options (templates, metadata, CSS), edit `tools/pipeline/make_typeset_bundle.ps1` and add flags to the pandoc invocations.
-- If you maintain a DOCX reference template or a Pandoc YAML metadata file, point pandoc to them with `--reference-doc` or `--metadata-file`.
+- The script already auto-detects `tools/templates/reference.docx`, `tools/templates/metadata.yaml`, and `tools/templates/book.css` and wires them to Pandoc when available (and CSS is also used by the Python fallback). If you need additional flags, edit `tools/pipeline/make_typeset_bundle.ps1`.
 
 ### Troubleshooting
 

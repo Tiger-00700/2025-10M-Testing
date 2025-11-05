@@ -20,31 +20,52 @@ Copy-Item -LiteralPath $src -Destination $bookMd -Force
 
 Write-Host "==> Generate formats (best-effort)"
 $pandoc = Get-Command pandoc -ErrorAction SilentlyContinue
+$tplDir = Join-Path $repoRoot 'tools/templates'
+$refDocx = Join-Path $tplDir 'reference.docx'
+$metaYaml = Join-Path $tplDir 'metadata.yaml'
+$cssSrc = Join-Path $tplDir 'book.css'
+$cssDst = $null
+if(Test-Path $cssSrc){
+    $cssDst = Join-Path $outDir 'book.css'
+    Copy-Item -LiteralPath $cssSrc -Destination $cssDst -Force
+}
 $generated = @()
 $failed = @()
 
 if($pandoc) {
     Write-Host "Using pandoc at $($pandoc.Source)"
     try {
-        & $pandoc.Source -s --toc -f gfm -t html5 -o (Join-Path $outDir 'book.html') $bookMd | Out-Null
+        $htmlArgs = @('-s','--toc','-f','gfm','-t','html5','-o',(Join-Path $outDir 'book.html'))
+        if($cssDst){ $htmlArgs += @('--css',(Split-Path -Leaf $cssDst)) }
+        if(Test-Path $metaYaml){ $htmlArgs += @('--metadata-file',$metaYaml) }
+        Push-Location $outDir
+        & $pandoc.Source @htmlArgs $bookMd | Out-Null
+        Pop-Location
         $generated += 'HTML'
     } catch { $failed += 'HTML' }
     try {
-        & $pandoc.Source -s -f gfm -t docx -o (Join-Path $outDir 'book.docx') $bookMd | Out-Null
+        $docxArgs = @('-s','-f','gfm','-t','docx','-o',(Join-Path $outDir 'book.docx'))
+        if(Test-Path $refDocx){ $docxArgs += @('--reference-doc',$refDocx) }
+        if(Test-Path $metaYaml){ $docxArgs += @('--metadata-file',$metaYaml) }
+        & $pandoc.Source @docxArgs $bookMd | Out-Null
         $generated += 'DOCX'
     } catch { $failed += 'DOCX' }
     # Try PDF via XeLaTeX, fallback to wkhtmltopdf if available
     $pdfTarget = Join-Path $outDir 'book.pdf'
     $pdfOk = $false
     try {
-        & $pandoc.Source -s -f gfm -o $pdfTarget --pdf-engine=xelatex $bookMd | Out-Null
+        $pdfArgs = @('-s','-f','gfm','-o',$pdfTarget,'--pdf-engine=xelatex')
+        if(Test-Path $metaYaml){ $pdfArgs += @('--metadata-file',$metaYaml) }
+        & $pandoc.Source @pdfArgs $bookMd | Out-Null
         if(Test-Path $pdfTarget) { $pdfOk = $true }
     } catch { }
     if(-not $pdfOk) {
         $wk = Get-Command wkhtmltopdf -ErrorAction SilentlyContinue
         if($wk) {
             try {
-                & $pandoc.Source -s -f gfm -o $pdfTarget --pdf-engine=wkhtmltopdf $bookMd | Out-Null
+                $pdfArgs = @('-s','-f','gfm','-o',$pdfTarget,'--pdf-engine=wkhtmltopdf')
+                if(Test-Path $metaYaml){ $pdfArgs += @('--metadata-file',$metaYaml) }
+                & $pandoc.Source @pdfArgs $bookMd | Out-Null
                 if(Test-Path $pdfTarget) { $pdfOk = $true }
             } catch { }
         }
@@ -97,6 +118,13 @@ $manifest = @{
     failed = $failed
 } | ConvertTo-Json -Depth 5
 Set-Content -LiteralPath (Join-Path $outDir 'bundle.json') -Value $manifest -Encoding UTF8
+
+Write-Host "==> Copy templates (if any)"
+if(Test-Path $tplDir){
+    $tplOut = Join-Path $outDir 'templates'
+    New-Item -ItemType Directory -Force -Path $tplOut | Out-Null
+    Get-ChildItem -LiteralPath $tplDir -File | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $tplOut -Force }
+}
 
 Write-Host "==> Create ZIP"
 $zipPath = "$outDir.zip"
