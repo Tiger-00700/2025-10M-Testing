@@ -1,5 +1,5 @@
-/* HTML 导出基础样式（Pandoc 或 Python 备用）
-  可用出版社提供的 CSS 模板替换本文件，以统一版式。*/
+/* Basic book styling for HTML exports (Pandoc or Python fallback)
+   You can replace this with your publisher-provided CSS. */
 :root {
   --text: #202124;
   --muted: #5f6368;
@@ -27,7 +27,7 @@ p { margin: 0.75rem 0; }
 strong { font-weight: 600; }
 em { font-style: italic; }
 
-/* 目录（TOC） */
+/* TOC */
 nav#TOC, .toc {
   border: 1px solid #e0e0e0;
   background: #fafafa;
@@ -36,7 +36,7 @@ nav#TOC, .toc {
 }
 nav#TOC a { color: var(--accent); text-decoration: none; }
 
-/* 代码 */
+/* Code */
 pre, code { font-family: "Fira Code", Consolas, monospace; }
 pre {
   background: #0b0c0e;
@@ -47,12 +47,12 @@ pre {
 }
 code { background: #f5f7f9; padding: .1rem .3rem; border-radius: 4px; }
 
-/* 表格 */
+/* Tables */
 table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
 th, td { border: 1px solid #e0e0e0; padding: .5rem .6rem; }
 th { background: #f8f9fa; }
 
-/* 引用块 */
+/* Blockquote */
 blockquote {
   border-left: 4px solid var(--accent);
   background: #f2f8ff;
@@ -61,15 +61,15 @@ blockquote {
   color: #174ea6;
 }
 
-/* 链接 */
+/* Links */
 a { color: var(--accent); }
 a:hover { text-decoration: underline; }
 
-/* 图像与图注 */
+/* Figures */
 figure { margin: 1rem 0; }
 figcaption { color: var(--muted); font-size: .95rem; }
 
-/* 打印分页控制 */
+/* Page breaks for print */
 @media print {
   a { text-decoration: none; }
   pre { background: #fff; color: #111; }
