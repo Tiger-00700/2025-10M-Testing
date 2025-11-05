@@ -67,6 +67,20 @@ def strip_source_suffix_in_headings(text: str) -> str:
     return "\n".join(lines) + ("\n" if text.endswith("\n") else "")
 
 
+def strip_source_suffix_in_reading_tips(text: str) -> str:
+    """Also remove （来自：…） or (来自：…) inside lines that contain '【阅读提示】'."""
+    lines = text.splitlines()
+    for i, line in enumerate(lines):
+        if "【阅读提示】" in line:
+            # Remove full-width Chinese and ASCII parentheses variants
+            line = re.sub(r"（来自：[^）]+）", "", line)
+            line = re.sub(r"\s*\(来自：[^)]+\)", "", line)
+            # Normalize residual double spaces
+            line = re.sub(r"\s{2,}", " ", line).rstrip()
+            lines[i] = line
+    return "\n".join(lines) + ("\n" if text.endswith("\n") else "")
+
+
 def remove_lower_level_empty_triplets(text: str) -> str:
     # Remove exact empty triplets at lower heading levels (#### or ##### or ######)
     for level_marks in ("######", "#####", "####"):
@@ -103,6 +117,7 @@ def main() -> None:
     txt = fix_appendix_example_links(txt)
     txt = adjust_verified_on_mentions(txt)
     txt = strip_source_suffix_in_headings(txt)
+    txt = strip_source_suffix_in_reading_tips(txt)
     txt = remove_lower_level_empty_triplets(txt)
     txt = insert_usage_section(txt)
     txt = append_missing_appendices(txt)
