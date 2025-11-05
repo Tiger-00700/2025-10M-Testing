@@ -51,6 +51,20 @@ function Render {
     if(Test-Path $htmlOut){ if(-not $Quiet){ Write-Host "[watch] HTML updated: $htmlOut" -ForegroundColor Cyan } ; Write-Token }
 }
 
+# Optionally refresh frozen manuscript if chapter/appendix changed
+function Invoke-FreezeManuscript {
+    $freezePy = Join-Path $repoRoot 'tools/freeze_manuscript.py'
+    if(Test-Path $freezePy){
+        $py = Join-Path $repoRoot '.venv/Scripts/python.exe'
+        if(-not (Test-Path $py)) { $py = 'python' }
+        try {
+            & $py $freezePy | Out-Null
+        } catch {
+            Write-Warning "[watch] freeze script failed: $($_.Exception.Message)"
+        }
+    }
+}
+
 # Initial render
 Render
 
@@ -96,6 +110,26 @@ $fswTpl.Filter = '*'
 $fswTpl.IncludeSubdirectories = $false
 $fswTpl.EnableRaisingEvents = $true
 
+# Watch chapter directory (*.md)
+$chapDir = Join-Path $repoRoot 'chapter'
+if(Test-Path $chapDir){
+    $fswChap = New-Object System.IO.FileSystemWatcher
+    $fswChap.Path = $chapDir
+    $fswChap.Filter = '*.md'
+    $fswChap.IncludeSubdirectories = $false
+    $fswChap.EnableRaisingEvents = $true
+}
+
+# Watch book/附录-*.md
+$bookDir = Join-Path $repoRoot 'book'
+if(Test-Path $bookDir){
+    $fswApp = New-Object System.IO.FileSystemWatcher
+    $fswApp.Path = $bookDir
+    $fswApp.Filter = '附录-*.md'
+    $fswApp.IncludeSubdirectories = $false
+    $fswApp.EnableRaisingEvents = $true
+}
+
 $pending = $false
 $building = $false
 
@@ -103,7 +137,10 @@ $action = {
     if($building){ $script:pending = $true; return }
     $script:building = $true
     Start-Sleep -Milliseconds $using:DebounceMs
-    try { Render -Quiet } finally { $script:building = $false }
+    try {
+    Invoke-FreezeManuscript
+        Render -Quiet
+    } finally { $script:building = $false }
     if($script:pending){ $script:pending = $false; Render -Quiet }
 }
 
@@ -114,12 +151,22 @@ $handlers += Register-ObjectEvent -InputObject $fsw -EventName Renamed -Action $
 $handlers += Register-ObjectEvent -InputObject $fswTpl -EventName Changed -Action $action
 $handlers += Register-ObjectEvent -InputObject $fswTpl -EventName Created -Action $action
 $handlers += Register-ObjectEvent -InputObject $fswTpl -EventName Renamed -Action $action
+if($fswChap){
+    $handlers += Register-ObjectEvent -InputObject $fswChap -EventName Changed -Action $action
+    $handlers += Register-ObjectEvent -InputObject $fswChap -EventName Created -Action $action
+    $handlers += Register-ObjectEvent -InputObject $fswChap -EventName Renamed -Action $action
+}
+if($fswApp){
+    $handlers += Register-ObjectEvent -InputObject $fswApp -EventName Changed -Action $action
+    $handlers += Register-ObjectEvent -InputObject $fswApp -EventName Created -Action $action
+    $handlers += Register-ObjectEvent -InputObject $fswApp -EventName Renamed -Action $action
+}
 
 Write-Host "[watch] Watching for changes. Press Ctrl+C to stop." -ForegroundColor Green
 try {
     while($true){ Start-Sleep -Seconds 1 }
 } finally {
     foreach($h in $handlers){ Unregister-Event -SubscriptionId $h.Id -ErrorAction SilentlyContinue }
-    $fsw.Dispose(); $fswTpl.Dispose()
+    $fsw.Dispose(); $fswTpl.Dispose(); if($fswChap){ $fswChap.Dispose() }; if($fswApp){ $fswApp.Dispose() }
     if($server -and -not $server.HasExited){ try { $server.CloseMainWindow() | Out-Null; Start-Sleep 1; if(-not $server.HasExited){ $server.Kill() } } catch {} }
 }
