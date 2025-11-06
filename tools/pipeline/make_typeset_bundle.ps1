@@ -19,7 +19,24 @@ $bookMd = Join-Path $outDir 'book.md'
 Copy-Item -LiteralPath $src -Destination $bookMd -Force
 
 Write-Host "==> Generate formats (best-effort)"
-$pandoc = Get-Command pandoc -ErrorAction SilentlyContinue
+function Resolve-Pandoc {
+    $cmd = Get-Command pandoc -ErrorAction SilentlyContinue
+    if($cmd){ return $cmd.Source }
+    $candidates = @(
+        (Join-Path $Env:LOCALAPPDATA 'Pandoc/pandoc.exe'),
+        'C:\\Program Files\\Pandoc\\pandoc.exe',
+        'C:\\Program Files (x86)\\Pandoc\\pandoc.exe'
+    )
+    foreach($p in $candidates){ if(Test-Path $p){ return $p } }
+    return $null
+}
+function Get-PdfEngines {
+    $engines = @()
+    if(Get-Command xelatex -ErrorAction SilentlyContinue){ $engines += 'xelatex' }
+    if(Get-Command wkhtmltopdf -ErrorAction SilentlyContinue){ $engines += 'wkhtmltopdf' }
+    return $engines
+}
+$pandocPath = Resolve-Pandoc
 $tplDir = Join-Path $repoRoot 'tools/templates'
 $refDocx = Join-Path $tplDir 'reference.docx'
 $metaYaml = Join-Path $tplDir 'metadata.yaml'
@@ -32,14 +49,14 @@ if(Test-Path $cssSrc){
 $generated = @()
 $failed = @()
 
-if($pandoc) {
-    Write-Host "Using pandoc at $($pandoc.Source)"
+if($pandocPath) {
+    Write-Host "Using pandoc at $pandocPath"
     try {
         $htmlArgs = @('-s','--toc','-f','gfm','-t','html5','-o',(Join-Path $outDir 'book.html'))
         if($cssDst){ $htmlArgs += @('--css',(Split-Path -Leaf $cssDst)) }
         if(Test-Path $metaYaml){ $htmlArgs += @('--metadata-file',$metaYaml) }
         Push-Location $outDir
-        & $pandoc.Source @htmlArgs $bookMd | Out-Null
+        & $pandocPath @htmlArgs $bookMd | Out-Null
         Pop-Location
         $generated += 'HTML'
     } catch { $failed += 'HTML' }
@@ -47,28 +64,20 @@ if($pandoc) {
         $docxArgs = @('-s','-f','gfm','-t','docx','-o',(Join-Path $outDir 'book.docx'))
         if(Test-Path $refDocx){ $docxArgs += @('--reference-doc',$refDocx) }
         if(Test-Path $metaYaml){ $docxArgs += @('--metadata-file',$metaYaml) }
-        & $pandoc.Source @docxArgs $bookMd | Out-Null
+        & $pandocPath @docxArgs $bookMd | Out-Null
         $generated += 'DOCX'
     } catch { $failed += 'DOCX' }
     # Try PDF via XeLaTeX, fallback to wkhtmltopdf if available
     $pdfTarget = Join-Path $outDir 'book.pdf'
     $pdfOk = $false
-    try {
-        $pdfArgs = @('-s','-f','gfm','-o',$pdfTarget,'--pdf-engine=xelatex')
-        if(Test-Path $metaYaml){ $pdfArgs += @('--metadata-file',$metaYaml) }
-        & $pandoc.Source @pdfArgs $bookMd | Out-Null
-        if(Test-Path $pdfTarget) { $pdfOk = $true }
-    } catch { }
-    if(-not $pdfOk) {
-        $wk = Get-Command wkhtmltopdf -ErrorAction SilentlyContinue
-        if($wk) {
-            try {
-                $pdfArgs = @('-s','-f','gfm','-o',$pdfTarget,'--pdf-engine=wkhtmltopdf')
-                if(Test-Path $metaYaml){ $pdfArgs += @('--metadata-file',$metaYaml) }
-                & $pandoc.Source @pdfArgs $bookMd | Out-Null
-                if(Test-Path $pdfTarget) { $pdfOk = $true }
-            } catch { }
-        }
+    $engines = Get-PdfEngines
+    foreach($engine in $engines){
+        try {
+            $pdfArgs = @('-s','-f','gfm','-o',$pdfTarget,("--pdf-engine={0}" -f $engine))
+            if(Test-Path $metaYaml){ $pdfArgs += @('--metadata-file',$metaYaml) }
+            & $pandocPath @pdfArgs $bookMd | Out-Null
+            if(Test-Path $pdfTarget) { $pdfOk = $true; break }
+        } catch { }
     }
     if($pdfOk) { $generated += 'PDF' } else { $failed += 'PDF' }
 } else {
