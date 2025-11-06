@@ -40,13 +40,23 @@ function Render {
         foreach($p in $candidates){ if(Test-Path $p){ return $p } }
         return $null
     }
+    function Add-ToPathIfDirExists($dir){ if($dir -and (Test-Path $dir)){ if(-not ($env:PATH -split ';' | Where-Object { $_ -eq $dir })) { $env:PATH = "$dir;" + $env:PATH } } }
     function Resolve-PdfEngine {
         param([string]$Hint)
         if($Hint){ return $Hint }
-        $xe = Get-Command xelatex -ErrorAction SilentlyContinue
-        if($xe) { return 'xelatex' }
-        $wk = Get-Command wkhtmltopdf -ErrorAction SilentlyContinue
-        if($wk) { return 'wkhtmltopdf' }
+        # Try PATH first
+        if(Get-Command xelatex -ErrorAction SilentlyContinue){ return 'xelatex' }
+        if(Get-Command wkhtmltopdf -ErrorAction SilentlyContinue){ return 'wkhtmltopdf' }
+        # Extend PATH with common locations then retry
+        $miUser = Join-Path $Env:LOCALAPPDATA 'Programs/MiKTeX/miktex/bin/x64'
+        $miSys  = Join-Path $Env:ProgramFiles 'MiKTeX/miktex/bin/x64'
+        $tlRoot = 'C:/texlive'
+        $wkSys = Join-Path $Env:ProgramFiles 'wkhtmltopdf/bin'
+        Add-ToPathIfDirExists $miUser; Add-ToPathIfDirExists $miSys
+        if(Test-Path $tlRoot){ Get-ChildItem -LiteralPath $tlRoot -Directory -ErrorAction SilentlyContinue | ForEach-Object { Add-ToPathIfDirExists (Join-Path $_.FullName 'bin/windows') } }
+        Add-ToPathIfDirExists $wkSys
+        if(Get-Command xelatex -ErrorAction SilentlyContinue){ return 'xelatex' }
+        if(Get-Command wkhtmltopdf -ErrorAction SilentlyContinue){ return 'wkhtmltopdf' }
         return $null
     }
     $pandocPath = Resolve-Pandoc -Hint $PandocPath
@@ -71,13 +81,15 @@ function Render {
             $pdfOk = $false
             if($pdfEngine){
                 try {
+                    $pdfStdout = Join-Path $outDir ("pandoc_pdf.{0}.out.log" -f $pdfEngine)
+                    $pdfStderr = Join-Path $outDir ("pandoc_pdf.{0}.err.log" -f $pdfEngine)
                     $pdfArgs = @('-s','-f','gfm','-o',(Split-Path -Leaf $pdfOut),"--pdf-engine=$pdfEngine")
-                    if(Test-Path $metaYaml){ $pdfArgs += @('--metadata-file',$metaYaml) }
+                    if(Test-Path $metaYaml){ $pdfArgs += @('--metadata-file',(Split-Path -Leaf $metaYaml)) }
                     Push-Location $outDir
-                    & $pandocPath @pdfArgs $bookMd | Out-Null
+                    Start-Process -FilePath $pandocPath -ArgumentList ($pdfArgs + (Split-Path -Leaf $bookMd)) -RedirectStandardOutput $pdfStdout -RedirectStandardError $pdfStderr -NoNewWindow -Wait | Out-Null
                     Pop-Location
-                    if(Test-Path $pdfOut){ $pdfOk = $true }
-                } catch {}
+                    if(Test-Path $pdfOut){ $pdfOk = $true } else { Write-Warning ("[watch] PDF failed, see logs: {0}; {1}" -f $pdfStdout, $pdfStderr) }
+                } catch { Write-Warning "[watch] PDF exception: $($_.Exception.Message)" }
             }
             if(-not $pdfOk){
                 Write-Warning "[watch] PDF not generated. Install XeLaTeX (TeX Live/MiKTeX) or wkhtmltopdf, or pass -PdfEngine xelatex|wkhtmltopdf."

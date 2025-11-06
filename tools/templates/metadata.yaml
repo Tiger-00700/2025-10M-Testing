@@ -27,10 +27,31 @@ urlcolor: blue
 colorlinks: true
 
 # Fonts (XeLaTeX)
-mainfont: "Noto Serif CJK SC"
-sansfont: "Noto Sans CJK SC"
-monofont: "Fira Code"
+# Prefer robust CJK setup with fallbacks on Windows; handled via header-includes below.
 fontsize: 11pt
+
+# XeLaTeX robust font chain (handles missing fonts gracefully)
+header-includes:
+  - |
+    % --- Robust CJK font configuration for XeLaTeX ---
+    \usepackage{iftex}
+    \ifXeTeX
+      \usepackage{fontspec}
+      \usepackage{xeCJK}
+      \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+      % Latin fonts with fallbacks
+      \IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{\setmainfont{TeX Gyre Termes}}
+      \IfFontExistsTF{Arial}{\setsansfont{Arial}}{\setsansfont{TeX Gyre Heros}}
+      \IfFontExistsTF{Consolas}{\setmonofont{Consolas}}{\setmonofont{Latin Modern Mono}}
+      % CJK serif chain: Source Han Serif SC -> Noto Serif CJK SC -> SimSun -> Songti SC
+      \IfFontExistsTF{Source Han Serif SC}{\setCJKmainfont{Source Han Serif SC}}{%
+        \IfFontExistsTF{Noto Serif CJK SC}{\setCJKmainfont{Noto Serif CJK SC}}{%
+          \IfFontExistsTF{SimSun}{\setCJKmainfont{SimSun}}{\setCJKmainfont{Songti SC}}}}
+      % Optional CJK sans for headings
+      \IfFontExistsTF{Source Han Sans SC}{\setCJKsansfont{Source Han Sans SC}}{%
+        \IfFontExistsTF{Noto Sans CJK SC}{\setCJKsansfont{Noto Sans CJK SC}}{%
+          \IfFontExistsTF{Microsoft YaHei}{\setCJKsansfont{Microsoft YaHei}}{\setCJKsansfont{SimHei}}}}
+    \fi
 
 # DOCX specific (reference doc is preferred; this still helps for built-in styles)
 # reference-doc: tools/templates/reference.docx

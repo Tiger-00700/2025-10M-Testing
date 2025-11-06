@@ -1,3 +1,8 @@
+param(
+    [ValidateSet('auto','xelatex','wkhtmltopdf','wkhtmltopdf-first','xelatex-first')]
+    [string]$PdfEngine = 'auto'
+)
+
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -30,10 +35,28 @@ function Resolve-Pandoc {
     foreach($p in $candidates){ if(Test-Path $p){ return $p } }
     return $null
 }
+function Add-ToPathIfDirExists($dir){ if($dir -and (Test-Path $dir)){ if(-not ($env:PATH -split ';' | Where-Object { $_ -eq $dir })) { $env:PATH = "$dir;" + $env:PATH } } }
 function Get-PdfEngines {
     $engines = @()
+    # Try PATH first
     if(Get-Command xelatex -ErrorAction SilentlyContinue){ $engines += 'xelatex' }
     if(Get-Command wkhtmltopdf -ErrorAction SilentlyContinue){ $engines += 'wkhtmltopdf' }
+    # If none, try common install locations and extend PATH for this process
+    if(-not $engines.Contains('xelatex')){
+        $miUser = Join-Path $Env:LOCALAPPDATA 'Programs/MiKTeX/miktex/bin/x64'
+        $miSys  = Join-Path $Env:ProgramFiles 'MiKTeX/miktex/bin/x64'
+        $tlRoot = 'C:/texlive'
+        Add-ToPathIfDirExists $miUser; Add-ToPathIfDirExists $miSys
+        if(Test-Path $tlRoot){ Get-ChildItem -LiteralPath $tlRoot -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+            $bin = Join-Path $_.FullName 'bin/windows'; Add-ToPathIfDirExists $bin }
+        }
+        if(Get-Command xelatex -ErrorAction SilentlyContinue){ $engines += 'xelatex' }
+    }
+    if(-not $engines.Contains('wkhtmltopdf')){
+        $wkSys = Join-Path $Env:ProgramFiles 'wkhtmltopdf/bin'
+        Add-ToPathIfDirExists $wkSys
+        if(Get-Command wkhtmltopdf -ErrorAction SilentlyContinue){ $engines += 'wkhtmltopdf' }
+    }
     return $engines
 }
 $pandocPath = Resolve-Pandoc
@@ -70,14 +93,25 @@ if($pandocPath) {
     # Try PDF via XeLaTeX, fallback to wkhtmltopdf if available
     $pdfTarget = Join-Path $outDir 'book.pdf'
     $pdfOk = $false
-    $engines = Get-PdfEngines
-    foreach($engine in $engines){
+    $order = Get-PdfEngines
+    if($PdfEngine -eq 'xelatex'){ $order = @('xelatex') }
+    elseif($PdfEngine -eq 'wkhtmltopdf'){ $order = @('wkhtmltopdf') }
+    elseif($PdfEngine -eq 'wkhtmltopdf-first'){ $order = @('wkhtmltopdf','xelatex') + @($order | Where-Object { $_ -notin @('wkhtmltopdf','xelatex') }) }
+    elseif($PdfEngine -eq 'xelatex-first'){ $order = @('xelatex','wkhtmltopdf') + @($order | Where-Object { $_ -notin @('wkhtmltopdf','xelatex') }) }
+
+    foreach($engine in $order){
         try {
-            $pdfArgs = @('-s','-f','gfm','-o',$pdfTarget,("--pdf-engine={0}" -f $engine))
-            if(Test-Path $metaYaml){ $pdfArgs += @('--metadata-file',$metaYaml) }
-            & $pandocPath @pdfArgs $bookMd | Out-Null
+            $pdfStdout = Join-Path $outDir ("pandoc_pdf.{0}.out.log" -f $engine)
+            $pdfStderr = Join-Path $outDir ("pandoc_pdf.{0}.err.log" -f $engine)
+            $argList = @('-s','-f','gfm','-o',(Split-Path -Leaf $pdfTarget),("--pdf-engine={0}" -f $engine))
+            if(Test-Path $metaYaml){ $argList += @('--metadata-file',(Split-Path -Leaf $metaYaml)) }
+            Push-Location $outDir
+            Start-Process -FilePath $pandocPath -ArgumentList ($argList + (Split-Path -Leaf $bookMd)) -RedirectStandardOutput $pdfStdout -RedirectStandardError $pdfStderr -NoNewWindow -Wait | Out-Null
+            Pop-Location
             if(Test-Path $pdfTarget) { $pdfOk = $true; break }
-        } catch { }
+        } catch {
+            Write-Warning ("PDF attempt with engine {0} failed; see logs in {1}" -f $engine, $outDir)
+        }
     }
     if($pdfOk) { $generated += 'PDF' } else { $failed += 'PDF' }
 } else {
