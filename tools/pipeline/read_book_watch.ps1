@@ -2,7 +2,9 @@ param(
     [string]$Source = $(Join-Path (Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSCommandPath))) 'book/1022.2025.newbook.augmented.frozen.md'),
     [int]$Port = 9876,
     [int]$DebounceMs = 400,
-    [string]$PandocPath
+    [string]$PandocPath,
+    [switch]$AlsoPdf,
+    [ValidateSet('xelatex','wkhtmltopdf')][string]$PdfEngine
 )
 
 Set-StrictMode -Version Latest
@@ -38,7 +40,17 @@ function Render {
         foreach($p in $candidates){ if(Test-Path $p){ return $p } }
         return $null
     }
+    function Resolve-PdfEngine {
+        param([string]$Hint)
+        if($Hint){ return $Hint }
+        $xe = Get-Command xelatex -ErrorAction SilentlyContinue
+        if($xe) { return 'xelatex' }
+        $wk = Get-Command wkhtmltopdf -ErrorAction SilentlyContinue
+        if($wk) { return 'wkhtmltopdf' }
+        return $null
+    }
     $pandocPath = Resolve-Pandoc -Hint $PandocPath
+    $pdfEngine = Resolve-PdfEngine -Hint $PdfEngine
     $metaYaml = Join-Path $tplDir 'metadata.yaml'
     $cssSrc = Join-Path $tplDir 'book.css'
     $cssDst = $null
@@ -54,6 +66,30 @@ function Render {
         Push-Location $outDir
         & $pandocPath @pandocArgs $bookMd | Out-Null
         Pop-Location
+        if($AlsoPdf){
+            $pdfOut = Join-Path $outDir 'book.pdf'
+            $pdfOk = $false
+            if($pdfEngine){
+                try {
+                    $pdfArgs = @('-s','-f','gfm','-o',(Split-Path -Leaf $pdfOut),"--pdf-engine=$pdfEngine")
+                    if(Test-Path $metaYaml){ $pdfArgs += @('--metadata-file',$metaYaml) }
+                    Push-Location $outDir
+                    & $pandocPath @pdfArgs $bookMd | Out-Null
+                    Pop-Location
+                    if(Test-Path $pdfOut){ $pdfOk = $true }
+                } catch {}
+            }
+            if(-not $pdfOk){
+                Write-Warning "[watch] PDF not generated. Install XeLaTeX (TeX Live/MiKTeX) or wkhtmltopdf, or pass -PdfEngine xelatex|wkhtmltopdf."
+                $checker = Join-Path $repoRoot 'tools/pipeline/check_pdf_deps.ps1'
+                if(Test-Path $checker){
+                    Write-Host "[watch] 推荐执行一次依赖检查：" -ForegroundColor Yellow
+                    Write-Host "pwsh -NoProfile -ExecutionPolicy Bypass -File `"$checker`" -Prefer xelatex" -ForegroundColor DarkCyan
+                }
+            } elseif(-not $Quiet) {
+                Write-Host "[watch] PDF updated: $pdfOut" -ForegroundColor Magenta
+            }
+        }
     } else {
         if(-not $Quiet){ Write-Warning '[watch] pandoc not found; using Python fallback renderer (HTML only).' }
         $py = Join-Path $repoRoot '.venv/Scripts/python.exe'
