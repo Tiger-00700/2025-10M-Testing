@@ -4,7 +4,10 @@ param(
     [int]$DebounceMs = 400,
     [string]$PandocPath,
     [switch]$AlsoPdf,
-    [ValidateSet('xelatex','wkhtmltopdf')][string]$PdfEngine
+    [ValidateSet('xelatex','wkhtmltopdf')][string]$PdfEngine,
+    [switch]$AlsoVerify,
+    [switch]$VerifyAllowSkip,
+    [switch]$VerifyAutoStart
 )
 
 Set-StrictMode -Version Latest
@@ -113,6 +116,26 @@ function Render {
     if(Test-Path $htmlOut){ if(-not $Quiet){ Write-Host "[watch] HTML updated: $htmlOut" -ForegroundColor Cyan } ; Write-Token }
 }
 
+# Optionally run observability verification
+function Invoke-ObservabilityVerify {
+    param([switch]$Quiet)
+    if(-not $AlsoVerify){ return }
+    $verifier = Join-Path $repoRoot 'tools/pipeline/verify_observability.ps1'
+    if(-not (Test-Path $verifier)) { if(-not $Quiet){ Write-Warning "[watch] verifier not found: $verifier" } ; return }
+    $verifyOut = Join-Path $outDir 'verify.out.log'
+    $verifyErr = Join-Path $outDir 'verify.err.log'
+    $argList = @('-NoProfile','-ExecutionPolicy','Bypass','-File',"$verifier")
+    if($VerifyAllowSkip){ $argList += '-AllowSkip' }
+    if($VerifyAutoStart){ $argList += '-AutoStartContainers' }
+    if(-not $Quiet){ Write-Host "[watch] Running observability verifier..." -ForegroundColor DarkCyan }
+    try {
+        Start-Process -FilePath 'pwsh' -ArgumentList $argList -RedirectStandardOutput $verifyOut -RedirectStandardError $verifyErr -NoNewWindow -Wait | Out-Null
+        if(-not $Quiet){ Write-Host ("[watch] Verifier done. Logs: {0} / {1}" -f $verifyOut, $verifyErr) -ForegroundColor DarkCyan }
+    } catch {
+        Write-Warning "[watch] verifier failed to start: $($_.Exception.Message)"
+    }
+}
+
 # Optionally refresh frozen manuscript if chapter/appendix changed
 function Invoke-FreezeManuscript {
     $freezePy = Join-Path $repoRoot 'tools/freeze_manuscript.py'
@@ -201,7 +224,8 @@ $action = {
     Start-Sleep -Milliseconds $using:DebounceMs
     try {
     Invoke-FreezeManuscript
-        Render -Quiet
+    Render -Quiet
+    Invoke-ObservabilityVerify -Quiet
     } finally { $script:building = $false }
     if($script:pending){ $script:pending = $false; Render -Quiet }
 }

@@ -30,7 +30,8 @@ param(
   [int]$JaegerMinCount = 1,
 
   # Behavior
-  [switch]$AllowSkip
+  [switch]$AllowSkip,
+  [switch]$AutoStartContainers
 )
 
 Set-StrictMode -Version Latest
@@ -42,7 +43,7 @@ function Test-Endpoint {
     [int]$TimeoutSec = 5
   )
   try {
-    $resp = Invoke-WebRequest -Uri $Url -UseBasicParsing -TimeoutSec $TimeoutSec
+    Invoke-WebRequest -Uri $Url -UseBasicParsing -TimeoutSec $TimeoutSec | Out-Null
     return $true
   } catch {
     return $false
@@ -58,6 +59,41 @@ function Resolve-RepoPath([string]$rel) {
   $root = Split-Path -Parent (Split-Path -Parent $PSCommandPath)  # tools/pipeline -> tools -> repo root
   $path = Join-Path $root $rel
   return $path
+}
+
+function Test-PortFree {
+  param([int]$Port)
+  try {
+    $conn = Get-NetTCPConnection -LocalPort $Port -ErrorAction SilentlyContinue
+    return -not $conn
+  } catch { return $true }
+}
+
+function Test-DockerAvailable {
+  return [bool](Get-Command docker -ErrorAction SilentlyContinue)
+}
+
+function Start-ContainerIfNeeded {
+  param(
+    [Parameter(Mandatory=$true)][string]$Name,
+    [Parameter(Mandatory=$true)][string]$Image,
+    [string[]]$PortArgs
+  )
+  try {
+  $exists = (docker ps -a --format '{{.Names}}' | Where-Object { $_ -eq $Name })
+    if ($exists) {
+      # Start if not running
+      $running = (docker inspect -f '{{.State.Running}}' $Name) -eq 'true'
+      if (-not $running) { docker start $Name | Out-Null }
+      return $true
+    } else {
+      docker run -d --name $Name @PortArgs $Image | Out-Null
+      return $true
+    }
+  } catch {
+    Write-Warning "Failed to ensure container '$Name': $($_.Exception.Message)"
+    return $false
+  }
 }
 
 Write-Header "Verify Observability (PowerShell)"
@@ -82,6 +118,53 @@ if (-not $jaegerOk) {
 $envIssues = @()
 if (-not $promOk) { $envIssues += 'prometheus' }
 if (-not $jaegerOk) { $envIssues += 'jaeger' }
+
+# Try auto-start if requested
+if ($envIssues.Count -gt 0 -and $AutoStartContainers) {
+  if (Test-DockerAvailable) {
+    Write-Header "Auto-start containers"
+    # Prometheus
+    if (-not $promOk) {
+      try {
+        $promHost = [Uri]$PromUrl
+        $defaultPort = if ($promHost.Port -gt 0) { $promHost.Port } else { 9090 }
+        $candPorts = @($defaultPort, 9090, 19090)
+        $chosen = $null
+        foreach ($p in $candPorts) { if (Test-PortFree -Port $p) { $chosen = $p; break } }
+        if (-not $chosen) { $chosen = $defaultPort }
+  $ok = Start-ContainerIfNeeded -Name 'prometheus' -Image 'prom/prometheus:latest' -PortArgs @('-p',"$chosen:9090")
+        if ($ok) {
+          $PromUrl = "{0}://{1}:{2}" -f $promHost.Scheme, ($promHost.Host), $chosen
+          Start-Sleep -Seconds 2
+          $promOk = Test-Endpoint -Url ("{0}/api/v1/status/runtimeinfo" -f $PromUrl.TrimEnd('/'))
+        }
+      } catch { Write-Warning "Prometheus auto-start error: $($_.Exception.Message)" }
+    }
+    # Jaeger
+    if (-not $jaegerOk) {
+      try {
+        $jHost = [Uri]$JaegerBase
+        $defaultPortJ = if ($jHost.Port -gt 0) { $jHost.Port } else { 16686 }
+        $candJ = @($defaultPortJ, 16686, 16687)
+        $chosenJ = $null
+        foreach ($p in $candJ) { if (Test-PortFree -Port $p) { $chosenJ = $p; break } }
+        if (-not $chosenJ) { $chosenJ = $defaultPortJ }
+  $okJ = Start-ContainerIfNeeded -Name 'jaeger' -Image 'jaegertracing/all-in-one:1.57' -PortArgs @('-p',"$chosenJ:16686",'-p','14268:14268')
+        if ($okJ) {
+          $JaegerBase = "{0}://{1}:{2}" -f $jHost.Scheme, ($jHost.Host), $chosenJ
+          Start-Sleep -Seconds 3
+          $jaegerOk = Test-Endpoint -Url ("{0}/api/services" -f $JaegerBase.TrimEnd('/'))
+        }
+      } catch { Write-Warning "Jaeger auto-start error: $($_.Exception.Message)" }
+    }
+    # Recompute issues after attempts
+    $envIssues = @()
+    if (-not $promOk) { $envIssues += 'prometheus' }
+    if (-not $jaegerOk) { $envIssues += 'jaeger' }
+  } else {
+    Write-Warning "Docker not available in PATH; cannot auto-start containers"
+  }
+}
 
 if ($envIssues.Count -gt 0 -and -not $AllowSkip) {
   Write-Error ("Environment not ready: {0}. Re-run after starting the services or pass -AllowSkip to continue." -f ($envIssues -join ', '))
