@@ -7,6 +7,9 @@
 tools/reports/*
 !tools/reports/*-latest.*
 
+# Releases: ignore generated bundles and preview logs
+tools/releases/*
+
 # Python caches
 __pycache__/
 **/__pycache__/

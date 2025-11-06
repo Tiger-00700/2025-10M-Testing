@@ -1,10 +1,21 @@
-# examples/13_observability (placeholder)
+# examples/13_observability — Minimal Jaeger checks
 
-This is a placeholder skeleton for the 13_observability lab. Content will be added later.
+Small utilities to interact with the Jaeger Query API for test assertions and ad-hoc inspection.
 
-Temporary runners:
+## Files
 
-- smoke.sh (Linux/macOS)
-- smoke.ps1 (Windows)
+- jaeger_assert.py — Assert at least N traces exist for a service (and optional operation)
+- jaeger_assert.ps1 — PowerShell version of the assertion (Windows-first)
+- jaeger_query.ps1 — PowerShell helper to list recent traces with span counts
+- smoke.sh | smoke.ps1 — CI stubs (still available)
 
-Both scripts simply print a success message and exit 0 to support CI/reference checks.
+## Examples
+
+- PowerShell assertion (recommended on Windows):
+	- `pwsh -File .\jaeger_assert.ps1 -Base http://localhost:16686 -Service demo -Lookback 1h -MinCount 1`
+- Python assertion:
+	- `python jaeger_assert.py --base http://localhost:16686 --service demo --lookback 1h --min-count 1`
+- PowerShell listing helper:
+	- `pwsh -File .\jaeger_query.ps1 -Base http://localhost:16686 -Service demo -Limit 10`
+
+Exit codes: 0 pass, 2 fail, 3 error.
