@@ -61,6 +61,7 @@ function Get-PdfEngines {
 }
 $pandocPath = Resolve-Pandoc
 $tplDir = Join-Path $repoRoot 'tools/templates'
+$dataDir = Join-Path $repoRoot 'tools/pandoc-data'
 $refDocx = Join-Path $tplDir 'reference.docx'
 $metaYaml = Join-Path $tplDir 'metadata.yaml'
 $cssSrc = Join-Path $tplDir 'book.css'
@@ -76,6 +77,7 @@ if($pandocPath) {
     Write-Host "Using pandoc at $pandocPath"
     try {
         $htmlArgs = @('-s','--toc','-f','gfm','-t','html5','-o',(Join-Path $outDir 'book.html'))
+        if(Test-Path $dataDir){ $htmlArgs += @('--data-dir',$dataDir) }
         if($cssDst){ $htmlArgs += @('--css',(Split-Path -Leaf $cssDst)) }
         if(Test-Path $metaYaml){ $htmlArgs += @('--metadata-file',$metaYaml) }
         Push-Location $outDir
@@ -85,6 +87,7 @@ if($pandocPath) {
     } catch { $failed += 'HTML' }
     try {
         $docxArgs = @('-s','-f','gfm','-t','docx','-o',(Join-Path $outDir 'book.docx'))
+        if(Test-Path $dataDir){ $docxArgs += @('--data-dir',$dataDir) }
         if(Test-Path $refDocx){ $docxArgs += @('--reference-doc',$refDocx) }
         if(Test-Path $metaYaml){ $docxArgs += @('--metadata-file',$metaYaml) }
         & $pandocPath @docxArgs $bookMd | Out-Null
@@ -104,6 +107,7 @@ if($pandocPath) {
             $pdfStdout = Join-Path $outDir ("pandoc_pdf.{0}.out.log" -f $engine)
             $pdfStderr = Join-Path $outDir ("pandoc_pdf.{0}.err.log" -f $engine)
             $argList = @('-s','-f','gfm','-o',(Split-Path -Leaf $pdfTarget),("--pdf-engine={0}" -f $engine))
+            if(Test-Path $dataDir){ $argList += @('--data-dir',(Split-Path -Leaf $dataDir)) }
             if(Test-Path $metaYaml){ $argList += @('--metadata-file',(Split-Path -Leaf $metaYaml)) }
             Push-Location $outDir
             Start-Process -FilePath $pandocPath -ArgumentList ($argList + (Split-Path -Leaf $bookMd)) -RedirectStandardOutput $pdfStdout -RedirectStandardError $pdfStderr -NoNewWindow -Wait | Out-Null

@@ -1,0 +1,10 @@
+---
+# Pandoc translations for zh (zh-CN)
+# Minimal term mappings expected by Pandoc
+Abstract: "摘要"
+Appendix: "附录"
+References: "参考文献"
+Table: "表"
+Figure: "图"
+Listing: "代码"
+Contents: "目录"
