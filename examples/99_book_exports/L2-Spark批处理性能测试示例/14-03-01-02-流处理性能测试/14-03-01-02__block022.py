@@ -1,5 +1,6 @@
 ## Kafka+Spark Streaming性能测试示例
 
+> 【阅读提示】本篇聚焦：跨系统数据一致性测试示例。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 def test_streaming_performance():
     # 1. 配置测试环境

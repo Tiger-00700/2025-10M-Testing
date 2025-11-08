@@ -1,5 +1,6 @@
 ## MongoDB数据存储测试示例
 
+> 【阅读提示】本篇聚焦：MongoDB数据存储测试示例。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 def test_mongodb_document_storage():
     # 1. 连接MongoDB

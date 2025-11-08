@@ -1,5 +1,16 @@
+> 【章节重点难点总结】
+
+- 本节要点：梳理关键概念、流程与方法；明确输入输出与成功标准
+- 难点：落地实施的约束（性能/数据质量/安全/成本）的取舍与平衡
+
+> 【课后思考/练习题】
+
+1. 结合你的项目，描述本节主题的一个实践场景，并给出验证要点。
+2. 列出2-3个风险点/常见陷阱，并给出可操作的规避建议。
+
 # 大数据处理流水线中的OpenTelemetry追踪实现 - 增强版
 
+> 【阅读提示】本篇聚焦：大数据处理流水线中的OpenTelemetry追踪实现 - 增强版。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 import time
 import random
@@ -14,6 +25,7 @@ from opentelemetry.trace import Status, StatusCode
 
 # 配置全局追踪器
 
+> 【阅读提示】本篇聚焦：配置全局追踪器。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 resource = Resource(attributes={
     SERVICE_NAME: "bigdata-processing-pipeline",
@@ -24,11 +36,13 @@ resource = Resource(attributes={
 
 # 创建追踪提供者
 
+> 【阅读提示】本篇聚焦：创建追踪提供者。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 provider = TracerProvider(resource=resource)
 
 # 配置多种导出器
 
+> 【阅读提示】本篇聚焦：配置多种导出器。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 jaeger_exporter = JaegerExporter(
     agent_host_name="jaeger-collector",
@@ -39,19 +53,23 @@ console_exporter = ConsoleSpanExporter()
 
 # 添加批处理处理器（生产环境）
 
+> 【阅读提示】本篇聚焦：添加批处理处理器（生产环境）。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 batch_processor = BatchSpanProcessor(jaeger_exporter)
 provider.add_span_processor(batch_processor)
 
 # 可选：添加控制台处理器（开发环境调试用）
 
+> 【阅读提示】本篇聚焦：可选：添加控制台处理器（开发环境调试用）。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 # provider.add_span_processor(BatchSpanProcessor(console_exporter))
 
+> 【阅读提示】本篇聚焦：provider.add_span_processor(BatchSpanProcessor(console_exporter))。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 
 # 设置全局追踪提供者
 
+> 【阅读提示】本篇聚焦：设置全局追踪提供者。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 trace.set_tracer_provider(provider)
 
@@ -380,6 +398,7 @@ def execute_pipeline(input_source, target_config):
 
 # 示例用法
 
+> 【阅读提示】本篇聚焦：示例用法。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 if __name__ == "__main__":
     try:

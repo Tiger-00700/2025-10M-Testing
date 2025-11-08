@@ -1,5 +1,6 @@
 # 大数据处理系统的高级指标监控实现
 
+> 【阅读提示】本篇聚焦：大数据处理系统的高级指标监控实现。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 from prometheus_client import Counter, Gauge, Histogram, Summary, start_http_server, Info, Enum
 import time
@@ -11,10 +12,12 @@ import psutil  # 用于获取真实系统资源指标
 
 # ================ 1. 基础指标定义 ================
 
+> 【阅读提示】本篇聚焦：================ 1. 基础指标定义 ================。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 
 # 数据处理计数器 - 带标签增强
 
+> 【阅读提示】本篇聚焦：数据处理计数器 - 带标签增强。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 PROCESSING_COUNTER = Counter(
     'bigdata_processing_total',
@@ -24,6 +27,7 @@ PROCESSING_COUNTER = Counter(
 
 # 错误计数器 - 按错误类型分类
 
+> 【阅读提示】本篇聚焦：错误计数器 - 按错误类型分类。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 ERROR_COUNTER = Counter(
     'bigdata_errors_total',
@@ -33,6 +37,7 @@ ERROR_COUNTER = Counter(
 
 # 数据处理延迟直方图 - 优化的桶配置
 
+> 【阅读提示】本篇聚焦：数据处理延迟直方图 - 优化的桶配置。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 PROCESSING_HISTOGRAM = Histogram(
     'bigdata_processing_seconds',
@@ -43,6 +48,7 @@ PROCESSING_HISTOGRAM = Histogram(
 
 # 数据质量摘要 - 多维度评估
 
+> 【阅读提示】本篇聚焦：数据质量摘要 - 多维度评估。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 DATA_QUALITY_SUMMARY = Summary(
     'bigdata_data_quality_score',
@@ -52,6 +58,7 @@ DATA_QUALITY_SUMMARY = Summary(
 
 # 系统资源仪表盘 - 增强版
 
+> 【阅读提示】本篇聚焦：系统资源仪表盘 - 增强版。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 RESOURCE_GAUGE = Gauge(
     'bigdata_resource_usage',
@@ -61,6 +68,7 @@ RESOURCE_GAUGE = Gauge(
 
 # 队列长度仪表盘
 
+> 【阅读提示】本篇聚焦：队列长度仪表盘。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 QUEUE_LENGTH_GAUGE = Gauge(
     'bigdata_queue_length',
@@ -70,6 +78,7 @@ QUEUE_LENGTH_GAUGE = Gauge(
 
 # 并行度仪表盘
 
+> 【阅读提示】本篇聚焦：并行度仪表盘。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 PARALLELISM_GAUGE = Gauge(
     'bigdata_task_parallelism',
@@ -79,6 +88,7 @@ PARALLELISM_GAUGE = Gauge(
 
 # 版本信息指标
 
+> 【阅读提示】本篇聚焦：版本信息指标。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 VERSION_INFO = Info(
     'bigdata_pipeline_version',
@@ -87,6 +97,7 @@ VERSION_INFO = Info(
 
 # 任务状态枚举
 
+> 【阅读提示】本篇聚焦：任务状态枚举。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 TASK_STATUS_ENUM = Enum(
     'bigdata_task_status',
@@ -97,6 +108,7 @@ TASK_STATUS_ENUM = Enum(
 
 # 数据量大小直方图 - 跟踪不同大小的数据批次
 
+> 【阅读提示】本篇聚焦：数据量大小直方图 - 跟踪不同大小的数据批次。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 DATA_VOLUME_HISTOGRAM = Histogram(
     'bigdata_batch_size_bytes',
@@ -107,6 +119,7 @@ DATA_VOLUME_HISTOGRAM = Histogram(
 
 # 缓存命中率计数器
 
+> 【阅读提示】本篇聚焦：缓存命中率计数器。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 CACHE_HIT_COUNTER = Counter(
     'bigdata_cache_operations_total',
@@ -116,6 +129,7 @@ CACHE_HIT_COUNTER = Counter(
 
 # ================ 2. 工具函数与装饰器 ================
 
+> 【阅读提示】本篇聚焦：================ 2. 工具函数与装饰器 ================。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 
 @contextmanager
@@ -165,6 +179,7 @@ def monitor_method(pipeline, stage):
 
 # ================ 3. 数据处理模拟与监控 ================
 
+> 【阅读提示】本篇聚焦：================ 3. 数据处理模拟与监控 ================。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 
 class DataPipelineMonitor:
@@ -413,6 +428,7 @@ def update_system_resources(interval=5):
 
 # ================ 4. 主执行逻辑 ================
 
+> 【阅读提示】本篇聚焦：================ 4. 主执行逻辑 ================。建议先看结构，再带着问题阅读，关注关键术语、流程与案例，结合自身项目做对照。
 
 
 def main():
