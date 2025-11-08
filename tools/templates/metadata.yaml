@@ -3,8 +3,8 @@
 # by tools/pipeline/make_typeset_bundle.ps1 when present.
 
 # Core
-title: "大数据测试：方法、工具与实战"
-subtitle: "2025 版"
+title: "大数据全栈测试：从理论到实战"
+subtitle: "Big Data Full-Stack Testing: From Theory to Practice"
 author:
   - name: "Tiger-00700"
     affiliation: ""
@@ -66,3 +66,13 @@ keywords:
   - 测试
   - 自动化
   - 性能
+  - 可观测性
+
+# Localized headings (used by templates/filters when present)
+loc:
+  abstractHeading: "摘要"
+  tocTitle: "目录"
+  referencesHeading: "参考文献"
+  figureCaption: "图"
+  tableCaption: "表"
+  listingCaption: "代码"
