@@ -49277,16 +49277,13 @@ id="常见问题汇总按章索引供快速查阅">常见问题汇总（按章�
 <li><p>第 3 章（采集）：如何模拟背压与数据丢失？ —
 参考：examples/05_ingest/README.md、examples/05_ingest/smoke.sh</p></li>
 <li><p>第 4/6 章（存储/质量）：如何做 time‑travel 比对？ —
-参考：examples/06_storage（time‑travel
-比对思路与校验脚本说明待补充）</p></li>
+参考：examples/06_storage（delta_check.py 与示例数据
+data/snapshot_v*.csv，支持按主键对比新增/删除/变更）</p></li>
 <li><p>第 11/12 章（自动化/工具）：推荐的本地容器化验证流程是什么？ —
-参考：examples/03_environmentironment/smoke.sh 与 本章工具清单</p></li>
+参考：examples/03_environment/smoke.sh 与 本章工具清单</p></li>
 <li><p>第 19 章（CI/CD）：如何在流水线做 PromQL 与 trace 断言？ —
-参考：promql_assert.sh（内嵌示例见书正文）、examples/13_observability（Jaeger
-查询示例，待补充）、examples/19_ci_and_governance</p></li>
-<li><p>第 19 章（CI/CD）：如何在流水线做 PromQL 与 trace 断言？ —
-参考：promql_assert.sh（内嵌示例见书正文）、examples/13_observability（Jaeger
-查询示例，待补充）、examples/19_ci_and_governance</p></li>
+参考：appendix/promql_assert.sh（或
+promql_assert.ps1）、examples/13_observability（jaeger_assert.py/jaeger_query.ps1）、examples/19_ci_and_governance（pipeline.sample.yml/ci_demo.ps1）</p></li>
 </ul>
 <p>注：已把附录 C 中若干脚本提取到仓库目录
 <code>../appendix/</code>（例如

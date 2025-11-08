@@ -1,4 +1,4 @@
-# 大数据测试全栈指南：从入门到实战精通
+# 大数据全栈测试：从理论到实战
 
 ## 第一篇 大数据测试基础【入门】
 
@@ -49428,13 +49428,11 @@ Placeholder: migrated from book reference, please fill content.
 
 - 第 3 章（采集）：如何模拟背压与数据丢失？ — 参考：examples/05_ingest/README.md、examples/05_ingest/smoke.sh
 
-- 第 4/6 章（存储/质量）：如何做 time‑travel 比对？ — 参考：examples/06_storage（time‑travel 比对思路与校验脚本说明待补充）
+- 第 4/6 章（存储/质量）：如何做 time‑travel 比对？ — 参考：examples/06_storage（delta_check.py 与示例数据 data/snapshot_v*.csv，支持按主键对比新增/删除/变更）
 
-- 第 11/12 章（自动化/工具）：推荐的本地容器化验证流程是什么？ — 参考：examples/03_environmentironment/smoke.sh 与 本章工具清单
+- 第 11/12 章（自动化/工具）：推荐的本地容器化验证流程是什么？ — 参考：examples/03_environment/smoke.sh 与 本章工具清单
 
-- 第 19 章（CI/CD）：如何在流水线做 PromQL 与 trace 断言？ — 参考：promql_assert.sh（内嵌示例见书正文）、examples/13_observability（Jaeger 查询示例，待补充）、examples/19_ci_and_governance
-
- - 第 19 章（CI/CD）：如何在流水线做 PromQL 与 trace 断言？ — 参考：promql_assert.sh（内嵌示例见书正文）、examples/13_observability（Jaeger 查询示例，待补充）、examples/19_ci_and_governance
+- 第 19 章（CI/CD）：如何在流水线做 PromQL 与 trace 断言？ — 参考：appendix/promql_assert.sh（或 promql_assert.ps1）、examples/13_observability（jaeger_assert.py/jaeger_query.ps1）、examples/19_ci_and_governance（pipeline.sample.yml/ci_demo.ps1）
 
 注：已把附录 C 中若干脚本提取到仓库目录 `../appendix/`（例如 `../appendix/promql_assert.sh`），并创建了
 

@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import List
 
 BOOK = Path(__file__).resolve().parents[1] / "book" / "1022.2025.newbook.md"
-TITLE = "# 大数据测试全栈指南：从入门到实战精通"
+TITLE = "# 大数据全栈测试：从理论到实战"
 
 heading_re = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 code_fence_re = re.compile(r"^(```|~~~)")
