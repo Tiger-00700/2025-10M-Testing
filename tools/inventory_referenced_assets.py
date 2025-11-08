@@ -79,24 +79,49 @@ def list_existing_assets(target_dirs: List[str]) -> Set[str]:
         for p in base_path.rglob('*'):
             rel = p.relative_to(ROOT).as_posix()
             existing.add(rel)
-        # also add the base directory itself
-        existing.add(base_path.relative_to(ROOT).as_posix())
+        # Do not add the base directory itself; it is a container and not meaningful as an asset
     return existing
 
 
 def expand_directories(refs: Iterable[str]) -> Set[str]:
-    # If a referenced path is a directory, cover all children under it
+    """If a referenced path is a directory, cover all children under it; otherwise cover the file.
+    """
     expanded: Set[str] = set()
     for r in refs:
         rp = ROOT / r
         if rp.is_dir():
-            # include dir and all descendants
+            # include dir and all descendants (files and directories)
             expanded.add(r)
             for p in rp.rglob('*'):
                 expanded.add(p.relative_to(ROOT).as_posix())
         else:
             expanded.add(r)
     return expanded
+
+def include_ancestor_dirs(paths: Iterable[str], target_dirs: List[str]) -> Set[str]:
+    """For each covered path, also include its ancestor directories under targets to avoid
+    falsely reporting container folders as 'unused'.
+    """
+    covered: Set[str] = set()
+    for rel in paths:
+        covered.add(rel)
+        p = ROOT / rel
+        # walk up until repo root or outside targets
+        try:
+            while True:
+                p = p.parent
+                if p == ROOT:
+                    break
+                relp = p.relative_to(ROOT).as_posix()
+                # only include ancestors within target roots
+                if relp.split('/', 1)[0] in target_dirs:
+                    covered.add(relp)
+                else:
+                    break
+        except Exception:
+            # best-effort; ignore oddities
+            pass
+    return covered
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -128,7 +153,9 @@ def main(argv: list[str] | None = None) -> int:
 
     # Unused: everything existing under targets but not covered by any referenced item.
     # If a directory is referenced, treat all its children as covered.
-    covered = expand_directories(referenced_present)
+    # Mark covered items: referenced dirs (recursively), referenced files, and ancestor dirs
+    covered_raw = expand_directories(referenced_present)
+    covered = include_ancestor_dirs(covered_raw, target_dirs)
     unused_existing = sorted([e for e in existing if e.split('/', 1)[0] in target_dirs and e not in covered])
 
     # Write report
