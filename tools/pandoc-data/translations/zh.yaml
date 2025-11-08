@@ -3,8 +3,9 @@
 # Minimal term mappings expected by Pandoc
 Abstract: "摘要"
 Appendix: "附录"
-References: "参考文献"
+Bibliography: "参考文献"
 Table: "表"
 Figure: "图"
 Listing: "代码"
 Contents: "目录"
+Index: "索引"
