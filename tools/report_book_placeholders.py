@@ -60,8 +60,14 @@ def main(argv: list[str] | None = None) -> int:
     lines.append(f"- 练习 headings: {h_exercise}")
     lines.append("")
     out.write_text('\n'.join(lines), encoding='utf-8')
+    import sys
     print(f"Report written: {out}")
-    print(f"Placeholders: {placeholder_count}, 学习目标: {h_study}, 小结: {h_summary}, 练习: {h_exercise}")
+    # 强制 utf-8 输出，兼容 Windows 控制台
+    summary = f"Placeholders: {placeholder_count}, 学习目标: {h_study}, 小结: {h_summary}, 练习: {h_exercise}\n"
+    try:
+        sys.stdout.buffer.write(summary.encode('utf-8'))
+    except Exception:
+        print(summary)
     return 0
 
 

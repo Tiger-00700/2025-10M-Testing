@@ -147,4 +147,38 @@ Invoke-Step -Name 'Export warnings report' -Action {
   Invoke-PythonIfExists -RelPath 'tools/report_export_warnings.py'
 }
 
+# 自动合并候选，生成 merged 版本
+Invoke-Step -Name 'Apply merge candidates to book (merged version)' -Action {
+  Invoke-PythonIfExists -RelPath 'tools/apply_merge_candidates_to_book.py'
+}
+
+Invoke-Step -Name 'Cleanup merged book (规范化收尾)' -Action {
+  Invoke-PythonIfExists -RelPath 'tools/cleanup_merged_book.py'
+}
+
+Invoke-Step -Name 'Diff frozen vs cleaned (占位符/结构对比)' -Action {
+  $a = 'book/1022.2025.newbook.augmented.frozen.md'
+  $b = 'book/1022.2025.newbook.cleaned.md'
+  $out = 'tools/reports/book-diff-frozen-vs-cleaned.md'
+  if ((Test-Path $a) -and (Test-Path $b)) {
+    & $pythonExe 'tools/diff_books.py' $a $b | Out-File -Encoding utf8 $out
+  } else {
+    Write-Host "Skip diff: missing $a or $b" -ForegroundColor Yellow
+  }
+}
+
+Invoke-Step -Name 'Sync twin books (cleaned ↔ 1030)' -Action {
+  Invoke-PythonIfExists -RelPath 'tools/sync_twin_books.py'
+}
+
+Invoke-Step -Name 'Prune intermediate book files' -Action {
+  Invoke-PythonIfExists -RelPath 'tools/prune_book_intermediates.py'
+}
+Invoke-Step -Name 'Prune unreferenced book files (frozen-driven)' -Action {
+  Invoke-PythonIfExists -RelPath 'tools/prune_unreferenced_book_files.py'
+}
+Invoke-Step -Name 'Generate book reference topology' -Action {
+  Invoke-PythonIfExists -RelPath 'tools/book_reference_topology.py'
+}
+
 Write-Host 'All steps completed successfully.' -ForegroundColor Green
