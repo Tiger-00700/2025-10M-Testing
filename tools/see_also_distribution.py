@@ -10,7 +10,7 @@ Usage:
 Outputs a markdown report under tools/reports/ named see-also-distribution-<timestamp>.md
 """
 from __future__ import annotations
-import re, argparse
+import re, argparse, math
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -49,25 +49,70 @@ def main():
         raise SystemExit(f'Book not found: {BOOK}')
     lines = load_lines(BOOK)
     chapters = collect(lines)
-    total_blocks = sum(c['count'] for c in chapters)
+    counts = [c['count'] for c in chapters]
+    total_blocks = sum(counts)
     chapters_sorted = sorted(chapters, key=lambda c: c['count'], reverse=True)
     REPORTS.mkdir(parents=True, exist_ok=True)
     ts = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')
     rep = REPORTS / f'see-also-distribution-{ts}.md'
-    out = [f'# See Also Distribution ({ts})','',f'Total chapters: {len(chapters)}',f'Total See Also blocks: {total_blocks}','']
+    # stats helpers
+    def median(vals):
+        if not vals: return 0.0
+        s = sorted(vals)
+        n = len(s)
+        m = n//2
+        return float(s[m]) if n%2==1 else (s[m-1]+s[m])/2.0
+    def percentile(vals, p):
+        if not vals: return 0.0
+        s = sorted(vals)
+        k = (len(s)-1)*p
+        f = math.floor(k); c = math.ceil(k)
+        if f==c: return float(s[int(k)])
+        d0 = s[f]*(c-k)
+        d1 = s[c]*(k-f)
+        return float(d0+d1)
+    def stdev(vals):
+        if not vals: return 0.0
+        mu = sum(vals)/len(vals)
+        var = sum((x-mu)*(x-mu) for x in vals)/len(vals)
+        return math.sqrt(var)
+    def gini(vals):
+        n = len(vals)
+        if n==0: return 0.0
+        s = sorted(vals)
+        total = sum(s)
+        if total == 0: return 0.0
+        # G = (sum_{i=1..n} (2i-n-1)*x_i) / (n * sum x)
+        num = 0
+        for i, x in enumerate(s, start=1):
+            num += (2*i - n - 1) * x
+        return float(num)/(n*total)
+    mean = (total_blocks/len(chapters)) if chapters else 0.0
+    med = median(counts)
+    p90 = percentile(counts, 0.90)
+    sd = stdev(counts)
+    gi = gini(counts)
+    out = [
+        f'# See Also Distribution ({ts})','',
+        f'Total chapters: {len(chapters)}',
+        f'Total See Also blocks: {total_blocks}',
+        '',
+        '## Stats',
+        '',
+        f'- Mean blocks per chapter: {mean:.2f}',
+        f'- Median: {med:.2f}',
+        f'- P90: {p90:.2f}',
+        f'- Std dev: {sd:.2f}',
+        f'- Gini: {gi:.3f}',
+        '',
+    ]
     out.append(f'## Top {args.top} chapters by See Also blocks')
     out.append('')
     for c in chapters_sorted[:args.top]:
         out.append(f'- {c["title"]}: {c["count"]}')
     out.append('')
-    # Basic stats
-    if chapters:
-        mean = total_blocks/len(chapters)
-        max_c = chapters_sorted[0]['count'] if chapters_sorted else 0
-        out.append(f'## Stats')
-        out.append('')
-        out.append(f'- Mean blocks per chapter: {mean:.2f}')
-        out.append(f'- Max blocks in a chapter: {max_c}')
+    if chapters_sorted:
+        out.append(f'- Max blocks in a chapter: {chapters_sorted[0]["count"]}')
     rep.write_text('\n'.join(out)+'\n', encoding='utf-8')
     print(f'Report written: {rep.name} chapters={len(chapters)} total_blocks={total_blocks}')
 

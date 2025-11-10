@@ -57,11 +57,18 @@ def block_end(line_no: int, level: int, headings):
 
 
 def main():
-    draft = latest_merge_draft()
-    if not draft or not draft.exists():
-        raise SystemExit("No merge drafts found.")
+    # Ensure source exists
     if not BOOK_SRC.exists():
-        raise SystemExit("Source book missing.")
+        print("[apply_merge] Source book missing. Skipping apply step.")
+        return
+
+    draft = latest_merge_draft()
+    # If no drafts, write passthrough merged (equal to frozen) and exit gracefully
+    if not draft or not draft.exists():
+        src_text = BOOK_SRC.read_text(encoding="utf-8")
+        OUT_PATH.write_text(src_text, encoding="utf-8")
+        print(f"[apply_merge] No merge drafts found. Wrote passthrough merged = {OUT_PATH.as_posix()} (copied from frozen)")
+        return
 
     draft_text = draft.read_text(encoding="utf-8")
     book_text = BOOK_SRC.read_text(encoding="utf-8")
@@ -165,6 +172,12 @@ def main():
         ln += 1
 
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H%M%SZ")
+    # If no replacements and no deletions, still produce passthrough merged
+    if not replacements and not to_delete_ranges:
+        src_text = BOOK_SRC.read_text(encoding="utf-8")
+        OUT_PATH.write_text(src_text, encoding="utf-8")
+        print(f"[apply_merge] No applicable merged blocks. Wrote passthrough merged = {OUT_PATH.as_posix()} (copied from frozen)")
+        return
     OUT_PATH.write_text("\n".join(out_lines) + "\n", encoding="utf-8")
     print(f"Merged book written: {OUT_PATH.as_posix()} (replaced {len(replacements)} blocks, removed {len(to_delete_ranges)} duplicates)")
 

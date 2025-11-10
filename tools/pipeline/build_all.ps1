@@ -181,4 +181,51 @@ Invoke-Step -Name 'Generate book reference topology' -Action {
   Invoke-PythonIfExists -RelPath 'tools/book_reference_topology.py'
 }
 
+Invoke-Step -Name 'Fill learning blocks (学习目标/小结/练习)' -Action {
+  $argsList = @()
+  if ($env:LEARNING_BLOCK_STYLE) { $argsList += '--style'; $argsList += $env:LEARNING_BLOCK_STYLE }
+  if ($env:LEARNING_BLOCK_REWRITE -eq '1') { $argsList += '--rewrite' }
+  if ($env:LEARNING_BLOCK_INPUT) {
+    $argsList += '--input'; $argsList += $env:LEARNING_BLOCK_INPUT
+  } else {
+    # Prefer cleaned book if present; else fallback to frozen (script default)
+    $cleaned = 'book/1022.2025.newbook.cleaned.md'
+    if (Test-Path -LiteralPath $cleaned) { $argsList += '--input'; $argsList += $cleaned }
+  }
+  if ($env:LEARNING_BLOCK_OUTPUT) { $argsList += '--output'; $argsList += $env:LEARNING_BLOCK_OUTPUT }
+  & $pythonExe 'tools/fill_learning_blocks.py' @argsList
+}
+
+Invoke-Step -Name 'Verify book topology (CI checks: cycles/unreferenced)' -Action {
+  $argsList = @()
+  if ($env:BOOK_CI_FAIL_ON_CYCLES -eq '1') { $argsList += '--fail-on-cycles' }
+  if ($env:BOOK_CI_FAIL_ON_UNREF -eq '1') { $argsList += '--fail-on-unreferenced' }
+  & $pythonExe 'tools/check_book_topology.py' @argsList
+}
+
+Invoke-Step -Name 'Check example links & exercise inventory' -Action {
+  $argsList = @()
+  if ($env:QUALITY_FAIL_ON_BROKEN_EXAMPLE_LINKS -eq '1') { $argsList += '--fail-on-broken' }
+  & $pythonExe 'tools/check_example_links_and_exercises.py' @argsList
+}
+
+Invoke-Step -Name 'Annotate exercise difficulty gradient' -Action {
+  $argsList = @()
+  if ($env:EXERCISE_DIFFICULTY_DRY_RUN -eq '1') { $argsList += '--dry-run' }
+  & $pythonExe 'tools/annotate_exercise_difficulty.py' @argsList
+}
+
+Invoke-Step -Name 'Inject term anchors & first-use links' -Action {
+  & $pythonExe 'tools/inject_term_anchors_and_links.py'
+}
+
+Invoke-Step -Name 'Generate related links (See Also blocks)' -Action {
+  & $pythonExe 'tools/generate_related_links.py'
+}
+
+Invoke-Step -Name 'Aggregate quality dashboard (CI thresholds)' -Action {
+  # Optionally enforce internal link cleanliness via QUALITY_MAX_BROKEN_INTERNAL_LINKS=0
+  & $pythonExe 'tools/aggregate_quality_dashboard.py'
+}
+
 Write-Host 'All steps completed successfully.' -ForegroundColor Green

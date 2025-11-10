@@ -59,7 +59,7 @@ Optional switches:
 pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File "tools/pipeline/organize_by_outline.ps1"
 ```
 
-2. Summarize Missing and delta
+1. Summarize Missing and delta
 
 ```powershell
 pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File "tools/tmp/report_missing.ps1"
@@ -69,7 +69,7 @@ Outputs are timestamped in `tools/reports/`.
 
 ## Post-run utilities
 
-3. Update stable "latest" links
+1. Update stable "latest" links
 
 Use this after a successful run to refresh stable pointers used by the root README:
 
@@ -83,7 +83,7 @@ This writes/refreshes:
 - `tools/reports/organize-log-latest.md`
 - `tools/reports/toc-latest.txt`
 
-4. Generate a quality summary
+1. Generate a quality summary
 
 Produces a compact distribution of match modes and heading levels for the most recent run:
 
@@ -93,7 +93,7 @@ pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File "tools/tmp/report_quality.
 
 The report is saved as `tools/reports/quality-<ts>.md`. In CI, the newest file may also be copied to `tools/reports/quality-latest.md` for convenience.
 
-5. Run link fixer and markdown checks
+1. Run link fixer and markdown checks
 
 ```powershell
 pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File "tools/pipeline/fix_links_in_reports.ps1"
@@ -139,5 +139,31 @@ The workflow `.github/workflows/organizer.yml` runs on push and includes:
 3. Link normalization in `organized-latest.md`
 4. Quality report generation + copy to `quality-latest.md`
 5. Markdown checks (generated code fence language labels, links/images)
+6. Merge candidates application + merged/cleaned normalization
+7. Twin book sync (cleaned ↔ 1030)
+8. Pruning (intermediates + strict frozen-driven references)
+9. Reference topology (graph + closure + cycles/SCC/DAG)
+10. Topology CI check (`tools/check_book_topology.py`) — cycles & unreferenced files
+11. Fill learning blocks (学习目标/小结/练习) 生成学术/行业/平衡风格版本（默认 balanced）
+
+Environment toggles for topology CI step:
+
+```powershell
+$env:BOOK_CI_FAIL_ON_CYCLES = '1'         # fail when any cycle detected
+$env:BOOK_CI_FAIL_ON_UNREF   = '1'         # fail when unreferenced non-appendix files remain
+```
+
+If unset / set to other values, cycles or unreferenced files are WARN only.
+
+Environment toggles for learning blocks style & behavior:
+
+```powershell
+$env:LEARNING_BLOCK_STYLE   = 'academic'   # 或 'industry' | 'balanced' (默认)
+$env:LEARNING_BLOCK_REWRITE = '1'          # 强制重写已注入块（含之前的 BEGIN/END 标记）
+$env:LEARNING_BLOCK_INPUT   = 'book/1022.2025.newbook.cleaned.md'  # 指定填充源（默认 frozen）
+$env:LEARNING_BLOCK_OUTPUT  = 'book/1022.2025.newbook.filled.md'   # 指定输出文件名
+```
+
+说明：不设置即使用默认 frozen 作为输入与 balanced 风格，仅对缺失或占位内容进行填充。
 
 The build fails if Missing > 0 or markdown checks fail. Artifacts (organized outputs, logs, TOC, quality report, appendices, augmented book) are uploaded for inspection.
