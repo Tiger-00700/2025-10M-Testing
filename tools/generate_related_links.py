@@ -27,6 +27,7 @@ REPORTS = ROOT / 'tools' / 'reports'
 HEAD_RE = re.compile(r'^(#{1,6})\s+(.*\S)\s*$')
 ANCHOR_RE = re.compile(r'^<a\s+id="([^"]+)"\s*></a>\s*$')
 SEE_ALSO_RE = re.compile(r'^>\s*【See Also】')
+META_RE = re.compile(r'<!--\s*see-also:\s*([^>]+)\s*-->')
 TOKEN_RE = re.compile(r'[A-Za-z0-9_]+|[\u4e00-\u9fa5]{2,}')
 STOP = {"the","and","of","to","in","a","for","is","on","with","by","an","or","be","as","at","that","this","it","本节","以及","进行","实现","数据","测试"}
 MIN_TOKENS = 30
@@ -67,12 +68,49 @@ def parse_sections(lines: list[str]):
                     break
             if not aid:
                 aid = slugify(title)
-            current = {'level': level, 'title': title, 'start': i, 'end': len(lines), 'anchor': aid, 'content': []}
+            current = {'level': level, 'title': title, 'start': i, 'end': len(lines), 'anchor': aid, 'content': [], 'meta': {}}
         else:
             if current:
                 current['content'].append(ln)
     if current:
         sections.append(current)
+    # parse metadata from the first few lines of each section content
+    for s in sections:
+        meta = {}
+        for ln in s['content'][:8]:
+            mm = META_RE.search(ln)
+            if not mm:
+                continue
+            cfg = mm.group(1)
+            parts = [p.strip() for p in cfg.split(';') if p.strip()]
+            for p in parts:
+                if p.lower() in ('off', 'off=true', 'off=1'):
+                    meta['off'] = True
+                elif p.lower().startswith('min_sim='):
+                    try:
+                        meta['min_sim'] = float(p.split('=',1)[1])
+                    except:
+                        pass
+                elif p.lower().startswith('top_n='):
+                    try:
+                        meta['top_n'] = int(p.split('=',1)[1])
+                    except:
+                        pass
+        s['meta'] = meta
+    # propagate H2 chapter-level meta to subsections if not overridden
+    current_chapter_meta = {}
+    for s in sections:
+        if s['level'] == 2:
+            current_chapter_meta = s.get('meta') or {}
+        else:
+            if current_chapter_meta:
+                m = s.get('meta') or {}
+                eff = dict(m)
+                # inherit keys if not present locally
+                for k in ('off','min_sim','top_n'):
+                    if k not in eff and k in current_chapter_meta:
+                        eff[k] = current_chapter_meta[k]
+                s['meta'] = eff
     return sections
 
 def tokenize(txt: str):
@@ -125,6 +163,12 @@ def main():
     for idx, s in enumerate(sections):
         if s.get('skip'):
             continue
+        # section-level override or disable
+        meta = s.get('meta') or {}
+        if meta.get('off'):
+            continue
+        local_min_sim = meta.get('min_sim', MIN_SIM)
+        local_top_n = meta.get('top_n', TOP_N)
         # check if block already present in its trailing content
         tail_lines = s['content'][-6:]
         if any(SEE_ALSO_RE.match(t.strip()) for t in tail_lines):
@@ -134,11 +178,11 @@ def main():
             if j == idx or other.get('skip'):
                 continue
             sim = cosine(vectors[idx], vectors[j], norms[idx], norms[j])
-            if sim >= MIN_SIM:
+            if sim >= local_min_sim:
                 sims.append((sim, other))
         sims.sort(reverse=True, key=lambda x: x[0])
         # pick top then dedupe anchors within same block to avoid duplicates
-        top = sims[:TOP_N]
+        top = sims[:max(0, int(local_top_n))]
         seen_anchors = set()
         dedup_top = []
         for sim, o in top:
