@@ -14,3 +14,25 @@ jobs:
       - name: Run example skeleton validator
         run: |
           bash tools/ci/validate_examples.sh
+
+  smoke:
+    needs: validate
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Run smoke tests on Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          bash tools/ci/run_smoke_tests.sh
+      - name: Run smoke tests on Windows
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -File tools/ci/run_smoke_tests.ps1
