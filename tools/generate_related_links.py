@@ -137,7 +137,17 @@ def main():
             if sim >= MIN_SIM:
                 sims.append((sim, other))
         sims.sort(reverse=True, key=lambda x: x[0])
+        # pick top then dedupe anchors within same block to avoid duplicates
         top = sims[:TOP_N]
+        seen_anchors = set()
+        dedup_top = []
+        for sim, o in top:
+            a = o["anchor"]
+            if a in seen_anchors:
+                continue
+            seen_anchors.add(a)
+            dedup_top.append((sim, o))
+        top = dedup_top
         if not top:
             continue
         # build block text
