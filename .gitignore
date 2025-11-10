@@ -20,9 +20,10 @@ __pycache__/
 .pytest_cache/
 **/.pytest_cache/
 
-# Python virtual envs
+# Python virtual envs (ignore any local venvs like .venv, .venv311, .venv-*)
 .venv/
-**/.venv/
+.venv*
+**/.venv*
 
 # Ignore extra .gitignore/.gitattributes files in subfolders, but keep root ones tracked
 **/.gitignore
