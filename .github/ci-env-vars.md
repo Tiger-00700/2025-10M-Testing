@@ -32,6 +32,7 @@ This document lists environment variables recognized by the build/QA pipeline an
 - QUALITY_MAX_BROKEN_EXAMPLE_LINKS: integer max allowed broken example links. Default: unset.
 - QUALITY_MIN_EXERCISE_TAGGED_RATIO: float [0,1], min required ratio of tagged exercises. Default: unset.
 - QUALITY_MIN_SEE_ALSO_BLOCKS: integer min required See Also blocks (optional). Default: unset.
+- QUALITY_MAX_SEE_ALSO_BLOCKS: integer max allowed See Also blocks (optional cap). Default: unset.
 - QUALITY_MAX_PLACEHOLDERS_A: integer max allowed Type-A (heading) placeholders. Default: unset.
 - QUALITY_MAX_PLACEHOLDERS_B: integer max allowed Type-B (inline) placeholders. Default: unset.
 
