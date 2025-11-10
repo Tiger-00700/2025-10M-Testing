@@ -33,6 +33,8 @@ This document lists environment variables recognized by the build/QA pipeline an
 - QUALITY_MIN_EXERCISE_TAGGED_RATIO: float [0,1], min required ratio of tagged exercises. Default: unset.
 - QUALITY_MIN_SEE_ALSO_BLOCKS: integer min required See Also blocks (optional). Default: unset.
 - QUALITY_MAX_SEE_ALSO_BLOCKS: integer max allowed See Also blocks (optional cap). Default: unset.
+- QUALITY_MAX_SEE_ALSO_GINI: float (e.g., 0.32). Maximum allowed chapter-level See Also Gini coefficient.
+- QUALITY_TARGET_SEE_ALSO_MEAN: float. Target mean of See Also blocks per chapter; build fails if mean exceeds it.
 - QUALITY_MAX_PLACEHOLDERS_A: integer max allowed Type-A (heading) placeholders. Default: unset.
 - QUALITY_MAX_PLACEHOLDERS_B: integer max allowed Type-B (inline) placeholders. Default: unset.
 

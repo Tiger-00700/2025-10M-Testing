@@ -21,7 +21,7 @@ Outputs JSON and Markdown summary in tools/reports.
 Exit non-zero if any threshold violated.
 """
 from __future__ import annotations
-import re, json, os
+import re, json, os, math
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -40,6 +40,7 @@ TERM_ANCHOR_RE = re.compile(r'^<a\s+id="term-[^"/]+"\s*></a>')
 SEE_ALSO_RE = re.compile(r'^>\s*【See Also】')
 INTERNAL_LINK_RE = re.compile(r'\[[^\]]*\]\((?:\./)?1022\.2025\.newbook\.cleaned\.md#([^)\s]+)\)')
 ANCHOR_LINE_RE = re.compile(r'^<a\s+id="([^"/]+)"\s*></a>\s*$', re.IGNORECASE)
+H2_RE = re.compile(r'^##\s+(.*\S)\s*$')
 
 def load_lines(p: Path) -> list[str]:
     return p.read_text(encoding='utf-8').replace('\r\n','\n').replace('\r','\n').split('\n')
@@ -107,6 +108,22 @@ def count_term_anchors(lines: list[str]):
 def count_see_also(lines: list[str]):
     return sum(1 for ln in lines if SEE_ALSO_RE.match(ln.strip()))
 
+def chapter_see_also_counts(lines: list[str]):
+    chapters = []
+    current = None
+    for i, ln in enumerate(lines):
+        m = H2_RE.match(ln)
+        if m:
+            if current:
+                chapters.append(current)
+            current = {'title': m.group(1).strip(), 'start': i, 'end': len(lines), 'count': 0}
+        else:
+            if current and SEE_ALSO_RE.match(ln.strip()):
+                current['count'] += 1
+    if current:
+        chapters.append(current)
+    return chapters
+
 def internal_links_status(lines: list[str]):
     anchors = set()
     for ln in lines:
@@ -132,6 +149,42 @@ def main():
     ex_blocks, ex_questions, ex_tagged = exercises(lines)
     term_anchors = count_term_anchors(lines)
     see_also = count_see_also(lines)
+    # chapter-level stats for See Also
+    ch = chapter_see_also_counts(lines)
+    ch_counts = [c['count'] for c in ch]
+    def median(vals):
+        if not vals: return 0.0
+        s = sorted(vals)
+        n = len(s); m = n//2
+        return float(s[m]) if n%2==1 else (s[m-1]+s[m])/2.0
+    def percentile(vals, p):
+        if not vals: return 0.0
+        s = sorted(vals)
+        k = (len(s)-1)*p
+        f = math.floor(k); c = math.ceil(k)
+        if f==c: return float(s[int(k)])
+        d0 = s[f]*(c-k); d1 = s[c]*(k-f)
+        return float(d0+d1)
+    def stdev(vals):
+        if not vals: return 0.0
+        mu = sum(vals)/len(vals)
+        var = sum((x-mu)*(x-mu) for x in vals)/len(vals)
+        return math.sqrt(var)
+    def gini(vals):
+        n = len(vals)
+        if n==0: return 0.0
+        s = sorted(vals)
+        total = sum(s)
+        if total == 0: return 0.0
+        num = 0
+        for i, x in enumerate(s, start=1):
+            num += (2*i - n - 1) * x
+        return float(num)/(n*total)
+    ch_mean = (sum(ch_counts)/len(ch_counts)) if ch_counts else 0.0
+    ch_median = median(ch_counts)
+    ch_p90 = percentile(ch_counts, 0.90)
+    ch_std = stdev(ch_counts)
+    ch_gini = gini(ch_counts)
     internal_total, internal_broken = internal_links_status(lines)
     tagged_ratio = (ex_tagged / ex_questions) if ex_questions else 0.0
     metrics = {
@@ -145,6 +198,11 @@ def main():
         'exercise_tagged_ratio': round(tagged_ratio,4),
         'term_anchors': term_anchors,
         'see_also_blocks': see_also,
+        'see_also_chapter_mean': round(ch_mean,2),
+        'see_also_chapter_median': round(ch_median,2),
+        'see_also_chapter_p90': round(ch_p90,2),
+        'see_also_chapter_std': round(ch_std,2),
+        'see_also_chapter_gini': round(ch_gini,3),
         'internal_links_total': internal_total,
         'internal_links_broken': internal_broken,
     }
@@ -184,6 +242,16 @@ def main():
         violations.append(f'Placeholders B {B} > {mx}')
     if (mx := env_int('QUALITY_MAX_BROKEN_INTERNAL_LINKS')) is not None and internal_broken > mx:
         violations.append(f'Broken internal links {internal_broken} > {mx}')
+    # advanced see-also distribution thresholds
+    def env_float(name, default=None):
+        val = os.getenv(name)
+        if val is None: return default
+        try: return float(val)
+        except: return default
+    if (mxg := env_float('QUALITY_MAX_SEE_ALSO_GINI')) is not None and ch_gini > mxg:
+        violations.append(f'See Also chapter Gini {ch_gini:.3f} > {mxg}')
+    if (tmean := env_float('QUALITY_TARGET_SEE_ALSO_MEAN')) is not None and ch_mean > tmean:
+        violations.append(f'See Also chapter mean {ch_mean:.2f} > {tmean}')
     if violations:
         print('Threshold violations:\n - ' + '\n - '.join(violations))
         raise SystemExit(3)
