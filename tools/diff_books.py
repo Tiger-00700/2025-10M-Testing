@@ -29,6 +29,12 @@ def count_placeholders(text):
             h_exercise += 1
     return placeholder_count, h_study, h_summary, h_exercise
 
+def uprint(s):
+    try:
+        sys.stdout.buffer.write((s+'\n').encode('utf-8'))
+    except Exception:
+        print(s)
+
 def main():
     if len(sys.argv) != 3:
         print("Usage: python tools/diff_books.py <fileA> <fileB>")
@@ -41,12 +47,6 @@ def main():
     textB = fileB.read_text(encoding='utf-8')
     pa, sa, suma, exa = count_placeholders(textA)
     pb, sb, sumb, exb = count_placeholders(textB)
-    import sys
-    def uprint(s):
-        try:
-            sys.stdout.buffer.write((s+'\n').encode('utf-8'))
-        except Exception:
-            print(s)
     uprint(f"# Diff Report: {fileA.name} vs {fileB.name}\n")
     uprint(f"| 类型 | {fileA.name} | {fileB.name} | 差异 |\n|---|---|---|---|")
     uprint(f"| Placeholder | {pa} | {pb} | {pb-pa:+} |")

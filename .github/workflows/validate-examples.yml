@@ -1,0 +1,16 @@
+name: Validate example skeletons
+
+on:
+  pull_request:
+    paths:
+      - 'examples/**'
+      - 'tools/ci/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run example skeleton validator
+        run: |
+          bash tools/ci/validate_examples.sh

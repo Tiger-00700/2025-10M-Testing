@@ -28,6 +28,15 @@ HEAD_RE = re.compile(r'^(#{1,6})\s+(.*\S)\s*$')
 ANCHOR_RE = re.compile(r'^<a\s+id="([^"]+)"\s*></a>\s*$')
 SEE_ALSO_RE = re.compile(r'^>\s*【See Also】')
 META_RE = re.compile(r'<!--\s*see-also:\s*([^>]+)\s*-->')
+WHITELIST_KEYS = {"whitelist","white","focus"}
+CATEGORY_KEYWORDS = {
+    '概念': ['定义','概述','原理','概念','特点'],
+    '实践': ['案例','实战','最佳实践','流程','步骤'],
+    '工具': ['工具','框架','配置','脚本','命令','安装','参数'],
+    '性能': ['性能','优化','压测','基准','吞吐','延迟'],
+    '安全': ['安全','访问控制','加密','审计','风险','权限'],
+    '可观测': ['监控','观测','日志','追踪','Trace','告警'],
+}
 TOKEN_RE = re.compile(r'[A-Za-z0-9_]+|[\u4e00-\u9fa5]{2,}')
 STOP = {"the","and","of","to","in","a","for","is","on","with","by","an","or","be","as","at","that","this","it","本节","以及","进行","实现","数据","测试"}
 MIN_TOKENS = 30
@@ -84,14 +93,17 @@ def parse_sections(lines: list[str]):
             cfg = mm.group(1)
             parts = [p.strip() for p in cfg.split(';') if p.strip()]
             for p in parts:
-                if p.lower() in ('off', 'off=true', 'off=1'):
+                pl = p.lower()
+                if pl in ('off', 'off=true', 'off=1'):
                     meta['off'] = True
-                elif p.lower().startswith('min_sim='):
+                elif pl in WHITELIST_KEYS:
+                    meta['whitelist'] = True
+                elif pl.startswith('min_sim='):
                     try:
                         meta['min_sim'] = float(p.split('=',1)[1])
                     except:
                         pass
-                elif p.lower().startswith('top_n='):
+                elif pl.startswith('top_n='):
                     try:
                         meta['top_n'] = int(p.split('=',1)[1])
                     except:
@@ -107,7 +119,7 @@ def parse_sections(lines: list[str]):
                 m = s.get('meta') or {}
                 eff = dict(m)
                 # inherit keys if not present locally
-                for k in ('off','min_sim','top_n'):
+                for k in ('off','min_sim','top_n','whitelist'):
                     if k not in eff and k in current_chapter_meta:
                         eff[k] = current_chapter_meta[k]
                 s['meta'] = eff
@@ -169,6 +181,10 @@ def main():
             continue
         local_min_sim = meta.get('min_sim', MIN_SIM)
         local_top_n = meta.get('top_n', TOP_N)
+        # whitelist sections: relax thresholds a bit
+        if meta.get('whitelist'):
+            local_min_sim = max(0.25, local_min_sim - 0.05)
+            local_top_n = max(int(local_top_n), int(TOP_N)) + 1
         # check if block already present in its trailing content
         tail_lines = s['content'][-6:]
         if any(SEE_ALSO_RE.match(t.strip()) for t in tail_lines):
@@ -194,11 +210,17 @@ def main():
         top = dedup_top
         if not top:
             continue
-        # build block text
+        # build block text with simple category tag (based on titles)
+        def classify_title(title: str) -> str:
+            for cat, kws in CATEGORY_KEYWORDS.items():
+                if any(k in title for k in kws):
+                    return cat
+            return '通用'
         links = []
         for sim, o in top:
             links.append(f'[{o["title"]}](./1022.2025.newbook.cleaned.md#{o["anchor"]})')
-        block = f'> 【See Also】 本节相关：' + ' · '.join(links)
+        block_cat = classify_title(s['title'])
+        block = f'> 【See Also】（{block_cat}）相关：' + ' · '.join(links)
         # dedupe: skip if identical to previous block to avoid back-to-back duplicates
         if block == prev_block:
             continue

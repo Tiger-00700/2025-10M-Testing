@@ -2,7 +2,7 @@ import re
 from pathlib import Path
 from typing import List, Tuple, Dict
 
-BOOK = Path(__file__).resolve().parents[1] / "book" / "1022.2025.newbook.md"
+BOOK = Path(__file__).resolve().parents[1] / "book" / "1022.2025.newbook.cleaned.md"
 OUT = Path(__file__).resolve().parents[1] / "book" / "附录-课后思考练习题索引.md"
 
 heading_re = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
@@ -181,7 +181,7 @@ def render_index(entries: List[Tuple[List[str], List[str], str]], anchors: Dict[
             if not aid:
                 # fallback to slug of title
                 aid = slugify(anchor_title)
-            out.append(f"[跳转到本节](./1022.2025.newbook.md#{aid})")
+            out.append(f"[跳转到本节](./1022.2025.newbook.cleaned.md#{aid})")
             out.append("")
         for q in questions:
             out.append(q)

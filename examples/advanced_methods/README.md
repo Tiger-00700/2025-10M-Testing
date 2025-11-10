@@ -1,14 +1,28 @@
+
 # examples/advanced_methods
 
 This directory contains advanced example workflows referenced from the book.
 
 Purpose
-- Provide 1–3 small, runnable examples that demonstrate advanced testing or production patterns.
 
-How to run
-- See the individual example files (smoke.sh or example_01.py) for usage notes.
+Provide 1–3 small, runnable examples that demonstrate advanced testing or production patterns.
+
+How to run (quick)
+
+Run the smoke script on a POSIX system:
+
+```bash
+bash examples/advanced_methods/smoke.sh
+```
+
+Or run the Python example:
+
+```bash
+python examples/advanced_methods/example_01.py
+```
 
 Suggested files
+
 - `smoke.sh` - quick smoke script
 - `example_01.py` - a minimal Python example
 # advanced_methods
