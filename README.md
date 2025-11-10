@@ -76,8 +76,8 @@ You can produce a typesetting-ready bundle (HTML/DOCX/PDF + resources) from the 
 
 ### Prerequisites (best-effort rendering)
 
-- PowerShell 7+ (pwsh)
-- Python 3.10+ (repo venv: `.venv/`)
+-- PowerShell 7+ (pwsh)
+-- Python 3.10+ (repo venv: `.venv311/`)
 - pandoc (adds DOCX/PDF generation)
 - One PDF engine:
   - XeLaTeX (TeX Live/MiKTeX) for high-quality PDF, or
@@ -88,7 +88,7 @@ If pandoc is missing, the script will fall back to Python markdown to generate H
 Python fallback requires the `markdown` package; in the repo venv:
 
 ```powershell
-"E:/DONT TOUCH/10M-2025-Testing/.venv/Scripts/python.exe" -m pip install -U markdown
+"E:/DONT TOUCH/10M-2025-Testing/.venv311/Scripts/python.exe" -m pip install -U markdown
 ```
 
 ### One-click bundle

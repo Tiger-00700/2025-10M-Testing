@@ -120,7 +120,7 @@ if($pandocPath) {
     if($pdfOk) { $generated += 'PDF' } else { $failed += 'PDF' }
 } else {
     Write-Warning 'pandoc not found in PATH; attempting Python markdown fallback for HTML only.'
-    $py = Join-Path $repoRoot '.venv/Scripts/python.exe'
+    $py = Join-Path $repoRoot '.venv311/Scripts/python.exe'
     if(-not (Test-Path $py)) { $py = 'python' }
     $md2html = Join-Path $repoRoot 'tools/md_to_html.py'
     if(Test-Path $md2html) {

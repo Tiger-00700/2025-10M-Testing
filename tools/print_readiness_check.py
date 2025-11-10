@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 IGNORE_DIRS = {
     ".git",
     "node_modules",
-    ".venv",
+    ".venv311",
     "tools/_md013_suggest",
     "tools/editorial-issues",
     ".github",

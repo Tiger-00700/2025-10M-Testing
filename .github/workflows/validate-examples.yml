@@ -35,8 +35,8 @@ jobs:
           REQS=$(git ls-files "examples/**/requirements.txt" || true)
           if [ -n "$REQS" ]; then
             echo "Found requirements files:" $REQS
-            python -m venv .venv
-            source .venv/bin/activate
+            python -m venv .venv311
+            source .venv311/bin/activate
             pip install --upgrade pip
             for f in $REQS; do
               echo "Installing $f"

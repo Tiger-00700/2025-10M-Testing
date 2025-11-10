@@ -48,7 +48,7 @@ function Resolve-PwshExe {
 $pwshExe = Resolve-PwshExe
 
 function Resolve-PythonExe {
-  $venvPy = Join-Path $repoRoot '.venv/Scripts/python.exe'
+  $venvPy = Join-Path $repoRoot '.venv311/Scripts/python.exe'
   if (Test-Path -LiteralPath $venvPy) { return $venvPy }
   return 'python'
 }
