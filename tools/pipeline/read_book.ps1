@@ -55,7 +55,7 @@ if($pandocPath) {
     Pop-Location
 } else {
     Write-Warning '[preview] pandoc not found; using Python fallback renderer (HTML only).'
-    $py = Join-Path $repoRoot '.venv/Scripts/python.exe'
+    $py = Join-Path $repoRoot '.venv311/Scripts/python.exe'
     if(-not (Test-Path $py)) { $py = 'python' }
     $md2html = Join-Path $repoRoot 'tools/md_to_html.py'
     if(-not (Test-Path $md2html)) { throw "Python renderer not found: $md2html" }

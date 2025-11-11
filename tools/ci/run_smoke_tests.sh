@@ -34,6 +34,14 @@ for d in "${DIRS[@]}"; do
     continue
   fi
   # prefer python examples
+  # Special-case: prefer eda_pandas.py for the analysis example
+  if [[ "$d" =~ 08_analysis ]]; then
+    if [ -f "$path/eda_pandas.py" ]; then
+      echo "  Running python $path/eda_pandas.py"
+      python3 "$path/eda_pandas.py" || { echo "eda_pandas.py failed for $d"; failed=1; }
+      continue
+    fi
+  fi
   py=$(ls "$path"/*.py 2>/dev/null | head -n1 || true)
   if [ -n "$py" ]; then
     echo "  Running python $py"

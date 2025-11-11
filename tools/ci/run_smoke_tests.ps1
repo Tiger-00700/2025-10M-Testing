@@ -36,6 +36,20 @@ foreach ($d in $dirs) {
         }
         continue
     }
+    # Special-case: prefer eda_pandas.py for the analysis example
+    if ($d -like '*08_analysis*') {
+        $eda = Join-Path $path 'eda_pandas.py'
+        if (Test-Path $eda) {
+            Write-Host "  Running python eda_pandas.py"
+            try {
+                python $eda
+            } catch {
+                Write-Host "  ERROR: $($_.Exception.Message)"
+                $failed = $true
+            }
+            continue
+        }
+    }
     # run python if present
     $py = Get-ChildItem -Path $path -Filter '*.py' -File -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($py) {
