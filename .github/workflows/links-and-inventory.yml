@@ -26,7 +26,7 @@ jobs:
 
       - name: Run assets inventory
         env:
-          INVENTORY_FAIL_ON_MISSING: '0'
+          INVENTORY_FAIL_ON_MISSING: '1'
         run: |
           python tools/inventory_referenced_assets.py
 
