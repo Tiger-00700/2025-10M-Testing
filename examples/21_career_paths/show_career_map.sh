@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
-echo "examples/21_career_paths: career map (minimal)"
+echo "Career map (examples/21_career_paths)"
 cat <<'MAP'
-Roles:
-- Data Engineer
-- Data QA/Test Engineer
-- Data Scientist
-- Platform/Infra
+Role: Data Engineer
+	Skills: ETL, Streaming, Storage
 
-Core skills:
-- data ingestion, storage, processing, testing
+Role: Data Analyst
+	Skills: SQL, Visualization, EDA
+
+Role: Test Engineer
+	Skills: Test Design, Automation, Observability
 MAP
+
 exit 0

@@ -1,34 +1,17 @@
-````markdown
-
 # examples/10_tdms
 
-TDMS 文件相关示例（占位）。本目录提供一个轻量说明与一个小脚本，展示如何在没有真实 TDMS 库的情形下记录说明并进行 smoke 测试。
+示例目录用于展示时序数据（Time Domain Measurement/TDMS）的读取与预览。仓库中使用 CSV 作为轻量替代示例，说明如何读取时间序列并打印摘要。
 
-快速运行（Unix）:
+主要文件：
 
-```bash
-bash examples/10_tdms/preview_tdms.sh
-```
+- `read_tdms.py` - 演示如何读取示例时序 CSV（替代真实 TDMS 库），并打印点数与首个点。
+- `sample_time_series.csv` - 小型示例数据。
+- `preview_tdms.sh` / `preview_tdms.ps1` - 运行预览的脚本。
 
-Windows（PowerShell）:
-
-```powershell
-powershell -File examples/10_tdms/preview_tdms.ps1
-```
-
-````
-
-# examples/10_tdms
-
-Time-series / TDMS examples and sample data readers.
-
-Suggested files
-
-- `read_tdms.py` - example script showing how to read small TDMS-like sample data
-- `sample/` - place small sample files here (not included by default)
-
-Quick run
+快速运行：
 
 ```bash
 python examples/10_tdms/read_tdms.py
 ```
+
+CI: `examples/10_tdms/smoke.sh` 会调用 `read_tdms.py` 并返回退出码 0。

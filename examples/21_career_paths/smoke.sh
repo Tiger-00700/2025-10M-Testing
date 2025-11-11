@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 echo "Running smoke for examples/21_career_paths"
+if [ -f show_career_map.sh ]; then
+  bash show_career_map.sh
+  echo "show_career_map.sh executed"
+  exit 0
+fi
 if [ -f career_map.md ]; then
-  echo "career_map.md present; no runnable example"
+  echo "career_map.md present; smoke passes"
   exit 0
 fi
-if [ -f README.md ]; then
-  echo "README present; passing"
-  exit 0
-fi
-echo "Placeholder smoke: passing"
+echo "No career map found; passing"
 exit 0

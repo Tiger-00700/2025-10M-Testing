@@ -1,30 +1,16 @@
-````markdown
-
 # examples/17_practices
 
-练习与实践示例目录。该目录包含练习说明和一个最小示例用于 smoke 测试。
+实践练习示例目录。包含小型练习和示例任务，供读者动手使用。
 
-快速运行示例（Unix）：
+主要文件：
+
+- `exercise_01.md` - 第一个练习说明。
+- `run_exercise.sh` - 运行练习的演示脚本（生成小样本并展示预期输出）。
+
+快速运行：
 
 ```bash
 bash examples/17_practices/run_exercise.sh
 ```
 
-````
-
-# examples/17_practices
-
-Practice exercises and small hands-on tasks for readers.
-
-Suggested files
-
-- `exercise_01.md` - a short practical exercise
-- `solution/` - optional solutions folder
-
-Quick run
-
-Open the exercise markdown or run any provided script. For example:
-
-```bash
-less examples/17_practices/exercise_01.md
-```
+CI: `examples/17_practices/smoke.sh` 将调用 `run_exercise.sh` 并以退出码 0 返回。

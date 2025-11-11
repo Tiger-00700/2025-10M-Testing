@@ -1,38 +1,17 @@
-````markdown
-
 # examples/07_batch
 
-批处理（batch）示例目录。
+批处理示例目录。该目录包含一个非常小的示例，用于展示如何以批处理方式读取 CSV 并进行简单处理。
 
-本目录包含一个非常轻量的批处理示例，演示如何从 CSV 读取、简单转换并写出结果文件。该示例无外部依赖。
+主要文件：
 
-快速运行（Unix）:
+- `batch_ingest.py` - 使用标准库读取 `sample_data.csv` 并打印行计数。
+- `batch_demo.sh` / `batch_demo.ps1` - 简短的 shell/PowerShell 演示，可在 CI 中作为 smoke 测试调用。
+- `sample_data.csv` - 示例数据（小文件）。
+
+快速运行（bash）:
 
 ```bash
 bash examples/07_batch/batch_demo.sh
 ```
 
-Windows（PowerShell）:
-
-```powershell
-powershell -File examples/07_batch/batch_demo.ps1
-```
-
-CI smoke-test: `examples/07_batch/smoke.sh` / `smoke.ps1` 会运行 demo 并期待退出码 0。
-
-````
-
-# examples/07_batch
-
-Batch-processing examples for the book. Include at least one sample that demonstrates a batch ingest and simple transformation.
-
-Suggested files
-
-- `batch_ingest.py` - small Python batch example
-- `README.md` - this file
-
-Quick run
-
-```bash
-python examples/07_batch/batch_ingest.py
-```
+CI 要求：`examples/07_batch/smoke.sh` 应能在 Linux runner 上返回退出码 0。

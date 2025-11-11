@@ -1,8 +1,11 @@
-````markdown
-
 # examples/20_trends
 
-趋势与技术演进示例目录。包含一个非常小的趋势示例脚本（读取内嵌数据并打印简单移动平均）。
+趋势与技术方向示例目录。此处提供一个非常小的演示脚本，用来展示如何用脚本生成并简单分析时间序列趋势。
+
+主要文件：
+
+- `trend_demo.py` - 生成小样本并计算简单斜率估计，适合 CI smoke-tests。
+- `trend_note.md` - 短说明/笔记。
 
 快速运行：
 
@@ -10,18 +13,4 @@
 python examples/20_trends/trend_demo.py
 ```
 
-````
-
-# examples/20_trends
-
-Trend and evolution case studies referenced by the book.
-
-Suggested files
-
-- `trend_note.md` - short writeup or case study
-
-Quick run
-
-```bash
-less examples/20_trends/trend_note.md
-```
+CI: `examples/20_trends/smoke.sh` 将调用 `trend_demo.py` 并以退出码 0 返回。

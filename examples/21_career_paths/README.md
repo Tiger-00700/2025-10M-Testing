@@ -1,8 +1,11 @@
-````markdown
-
 # examples/21_career_paths
 
-职业路径示例目录：文字说明与简短的示意脚本，用于说明本领域常见角色与技能矩阵。
+职业路径示例目录。提供一个小脚本用于以友好的文本方式展示能力/角色映射。
+
+主要文件：
+
+- `career_map.md` - 简短的能力/角色映射说明。
+- `show_career_map.sh` - 打印职业路径示例的脚本，用作 smoke-test。
 
 快速运行：
 
@@ -10,18 +13,4 @@
 bash examples/21_career_paths/show_career_map.sh
 ```
 
-````
-
-# examples/21_career_paths
-
-Career path resources and suggested exercises (roadmaps, skill ladders).
-
-Suggested files
-
-- `career_map.md` - example career roadmap
-
-Quick run
-
-```bash
-less examples/21_career_paths/career_map.md
-```
+CI: `examples/21_career_paths/smoke.sh` 将调用 `show_career_map.sh` 并以退出码 0 返回。

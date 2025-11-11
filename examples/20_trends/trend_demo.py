@@ -1,9 +1,27 @@
 #!/usr/bin/env python3
-"""Tiny trend demo: compute simple moving average over an inline series."""
-data = [10, 12, 11, 13, 12, 14]
-window = 3
-def sma(series, w):
-    return [sum(series[i:i+w])/w for i in range(len(series)-w+1)]
+"""Tiny trend demo: generate a small series and print a simple trend (slope).
 
-print('data:', data)
-print('sma:', sma(data, window))
+This example has no external deps and can run on CI runners.
+"""
+from statistics import mean
+
+def generate_series(n=7):
+	return [i + (i%3 - 1)*0.1 for i in range(n)]
+
+def simple_slope(series):
+	# compute simple difference-based slope estimate
+	n = len(series)
+	if n < 2:
+		return 0.0
+	diffs = [series[i+1] - series[i] for i in range(n-1)]
+	return mean(diffs)
+
+def main():
+	s = generate_series()
+	print("Series:", s)
+	slope = simple_slope(s)
+	print(f"Estimated slope (mean diff): {slope:.4f}")
+
+if __name__ == '__main__':
+	main()
+
