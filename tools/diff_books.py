@@ -7,7 +7,7 @@ Usage:
 
 Outputs a markdown diff summary: section headings, placeholder/template counts, and key differences.
 """
-import sys
+import sys as _sys
 import re
 from pathlib import Path
 
@@ -31,18 +31,18 @@ def count_placeholders(text):
 
 def uprint(s):
     try:
-        sys.stdout.buffer.write((s+'\n').encode('utf-8'))
+        _sys.stdout.buffer.write((s+'\n').encode('utf-8'))
     except Exception:
         print(s)
 
 def main():
-    if len(sys.argv) != 3:
+    if len(_sys.argv) != 3:
         print("Usage: python tools/diff_books.py <fileA> <fileB>")
-        sys.exit(1)
-    fileA, fileB = Path(sys.argv[1]), Path(sys.argv[2])
+        _sys.exit(1)
+    fileA, fileB = Path(_sys.argv[1]), Path(_sys.argv[2])
     if not fileA.exists() or not fileB.exists():
         print(f"ERROR: file not found: {fileA if not fileA.exists() else fileB}")
-        sys.exit(2)
+        _sys.exit(2)
     textA = fileA.read_text(encoding='utf-8')
     textB = fileB.read_text(encoding='utf-8')
     pa, sa, suma, exa = count_placeholders(textA)

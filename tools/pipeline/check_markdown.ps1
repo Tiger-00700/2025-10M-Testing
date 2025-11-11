@@ -215,7 +215,7 @@ if($errors.Count -gt 0){
     '# Markdown Check Report'
     "- Timestamp: $ts"
     "- Scope: $($cfg.Scope)"
-    "- External checks: $($cfg.External) (timeout=${($cfg.ExternalTimeoutSec)}s, failOnWarn=$($cfg.ExternalFailOnWarn))"
+    "- External checks: $($cfg.External) (timeout=$($cfg.ExternalTimeoutSec)s, failOnWarn=$($cfg.ExternalFailOnWarn))"
     ''
     '## Errors'
   ) + ($errors | ForEach-Object { "- $_" }) + @('','## Warnings') + ($warnings | ForEach-Object { "- $_" }) | Set-Content -LiteralPath $reportPath -Encoding UTF8
@@ -231,7 +231,7 @@ if($errors.Count -gt 0){
       '# Markdown Check Report'
       "- Timestamp: $ts"
       "- Scope: $($cfg.Scope)"
-      "- External checks: $($cfg.External) (timeout=${($cfg.ExternalTimeoutSec)}s, failOnWarn=$($cfg.ExternalFailOnWarn))"
+      "- External checks: $($cfg.External) (timeout=$($cfg.ExternalTimeoutSec)s, failOnWarn=$($cfg.ExternalFailOnWarn))"
       ''
       '## Errors'
       '- (none)'
