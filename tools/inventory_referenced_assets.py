@@ -210,10 +210,23 @@ def main(argv: list[str] | None = None) -> int:
     out.write_text('\n'.join(lines), encoding='utf-8')
     print(f"Report written: {out}")
     print(f"References: {len(refs)}, Present: {len(referenced_present)}, Missing: {len(referenced_missing)}, Unused: {len(unused_existing)}")
-    # Fail CI if any referenced assets are missing
+    # Fail CI if any referenced assets are missing (configurable via env INVENTORY_FAIL_ON_MISSING)
+    fail_on_missing = True
+    try:
+        env_val = (os.environ.get('INVENTORY_FAIL_ON_MISSING') or '').strip()
+        if env_val == '0' or env_val.lower() in ('false','no'):
+            fail_on_missing = False
+    except Exception:
+        # best-effort; default to True
+        pass
+
     if len(referenced_missing) > 0:
-        print("ERROR: Referenced assets missing. See report above.", file=sys.stderr)
-        return 2
+        msg = "ERROR: Referenced assets missing. See report above."
+        if fail_on_missing:
+            print(msg, file=sys.stderr)
+            return 2
+        else:
+            print("WARNING: Referenced assets missing but INVENTORY_FAIL_ON_MISSING=0, continuing.")
     return 0
 
 
