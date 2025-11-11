@@ -21,7 +21,11 @@ from typing import Iterable, Set, List
 import argparse
 
 ROOT = Path(__file__).resolve().parents[1]
+# Prefer canonical frozen book if present, otherwise fall back to augmented/cleaned/filled/links variants
 BOOK = ROOT / 'book' / '1022.2025.newbook.md'
+BOOK_AUG = ROOT / 'book' / '1022.2025.newbook.augmented.md'
+BOOK_CLEAN = ROOT / 'book' / '1022.2025.newbook.cleaned.md'
+BOOK_FILLED = ROOT / 'book' / '1022.2025.newbook.filled.md'
 BOOK_LINKS = ROOT / 'book' / '1022.2025.newbook.links.md'
 
 # Match markdown links/images and plain-text path mentions
@@ -129,15 +133,25 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument('--only-canonical', action='store_true', help='Only consider canonical book (ignore links-only variant)')
     ap.add_argument('--targets', default='examples,appendix', help='Comma-separated list of top-level target dirs to include (default: examples,appendix)')
     args = ap.parse_args(argv)
-    sources = []
-    if BOOK.exists():
-        sources.append(BOOK)
-    else:
-        print(f"ERROR: book file not found: {BOOK}", file=sys.stderr)
-        return 2
-    # If links-only variant exists, include it unless only-canonical is requested
+    sources: List[Path] = []
+    # Build candidate list in preferred order
+    candidates = [BOOK, BOOK_AUG, BOOK_CLEAN, BOOK_FILLED]
+    # If only_canonical is requested, only consider BOOK; otherwise allow fallbacks
+    if args.only_canonical:
+        candidates = [BOOK]
+    # Pick first existing candidate(s)
+    for c in candidates:
+        if c.exists():
+            sources.append(c)
+            break
+    # Still allow links-only variant to be included (as supplemental) unless only-canonical
     if not args.only_canonical and BOOK_LINKS.exists():
-        sources.append(BOOK_LINKS)
+        # include links variant if not already added and it exists
+        if not sources or sources[0] != BOOK_LINKS:
+            sources.append(BOOK_LINKS)
+    if not sources:
+        print(f"ERROR: book file not found (tried canonical/variants): {[str(p.relative_to(ROOT)) for p in candidates + [BOOK_LINKS]]}", file=sys.stderr)
+        return 2
 
     refs: Set[str] = set()
     for src in sources:
