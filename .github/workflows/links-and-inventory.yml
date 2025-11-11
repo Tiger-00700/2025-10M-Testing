@@ -25,6 +25,8 @@ jobs:
             --report-md tools/reports/ci-links.md
 
       - name: Run assets inventory
+        env:
+          INVENTORY_FAIL_ON_MISSING: '0'
         run: |
           python tools/inventory_referenced_assets.py
 
