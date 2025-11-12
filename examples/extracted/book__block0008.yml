@@ -1,0 +1,20 @@
+
+    # playbook示例（部署HDFS）
+
+    - name: 部署HDFS
+
+      hosts: hadoop_cluster
+
+      tasks:
+
+        - name: 安装Hadoop包
+
+          yum: name=hadoop state=present
+
+        - name: 配置HDFS
+
+          template: src=hdfs-site.xml.j2 dest=/etc/hadoop/hdfs-site.xml
+
+        - name: 启动HDFS服务
+
+          service: name=hadoop-hdfs-namenode state=started

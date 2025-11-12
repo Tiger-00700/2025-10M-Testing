@@ -1,0 +1,56 @@
+
+     # GitLab CI配置示例 - 集成性能测试
+     stages:
+
+       - build
+
+       - test
+
+       - performance
+
+       - deploy
+
+     performance_test:
+
+       stage: performance
+       image: performance-test-tools:latest
+       script:
+
+         - echo "设置测试环境..."
+
+         - python setup_test_env.py
+
+         - echo "执行基准测试..."
+
+         - python run_benchmark.py --baseline
+
+         - echo "执行负载测试..."
+
+         - python run_load_test.py --users=100 --duration=300
+
+         - echo "执行扩展性测试..."
+
+         - python run_scalability_test.py --nodes=2,4,8
+
+         - echo "生成性能报告..."
+
+         - python generate_performance_report.py
+
+       artifacts:
+
+         paths:
+
+           - performance-reports/
+
+         expire_in: 1 week
+
+       rules:
+
+         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+         - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+> 【小结】
+- 用 3~5 条项目化要点复盘本章内容
+- 指出易错点/反模式与纠正建议
+- 给出可延伸阅读或下一步实践方向

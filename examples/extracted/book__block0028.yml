@@ -1,0 +1,50 @@
+
+     # Prometheus配置示例 - 针对大数据集群监控
+     global:
+       scrape_interval: 15s
+       evaluation_interval: 15s
+
+     alerting:
+       alertmanagers:
+
+       - static_configs:
+
+         - targets: ['alertmanager:9093']
+
+     rule_files:
+
+       - "bigdata_alerts.yml"
+
+     scrape_configs:
+
+       - job_name: 'hadoop'
+
+         static_configs:
+
+         - targets: ['namenode:9100', 'datanode1:9100', 'datanode2:9100']
+
+         metrics_path: /metrics
+
+       - job_name: 'spark'
+
+         static_configs:
+
+         - targets: ['spark-master:8080', 'spark-worker1:8081', 'spark-worker2:8081']
+
+         metrics_path: /metrics
+
+       - job_name: 'kafka'
+
+         static_configs:
+
+         - targets: ['kafka-broker1:7071', 'kafka-broker2:7071', 'kafka-broker3:7071']
+
+         metrics_path: /metrics
+
+       - job_name: 'jvm'
+
+         static_configs:
+
+         - targets: ['namenode:8080', 'resourcemanager:8088', 'spark-master:8080']
+
+         metrics_path: /metrics
