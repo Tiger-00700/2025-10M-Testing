@@ -35,3 +35,5 @@ This placeholder folder satisfies a referenced examples/advanced_methods link in
   - CI helpers (smoke runners, baseline comparators)
 
 All scripts should be dependency-light and runnable in CI.
+
+<!-- Placeholder example README. -->

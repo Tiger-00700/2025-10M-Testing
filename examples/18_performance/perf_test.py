@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Placeholder example file.
 """Tiny CPU micro-benchmark example for examples/18_performance.
 
 This script runs a small numeric loop and reports elapsed time. No external deps.

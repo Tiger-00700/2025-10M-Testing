@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Placeholder example file.
 """
 jaeger_assert.py: Minimal assertion against Jaeger Query API.
 
@@ -6,7 +7,7 @@ Checks that at least N traces exist for a service (and optional operation)
 within a lookback window. Uses Jaeger /api/traces endpoint.
 
 Usage:
-  python jaeger_assert.py --base http://localhost:16686 --service demo --operation '*' --lookback 1h --limit 5 --min-count 1
+    python jaeger_assert.py --base http://localhost:16686 --service demo --operation '*' --lookback 1h --limit 5 --min-count 1
 
 Exit codes: 0 pass, 2 fail, 3 error
 """

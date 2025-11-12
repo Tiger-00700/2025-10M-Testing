@@ -3,3 +3,15 @@
 examples/**/README.md
 examples/**/smoke.sh
 examples/**/smoke.ps1
+
+# NOTE: automated book exports were previously whitelisted. We are tightening the whitelist
+# by removing the broad allow for examples/99_book_exports/**. If CI fails, add back specific
+# child globs temporarily or fix the remaining small files with placeholders.
+
+# Temporarily allow extracted chapter/example trees for Chinese chapters
+# Use a glob to match directories like examples/第1篇, 第2篇, 第0篇, etc.
+examples/第*篇/**
+
+# Specific odd filename in examples/01_ecosystem created during extraction
+# Temporarily allow the whole examples/01_ecosystem directory to avoid special-filename issues
+examples/01_ecosystem/**

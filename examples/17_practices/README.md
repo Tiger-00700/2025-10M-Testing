@@ -1,3 +1,4 @@
+<!-- Placeholder example README. -->
 # examples/17_practices
 
 实践练习示例目录。包含小型练习和示例任务，供读者动手使用。

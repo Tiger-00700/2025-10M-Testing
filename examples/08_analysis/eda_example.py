@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Placeholder example file.
 """Tiny EDA example that reads a CSV and prints basic stats (uses only stdlib).
 
 Replace with richer notebooks or pandas-based scripts as needed.

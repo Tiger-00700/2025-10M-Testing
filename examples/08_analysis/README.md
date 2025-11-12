@@ -1,3 +1,4 @@
+<!-- Placeholder example README. -->
 
 # examples/08_analysis
 

@@ -1,3 +1,4 @@
+# <!-- Placeholder example file. -->
 # examples/11_automation (placeholder)
 
 This is a placeholder skeleton for the 11_automation lab. Content will be added later.

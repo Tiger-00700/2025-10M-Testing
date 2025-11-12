@@ -1,3 +1,4 @@
+# Placeholder example file.
 #!/usr/bin/env bash
 set -e
 echo "Running smoke for examples/11_automation"

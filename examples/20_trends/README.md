@@ -1,3 +1,4 @@
+<!-- Placeholder example README. -->
 # examples/20_trends
 
 趋势与技术方向示例目录。此处提供一个非常小的演示脚本，用来展示如何用脚本生成并简单分析时间序列趋势。

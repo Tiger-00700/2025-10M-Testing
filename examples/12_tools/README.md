@@ -8,3 +8,5 @@ Temporary runners:
 - smoke.ps1 (Windows)
 
 Both scripts simply print a success message and exit 0 to support CI/reference checks.
+
+<!-- Placeholder example README. -->

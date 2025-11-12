@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Placeholder example file.
 set -euo pipefail
 echo "Career map (examples/21_career_paths)"
 cat <<'MAP'

@@ -19,3 +19,5 @@ Small utilities to interact with the Jaeger Query API for test assertions and ad
 	- `pwsh -File .\jaeger_query.ps1 -Base http://localhost:16686 -Service demo -Limit 10`
 
 Exit codes: 0 pass, 2 fail, 3 error.
+
+<!-- Placeholder example README. -->

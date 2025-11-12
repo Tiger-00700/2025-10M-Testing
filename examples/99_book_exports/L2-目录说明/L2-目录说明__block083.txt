@@ -1,3 +1,4 @@
+Placeholder example file.
 # examples/20_trends (placeholder)
 
 This is a placeholder skeleton for the 20_trends lab. Content will be added later.

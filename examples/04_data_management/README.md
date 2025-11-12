@@ -7,3 +7,4 @@
 - 元数据采集中间件配置
 
 当前为占位，保证引用完整性。
+<!-- Placeholder example README. -->

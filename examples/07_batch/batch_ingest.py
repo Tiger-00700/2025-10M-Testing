@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Placeholder example file.
 """Simple batch ingest example that reads a local sample CSV and prints a count.
 
 This is intentionally dependency-free (uses csv from stdlib).

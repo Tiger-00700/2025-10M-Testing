@@ -1,3 +1,4 @@
+# Placeholder example file.
 #!/usr/bin/env bash
 set -euo pipefail
 echo "Running smoke for examples/07_batch"

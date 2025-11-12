@@ -1,3 +1,4 @@
+<!-- Placeholder example README. -->
 # examples/21_career_paths
 
 职业路径示例目录。提供一个小脚本用于以友好的文本方式展示能力/角色映射。

@@ -1,4 +1,6 @@
 # 03_environment
+```markdown
+# 03_environment
 
 本目录用于“测试环境最小验证（smoke）”示例素材，配合书稿中的最小实操路径使用。
 
@@ -30,3 +32,7 @@ bash examples/03_environment/smoke.sh
 
 - `smoke.sh`：最小化环境检查脚本
 - 其他素材：按书稿引用逐步补充（占位文件以 Placeholder 注释标识）
+
+<!-- Placeholder example README. -->
+
+```

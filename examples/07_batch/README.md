@@ -15,3 +15,5 @@ bash examples/07_batch/batch_demo.sh
 ```
 
 CI 要求：`examples/07_batch/smoke.sh` 应能在 Linux runner 上返回退出码 0。
+
+<!-- Placeholder example README. -->

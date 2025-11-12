@@ -1,3 +1,4 @@
+<!-- Placeholder example README. -->
 
 # examples/11_automation
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Placeholder example file.
 set -euo pipefail
 echo "Running exercise 01 (examples/17_practices)"
 cat <<'EX'

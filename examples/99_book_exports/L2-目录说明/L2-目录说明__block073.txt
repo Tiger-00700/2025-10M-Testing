@@ -1,3 +1,4 @@
+Placeholder example file.
 # examples/07_batch (placeholder)
 
 This is a placeholder skeleton for the 07_batch lab. Content will be added later.

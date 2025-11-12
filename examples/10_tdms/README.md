@@ -1,3 +1,4 @@
+<!-- Placeholder example README. -->
 # examples/10_tdms
 
 示例目录用于展示时序数据（Time Domain Measurement/TDMS）的读取与预览。仓库中使用 CSV 作为轻量替代示例，说明如何读取时间序列并打印摘要。

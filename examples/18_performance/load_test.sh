@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Placeholder example file.
 set -euo pipefail
 echo "examples/18_performance: running micro-benchmark"
 if [ -f perf_test.py ]; then

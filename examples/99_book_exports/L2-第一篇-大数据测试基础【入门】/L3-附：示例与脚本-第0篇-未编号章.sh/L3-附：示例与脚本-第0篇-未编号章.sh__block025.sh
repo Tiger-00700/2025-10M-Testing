@@ -1,3 +1,4 @@
+# Placeholder example file.
 ##### 练习
 <!-- LEARNING-BLOCKS-BEGIN -->
 1. 场景化练习：结合你的项目，描述“附：示例与脚本 - 第0篇-未编号章.sh”的一个实践场景，给出输入/步骤/预期输出

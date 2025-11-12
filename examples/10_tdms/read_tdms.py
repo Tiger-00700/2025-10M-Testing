@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Placeholder example file.
 """Placeholder TDMS reader that demonstrates reading a small time-series CSV sample.
 
 Real TDMS reading would use a dedicated library; this script shows how to read a small sample file.

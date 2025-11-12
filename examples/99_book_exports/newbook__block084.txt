@@ -1,3 +1,4 @@
+Placeholder example file.
 # examples/21_career_paths (placeholder)
 
 This is a placeholder skeleton for the 21_career_paths lab. Content will be added later.

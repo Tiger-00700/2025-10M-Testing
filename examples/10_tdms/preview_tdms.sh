@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
+# Placeholder example file.
 set -euo pipefail
-echo "examples/10_tdms: placeholder preview of TDMS handling"
-echo "(no tdms library present in this minimal demo)"
-echo "Listing sample files in directory:"
-ls -1 || true
+echo "examples/10_tdms preview"
+if [ -f read_tdms.py ]; then
+	echo "Invoking read_tdms.py"
+	python read_tdms.py
+fi
+
+echo "Preview complete"
 exit 0

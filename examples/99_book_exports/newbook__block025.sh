@@ -22,3 +22,4 @@
 <!-- LEARNING-BLOCKS-END -->
 #!/usr/bin/env bash
 # Placeholder: migrated from book reference, please fill content.
+# Placeholder example file.

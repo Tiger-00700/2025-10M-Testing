@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Placeholder example file.
 """Minimal Python example for examples/advanced_methods
 
 This example demonstrates a tiny data-processing function and prints a small result.

@@ -1,3 +1,4 @@
+Placeholder example file.
 # 03_environment
 
 本目录用于“测试环境最小验证（smoke）”示例素材，配合书稿中的最小实操路径使用。

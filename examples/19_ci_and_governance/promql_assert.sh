@@ -87,20 +87,6 @@ cmp() {
   }'
 }
 
-count=0
-failcount=0
-echo "$VALUES" | while IFS= read -r v; do
-  [ -z "$v" ] && continue
-  count=$((count+1))
-  if cmp "$v" "$THRESHOLD" "$OP"; then
-    info "value=$v op=$OP threshold=$THRESHOLD => PASS"
-  else
-    info "value=$v op=$OP threshold=$THRESHOLD => FAIL"
-    failcount=$((failcount+1))
-  fi
-done
-
-# The above loop in sh runs in a subshell; compute status by re-evaluating quickly
 FAILS=$(echo "$VALUES" | awk -v t="$THRESHOLD" -v op="$OP" '{
   v=$1; ok=0;
   if (op=="gt") ok=(v>t);

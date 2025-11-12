@@ -8,4 +8,6 @@ This brief overview describes the ecosystem example referenced in the book. It s
 Example (placeholder)
 
 - Components: data producer -> ingest (batch/stream) -> storage -> analysis
-- Demo: `bash demo.sh` will print a short topology summary.
+-- Demo: `bash demo.sh` will print a short topology summary.
+
+<!-- Placeholder example README. -->

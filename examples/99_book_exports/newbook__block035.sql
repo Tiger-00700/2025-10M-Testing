@@ -1,7 +1,5 @@
--- Placeholder: migrated from book reference, please fill content.
-
-##### 练习
-<!-- LEARNING-BLOCKS-BEGIN -->
+-- Placeholder example file.
+-- Auto-extracted SQL snippet; placeholder for CI
 1. 场景化练习：结合你的项目，描述“附：示例与脚本 - 第2篇-第4章-4.3.3节.sql”的一个实践场景，给出输入/步骤/预期输出
 1. 指标设计：为“附：示例与脚本 - 第2篇-第4章-4.3.3节.sql”设计 3 个可量化指标（含基线/阈值/采样频率），并说明采集方式
 1. 风险与对策：列出 2–3 个与“附：示例与脚本 - 第2篇-第4章-4.3.3节.sql”相关的风险点，并给出可执行的缓解方案

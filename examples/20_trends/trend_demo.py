@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Placeholder example file.
 """Tiny trend demo: generate a small series and print a simple trend (slope).
 
 This example has no external deps and can run on CI runners.
