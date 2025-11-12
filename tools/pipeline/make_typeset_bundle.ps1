@@ -120,7 +120,7 @@ if($pandocPath) {
     if($pdfOk) { $generated += 'PDF' } else { $failed += 'PDF' }
 } else {
     Write-Warning 'pandoc not found in PATH; attempting Python markdown fallback for HTML only.'
-    $py = Join-Path $repoRoot '.venv311/Scripts/python.exe'
+    $py = Join-Path $repoRoot '.venv311311/Scripts/python.exe'
     if(-not (Test-Path $py)) { $py = 'python' }
     $md2html = Join-Path $repoRoot 'tools/md_to_html.py'
     if(Test-Path $md2html) {
@@ -183,3 +183,4 @@ Write-Host "[OK] Typeset bundle created: $outDir"
 Write-Host "      ZIP: $zipPath"
 if($generated.Count) { Write-Host ("      Generated: {0}" -f ($generated -join ', ')) }
 if($failed.Count) { Write-Host ("      Skipped/failed: {0}" -f ($failed -join ', ')) }
+

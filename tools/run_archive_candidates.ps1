@@ -89,15 +89,16 @@ try {
     Write-Warning "git commit 失败：$($_.Exception.Message)"
 }
 
-# Run placeholder check and tests using .venv311 if present
-$py = Join-Path (Get-Location) '.venv311/Scripts/python.exe'
+# Run placeholder check and tests using .venv311311 if present
+$py = Join-Path (Get-Location) '.venv311311/Scripts/python.exe'
 if (Test-Path $py) {
     Write-Output "Running placeholder check with $py"
     & $py tools/check_placeholders.py --max-bytes 2048 --allow-file tools/placeholder_whitelist.txt
     Write-Output "Running pytest with $py"
     & $py -m pytest -q
 } else {
-    Write-Warning ".venv311 中未找到 Python: $py。请在有 Python 的环境中手动运行占位符检查和测试。"
+    Write-Warning ".venv311311 中未找到 Python: $py。请在有 Python 的环境中手动运行占位符检查和测试。"
 }
 
 Write-Output "Done." 
+

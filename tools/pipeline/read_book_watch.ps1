@@ -104,7 +104,7 @@ function Render {
         }
     } else {
         if(-not $Quiet){ Write-Warning '[watch] pandoc not found; using Python fallback renderer (HTML only).' }
-            $py = Join-Path $repoRoot '.venv311/Scripts/python.exe'
+            $py = Join-Path $repoRoot '.venv311311/Scripts/python.exe'
             if(-not (Test-Path $py)) { $py = 'python' }
         $md2html = Join-Path $repoRoot 'tools/md_to_html.py'
         if(-not (Test-Path $md2html)) { throw "Python renderer not found: $md2html" }
@@ -117,7 +117,7 @@ function Render {
 function Invoke-FreezeManuscript {
     $freezePy = Join-Path $repoRoot 'tools/freeze_manuscript.py'
     if(Test-Path $freezePy){
-        $py = Join-Path $repoRoot '.venv311/Scripts/python.exe'
+        $py = Join-Path $repoRoot '.venv311311/Scripts/python.exe'
         if(-not (Test-Path $py)) { $py = 'python' }
         try {
             & $py $freezePy | Out-Null
@@ -131,7 +131,7 @@ function Invoke-FreezeManuscript {
 Render
 
 # Start preview server
-$pyExe = Join-Path $repoRoot '.venv311/Scripts/python.exe'
+$pyExe = Join-Path $repoRoot '.venv311311/Scripts/python.exe'
 if(-not (Test-Path $pyExe)) { $pyExe = 'python' }
 $serverScript = Join-Path $repoRoot 'tools/server/preview_server.py'
 if(-not (Test-Path $serverScript)) { throw "Preview server not found: $serverScript" }
@@ -232,3 +232,4 @@ try {
     $fsw.Dispose(); $fswTpl.Dispose(); if($fswChap){ $fswChap.Dispose() }; if($fswApp){ $fswApp.Dispose() }
     if($server -and -not $server.HasExited){ try { $server.CloseMainWindow() | Out-Null; Start-Sleep 1; if(-not $server.HasExited){ $server.Kill() } } catch {} }
 }
+

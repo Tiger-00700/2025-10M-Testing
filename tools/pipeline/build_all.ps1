@@ -48,7 +48,7 @@ function Resolve-PwshExe {
 $pwshExe = Resolve-PwshExe
 
 function Resolve-PythonExe {
-  $venvPy = Join-Path $repoRoot '.venv311/Scripts/python.exe'
+  $venvPy = Join-Path $repoRoot '.venv311311/Scripts/python.exe'
   if (Test-Path -LiteralPath $venvPy) { return $venvPy }
   return 'python'
 }
@@ -229,3 +229,4 @@ Invoke-Step -Name 'Aggregate quality dashboard (CI thresholds)' -Action {
 }
 
 Write-Host 'All steps completed successfully.' -ForegroundColor Green
+

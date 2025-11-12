@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 IGNORE_DIRS = {
     ".git",
     "node_modules",
-    ".venv311",
+    ".venv311311",
     "tools/_md013_suggest",
     "tools/editorial-issues",
     ".github",
@@ -110,3 +110,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
