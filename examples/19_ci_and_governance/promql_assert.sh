@@ -1,3 +1,4 @@
+# Placeholder example file.
 #!/usr/bin/env sh
 set -eu
 

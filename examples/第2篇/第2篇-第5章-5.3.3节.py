@@ -1,1 +1,2 @@
+# Placeholder example file.
 # Placeholder: migrated from book reference, please fill content.

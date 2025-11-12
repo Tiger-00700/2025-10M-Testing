@@ -1,3 +1,4 @@
+# Placeholder example file.
 
     # 1. 初始化主节点
     kubeadm init --pod-network-cidr=192.168.0.0/16

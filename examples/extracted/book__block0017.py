@@ -1,3 +1,4 @@
+# Placeholder example file.
 
      # 分布式负载测试执行框架
      from locust import HttpUser, task, between, events

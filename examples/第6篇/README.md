@@ -1,3 +1,4 @@
+<!-- Placeholder example README. -->
 <!-- 占位 README: examples/第6篇 -->
 
 此目录包含从书中导出的高级/专家级示例片段；目前添加占位以满足占位检查。

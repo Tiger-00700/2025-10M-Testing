@@ -1,3 +1,4 @@
+# Placeholder example file.
 #!/usr/bin/env python3
 """
 delta_check.py: Time-travel diff for CSV snapshots.

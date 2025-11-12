@@ -1,3 +1,4 @@
+# Placeholder example file.
 
     # 1. 安装Ambari Server
     yum install ambari-server

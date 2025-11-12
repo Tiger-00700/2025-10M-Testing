@@ -1,3 +1,4 @@
+# Placeholder example file.
 #!/usr/bin/env python3
 """A small pandas-based EDA example for examples/08_analysis.
 
