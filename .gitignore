@@ -6,6 +6,8 @@
 # Reports: ignore timestamped outputs but keep the latest snapshots
 tools/reports/*
 !tools/reports/*-latest.*
+!tools/reports/bak_backup-*.zip
+!tools/reports/bak_backup-*.manifest.txt
 
 # Releases: ignore generated bundles and preview logs
 tools/releases/*
@@ -30,3 +32,6 @@ __pycache__/
 **/.gitattributes
 !/.gitignore
 !/.gitattributes
+
+# Ignore backup files created by placeholder inserter
+*.bak
