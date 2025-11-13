@@ -13,6 +13,16 @@ Behavior:
 
 Non-destructive: only touches the book file.
 """
+        """Annotate scope-notes in the book with a skeleton notice.
+
+        The script scans for lines like '最小实操路径：examples/<topic>' and:
+            - if examples/<topic>/.skeleton exists, ensures an annotation line is
+                present directly after the H2; otherwise removes that annotation.
+            - it also normalizes the adjacent '示例脚本：examples/<topic>/smoke.*' line
+                by adding or removing the suffix '；当前为骨架占位（.skeleton）' as needed.
+
+        This tool is non-destructive: it only edits the book file when necessary.
+        """
 from __future__ import annotations
 
 import re
@@ -67,12 +77,11 @@ def process_book(text: str) -> str:
             while j <= 3 and (i + j) < len(lines):
                 l2 = lines[i + j]
                 if re.search(fr"示例脚本：examples/{re.escape(topic)}/smoke\.\w+", l2):
-                    # Handle potential CRLF artifacts by preserving trailing \r
-                    base = l2
-                    # Handle literal "\\r" artifacts and duplicates introduced earlier
-                    base = base.replace("\\r" + SUFFIX, "")
+                            # Preserve trailing CRLF artifacts and remove literal '\r' artifacts
+                            base = l2.replace("\\r" + SUFFIX, "")
                     # Do not try to preserve trailing markers; keep line content as-is otherwise
                     trail = ""
+                        # Do not try to preserve trailing markers; keep content as-is
                     if sk:
                         # Ensure exactly one suffix occurrence
                         base = base.replace(SUFFIX, "")

@@ -1,10 +1,17 @@
-# examples/20_trends (placeholder)
+<!-- Placeholder example README. -->
+# examples/20_trends
 
-This is a placeholder skeleton for the 20_trends lab. Content will be added later.
+趋势与技术方向示例目录。此处提供一个非常小的演示脚本，用来展示如何用脚本生成并简单分析时间序列趋势。
 
-Temporary runners:
+主要文件：
 
-- smoke.sh (Linux/macOS)
-- smoke.ps1 (Windows)
+- `trend_demo.py` - 生成小样本并计算简单斜率估计，适合 CI smoke-tests。
+- `trend_note.md` - 短说明/笔记。
 
-Both scripts simply print a success message and exit 0 to support CI/reference checks.
+快速运行：
+
+```bash
+python examples/20_trends/trend_demo.py
+```
+
+CI: `examples/20_trends/smoke.sh` 将调用 `trend_demo.py` 并以退出码 0 返回。

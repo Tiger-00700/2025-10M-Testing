@@ -1,0 +1,68 @@
+name: Newbook-only Pipeline
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch: {}
+
+jobs:
+  newbook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Build (newbook-only)
+        shell: pwsh
+        env:
+          CHECK_INCLUDE_ORGANIZED: "0"
+          # External link check settings
+          # Enable/disable external link checks (1=on, 0=off)
+          CHECK_EXTERNAL: "1"
+          # Timeout in seconds per request (HEAD with GET fallback)
+          CHECK_EXTERNAL_TIMEOUT: "15"
+          # Treat external link warnings (401/403/429/timeouts/SSL) as failures (1=yes, 0=no)
+          CHECK_EXTERNAL_FAIL_ON_WARN: "1"
+          # Comma-separated domains to skip (partial match allowed), e.g., "linkedin.com,x.com"
+          CHECK_EXTERNAL_SKIP_DOMAINS: "linkedin.com,x.com"
+          # Check scope: 'all' to validate links in newbook and appendices (organized excluded above)
+          CHECK_SCOPE: "all"
+        run: |
+          pwsh -NoLogo -NoProfile -File "tools/pipeline/build_all.ps1" -SkipOrganize
+
+      - name: Run assets reference inventory
+        run: |
+          python tools/inventory_referenced_assets.py
+
+      - name: Enforce placeholder policy (examples/)
+        run: |
+          python tools/check_placeholders.py --max-bytes 2048 --allow-file tools/placeholder_whitelist.txt
+
+      - name: Run archive compliance check
+        run: |
+          python tools/inventory_archive_status.py
+
+      - name: Run chapter alignment & link validator
+        run: |
+          python tools/validate_chapters_against_book.py
+
+      - name: Enforce env path consistency (03_environment)
+        run: |
+          python tools/check_env_path_consistency.py
+
+      - name: Upload reports artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            tools/reports/**
+            book/附录-图表目录.md
+            book/附录-代码清单.md
+            book/附录-脚本索引.md
+            book/1022.2025.newbook.augmented.md

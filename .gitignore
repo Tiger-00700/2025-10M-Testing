@@ -1,0 +1,37 @@
+# Coverage data
+.coverage
+# Coverage data
+.coverage
+
+# Reports: ignore timestamped outputs but keep the latest snapshots
+tools/reports/*
+!tools/reports/*-latest.*
+!tools/reports/bak_backup-*.zip
+!tools/reports/bak_backup-*.manifest.txt
+
+# Releases: ignore generated bundles and preview logs
+tools/releases/*
+
+# Python caches
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# pytest cache
+.pytest_cache/
+**/.pytest_cache/
+
+# Python virtual envs (ignore any local venvs like .venv, .venv311, .venv-*)
+.venv/
+.venv*
+**/.venv*
+
+# Ignore extra .gitignore/.gitattributes files in subfolders, but keep root ones tracked
+**/.gitignore
+**/.gitattributes
+!/.gitignore
+!/.gitattributes
+
+# Ignore backup files created by placeholder inserter
+*.bak

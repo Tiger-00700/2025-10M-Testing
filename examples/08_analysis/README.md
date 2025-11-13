@@ -1,10 +1,15 @@
-# examples/08_analysis (placeholder)
+<!-- Placeholder example README. -->
 
-This is a placeholder skeleton for the 08_analysis lab. Content will be added later.
+# examples/08_analysis
 
-Temporary runners:
+Exploratory data analysis (EDA) examples and notebooks referenced by the book.
 
-- smoke.sh (Linux/macOS)
-- smoke.ps1 (Windows)
+Suggested files
 
-Both scripts simply print a success message and exit 0 to support CI/reference checks.
+- `eda_example.ipynb` or `eda_example.py` - simple EDA demo
+
+Quick run
+
+```bash
+python examples/08_analysis/eda_example.py
+```

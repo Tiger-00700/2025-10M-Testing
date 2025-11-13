@@ -18,11 +18,18 @@ if Path(RAW).exists():
 
 # Fallback: if no raw file, scan all markdown files
 if not md013_files:
-    md013_files = set(glob('book/**/*.md', recursive=True) + glob('chapter/**/*.md', recursive=True) + ['PR_DESCRIPTION.md'])
+    md_list = (
+        glob('book/**/*.md', recursive=True)
+        + glob('chapter/**/*.md', recursive=True)
+        + ['PR_DESCRIPTION.md']
+    )
+    md013_files = set(md_list)
     md013_files = {f for f in md013_files if Path(f).is_file()}
 
-# Wrapping logic: only wrap plain paragraph lines (not headings, lists, blockquotes, tables, code fences)
+# Wrapping logic: only wrap plain paragraph lines.
+# Skip headings, lists, blockquotes, tables, and code fences.
 MAX = 80
+
 
 def wrap_line(line, maxcol=MAX):
     if len(line) <= maxcol:
@@ -41,6 +48,7 @@ def wrap_line(line, maxcol=MAX):
     if cur:
         out.append(cur)
     return out
+
 
 changed = []
 with tempfile.TemporaryDirectory() as td:
@@ -74,11 +82,17 @@ with tempfile.TemporaryDirectory() as td:
                 out_lines.append(line)
                 continue
             # skip headings, lists, blockquotes, tables, indented code
-            if re.match(r'^#{1,6}\s', line) or re.match(r'^[>\s]*([-+*]|\d+\.)\s+', line) or line.startswith('>') or line.startswith('|') or line.startswith('    ') or line.strip()=='' or line.strip().startswith('<!--'):
+            is_heading = re.match(r'^#{1,6}\s', line)
+            is_list = re.match(r'^[>\s]*([-+*]|\d+\.)\s+', line)
+            is_block = line.startswith('>') or line.startswith('|') or line.startswith('    ')
+            is_blank_or_comment = line.strip() == '' or line.strip().startswith('<!--')
+            if is_heading or is_list or is_block or is_blank_or_comment:
                 out_lines.append(line)
                 continue
-            # also skip lines containing URLs (bare URLs) to avoid breaking them
-            if 'http://' in line or 'https://' in line or re.search(r'\S+@\S+\.\S+', line):
+            # skip lines that contain bare URLs to avoid breaking them
+            has_url = 'http://' in line or 'https://' in line
+            has_email = re.search(r'\S+@\S+\.\S+', line)
+            if has_url or has_email:
                 out_lines.append(line)
                 continue
             if len(line) > MAX:
@@ -94,22 +108,18 @@ with tempfile.TemporaryDirectory() as td:
             newp.parent.mkdir(parents=True, exist_ok=True)
             newp.write_text('\n'.join(out_lines) + '\n', encoding='utf-8')
 
-    # build unified diff using git --no-index between original and temp modified files
+    # build unified diffs using git --no-index for each modified file
     if changed:
-        parts = []
-        for f in changed:
-            orig = Path(f).absolute()
-            mod = Path(td) / f
-            # ensure parent exists
-            parts.extend(['--no-index', str(orig), str(mod)])
-        # Instead of batching, produce a single diff by running git diff --no-index for all file pairs
-        # We'll run git diff --no-index <orig> <mod> for each and append
         with open(OUT_PATCH, 'w', encoding='utf-8') as outf:
             for f in changed:
                 orig = Path(f).absolute()
                 mod = Path(td) / f
                 try:
-                    res = subprocess.run(['git','diff','--no-index','--','-U3', str(orig), str(mod)], capture_output=True, text=True)
+                    cmd = [
+                        'git', 'diff', '--no-index', '--', '-U3',
+                        str(orig), str(mod),
+                    ]
+                    res = subprocess.run(cmd, capture_output=True, text=True)
                     outf.write(res.stdout)
                 except Exception as e:
                     outf.write(f'# Failed to diff {f}: {e}\n')

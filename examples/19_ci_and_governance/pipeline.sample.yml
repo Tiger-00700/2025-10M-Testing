@@ -1,0 +1,36 @@
+ # Placeholder example file.
+name: data-tests
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: CSV time-travel diff
+        run: |
+          python examples/06_storage/delta_check.py \
+            --old examples/06_storage/data/snapshot_v1.csv \
+            --new examples/06_storage/data/snapshot_v2.csv \
+            --key id || exit 2
+
+      - name: Prometheus SLI assertion (up>0)
+        env:
+          PROM_URL: http://localhost:9090
+        run: |
+          bash appendix/promql_assert.sh 'up' gt 0 || exit 2
+
+      - name: Jaeger traces exist
+        run: |
+          python examples/13_observability/jaeger_assert.py \
+            --base http://localhost:16686 --service demo --min-count 1 || exit 2

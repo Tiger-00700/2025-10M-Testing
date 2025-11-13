@@ -53,17 +53,28 @@ def main():
 
     duplicates = {h: locs for h, locs in headings.items() if len(locs) > 1}
 
-    out = {'total_headings': len(headings), 'duplicate_count': len(duplicates), 'duplicates': duplicates}
+    out = {
+        'total_headings': len(headings),
+        'duplicate_count': len(duplicates),
+        'duplicates': duplicates,
+    }
 
     with open(OUT_JSON, 'w', encoding='utf-8') as fh:
         json.dump(out, fh, ensure_ascii=False, indent=2)
 
     with open(OUT_TXT, 'w', encoding='utf-8') as fh:
-        fh.write(f"Duplicate headings report\nFound {len(duplicates)} headings that appear multiple times across files.\n\n")
+        header = "Duplicate headings report\n"
+        header += (
+            "Found " + str(len(duplicates)) + " headings that appear multiple times "
+            "across files.\n\n"
+        )
+        fh.write(header)
         for h, locs in sorted(duplicates.items(), key=lambda kv: -len(kv[1])):
-            fh.write(f"Heading: {h} (occurrences: {len(locs)})\n")
+            heading_line = f"Heading: {h} (occurrences: {len(locs)})\n"
+            fh.write(heading_line)
             for loc in locs:
-                fh.write(f"  - {loc['file']}: line {loc['line']}\n")
+                path_line = "  - " + loc['file'] + ": line " + str(loc['line']) + "\n"
+                fh.write(path_line)
             fh.write('\n')
 
     print(f"Wrote {OUT_JSON} and {OUT_TXT}")

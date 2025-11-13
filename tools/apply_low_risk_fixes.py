@@ -36,14 +36,13 @@ def list_md_files():
 
 def fix_text(orig_text: str) -> str:
     lines = orig_text.splitlines()
-    new_lines = []
+    new_lines: list[str] = []
     i = 0
-    in_fence = False
     while i < len(lines):
         line = lines[i].rstrip(' \t')  # remove trailing spaces/tabs
 
-        # detect fence start/end
-        if fence_re.match(lines[i]):
+    # detect fence start/end
+    if fence_re.match(lines[i]):
             # ensure blank line before fence
             if new_lines and new_lines[-1] != '':
                 new_lines.append('')

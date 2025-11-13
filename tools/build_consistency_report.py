@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-"""
-Build a consistency report comparing book references vs repository contents for:
-- appendix/ files
-- examples/ directories and smoke scripts
+"""Build a consistency report comparing book references vs repository
+contents for appendix files and examples directories (smoke scripts).
 
 Inputs:
-- tools/appendix-link-report.json (produced by check_appendix_links.py)
-- book/1022.2025.book.md (for examples/ references)
+    - tools/appendix-link-report.json (from check_appendix_links.py)
+    - book/1022.2025.book.md (for examples/ references)
 
 Outputs:
-- tools/consistency-report.json
-- tools/consistency-report.txt
+    - tools/consistency-report.json
+    - tools/consistency-report.txt
 
 Conservative rules:
-- Treat appendix/.gitlab-ci.yml as satisfied if appendix/.gitlab-ci.yml.example exists.
-- Map references like "E/examples/<topic>/smoke.sh" to top-level examples/<topic>/smoke.sh existence for examples check.
-- Ignore code-fence and duplicates; de-duplicate results.
+    - Treat appendix/.gitlab-ci.yml as satisfied if
+        appendix/.gitlab-ci.yml.example exists.
+    - Map references like "E/examples/<topic>/smoke.sh" to
+        examples/<topic>/smoke.sh for existence checks.
+    - Ignore code-fence and duplicates; de-duplicate results.
 
 This script only reads and reports; it does not modify repository content.
 """
@@ -25,7 +25,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Set, Any
 
 ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ROOT / "tools"
@@ -36,8 +36,9 @@ LINK_REPORT_JSON = TOOLS / "appendix-link-report.json"
 BOOK_FILE = ROOT / "book" / "1022.2025.book.md"
 
 # Configuration: skeleton detection
-# Prefer an explicit marker file `.skeleton` inside examples/<topic>/ to mark a topic as a skeleton.
-# Optionally fall back to filename heuristics when marker is absent (README.md, smoke.sh, smoke.ps1 only).
+# Prefer an explicit marker file `.skeleton` inside examples/<topic>/ to mark a
+# topic as a skeleton. Optionally fall back to filename heuristics when the
+# marker is absent (README.md, smoke.sh, smoke.ps1 only).
 USE_SKELETON_MARKER: bool = True
 USE_SKELETON_HEURISTIC_FALLBACK: bool = True
 
@@ -68,20 +69,24 @@ def parse_examples_refs(book_text: str) -> Set[str]:
     # Capture both E/examples/<topic> and examples/<topic>, with optional smoke.*
     refs: Set[str] = set()
     # topics (legacy E/examples/...)
-    for m in re.finditer(r"\bE/examples/([A-Za-z0-9_\-]+)\b", book_text):
+    pat_topic = re.compile(r"\bE/examples/([A-Za-z0-9_\-]+)\b")
+    for m in pat_topic.finditer(book_text):
         topic = m.group(1)
         refs.add(f"E/examples/{topic}")
     # smoke files (legacy E/examples/...)
-    for m in re.finditer(r"\bE/examples/([A-Za-z0-9_\-]+)/smoke\.(sh|ps1)\b", book_text):
+    pat_smoke_legacy = re.compile(r"\bE/examples/([A-Za-z0-9_\-]+)/smoke\.(sh|ps1)\b")
+    for m in pat_smoke_legacy.finditer(book_text):
         topic = m.group(1)
         ext = m.group(2)
         refs.add(f"E/examples/{topic}/smoke.{ext}")
     # topics (new examples/...)
-    for m in re.finditer(r"\bexamples/([A-Za-z0-9_\-]+)\b", book_text):
+    pat_topic_new = re.compile(r"\bexamples/([A-Za-z0-9_\-]+)\b")
+    for m in pat_topic_new.finditer(book_text):
         topic = m.group(1)
         refs.add(f"examples/{topic}")
     # smoke files (new examples/...)
-    for m in re.finditer(r"\bexamples/([A-Za-z0-9_\-]+)/smoke\.(sh|ps1)\b", book_text):
+    pat_smoke_new = re.compile(r"\bexamples/([A-Za-z0-9_\-]+)/smoke\.(sh|ps1)\b")
+    for m in pat_smoke_new.finditer(book_text):
         topic = m.group(1)
         ext = m.group(2)
         refs.add(f"examples/{topic}/smoke.{ext}")
@@ -121,9 +126,11 @@ def main() -> int:
 
         if not exists:
             # Skip .gitlab-ci.yml when .example exists (treat as satisfied)
-            if resolved.name == ".gitlab-ci.yml" and (APPENDIX / ".gitlab-ci.yml.example").exists():
+            gitlab_example = (APPENDIX / ".gitlab-ci.yml.example").exists()
+            if resolved.name == ".gitlab-ci.yml" and gitlab_example:
                 continue
-            # For references of E/examples/... mapped into appendix, we still count as missing in appendix
+            # For references of E/examples/... mapped into appendix,
+            # we still count them as missing in appendix
             appendix_missing[rel_norm] = {
                 "matched": matched,
                 "resolved": rel_norm,
@@ -135,7 +142,9 @@ def main() -> int:
     ignored_appendix_files = {
         "appendix/.gitlab-ci.yml.example",
     }
-    appendix_all_files = {p for p in appendix_all_files if p not in ignored_appendix_files}
+    appendix_all_files = {
+        p for p in appendix_all_files if p not in ignored_appendix_files
+    }
     appendix_unreferenced = sorted(list(appendix_all_files - appendix_referenced))
 
     # Examples referenced set from book
@@ -168,7 +177,13 @@ def main() -> int:
             topic = tail.split("/")[0]
             if topic:
                 ref_topics.add(topic)
-    fs_topics = {s.split("/")[1] for s in examples_all_files if s.startswith("examples/") and len(s.split("/")) >= 2}
+    fs_topics = set()
+    for s in examples_all_files:
+        if not s.startswith("examples/"):
+            continue
+        parts = s.split("/")
+        if len(parts) >= 2:
+            fs_topics.add(parts[1])
 
     examples_topics_missing = sorted(list(ref_topics - fs_topics))
 
@@ -202,7 +217,9 @@ def main() -> int:
                 skeleton_topics.add(t)
 
     # Compute unreferenced and suppress skeleton-only topics
-    examples_unreferenced_files_all = sorted(list(examples_all_files - examples_referenced_paths))
+    examples_unreferenced_files_all = sorted(
+        list(examples_all_files - examples_referenced_paths)
+    )
     def _is_suppressed(path: str) -> bool:
         if not path.startswith("examples/"):
             return False
@@ -212,9 +229,12 @@ def main() -> int:
         topic = parts[1]
         return topic in skeleton_topics
 
-    examples_unreferenced_files = [p for p in examples_unreferenced_files_all if not _is_suppressed(p)]
+    examples_unreferenced_files = []
+    for p in examples_unreferenced_files_all:
+        if not _is_suppressed(p):
+            examples_unreferenced_files.append(p)
 
-    out_json = {
+    out_json: dict[str, Any] = {
         "appendix": {
             "total_files": len(appendix_all_files),
             "referenced": len(appendix_referenced),
@@ -237,7 +257,9 @@ def main() -> int:
     }
 
     TOOLS.mkdir(parents=True, exist_ok=True)
-    (TOOLS / "consistency-report.json").write_text(json.dumps(out_json, ensure_ascii=False, indent=2), encoding="utf-8")
+    json_path = TOOLS / "consistency-report.json"
+    json_text = json.dumps(out_json, ensure_ascii=False, indent=2)
+    json_path.write_text(json_text, encoding="utf-8")
 
     # Human-readable summary
     lines: List[str] = []
@@ -260,14 +282,19 @@ def main() -> int:
     lines.append(f"- Missing topics (by directory): {len(examples_topics_missing)}")
     for t in examples_topics_missing:
         lines.append(f"  ! {t}")
-    lines.append(f"- Skeleton topics: {len(skeleton_topics)} (suppressed in Unreferenced)")
+    msg = "- Skeleton topics: " + str(len(skeleton_topics))
+    msg += " (suppressed in Unreferenced)"
+    lines.append(msg)
     for t in sorted(list(skeleton_topics))[:30]:
         lines.append(f"  ~ {t}")
-    lines.append(f"- Unreferenced files: {len(examples_unreferenced_files)} (showing up to 30)")
+    msg2 = "- Unreferenced files: " + str(len(examples_unreferenced_files))
+    msg2 += " (showing up to 30)"
+    lines.append(msg2)
     for s in out_json["examples"]["unreferenced_files_samples"]:
         lines.append(f"  * {s}")
 
-    (TOOLS / "consistency-report.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    txt_path = TOOLS / "consistency-report.txt"
+    txt_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     print("Wrote tools/consistency-report.json and tools/consistency-report.txt")
     return 0

@@ -1,10 +1,17 @@
-# examples/21_career_paths (placeholder)
+<!-- Placeholder example README. -->
+# examples/21_career_paths
 
-This is a placeholder skeleton for the 21_career_paths lab. Content will be added later.
+职业路径示例目录。提供一个小脚本用于以友好的文本方式展示能力/角色映射。
 
-Temporary runners:
+主要文件：
 
-- smoke.sh (Linux/macOS)
-- smoke.ps1 (Windows)
+- `career_map.md` - 简短的能力/角色映射说明。
+- `show_career_map.sh` - 打印职业路径示例的脚本，用作 smoke-test。
 
-Both scripts simply print a success message and exit 0 to support CI/reference checks.
+快速运行：
+
+```bash
+bash examples/21_career_paths/show_career_map.sh
+```
+
+CI: `examples/21_career_paths/smoke.sh` 将调用 `show_career_map.sh` 并以退出码 0 返回。

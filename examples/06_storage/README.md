@@ -1,10 +1,20 @@
-# examples/06_storage (placeholder)
+# examples/06_storage — Time-travel diff (minimal)
 
-This is a placeholder skeleton for the 06_storage lab. Content will be added later.
+This example demonstrates a minimal time-travel diff across two CSV snapshots.
 
-Temporary runners:
+## Files
 
-- smoke.sh (Linux/macOS)
-- smoke.ps1 (Windows)
 
-Both scripts simply print a success message and exit 0 to support CI/reference checks.
+## Quick start
+
+Python 3.8+ is sufficient; no extra dependencies.
+
+Examples:
+
+
+Exit codes:
+
+This script is suitable for CI; for large datasets, adapt it to Parquet/Delta Lake using PySpark or pandas as needed.
+
+<!-- Placeholder example README. -->
+

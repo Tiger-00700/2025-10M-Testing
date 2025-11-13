@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 IGNORE_DIRS = {
     ".git",
     "node_modules",
-    ".venv",
+    ".venv311311",
     "tools/_md013_suggest",
     "tools/editorial-issues",
     ".github",
@@ -103,10 +103,22 @@ def main() -> int:
             print(f" ... and {len(all_issues) - 500} more")
         print(f"Total issues: {len(all_issues)}")
         return 1
-    else:
-        print("Print-readiness: OK (no issues)")
-        return 0
+
+    print("Print-readiness: OK (no issues)")
+    return 0
 
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+
+
+
+
+
+
+
+
+
+

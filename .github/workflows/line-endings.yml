@@ -1,0 +1,25 @@
+name: Line endings (non-blocking)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check-line-endings:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run line-endings check (non-blocking)
+        run: |
+          python tools/ci/check_line_endings.py || true
+
+      - name: Summarize
+        if: always()
+        run: echo "Line-endings check completed (non-blocking). See logs above for warnings."

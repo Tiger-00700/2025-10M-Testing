@@ -1,10 +1,16 @@
-# examples/18_performance (placeholder)
+<!-- Placeholder example README. -->
 
-This is a placeholder skeleton for the 18_performance lab. Content will be added later.
+# examples/18_performance
 
-Temporary runners:
+Performance testing examples and small benchmark scripts.
 
-- smoke.sh (Linux/macOS)
-- smoke.ps1 (Windows)
+Suggested files
 
-Both scripts simply print a success message and exit 0 to support CI/reference checks.
+- `load_test.sh` - placeholder load test script
+- `README.md` - this file
+
+Quick run
+
+```bash
+bash examples/18_performance/load_test.sh
+```
