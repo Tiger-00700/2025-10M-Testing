@@ -290,3 +290,8 @@ examples/newbook__block244.txt
 examples/book__block0001.txt
 examples/book__block0002.txt
 
+
+# Archived tools: keep legacy archived copies out of normal tracking
+tools/legacy/
+tools/legacy/**
+
