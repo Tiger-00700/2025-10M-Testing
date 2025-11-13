@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 """
 Replace plain-text "脚本：<fname>" mentions in the links-only book with
-links to files under examples/.
+links to files under `examples/`.
 
 Rules:
-- If examples/** already contains a file named <fname>, link to that file
-  (prefer the first match under examples/ in lexicographical path order).
-- Else if appendix/<fname> exists, copy it to examples/99_book_exports/_appendix_migrated/<fname>
-  and link to the new path.
-- Else create an empty placeholder at the same _appendix_migrated path with a minimal header,
-  then link to it.
+- If `examples/**` already contains a file named `<fname>`, link to that
+    file (prefer the first match under `examples/` in lexicographical path
+    order).
+- Else if `appendix/<fname>` exists, copy it to
+    `examples/99_book_exports/_appendix_migrated/<fname>` and link to that
+    new path.
+- Else create an empty placeholder at the same `_appendix_migrated` path with
+    a minimal header, then link to it.
 
 Idempotent: re-running will keep links intact and won't duplicate copies.
 """
@@ -25,7 +27,8 @@ MIGRATED_DIR = EXAMPLES_ROOT / '99_book_exports' / '_appendix_migrated'
 
 # File name pattern like 2-4__block9.py or 14-03-02-01__block023.py
 FNAME_RE = r"[\w\-]+__block\d+\.[A-Za-z0-9]+"
-TOKEN_RE = re.compile(rf"(脚本：\s*)({FNAME_RE})")
+pattern = r"(脚本：\s*)(" + FNAME_RE + r")"
+TOKEN_RE = re.compile(pattern)
 
 
 def find_examples_target(fname: str) -> Path | None:
@@ -49,18 +52,24 @@ def ensure_migrated_from_appendix(fname: str) -> Path:
         return target
     # Create placeholder with a minimal header comment based on extension
     ext = target.suffix.lower()
+    common_placeholder = (
+        "# Placeholder: migrated from book reference, "
+        "please fill content.\n"
+    )
+    bash_header = "#!/usr/bin/env bash\n" + common_placeholder
+    json_header = '{\n  "placeholder": true\n}\n'
     header = {
-        '.py': '# Placeholder: migrated from book reference, please fill content.\n',
-        '.sh': '#!/usr/bin/env bash\n# Placeholder: migrated from book reference, please fill content.\n',
-        '.ps1': '# Placeholder: migrated from book reference, please fill content.\n',
-        '.sql': '-- Placeholder: migrated from book reference, please fill content.\n',
-        '.yaml': '# Placeholder: migrated from book reference, please fill content.\n',
-        '.yml': '# Placeholder: migrated from book reference, please fill content.\n',
-        '.json': '{\n  "placeholder": true\n}\n',
-        '.java': '// Placeholder: migrated from book reference, please fill content.\n',
-        '.scala': '// Placeholder: migrated from book reference, please fill content.\n',
-        '.txt': 'Placeholder: migrated from book reference, please fill content.\n',
-    }.get(ext, 'Placeholder: migrated from book reference, please fill content.\n')
+        '.py': common_placeholder,
+        '.sh': bash_header,
+        '.ps1': common_placeholder,
+        '.sql': '-- ' + common_placeholder,
+        '.yaml': common_placeholder,
+        '.yml': common_placeholder,
+        '.json': json_header,
+        '.java': '// ' + common_placeholder,
+        '.scala': '// ' + common_placeholder,
+        '.txt': common_placeholder,
+    }.get(ext, common_placeholder)
     target.write_text(header, encoding='utf-8')
     return target
 
@@ -101,7 +110,11 @@ def process_book() -> tuple[int, int, int]:
 
 def main() -> int:
     reps, copied, created = process_book()
-    print(f"Replaced {reps} script mentions with links. Copied: {copied}, Created: {created}.")
+    msg = (
+        f"Replaced {reps} script mentions with links. "
+        f"Copied: {copied}, Created: {created}."
+    )
+    print(msg)
     return 0
 
 

@@ -2,14 +2,21 @@
 # -*- coding: utf-8 -*-
 
 """
-Flatten examples/99_book_exports by moving its contents one level up into examples/.
-Also updates book/1022.2025.newbook.links.md to remove '99_book_exports' from links.
+Flatten examples/99_book_exports by moving its contents one level up into
+`examples/`.
+
+Also updates `book/1022.2025.newbook.links.md` to remove
+`examples/99_book_exports/` from links and rewrite them to `examples/`.
 
 Behavior:
-- For each file/dir under examples/99_book_exports, move to examples/<subpath>.
-- If a destination path already exists, the script will skip that entry and report it.
-- After a successful move of all entries, remove the now-empty examples/99_book_exports directory if empty.
-- Update book/1022.2025.newbook.links.md by replacing 'examples/99_book_exports/' with 'examples/'.
+- For each file/dir under `examples/99_book_exports`, move to
+    `examples/<subpath>`.
+- If a destination path already exists, the script will skip that entry and
+    report it.
+- After a successful move of all entries, remove the now-empty
+    `examples/99_book_exports` directory if it is empty.
+- Update `book/1022.2025.newbook.links.md` by replacing
+    `examples/99_book_exports/` with `examples/`.
 
 Idempotent:
 - If nothing to move, does nothing.

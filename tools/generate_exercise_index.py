@@ -2,11 +2,18 @@ import re
 from pathlib import Path
 from typing import List, Tuple, Dict
 
-BOOK = Path(__file__).resolve().parents[1] / "book" / "1022.2025.newbook.cleaned.md"
-OUT = Path(__file__).resolve().parents[1] / "book" / "附录-课后思考练习题索引.md"
+REPO = Path(__file__).resolve().parents[1]
+BOOK = REPO / "book" / "1022.2025.newbook.cleaned.md"
+OUT = REPO / "book" / "附录-课后思考练习题索引.md"
 
 heading_re = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
-punct_re = re.compile(r"[!\"#$%&'()*+,\./:;<=>?@\[\\\]^_`{|}~，。、《》？；：‘’“”（）【】·—…]+")
+punct_pattern = (
+    r"[!\"#$%&'()*+,\./:;<=>?@\[\\\]^_`{|}~"
+    "，。、《》？；：‘’“”（）"
+    "（）【】·—…"
+    "]+"
+)
+punct_re = re.compile(punct_pattern)
 
 class Node:
     def __init__(self, level: int, idx: int, title: str):
@@ -17,7 +24,9 @@ class Node:
 
 
 def load_lines(p: Path) -> List[str]:
-    return p.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    text = p.read_text(encoding="utf-8")
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    return text.split("\n")
 
 
 def parse_nodes(lines: List[str]) -> List[Node]:
@@ -97,7 +106,10 @@ def collect_exercises(lines: List[str]) -> List[Tuple[List[str], List[str], str]
                 j += 1
             if questions:
                 # choose anchor title: prefer the deepest non-empty title in path
-                anchor_title = next((seg for seg in reversed(path_stack) if seg), path_stack[-1] if path_stack else "")
+                anchor_title = next(
+                    (seg for seg in reversed(path_stack) if seg),
+                    path_stack[-1] if path_stack else "",
+                )
                 results.append((path_stack.copy(), questions, anchor_title))
     return results
 
@@ -164,11 +176,17 @@ def build_anchor_map(lines: List[str]) -> Dict[Tuple[str, ...], str]:
     return anchors
 
 
-def render_index(entries: List[Tuple[List[str], List[str], str]], anchors: Dict[Tuple[str, ...], str]) -> List[str]:
+def render_index(
+    entries: List[Tuple[List[str], List[str], str]],
+    anchors: Dict[Tuple[str, ...], str],
+) -> List[str]:
     out: List[str] = []
     out.append("# 附录 课后思考与练习题索引")
     out.append("")
-    out.append("> 说明：本索引自动汇总全书各节的【课后思考/练习题】，按篇/章/节归档，便于教学与查阅。")
+    out.append(
+        "> 说明：本索引自动汇总全书各节的【课后思考/练习题】，按篇/章/节归档，"
+        "便于教学与查阅。"
+    )
     out.append("")
     for path, questions, anchor_title in entries:
         # path like [part, chapter, section, ...]
@@ -181,7 +199,13 @@ def render_index(entries: List[Tuple[List[str], List[str], str]], anchors: Dict[
             if not aid:
                 # fallback to slug of title
                 aid = slugify(anchor_title)
-            out.append(f"[跳转到本节](./1022.2025.newbook.cleaned.md#{aid})")
+            link = (
+                "[跳转到本节]("
+                "./1022.2025.newbook.cleaned.md#"
+                + aid
+                + ")"
+            )
+            out.append(link)
             out.append("")
         for q in questions:
             out.append(q)
@@ -197,7 +221,8 @@ def main():
     anchors = build_anchor_map(lines)
     rendered = render_index(entries, anchors)
     OUT.write_text("\n".join(rendered), encoding="utf-8")
-    print(f"Wrote exercise index with {len(entries)} sections to {OUT}")
+    msg = f"Wrote exercise index with {len(entries)} sections to {OUT}"
+    print(msg)
 
 if __name__ == "__main__":
     main()

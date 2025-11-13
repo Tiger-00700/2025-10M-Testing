@@ -13,18 +13,31 @@ def lint_ps1(files):
     results = []
     pwsh = shutil.which("pwsh") or shutil.which("powershell")
     if not pwsh:
-        return {"tool": "ps1", "available": False, "error": "PowerShell not found in PATH", "items": []}
+        return {
+            "tool": "ps1",
+            "available": False,
+            "error": "PowerShell not found in PATH",
+            "items": [],
+        }
     for p in files:
         # Use PowerShell parser to check syntax
-        cmd = [
-            pwsh,
-            "-NoLogo","-NoProfile","-Command",
-            "[System.Management.Automation.Language.Parser]::ParseFile('%s',[ref]$null,[ref]$null) | Out-Null; if($?) { Write-Output 'OK' } else { Write-Output 'ERR' }" % str(p).replace("'","''")
-        ]
+        # build the PowerShell one-liner separately to avoid an overly long source line
+        script = (
+            "[System.Management.Automation.Language.Parser]::ParseFile('{0}',"
+            "[ref]$null,[ref]$null) | Out-Null; if($?) "
+            "{{ Write-Output 'OK' }} else {{ Write-Output 'ERR' }}"
+        ).format(str(p).replace("'", "''"))
+        cmd = [pwsh, "-NoLogo", "-NoProfile", "-Command", script]
         try:
             proc = subprocess.run(cmd, capture_output=True, text=True, timeout=20)
             ok = proc.returncode == 0 and 'OK' in (proc.stdout or '')
-            results.append({"file": str(p), "ok": ok, "stdout": proc.stdout.strip(), "stderr": proc.stderr.strip()})
+            item = {
+                "file": str(p),
+                "ok": ok,
+                "stdout": proc.stdout.strip(),
+                "stderr": proc.stderr.strip(),
+            }
+            results.append(item)
         except Exception as e:
             results.append({"file": str(p), "ok": False, "error": str(e)})
     return {"tool": "ps1", "available": True, "items": results}
@@ -34,20 +47,32 @@ def lint_sh(files):
     results = []
     bash = shutil.which("bash")
     if not bash:
-        return {"tool": "sh", "available": False, "error": "bash not found in PATH", "items": []}
+        return {
+            "tool": "sh",
+            "available": False,
+            "error": "bash not found in PATH",
+            "items": [],
+        }
     for p in files:
         cmd = [bash, "-n", str(p)]
         try:
             proc = subprocess.run(cmd, capture_output=True, text=True, timeout=20)
             ok = proc.returncode == 0
-            results.append({"file": str(p), "ok": ok, "stdout": proc.stdout.strip(), "stderr": proc.stderr.strip()})
+            item = {
+                "file": str(p),
+                "ok": ok,
+                "stdout": proc.stdout.strip(),
+                "stderr": proc.stderr.strip(),
+            }
+            results.append(item)
         except Exception as e:
             results.append({"file": str(p), "ok": False, "error": str(e)})
     return {"tool": "sh", "available": True, "items": results}
 
 
 def lint_sql(files):
-    # No SQL engine available here; do lightweight checks: balanced quotes and parentheses per file
+    # No SQL engine available here; do lightweight checks:
+    # balanced quotes and parentheses per file
     results = []
     for p in files:
         try:
@@ -61,7 +86,13 @@ def lint_sql(files):
             balanced = stack == 0
             has_statement = ';' in s
             ok = balanced and has_statement
-            results.append({"file": str(p), "ok": ok, "balanced_paren": balanced, "has_semicolon": has_statement})
+            item = {
+                "file": str(p),
+                "ok": ok,
+                "balanced_paren": balanced,
+                "has_semicolon": has_statement,
+            }
+            results.append(item)
         except Exception as e:
             results.append({"file": str(p), "ok": False, "error": str(e)})
     return {"tool": "sql", "available": True, "items": results}
@@ -89,7 +120,8 @@ def main():
     }
     out = REPORTS / f"lint-exports-{ts}.json"
     out.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding='utf-8')
-    print(f"Wrote lint report: {out}")
+    msg = f"Wrote lint report: {out}"
+    print(msg)
 
 
 if __name__ == '__main__':
