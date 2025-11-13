@@ -35,3 +35,9 @@ __pycache__/
 
 # Ignore backup files created by placeholder inserter
 *.bak
+# Ignore generated tools artifacts (report snapshots, lint outputs, patches)
+tools/consistency-report.*
+tools/markdownlint-project*
+tools/markdown-md013-suggestions.patch
+tools/low-risk-format-fixes.normalized.patch
+tools/markdownlint-summary.txt
