@@ -52,7 +52,11 @@ def find_list_blocks(lines: List[str]) -> List[tuple]:
         if list_item_re.match(lines[i]):
             start = i
             j = i + 1
-            while j < n and (list_item_re.match(lines[j]) or lines[j].strip() == "" or blockquote_re.match(lines[j])):
+            while j < n and (
+                list_item_re.match(lines[j])
+                or lines[j].strip() == ""
+                or blockquote_re.match(lines[j])
+            ):
                 # include blank lines and quote continuations inside list block
                 # but stop at a new heading
                 if heading_re.match(lines[j]):
@@ -60,7 +64,11 @@ def find_list_blocks(lines: List[str]) -> List[tuple]:
                 j += 1
             end = j - 1
             # adjust start to first non-blank of this block
-            while start > 0 and lines[start].strip() == "" and list_item_re.match(lines[start + 1]):
+            while (
+                start > 0
+                and lines[start].strip() == ""
+                and list_item_re.match(lines[start + 1])
+            ):
                 start += 1
             blocks.append((start, end))
             i = j
@@ -75,7 +83,7 @@ def fix_lists(lines: List[str]):
     for start, end in sorted(blocks, key=lambda x: x[0], reverse=True):
         # ensure blank before the list block
         start = ensure_blank_before(lines, start)
-        # ensure blank after the list block (use end adjusted by potential insertion before)
+        # ensure blank after the list block.
         # compute new end index after potential insertion at start
         end = end + (1 if start > 0 and lines[start - 1].strip() == "" else 0)
         # walk forward to last actual list item (skip trailing blanks inside)

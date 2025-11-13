@@ -69,7 +69,9 @@ class Node:
 
 
 def load_lines(p: Path) -> List[str]:
-    return p.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    text = p.read_text(encoding="utf-8")
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    return text.split("\n")
 
 
 def parse_nodes(lines: List[str]) -> List[Node]:
@@ -94,7 +96,13 @@ def build_anchor_map(lines: List[str]) -> Dict[Tuple[str, ...], str]:
 
 
     def slugify(text: str) -> str:
-        t = re.sub(r"[!\"#$%&'()*+,\./:;<=>?@\[\\\]^_`{|}~，。、《》？；：‘’“”（）【】·—…]+", "", text.strip().lower())
+        punct_pattern = (
+            r"[!\"#$%&'()*+,\./:;<=>?@\[\\\]^_`{|}~"
+            "，。、《》？；：‘’“”（）【】·—…]"
+            "+"
+        )
+        t = text.strip().lower()
+        t = re.sub(punct_pattern, "", t)
         t = re.sub(r"\s+", "-", t)
         return re.sub(r"-{2,}", "-", t)
 
@@ -262,8 +270,8 @@ def main():
     gloss = collect_terms(lines)
     OUT.write_text("\n".join(render_glossary(gloss)), encoding="utf-8")
     ts = datetime.now().strftime("%Y%m%d-%H%M%S")
-    (REPORT_DIR / f"glossary-stats-{ts}.md").write_text(
-        f"Total terms: {len(gloss)}\n\n" + "\n".join(sorted(gloss.keys())), encoding="utf-8")
+    stats = "Total terms: " + str(len(gloss)) + "\n\n" + "\n".join(sorted(gloss.keys()))
+    (REPORT_DIR / f"glossary-stats-{ts}.md").write_text(stats, encoding="utf-8")
     print(f"Wrote glossary with {len(gloss)} terms to {OUT}")
 
 

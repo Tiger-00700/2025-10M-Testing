@@ -1,17 +1,25 @@
-"""Generate simple 'See Also' related links blocks for sections in cleaned book.
+"""
+Generate simple 'See Also' related links blocks for sections in the cleaned
+book.
 
 Method:
-  - Parse H3/H4 sections (title + content until next heading of same or higher level).
-  - Tokenize (CJK chars contiguous, alnum words) removing stop words & short tokens.
-  - Compute tf-idf vectors (in-memory) and cosine similarity.
-  - For each section above MIN_TOKENS, choose top N related sections (excluding itself) with similarity >= MIN_SIM.
-  - Append a block: > 【See Also】 本节相关：[Title A](#anchorA) · [Title B](#anchorB) · [Title C](#anchorC)
-    placed after the section content but before the next heading.
-  - Idempotent: skip if a See Also block already present directly following section.
+- Parse H3/H4 sections (title + content until next heading of same or higher
+    level).
+- Tokenize (CJK chars contiguous, alnum words) removing stop words & short
+    tokens.
+- Compute tf-idf vectors (in-memory) and cosine similarity.
+- For each section above MIN_TOKENS, choose top N related sections (excluding
+    itself) with similarity >= MIN_SIM.
+- Append a block after the section content but before the next heading. The
+    block format is: > 【See Also】 本节相关：[Title A](#anchorA) · [Title B](#anchorB)
+- Idempotent: skip if a See Also block already present directly following
+    section.
 
-Anchors: rely on existing <a id="..."></a> lines preceding headings (if not, slugify title for local link).
+Anchors: rely on existing `<a id="..."></a>` lines preceding headings; if
+absent, slugify the title for a local link.
 
-Outputs a report with counts and modifies book in-place if any blocks added.
+Outputs a report with counts and modifies the book in-place if blocks are
+added.
 """
 from __future__ import annotations
 import re
@@ -39,13 +47,41 @@ CATEGORY_KEYWORDS = {
     '可观测': ['监控','观测','日志','追踪','Trace','告警'],
 }
 TOKEN_RE = re.compile(r'[A-Za-z0-9_]+|[\u4e00-\u9fa5]{2,}')
-STOP = {"the","and","of","to","in","a","for","is","on","with","by","an","or","be","as","at","that","this","it","本节","以及","进行","实现","数据","测试"}
+STOP = {
+    "the",
+    "and",
+    "of",
+    "to",
+    "in",
+    "a",
+    "for",
+    "is",
+    "on",
+    "with",
+    "by",
+    "an",
+    "or",
+    "be",
+    "as",
+    "at",
+    "that",
+    "this",
+    "it",
+    "本节",
+    "以及",
+    "进行",
+    "实现",
+    "数据",
+    "测试",
+}
 MIN_TOKENS = 30
 TOP_N = 2
 MIN_SIM = 0.32
 
 def load_lines(p: Path) -> list[str]:
-    return p.read_text(encoding='utf-8').replace('\r\n','\n').replace('\r','\n').split('\n')
+    text = p.read_text(encoding='utf-8')
+    text = text.replace('\r\n', '\n').replace('\r', '\n')
+    return text.split('\n')
 
 def slugify(title: str) -> str:
     t = title.strip().lower()
@@ -72,13 +108,21 @@ def parse_sections(lines: list[str]) -> list[dict[str, Any]]:
                 sections.append(current)
             # find anchor above within previous 3 lines
             aid: str | None = None
-            for back in range(i-1, max(-1, i-4), -1):
+            for back in range(i - 1, max(-1, i - 4), -1):
                 if back in anchors:
                     aid = anchors[back]
                     break
             if not aid:
                 aid = slugify(title)
-            current = {'level': level, 'title': title, 'start': i, 'end': len(lines), 'anchor': aid, 'content': [], 'meta': {}}
+            current = {
+                'level': level,
+                'title': title,
+                'start': i,
+                'end': len(lines),
+                'anchor': aid,
+                'content': [],
+                'meta': {},
+            }
         else:
             if current:
                 current['content'].append(ln)
@@ -231,9 +275,12 @@ def main():
             return '通用'
         links = []
         for sim, o in top:
-            links.append(f'[{o["title"]}](./1022.2025.newbook.cleaned.md#{o["anchor"]})')
+            anchor = './1022.2025.newbook.cleaned.md#' + o['anchor']
+            link = '[' + o['title'] + '](' + anchor + ')'
+            links.append(link)
         block_cat = classify_title(s['title'])
-        block = f'> 【See Also】（{block_cat}）相关：' + ' · '.join(links)
+        prefix = f'> 【See Also】（{block_cat}）相关：'
+        block = prefix + ' · '.join(links)
         # dedupe: skip if identical to previous block to avoid back-to-back duplicates
         if block == prev_block:
             continue

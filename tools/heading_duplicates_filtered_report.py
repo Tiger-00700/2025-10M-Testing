@@ -1,20 +1,19 @@
-"""Generate a filtered heading duplication report excluding template or placeholder headings.
+"""
+Generate a filtered heading duplication report excluding template or
+placeholder headings.
 
 Source: book/1022.2025.newbook.augmented.frozen.md
-Outputs:
-  - tools/reports/heading-duplicates-filtered-<ts>.md
-  - tools/reports/heading-duplicates-filtered-<ts>.csv
+Outputs: tools/reports/heading-duplicates-filtered-<ts>.md and .csv
 
 Filtering rules (excluded titles exactly matching any of):
-  学习目标, 小结, 练习, Placeholder: migrated from book reference, please fill content.
+    学习目标, 小结, 练习, Placeholder: migrated from book reference, please fill content.
 
 Report sections (Markdown):
 1. Summary statistics (total considered, unique, duplicated title count, occurrences)
 2. Top duplicates table (Title | Count | First Line | First Path | Sample Lines)
 3. Detailed distribution for top titles
 
-CSV columns:
-  title,count,first_line,first_path,all_lines
+CSV columns: title,count,first_line,first_path,all_lines
 
 Implementation notes:
 - We reuse logic similar to heading_duplicates_report.py but apply filtering early.
@@ -86,7 +85,13 @@ def build_markdown_and_csv(headings_with_paths):
     md_lines.append(f"Excluded titles: {', '.join(sorted(EXCLUDE_TITLES))}")
     md_lines.append(f"Total considered headings: {total_considered}")
     md_lines.append(f"Unique headings: {unique}")
-    md_lines.append(f"Duplicated titles: {len(duplicated_titles)} (occurrences={duplicated_occurrences})")
+    md_lines.append(
+        "Duplicated titles: "
+        + str(len(duplicated_titles))
+        + " (occurrences="
+        + str(duplicated_occurrences)
+        + ")"
+    )
     md_lines.append(f"Top N: {TOP_N}")
     md_lines.append("")
     md_lines.append("## Top Duplicates")
@@ -95,11 +100,13 @@ def build_markdown_and_csv(headings_with_paths):
     for title, occ in top:
         count = len(occ)
         first_line, _, first_path = occ[0]
-        sample_lines = ",".join(str(l) for l, _, _ in occ[:10]) + ("..." if len(occ) > 10 else "")
+        sample_lines = ",".join(str(l) for l, _, _ in occ[:10])
+        if len(occ) > 10:
+            sample_lines += "..."
         safe_title = title.replace("|", "\\|")
         safe_first_path = first_path.replace("|", "\\|")
         md_lines.append(
-            f"| {safe_title} | {count} | {first_line} | {safe_first_path} | {sample_lines} |"
+            "| " + safe_title + " | " + str(count) + " | " + str(first_line) + " | " + safe_first_path + " | " + sample_lines + " |"
         )
 
     md_lines.append("")
@@ -143,7 +150,8 @@ def main():
     csv_path = REPORT_DIR / f"heading-duplicates-filtered-{ts_simple}.csv"
     md_path.write_text(md_report, encoding="utf-8")
     with csv_path.open("w", newline="", encoding="utf-8") as fh:
-        writer = csv.DictWriter(fh, fieldnames=["title","count","first_line","first_path","all_lines"])
+        fieldnames = ["title", "count", "first_line", "first_path", "all_lines"]
+        writer = csv.DictWriter(fh, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(csv_rows)
     print(f"Reports written: {md_path.as_posix()}, {csv_path.as_posix()}")

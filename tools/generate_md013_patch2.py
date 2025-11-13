@@ -18,8 +18,12 @@ if Path(RAW).exists():
             md013_files.append(m.group('file'))
 
 if not md013_files:
-    md013_files = glob('book/**/*.md', recursive=True) + glob('chapter/**/*.md', recursive=True) + ['PR_DESCRIPTION.md']
-    md013_files = [f for f in md013_files if Path(f).is_file()]
+    md_list = (
+        glob('book/**/*.md', recursive=True)
+        + glob('chapter/**/*.md', recursive=True)
+        + ['PR_DESCRIPTION.md']
+    )
+    md013_files = [f for f in md_list if Path(f).is_file()]
 
 md013_files = sorted(set(md013_files))
 
@@ -65,10 +69,16 @@ for f in md013_files:
             out_lines.append(line)
             continue
         # skip headings, lists, blockquotes, tables, indented code, html comments
-        if re.match(r'^#{1,6}\s', line) or re.match(r'^\s*(?:[-+*]|\d+\.)\s+', line) or line.startswith('>') or line.startswith('|') or line.startswith('    ') or line.strip()=='' or line.strip().startswith('<!--'):
+        is_heading = re.match(r'^#{1,6}\s', line)
+        is_list = re.match(r'^\s*(?:[-+*]|\d+\.)\s+', line)
+        is_block = line.startswith('>') or line.startswith('|') or line.startswith('    ')
+        is_blank_or_comment = line.strip() == '' or line.strip().startswith('<!--')
+        if is_heading or is_list or is_block or is_blank_or_comment:
             out_lines.append(line)
             continue
-        if 'http://' in line or 'https://' in line or re.search(r'\S+@\S+\.\S+', line):
+        has_url = 'http://' in line or 'https://' in line
+        has_email = re.search(r'\S+@\S+\.\S+', line)
+        if has_url or has_email:
             out_lines.append(line)
             continue
         if len(line) > MAX:

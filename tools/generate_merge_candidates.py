@@ -1,21 +1,22 @@
-"""Generate merge candidates by crossing filtered duplicate headings and high-similarity section pairs.
+"""
+Generate merge candidates by crossing filtered duplicate headings and
+high-similarity section pairs.
 
-Inputs (auto-detected latest under tools/reports/):
-  - heading-duplicates-filtered-<ts>.csv  (from tools/heading_duplicates_filtered_report.py)
-  - similar-sections-<ts>.csv            (from tools/find_similar_sections.py)
-  - book/1022.2025.newbook.augmented.frozen.md (to resolve chapter/part per line)
+Inputs (auto-detected under tools/reports/):
+- heading-duplicates-filtered-<ts>.csv  (from tools/heading_duplicates_filtered_report.py)
+- similar-sections-<ts>.csv            (from tools/find_similar_sections.py)
+- book/1022.2025.newbook.augmented.frozen.md (to resolve chapter/part)
 
-Output:
-  - tools/reports/merge-candidates-<ts>.csv
+Output: tools/reports/merge-candidates-<ts>.csv
 
 Heuristics:
-  - Similar pairs: keep if score>=0.92 and in 同章 or 同篇；同章优先。
-    * 建议：同章=> 合并/去重；同篇=> 抽象公共模块（方法/模板），并在各章引用。
-  - Duplicates: 对每个重复标题，按“章节名”分组，若组内>1，输出一条候选（代表性两条，附组大小与所有行号）。
-    * 建议：同章=> 合并（或改名区分语义）；同篇=> 抽象公共模块/改名。
+- Keep similar pairs with score >= 0.92 when they are in 同章 or 同篇.
+    同章优先，建议同章合并/去重；同篇抽象为公共模块或模板。
+- For duplicates: group by章节名, emit a candidate when a group has >1
+    occurrences (include group size and line numbers).
 
 CSV Columns:
-  kind,priority,scope,score,title_a,line_a,chapter_a,path_a,title_b,line_b,chapter_b,path_b,group_size,lines_in_group,suggestion,rationale
+kind,priority,scope,score,title_a,line_a,chapter_a,path_a,title_b,line_b,chapter_b,path_b,group_size,lines_in_group,suggestion,rationale
 """
 
 from __future__ import annotations
@@ -147,7 +148,11 @@ def main():
     dup_csv = latest_file("heading-duplicates-filtered", ".csv")
     sim_csv = latest_file("similar-sections", ".csv")
     if not dup_csv or not sim_csv:
-        raise SystemExit("Missing required input reports. Ensure filtered duplicates and similar sections CSVs exist in tools/reports/.")
+        msg = (
+            "Missing required input reports. Ensure filtered duplicates and "
+            "similar sections CSVs exist in tools/reports/."
+        )
+        raise SystemExit(msg)
     if not BOOK.exists():
         raise SystemExit(f"Missing source book: {BOOK}")
 
@@ -196,7 +201,8 @@ def main():
     # Process duplicates by grouping occurrences per chapter
     for r in dup_rows:
         title = r.get("title", "").strip()
-        all_lines = [int(x) for x in r.get("all_lines", "").split(",") if x.strip().isdigit()]
+        raw_lines = r.get("all_lines", "")
+        all_lines = [int(x) for x in raw_lines.split(",") if x.strip().isdigit()]
         # Build groups per chapter
         chapter_groups: dict[str, list[int]] = {}
         part_groups: dict[str, list[int]] = {}

@@ -71,7 +71,13 @@ def build_report(headings_with_paths):
     lines.append("## Summary")
     lines.append(f"Total headings: {total}")
     lines.append(f"Unique headings: {unique}")
-    lines.append(f"Duplicated headings: {len(duplicated_titles)} (occurrences={duplicated_count})")
+    lines.append(
+        "Duplicated headings: "
+        + str(len(duplicated_titles))
+        + " (occurrences="
+        + str(duplicated_count)
+        + ")"
+    )
     lines.append(f"Top N: {TOP_N}")
     lines.append("")
     lines.append("## Top Duplicates")
@@ -79,15 +85,21 @@ def build_report(headings_with_paths):
     lines.append("|-------|-------|--------|------------|------------|-----------|")
     for title, occ in top:
         count = len(occ)
-        levels = ",".join(str(lvl) for _, lvl, _ in occ[:5]) + ("..." if len(occ) > 5 else "")
+        levels = ",".join(str(lvl) for _, lvl, _ in occ[:5])
+        if len(occ) > 5:
+            levels += "..."
         first_line, _, first_path = occ[0]
-        all_lines = ",".join(str(l) for l, _, _ in occ[:10]) + ("..." if len(occ) > 10 else "")
+        all_lines = ",".join(str(l) for l, _, _ in occ[:10])
+        if len(occ) > 10:
+            all_lines += "..."
         # Escape pipe for Markdown tables
         safe_title = title.replace("|", "\\|")
         safe_first_path = first_path.replace("|", "\\|")
-        lines.append(
-            f"| {safe_title} | {count} | {levels} | {first_line} | {safe_first_path} | {all_lines} |"
+        row = (
+            "| " + safe_title + " | " + str(count) + " | " + levels + " | " + str(first_line)
+            + " | " + safe_first_path + " | " + all_lines + " |"
         )
+        lines.append(row)
 
     lines.append("")
     lines.append("## Detailed Distribution")

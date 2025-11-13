@@ -1,10 +1,20 @@
-"""Identify tools that don't reference the canonical book or examples and list them for review.
+"""
+Identify tools that don't reference the canonical book or examples and
+list them for review.
+
 Usage: python tools/identify_unrelated_tools.py
 """
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ROOT / 'tools'
-KEYWORDS = ['1022.2025.newbook', 'newbook', 'book/', 'examples/', 'check_placeholders', 'placeholder']
+KEYWORDS = [
+    '1022.2025.newbook',
+    'newbook',
+    'book/',
+    'examples/',
+    'check_placeholders',
+    'placeholder',
+]
 
 candidates = []
 related = []
@@ -33,4 +43,5 @@ out = {
     'candidates': candidates[:200]
 }
 import json
-print(json.dumps(out, ensure_ascii=False, indent=2))
+with open('unrelated_tools.json', 'w', encoding='utf-8') as f:
+    json.dump(out, f, ensure_ascii=False, indent=2)
