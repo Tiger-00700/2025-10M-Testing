@@ -9,14 +9,22 @@ code_fence_re = re.compile(r"^\s*(```|~~~)")
 
 TOP_BLOCKS = [
     ("> 【先修知识】", [
-        "- 基础：Linux/网络/SQL/一种脚本语言（如 Python）",
+        (
+            "- 基础：Linux/网络/SQL/"
+            " 一种脚本语言（如 Python）"
+        ),
         "- 大数据入门：分布式/存储与计算分离/批流概念",
         "- 本章上下文：建议先通读本篇导读与术语表"
     ]),
     ("> 【学习目标】", [
-        "- 能说清本章的核心概念与边界，形成 3~5 条要点",
+        (
+            "- 能说清本章的核心概念与边界，"
+            " 形成 3~5 条要点"
+        ),
         "- 能完成 1 个与本章紧密相关的动手实践",
-        "- 能制定最低可行的验收标准（SLO/指标/样例）"
+        (
+            "- 能制定最低可行的验收标准（SLO/指标/样例）"
+        )
     ]),
     ("> 【核心术语】", [
         "- 请补充本章关键术语及中英对照（参考术语表）"
@@ -34,7 +42,9 @@ BOTTOM_BLOCK = (
 
 
 def load_lines(p: Path) -> List[str]:
-    return p.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    text = p.read_text(encoding="utf-8")
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    return text.split("\n")
 
 
 def save_lines(p: Path, lines: List[str]):

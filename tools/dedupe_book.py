@@ -15,7 +15,6 @@ Strategy (safe):
 from __future__ import annotations
 
 import hashlib
-import os
 import re
 from datetime import datetime, timezone
 from pathlib import Path
@@ -134,9 +133,12 @@ def main():
     kept, removed = dedupe_blocks(blocks)
     total_out = write_output(preface, kept)
     report_path = write_report(removed)
-    print(
-        f"Deduped: removed={len(removed)} blocks, out_lines={total_out}, report={report_path.as_posix()}"  # noqa: T201
-    )
+        # Build a short status message to avoid overly long source lines (E501).
+        msg = (
+            f"Deduped: removed={len(removed)} blocks, "
+            f"out_lines={total_out}, report={report_path.as_posix()}"
+        )
+        print(msg)  # noqa: T201
 
 
 if __name__ == "__main__":

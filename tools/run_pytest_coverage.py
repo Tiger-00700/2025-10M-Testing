@@ -20,17 +20,17 @@ def main():
         sys.exit(0)
     ts = datetime.now().strftime("%Y%m%d-%H%M%S")
     xml = REPORTS / f"pytest-coverage-{ts}.xml"
-    html = REPORTS / f"coverage_html"
+    html = REPORTS / "coverage_html"
     # Run pytest with coverage for the exports folder and tests
     args = [
-        "-q",
-        "--maxfail=1",
-        "--disable-warnings",
-        "--cov=examples/99_book_exports",
-        f"--cov-report=term-missing",
-        f"--cov-report=xml:{xml}",
-        f"--cov-report=html:{html}",
-        "tests",
+    "-q",
+    "--maxfail=1",
+    "--disable-warnings",
+    "--cov=examples/99_book_exports",
+    "--cov-report=term-missing",
+    f"--cov-report=xml:{xml}",
+    f"--cov-report=html:{html}",
+    "tests",
     ]
     ret = pytest.main(args)
     sys.exit(ret)

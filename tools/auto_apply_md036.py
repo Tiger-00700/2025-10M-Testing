@@ -12,12 +12,13 @@ It writes a log to tools/md036-autofix.log and writes files in-place using UTF-8
 """
 from pathlib import Path
 import re
-import sys
 
 ROOT = Path('.').resolve()
 LOG_PATH = ROOT / 'tools' / 'md036-autofix.log'
 
-EMPH_NUM_RE = re.compile(r'^(?:\*\*|__)(\d+(?:\.\d+)*\s+.+?)(?:\*\*|__)$')
+EMPH_NUM_RE = re.compile(
+    r'^(?:\*\*|__)(\d+(?:\.\d+)*\s+.+?)(?:\*\*|__)$'
+)
 FENCE_RE = re.compile(r'^```')
 
 def process_file(p: Path):
@@ -67,7 +68,12 @@ def main():
         if 'node_modules' in p.parts:
             continue
         # only operate on book/ and chapter/ and top-level PR_DESCRIPTION.md
-        if not (p.match('book/**') or p.match('chapter/**') or p.name == 'PR_DESCRIPTION.md' or p.match('*.md')):
+        if not (
+            p.match('book/**')
+            or p.match('chapter/**')
+            or p.name == 'PR_DESCRIPTION.md'
+            or p.match('*.md')
+        ):
             # still allow top-level md files
             pass
         # process
@@ -89,7 +95,10 @@ def main():
             lf.write(f + ' -> ' + r + '\n')
 
     # print a short summary to stdout (avoid printing non-ascii filenames individually)
-    print(f"MD036 autofix: modified={len(modified)} skipped_or_errors={len(skipped)} log={LOG_PATH}")
+    msg = "MD036 autofix: modified=" + str(len(modified))
+    msg += " skipped_or_errors=" + str(len(skipped))
+    msg += " log=" + str(LOG_PATH)
+    print(msg)
 
 
 if __name__ == '__main__':

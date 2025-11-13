@@ -10,7 +10,6 @@ Usage:
 If no args given, runs on all files in chapter/.
 """
 import sys
-import re
 from pathlib import Path
 from typing import List, Tuple
 

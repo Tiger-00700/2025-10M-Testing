@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 from datetime import datetime
-from typing import List, Set, Tuple, Dict
+from typing import List, Set, Tuple
 
 BOOK = Path(__file__).resolve().parents[1] / "book" / "1022.2025.newbook.md"
 REPORTS = Path(__file__).resolve().parents[1] / "tools" / "reports"
@@ -80,7 +80,8 @@ def main():
         out.append("| Line | Excerpt | Target |")
         out.append("|---|---|---|")
         for ln, src, aid in broken[:200]:
-            out.append(f"| {ln} | {src.replace('|','\\|')[:120]} | {aid} |")
+            safe_src = src.replace('|', '\\|')[:120]
+            out.append(f"| {ln} | {safe_src} | {aid} |")
         if len(broken) > 200:
             out.append(f"... and {len(broken)-200} more")
         out.append("")

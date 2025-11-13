@@ -2,7 +2,6 @@ import re
 import ast
 from pathlib import Path
 from typing import List, Tuple, Optional
-from datetime import datetime
 
 ROOT = Path(__file__).resolve().parents[1]
 BOOK = ROOT / "book" / "1022.2025.newbook.md"
@@ -150,7 +149,9 @@ def main():
         raise SystemExit(f"Book not found: {BOOK}")
     lines = load_lines(BOOK)
     n, paths = export_blocks(lines)
-    print(f"Exported {n} code blocks to {OUTDIR}")
+        # Compose a shorter message variable to avoid long source lines (E501)
+        msg = f"Exported {n} code blocks to {OUTDIR}"
+        print(msg)
 
 if __name__ == '__main__':
     main()

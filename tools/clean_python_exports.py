@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Clean exported Python code blocks under examples/99_book_exports by removing non-code prose lines
-introduced during markdown export (e.g., lines starting with '>' or containing full-width brackets like '【...】').
+Clean exported Python code blocks under examples/99_book_exports.
+
+Removes non-code prose lines introduced during markdown export (for example,
+lines starting with '>' or containing full-width brackets like '【...】').
 Writes changes in-place and prints a short summary.
 """
 from __future__ import annotations
@@ -30,8 +32,8 @@ def is_prose(line: str) -> bool:
     for p in PATTERNS:
         if p.match(s):
             return True
-    # Extra heuristics for stray prose markers inside code fences
-    # Lines that look like section headers inside code blocks
+    # Extra heuristics for stray prose markers inside code fences.
+    # Treat lines that look like section dividers as prose too.
     if re.match(r"^\s*[-=*]{3,}\s*$", s):
         return True
     return False
@@ -46,7 +48,8 @@ def sanitize_py(text: str) -> str:
     body = "\n".join(kept).strip()
     if not body:
         body = "if __name__ == '__main__':\n    pass\n"
-    return body + ("\n" if not body.endswith("\n") else "")
+    end = "\n" if not body.endswith("\n") else ""
+    return body + end
 
 
 def main() -> None:

@@ -35,10 +35,12 @@ def chapter_counts(lines: list[str]):
         if m:
             if current:
                 chapters.append(current)
+            # ensure count is always an int
             current = {'title': m.group(1).strip(), 'start': i, 'count': 0}
         else:
             if current and SEE_ALSO_RE.match(ln.strip()):
-                current['count'] += 1
+                # guard against accidental non-int values
+                current['count'] = int(current.get('count', 0)) + 1
     if current:
         chapters.append(current)
     return chapters
@@ -65,7 +67,7 @@ def stats(counts):
         gini = num/(n*total)
     return dict(mean=mean, gini=gini, p90=p90)
 
-def adaptive_parameters(chapters, iter_idx):
+def adaptive_parameters(chapters: list[dict], iter_idx: int) -> dict:
     # progressively tighten thresholds
     disable_threshold = max(30, 120 - iter_idx*15)
     reduce_threshold = max(15, 60 - iter_idx*10)

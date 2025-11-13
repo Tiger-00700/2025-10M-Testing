@@ -6,7 +6,8 @@ Metrics computed directly from cleaned book:
     exercise_blocks, exercise_questions, exercise_tagged_questions
     term_anchors_added (approx = count of <a id="term-..."> lines)
     see_also_blocks (lines starting with > 【See Also】)
-    internal_links_total, internal_links_broken (links pointing to ./1022.2025.newbook.cleaned.md#...)
+        internal_links_total, internal_links_broken
+            (links pointing to ./1022.2025.newbook.cleaned.md#...)
 
 Threshold env vars (numeric):
   QUALITY_MAX_BROKEN_EXAMPLE_LINKS
@@ -21,7 +22,10 @@ Outputs JSON and Markdown summary in tools/reports.
 Exit non-zero if any threshold violated.
 """
 from __future__ import annotations
-import re, json, os, math
+import re
+import json
+import os
+import math
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -33,17 +37,31 @@ PLACEHOLDER_KEY = 'Placeholder: migrated from book reference, please fill conten
 MIGRATED_NOTICE = 'Placeholder: migrated to part dir.'
 HEAD_RE = re.compile(r'^(#{1,6})\s+(.*\S)\s*$')
 EXAMPLE_LINK_TARGET_RE = re.compile(r'\[[^\]]*\]\(((?:\./|\.\./|)examples/[^)#\s]+)\)')
-INLINE_EXAMPLE_CODE_RE = re.compile(r'`(examples/[^`\s]+)`')
+EXAMPLE_LINK_TARGET_RE = re.compile(
+    r'\[[^\]]*\]\('\
+    r'((?:\./|\../|)examples/[^)#\s]+)'\
+    r'\)'
+)
+INLINE_EXAMPLE_CODE_RE = re.compile(
+    r'`(examples/[^`\s]+)`'
+)
 EXERCISE_BLOCK_RE = re.compile(r'^>\s*【课后思考/练习题】')
 QUESTION_TAGGED_RE = re.compile(r'^(?:\d+\.\s+|[-*]\s+)【(?:入门|进阶|专家)】')
 TERM_ANCHOR_RE = re.compile(r'^<a\s+id="term-[^"/]+"\s*></a>')
 SEE_ALSO_RE = re.compile(r'^>\s*【See Also】')
-INTERNAL_LINK_RE = re.compile(r'\[[^\]]*\]\((?:\./)?1022\.2025\.newbook\.cleaned\.md#([^)\s]+)\)')
+INTERNAL_LINK_RE = re.compile(
+    r'\[[^\]]*\]\('\
+    r'(?:\./)?1022\.2025\.newbook\.cleaned\.md#'
+    r'([^)\s]+)'
+    r'\)'
+)
 ANCHOR_LINE_RE = re.compile(r'^<a\s+id="([^"/]+)"\s*></a>\s*$', re.IGNORECASE)
 H2_RE = re.compile(r'^##\s+(.*\S)\s*$')
 
 def load_lines(p: Path) -> list[str]:
-    return p.read_text(encoding='utf-8').replace('\r\n','\n').replace('\r','\n').split('\n')
+    txt = p.read_text(encoding='utf-8')
+    txt = txt.replace('\r\n', '\n').replace('\r', '\n')
+    return txt.split('\n')
 
 def classify_placeholders(lines: list[str]):
     A=B=0
@@ -116,10 +134,16 @@ def chapter_see_also_counts(lines: list[str]):
         if m:
             if current:
                 chapters.append(current)
-            current = {'title': m.group(1).strip(), 'start': i, 'end': len(lines), 'count': 0}
+            # ensure count is an int to satisfy static typing checks
+            current = {
+                'title': m.group(1).strip(),
+                'start': i,
+                'end': len(lines),
+                'count': 0,
+            }
         else:
             if current and SEE_ALSO_RE.match(ln.strip()):
-                current['count'] += 1
+                current['count'] = int(current.get('count', 0)) + 1
     if current:
         chapters.append(current)
     return chapters
@@ -209,7 +233,8 @@ def main():
     REPORTS.mkdir(parents=True, exist_ok=True)
     ts = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')
     json_path = REPORTS / f'quality-dashboard-{ts}.json'
-    json_path.write_text(json.dumps(metrics, ensure_ascii=False, indent=2), encoding='utf-8')
+    metrics_json = json.dumps(metrics, ensure_ascii=False, indent=2)
+    json_path.write_text(metrics_json, encoding='utf-8')
     md_path = REPORTS / f'quality-dashboard-{ts}.md'
     md_lines = [f'# Quality Dashboard ({ts})','']
     for k,v in metrics.items():
@@ -228,29 +253,45 @@ def main():
         if val is None: return default
         try: return float(val)
         except: return default
-    if (mx := env_int('QUALITY_MAX_BROKEN_EXAMPLE_LINKS')) is not None and ex_broken > mx:
+    mx = env_int('QUALITY_MAX_BROKEN_EXAMPLE_LINKS')
+    if mx is not None and ex_broken > mx:
         violations.append(f'Broken example links {ex_broken} > {mx}')
-    if (mn := env_float('QUALITY_MIN_EXERCISE_TAGGED_RATIO')) is not None and tagged_ratio < mn:
+
+    mn = env_float('QUALITY_MIN_EXERCISE_TAGGED_RATIO')
+    if mn is not None and tagged_ratio < mn:
         violations.append(f'Exercise tagged ratio {tagged_ratio:.2f} < {mn}')
-    if (mn := env_int('QUALITY_MIN_SEE_ALSO_BLOCKS')) is not None and see_also < mn:
-        violations.append(f'See Also blocks {see_also} < {mn}')
-    if (mx := env_int('QUALITY_MAX_SEE_ALSO_BLOCKS')) is not None and see_also > mx:
-        violations.append(f'See Also blocks {see_also} > {mx}')
-    if (mx := env_int('QUALITY_MAX_PLACEHOLDERS_A')) is not None and A > mx:
-        violations.append(f'Placeholders A {A} > {mx}')
-    if (mx := env_int('QUALITY_MAX_PLACEHOLDERS_B')) is not None and B > mx:
-        violations.append(f'Placeholders B {B} > {mx}')
-    if (mx := env_int('QUALITY_MAX_BROKEN_INTERNAL_LINKS')) is not None and internal_broken > mx:
-        violations.append(f'Broken internal links {internal_broken} > {mx}')
+
+    mn2 = env_int('QUALITY_MIN_SEE_ALSO_BLOCKS')
+    if mn2 is not None and see_also < mn2:
+        violations.append(f'See Also blocks {see_also} < {mn2}')
+
+    mx2 = env_int('QUALITY_MAX_SEE_ALSO_BLOCKS')
+    if mx2 is not None and see_also > mx2:
+        violations.append(f'See Also blocks {see_also} > {mx2}')
+
+    mx3 = env_int('QUALITY_MAX_PLACEHOLDERS_A')
+    if mx3 is not None and A > mx3:
+        violations.append(f'Placeholders A {A} > {mx3}')
+
+    mx4 = env_int('QUALITY_MAX_PLACEHOLDERS_B')
+    if mx4 is not None and B > mx4:
+        violations.append(f'Placeholders B {B} > {mx4}')
+
+    mx5 = env_int('QUALITY_MAX_BROKEN_INTERNAL_LINKS')
+    if mx5 is not None and internal_broken > mx5:
+        violations.append(f'Broken internal links {internal_broken} > {mx5}')
     # advanced see-also distribution thresholds
     def env_float(name, default=None):
         val = os.getenv(name)
         if val is None: return default
         try: return float(val)
         except: return default
-    if (mxg := env_float('QUALITY_MAX_SEE_ALSO_GINI')) is not None and ch_gini > mxg:
+    mxg = env_float('QUALITY_MAX_SEE_ALSO_GINI')
+    if mxg is not None and ch_gini > mxg:
         violations.append(f'See Also chapter Gini {ch_gini:.3f} > {mxg}')
-    if (tmean := env_float('QUALITY_TARGET_SEE_ALSO_MEAN')) is not None and ch_mean > tmean:
+
+    tmean = env_float('QUALITY_TARGET_SEE_ALSO_MEAN')
+    if tmean is not None and ch_mean > tmean:
         violations.append(f'See Also chapter mean {ch_mean:.2f} > {tmean}')
     if violations:
         print('Threshold violations:\n - ' + '\n - '.join(violations))

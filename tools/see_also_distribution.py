@@ -13,6 +13,7 @@ from __future__ import annotations
 import re, argparse, math
 from pathlib import Path
 from datetime import datetime, timezone
+from typing import List, Any, Dict
 
 ROOT = Path(__file__).resolve().parents[1]
 BOOK = ROOT / 'book' / '1022.2025.newbook.cleaned.md'
@@ -25,8 +26,8 @@ def load_lines(p: Path) -> list[str]:
     return p.read_text(encoding='utf-8').replace('\r\n','\n').replace('\r','\n').split('\n')
 
 def collect(lines: list[str]):
-    chapters = []
-    current = None
+    chapters: List[Dict[str, Any]] = []
+    current: dict[str, Any] | None = None
     for i, ln in enumerate(lines):
         m = H2_RE.match(ln)
         if m:
@@ -49,7 +50,8 @@ def main():
         raise SystemExit(f'Book not found: {BOOK}')
     lines = load_lines(BOOK)
     chapters = collect(lines)
-    counts = [c['count'] for c in chapters]
+    from typing import List
+    counts: List[int] = [int(c['count']) for c in chapters]
     total_blocks = sum(counts)
     chapters_sorted = sorted(chapters, key=lambda c: c['count'], reverse=True)
     REPORTS.mkdir(parents=True, exist_ok=True)

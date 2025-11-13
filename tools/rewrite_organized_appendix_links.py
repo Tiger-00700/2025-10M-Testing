@@ -65,7 +65,9 @@ def main():
         lines.append("| Label | Before | After |")
         lines.append("|---|---|---|")
         for label, before, after in changes[:300]:
-            lines.append(f"| {label} | {before.replace('|','\\|')} | {after.replace('|','\\|')} |")
+            safe_before = before.replace('|', '\\|')
+            safe_after = after.replace('|', '\\|')
+            lines.append(f"| {label} | {safe_before} | {safe_after} |")
         lines.append("")
     rep.write_text("\n".join(lines), encoding="utf-8")
     print(f"[OK] Rewrote organized-latest appendix links. Changed: {len(changes)}")

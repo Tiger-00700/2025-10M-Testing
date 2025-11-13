@@ -10,10 +10,10 @@ Scans markdown files under the chapter workspace for:
 
 Writes report to tools/inventory_report.json and a human summary to tools/inventory_summary.txt
 """
-import os
 import re
 import json
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 MD_GLOB = ['*.md']
@@ -24,7 +24,7 @@ link_re = re.compile(r'\[[^\]]+\]\(([^)]+)\)')
 heading_re = re.compile(r'^(#{1,6})\s*(.+)$', re.MULTILINE)
 fence_re = re.compile(r'^```\s*([^\n\r]*)?\r?\n(.*?)\r?\n```', re.MULTILINE | re.DOTALL)
 
-report = {
+report: dict[str, Any] = {
     'files_scanned': [],
     'images': [],
     'images_missing': [],

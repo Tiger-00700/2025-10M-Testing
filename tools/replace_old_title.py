@@ -3,7 +3,6 @@
 Idempotent: running multiple times produces same result.
 """
 from pathlib import Path
-import re
 
 ROOT = Path(__file__).resolve().parents[1]
 OLD_VARIANTS = [

@@ -4,8 +4,9 @@
  - tools/appendix-link-report.json
  - tools/appendix-link-report.txt
 """
-import re, os, json
+import re, json
 from pathlib import Path
+from typing import Any
 
 ROOT = Path('.')
 BOOK = ROOT / 'book' / '1022.2025.book.md'
@@ -22,7 +23,7 @@ file_re = re.compile(r"[`\(]?([A-Za-z0-9_\-./\\]+\.(sh|py|java|sql|json|yml|yaml
 
 files_to_scan = [BOOK] + sorted(CHAPTER_DIR.glob('*.md')) if CHAPTER_DIR.exists() else [BOOK]
 
-report = {'summary':{}, 'references': []}
+report: dict[str, Any] = {'summary':{}, 'references': []}
 seen = 0
 missing = 0
 

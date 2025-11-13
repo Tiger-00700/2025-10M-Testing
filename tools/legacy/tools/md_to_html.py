@@ -29,7 +29,7 @@ a:hover{{text-decoration:underline}}
 def main():
     try:
         import markdown
-    except Exception as e:
+    except Exception:
         raise SystemExit("Missing dependency: markdown. Install with 'pip install markdown'.")
     if len(sys.argv) < 3:
         raise SystemExit("Usage: md_to_html.py <input.md> <output.html>")

@@ -44,7 +44,7 @@ def remove_scope_notes(text: str) -> str:
 
 
 def fix_duplicate_anchors(text: str) -> str:
-    seen = {}
+    seen: dict[str, int] = {}
 
     def repl(m: re.Match) -> str:
         aid = m.group(1)

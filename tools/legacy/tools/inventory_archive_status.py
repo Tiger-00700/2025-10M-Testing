@@ -5,8 +5,6 @@ Scan chapter/*.md to verify archive pattern compliance:
 - Check presence of markdownlint-disable MD025 near the top (first 12 lines)
 Outputs a markdown report under tools/reports/archive-status-YYYYMMDD-HHMMSS.md
 """
-from __future__ import annotations
-import sys
 from pathlib import Path
 from datetime import datetime
 

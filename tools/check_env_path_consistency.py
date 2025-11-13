@@ -65,7 +65,11 @@ def main() -> int:
             print(v)
         return 1
 
-    print("[ENV PATH CONSISTENCY CHECK] OK: No 'examples/03_env' references and 'examples/03_environment' exists.")
+    ok_msg = (
+        "[ENV PATH CONSISTENCY CHECK] OK: No 'examples/03_env' references "
+        "and 'examples/03_environment' exists."
+    )
+    print(ok_msg)
     return 0
 
 

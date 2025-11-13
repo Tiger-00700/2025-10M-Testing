@@ -1,0 +1,15 @@
+[flake8]
+# Exclude generated release/example snapshots (these are large generated artifacts)
+exclude =
+    tools/releases/**/examples/**,
+    tools/legacy/**/releases/**/examples/**,
+    .venv311,
+    .git,
+    __pycache__,
+    build,
+    dist
+
+# Keep max line length default or project-specific if needed
+max-line-length = 88
+per-file-ignores =
+    tools/print_readiness_check.py: W391

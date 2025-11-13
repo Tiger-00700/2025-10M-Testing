@@ -1,21 +1,15 @@
-"""Batch annotate top-N chapters with per-section See Also metadata to reduce density.
+"""Batch annotate top-N chapters with per-section See Also metadata.
 
 Strategy:
-  - Identify H2 chapters with highest See Also block counts (requires prior run of see_also_distribution.py or fresh scan).
-  - For top K chapters, insert a metadata marker after the H2 heading to globally reduce recommendations:
-        <!-- see-also: min_sim=0.35; top_n=1 -->
-    or disable entirely if count exceeds a hard threshold:
-        <!-- see-also: off -->
+    - Identify H2 chapters with the largest See Also block counts (from a
+        prior run of see_also_distribution.py or a fresh scan).
+    - For the top K chapters, insert a metadata marker after the H2 heading to
+        lower recommendation density (or disable See Also entirely for very
+        noisy chapters).
 
-Usage:
-  python tools/batch_mark_see_also.py --limit 10 --disable-threshold 120 --reduce-threshold 60 --apply
+Usage: python tools/batch_mark_see_also.py --limit 10 --disable-threshold 120 --apply
 
-Heuristics:
-  - If chapter count >= disable_threshold -> off
-  - Else if chapter count >= reduce_threshold -> min_sim/top_n override
-  - Else untouched.
-
-Dry run prints a summary; --apply writes modifications.
+Dry run prints a summary; --apply writes modifications to the book.
 """
 from __future__ import annotations
 import argparse, re
@@ -37,8 +31,8 @@ def save_lines(p: Path, lines: list[str]):
     p.write_text('\n'.join(lines)+'\n', encoding='utf-8')
 
 def chapter_counts(lines: list[str]):
-    chapters = []
-    current = None
+    chapters: list[dict] = []
+    current: dict | None = None
     for i, ln in enumerate(lines):
         m = H2_RE.match(ln)
         if m:
@@ -68,14 +62,21 @@ def apply_marks(lines: list[str], chapters, limit, disable_threshold, reduce_thr
                 break
         if already:
             continue
-        if ch['count'] >= disable_threshold:
+        # ensure count is numeric before comparison
+        try:
+            cnt = int(ch.get('count', 0))
+        except Exception:
+            cnt = 0
+        if cnt >= disable_threshold:
             marker = '<!-- see-also: off -->'
             lines.insert(ch['start']+1, marker)
             inserted.append((ch['title'], ch['count'], 'off'))
-        elif ch['count'] >= reduce_threshold:
-            marker = f'<!-- see-also: min_sim={min_sim}; top_n={top_n} -->'
-            lines.insert(ch['start']+1, marker)
-            inserted.append((ch['title'], ch['count'], f'min_sim={min_sim};top_n={top_n}'))
+            elif cnt >= reduce_threshold:
+                # Build marker in shorter segments to avoid overlong source lines
+                marker = '<!-- see-also: ' + 'min_sim=' + str(min_sim) + '; '
+                marker += 'top_n=' + str(top_n) + ' -->'
+                lines.insert(ch['start']+1, marker)
+            inserted.append((ch['title'], cnt, f'min_sim={min_sim};top_n={top_n}'))
     return lines, inserted, sorted_ch
 
 def main():

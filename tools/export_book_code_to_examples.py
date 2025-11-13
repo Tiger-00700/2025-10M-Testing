@@ -50,7 +50,10 @@ def parse_headings_with_positions(text: str):
 
 
 def split_num_title(title: str) -> tuple[str | None, str]:
-    """Extract a leading numeric outline like '3.3.2 ' or '3-3-2 ' → ('03-03-02', rest)."""
+    """Extract a leading numeric outline like '3.3.2 ' or '3-3-2 '.
+
+    Returns a tuple like ('03-03-02', rest).
+    """
     m = re.match(r"^(\d+(?:[\.\- ]\d+)*)\s+(.+)$", title)
     if not m:
         return None, title
@@ -116,8 +119,13 @@ def export_code_blocks(book_text: str) -> tuple[str, list[Path]]:
     Returns: (links-only text, list of exported file paths)
     """
     # Regex to match fenced code blocks; capture optional language.
-    # Use MULTILINE and DOTALL to span lines.
-    fence_re = re.compile(r"^```\s*([\w+-]*)\s*\n(.*?)\n```\s*$", re.MULTILINE | re.DOTALL)
+    # Use MULTILINE and DOTALL to span lines. Split the pattern across
+    # short raw string parts to keep source lines under the limit.
+    fence_re = re.compile(
+        r"^```\s*([\w+-]*)\s*\n"
+        r"(.*?)\n```\s*$",
+        re.MULTILINE | re.DOTALL,
+    )
 
     headings = parse_headings_with_positions(book_text)
 
@@ -244,7 +252,12 @@ def export_code_blocks(book_text: str) -> tuple[str, list[Path]]:
     # Second pass: upgrade legacy links that still point to old filenames
     # Pattern example:
     # > 示例脚本：[newbook__block001.yaml](examples/.../newbook__block001.yaml)
-    legacy_re = re.compile(r"^>\s*示例脚本：\[[^\]]*\]\([^)]*/newbook__block(\d{3})(\.[^)]+)\)", re.MULTILINE)
+    # Legacy pattern that references old-style filenames; split into parts
+    legacy_re = re.compile(
+        r"^>\s*示例脚本：\[[^\]]*\]\("
+        r"[^)]*/newbook__block(\d{3})(\.[^)]+)\)",
+        re.MULTILINE,
+    )
 
     def repl_legacy(m: re.Match[str]) -> str:
         # Find heading context at this position
@@ -270,8 +283,12 @@ def export_code_blocks(book_text: str) -> tuple[str, list[Path]]:
 
     links_text = legacy_re.sub(repl_legacy, links_text)
 
-    # Final pass: ensure all visible texts follow "章节短标题 + 文件名" regardless of earlier paths
-    any_link_re = re.compile(r"^>\s*示例脚本：\[[^\]]*\]\(([^)]+)\)", re.MULTILINE)
+    # Final pass: ensure visible texts follow "章节短标题 + 文件名" regardless
+    # of earlier paths. Keep regex literal parts short.
+    any_link_re = re.compile(
+        r"^>\s*示例脚本：\[[^\]]*\]\(([^)]+)\)",
+        re.MULTILINE,
+    )
 
     def repl_any(m: re.Match[str]) -> str:
         pos = m.start()
@@ -296,19 +313,25 @@ def main() -> int:
         # Remove previously generated files following either scheme:
         #  - newbook__blockNN.* (legacy)
         #  - *__blockNN.* (current)
-        for p in list(EXPORT_DIR.rglob("newbook__block*")) + list(EXPORT_DIR.rglob("*__block*")):
+        # Remove previously generated files following either legacy or current scheme
+        old1 = list(EXPORT_DIR.rglob("newbook__block*"))
+        old2 = list(EXPORT_DIR.rglob("*__block*"))
+        for p in old1 + old2:
             try:
                 if p.is_file():
                     p.unlink()
             except Exception:
+                # ignore removal errors
                 pass
     links_text, exported = export_code_blocks(src)
 
     BOOK_OUT.write_text(links_text, encoding="utf-8")
-    print(
+    # Avoid overly long source lines by composing the message in parts
+    msg = (
         f"Exported {len(exported)} code blocks to {EXPORT_DIR.relative_to(REPO_ROOT)}; "
         f"links book written: {BOOK_OUT.relative_to(REPO_ROOT)}"
     )
+    print(msg)
     # Return non-zero if nothing exported? No — zero to be idempotent.
     return 0
 

@@ -1,14 +1,14 @@
 """Validate example links in cleaned book and produce an integrity report.
 
-Also inventories exercise blocks ("> 【课后思考/练习题】") and emits stats used by downstream
-quality dashboard.
+Also inventories exercise blocks ("> 【课后思考/练习题】") and emits a few
+simple stats consumed by the quality dashboard.
 
 Patterns validated:
-  - Markdown links to examples: [text](../examples/...) or (./examples/...) or (examples/...) relative forms
-  - Inline code/path references: `examples/dir/script.py` (best-effort)
+    - Markdown links to examples: [text](../examples/...) or (./examples/...) or
+        (examples/...) relative forms
+    - Inline code/path references: `examples/dir/script.py` (best-effort)
 
-Output:
-  tools/reports/example-links-exercises-<ts>.md
+Output: tools/reports/example-links-exercises-<ts>.md
 Exit code 0 unless --fail-on-broken passed and broken links found.
 
 Idempotent: read-only for book; does not modify content.
@@ -24,14 +24,27 @@ BOOK = ROOT / 'book' / '1022.2025.newbook.cleaned.md'
 EXAMPLES_DIR = ROOT / 'examples'
 REPORTS = ROOT / 'tools' / 'reports'
 
-MD_LINK_RE = re.compile(r"\[[^\]]*\]\((?:\./|\.\./|)examples/[^)#\s]+\)")
-LINK_TARGET_RE = re.compile(r"\[[^\]]*\]\(((?:\./|\.\./|)examples/[^)#\s]+)\)")
-INLINE_CODE_RE = re.compile(r"`(examples/[^`\s]+)`")
+MD_LINK_PAT = (
+    r"\[[^\]]*\]\((?:\./|\./\.|)examples/"
+    r"[^)#\s]+"
+    r"\)"
+)
+MD_LINK_RE = re.compile(MD_LINK_PAT)
+LINK_TARGET_PAT = (
+    r"\[[^\]]*\]\(((?:\./|\./\.|)examples/"
+    r"[^)#\s]+)\)"
+)
+LINK_TARGET_RE = re.compile(LINK_TARGET_PAT)
+INLINE_CODE_PAT = r"`(examples/[^`\\s]+)`"
+INLINE_CODE_RE = re.compile(INLINE_CODE_PAT)
 EXERCISE_BLOCK_RE = re.compile(r"^>\s*【课后思考/练习题】")
 QUESTION_LINE_RE = re.compile(r"^(?:\d+\.\s+|[-*]\s+).+")
 
 def load_lines(p: Path) -> list[str]:
-    return p.read_text(encoding='utf-8').replace('\r\n','\n').replace('\r','\n').split('\n')
+    txt = p.read_text(encoding='utf-8')
+    txt = txt.replace('\r\n', '\n')
+    txt = txt.replace('\r', '\n')
+    return txt.split('\n')
 
 def normalize_target(t: str) -> Path:
     # strip leading ./ or ../
@@ -97,20 +110,31 @@ def collect_exercises(lines: list[str]):
 
 def render_report(links, broken, exercises):
     ts = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
-    out = [f"# Example Links & Exercises Report ({ts})", "", f"Total example link refs: {len(links)}", f"Broken example links: {len(broken)}", "", f"Exercise blocks: {len(exercises)}"]
+    out = []
+    out.append(f"# Example Links & Exercises Report ({ts})")
+    out.append("")
+    out.append(f"Total example link refs: {len(links)}")
+    out.append(f"Broken example links: {len(broken)}")
+    out.append("")
+    out.append(f"Exercise blocks: {len(exercises)}")
     total_questions = sum(len(qs) for _, qs in exercises)
     out.append(f"Total exercise questions: {total_questions}")
     out.append("")
+
     if broken:
         out.append("## Broken Links")
         out.append("")
         out.append("| Line | Target | Excerpt |")
         out.append("|------|--------|---------|")
         for ln, raw, tgt in broken[:300]:
-            out.append(f"| {ln} | {tgt} | {raw.replace('|','\\|')[:120]} |")
+            safe_excerpt = raw.replace('|', '\\|')[:120]
+            row = "| {} | {} | {} |".format(ln, tgt, safe_excerpt)
+            out.append(row)
         if len(broken) > 300:
-            out.append(f"... and {len(broken)-300} more")
+            n_more = len(broken) - 300
+            out.append("... and {} more".format(n_more))
         out.append("")
+
     # exercise stats
     if exercises:
         out.append("## Exercise Blocks Summary")
@@ -118,15 +142,21 @@ def render_report(links, broken, exercises):
         out.append("| Start Line | Questions |")
         out.append("|------------|-----------|")
         for ln, qs in exercises[:200]:
-            out.append(f"| {ln} | {len(qs)} |")
+            out.append("| {} | {} |".format(ln, len(qs)))
         if len(exercises) > 200:
-            out.append(f"... and {len(exercises)-200} more")
+            n_more = len(exercises) - 200
+            out.append("... and {} more".format(n_more))
         out.append("")
+
     return "\n".join(out) + "\n"
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--fail-on-broken', action='store_true', help='Exit non-zero if broken example links found.')
+    ap.add_argument(
+        '--fail-on-broken',
+        action='store_true',
+        help='Exit non-zero if broken example links found.',
+    )
     args = ap.parse_args()
     if not BOOK.exists():
         raise SystemExit(f'Cleaned book not found: {BOOK}')
@@ -139,7 +169,13 @@ def main():
     ts = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')
     rep = REPORTS / f'example-links-exercises-{ts}.md'
     rep.write_text(render_report(links, broken, exercises), encoding='utf-8')
-    print(f'Example link refs={len(links)} broken={len(broken)} exercise_blocks={len(exercises)} report={rep.name}')
+    msg = (
+        'Example link refs=' + str(len(links))
+        + ' broken=' + str(len(broken))
+        + ' exercise_blocks=' + str(len(exercises))
+        + ' report=' + rep.name
+    )
+    print(msg)
     if args.fail_on_broken and broken:
         raise SystemExit(2)
 

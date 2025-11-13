@@ -1,10 +1,17 @@
-"""Extract fenced code blocks from book markdown into files under examples/extracted/.
+"""
+Extract fenced code blocks from book markdown into files under
+examples/extracted/.
+
 Produces a manifest JSON at tools/reports/extracted_codeblocks_manifest-<timestamp>.json
 
 Usage:
-  python tools/extract_codeblocks_from_book.py --book book/1022.2025.newbook.cleaned.md --out examples/extracted --manifest tools/reports
+    python tools/extract_codeblocks_from_book.py \
+        --book book/1022.2025.newbook.cleaned.md \
+        --out examples/extracted \
+        --manifest tools/reports
 
-This script DOES NOT modify the book file. It writes extracted files and a manifest mapping.
+This script DOES NOT modify the book file. It writes extracted files and a
+manifest mapping.
 """
 import os
 import re
@@ -121,11 +128,18 @@ def main():
             'out_abspath': os.path.abspath(filepath)
         })
 
-    manifest_path = os.path.join(manifest_dir, f'extracted_codeblocks_manifest-{ts}.json')
+    manifest_path = os.path.join(
+        manifest_dir,
+        f"extracted_codeblocks_manifest-{ts}.json",
+    )
     with open(manifest_path, 'w', encoding='utf-8') as mf:
         json.dump(manifest, mf, ensure_ascii=False, indent=2)
 
-    print(f'Wrote {len(manifest["blocks"])} blocks to {out_dir}. Manifest: {manifest_path}')
+    msg = (
+        f"Wrote {len(manifest['blocks'])} blocks to {out_dir}. "
+        f"Manifest: {manifest_path}"
+    )
+    print(msg)
 
 
 if __name__ == '__main__':

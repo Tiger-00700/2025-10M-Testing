@@ -1,19 +1,21 @@
 """Audit and optionally annotate unlabeled code fences in the cleaned book.
 
 Usage:
-  python tools/check_codeblock_languages.py            # dry-run, report only
-  python tools/check_codeblock_languages.py --apply    # write language labels where guessed
+    python tools/check_codeblock_languages.py            # dry-run, report only
+        python tools/check_codeblock_languages.py --apply
+            # write language labels where guessed
 
-Heuristics:
-  - bash/sh: shebang (#!/usr/bin/env bash|sh), lines with typical shell constructs, *.sh mention
-  - python: import/def/class, .py snippets
-  - sql: SELECT/CREATE/DROP/INSERT/UPDATE with typical keywords
-  - yaml: starts with '---' and contains key: value pattern
-  - json: starts with { or [ and balanced braces (basic)
-  - powershell: lines with 'param(', 'Write-Host', '$env:'
-  - fallback: text
+Heuristics (summary):
+    - bash/sh: shebang or typical shell constructs
+    - python: import/def/class, .py snippets
+    - sql: common SQL keywords (SELECT/CREATE/INSERT/UPDATE)
+    - yaml: starts with '---' or key: value patterns
+    - json: starts with { or [ (basic detection)
+    - powershell: 'param(', 'Write-Host', '$env:'
+    - fallback: text
 
-Writes a report under tools/reports/ and can update the book in-place when --apply.
+Writes a report under tools/reports/ and can update the book in-place
+when --apply.
 """
 from __future__ import annotations
 import argparse
@@ -30,7 +32,9 @@ FENCE_CLOSE_RE = re.compile(r'^```\s*$')
 
 
 def load_lines(p: Path) -> list[str]:
-    return p.read_text(encoding='utf-8').replace('\r\n','\n').replace('\r','\n').split('\n')
+    txt = p.read_text(encoding='utf-8')
+    txt = txt.replace('\r\n', '\n').replace('\r', '\n')
+    return txt.split('\n')
 
 
 def save_lines(p: Path, lines: list[str]):
@@ -40,11 +44,17 @@ def save_lines(p: Path, lines: list[str]):
 def guess_language(block_lines: list[str]) -> str:
     text = '\n'.join(block_lines)
     head = (block_lines[0] if block_lines else '').strip()
-    if head.startswith('#!/usr/bin/env bash') or head.startswith('#!/bin/bash') or ' set -e' in text:
+    if head.startswith('#!/usr/bin/env bash') or head.startswith('#!/bin/bash'):
+        return 'bash'
+    if ' set -e' in text:
         return 'bash'
     if re.search(r'\bimport\b|\bdef\b|\bclass\b|\bprint\(', text):
         return 'python'
-    if re.search(r'\bSELECT\b|\bCREATE\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bWITH\b', text, re.IGNORECASE):
+    sql_pat = re.compile(
+        r'\bSELECT\b|\bCREATE\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bWITH\b',
+        re.IGNORECASE,
+    )
+    if sql_pat.search(text):
         return 'sql'
     if head.startswith('{') or head.startswith('['):
         return 'json'
@@ -88,7 +98,10 @@ def apply_annotations(lines: list[str], findings):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--apply', action='store_true', help='Write guessed languages to unlabeled fences')
+    ap.add_argument(
+        '--apply', action='store_true',
+        help='Write guessed languages to unlabeled fences'
+    )
     args = ap.parse_args()
 
     if not BOOK.exists():

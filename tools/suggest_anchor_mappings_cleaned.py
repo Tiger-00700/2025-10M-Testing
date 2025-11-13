@@ -38,8 +38,12 @@ def gather_anchors(lines: List[str]) -> Tuple[Set[str], Dict[str, List[str]], Di
         if am:
             aid = am.group(1)
             anchors.add(aid)
-            b = BASE_RE.match(aid).group(1)
-            base_map.setdefault(b, []).append(aid)
+            mbase = BASE_RE.match(aid)
+            if mbase:
+                b = mbase.group(1)
+                base_map.setdefault(b, []).append(aid)
+            else:
+                base_map.setdefault(aid, []).append(aid)
             last_anchor = aid
             continue
         hm = HEADING_RE.match(ln)
@@ -69,7 +73,9 @@ def gather_anchors(lines: List[str]) -> Tuple[Set[str], Dict[str, List[str]], Di
     # order base_map by numeric suffix
     def sort_key(a: str):
         m = BASE_RE.match(a)
-        return int(m.group(2)) if m and m.group(2) else 1
+        if m:
+            return int(m.group(2)) if m.group(2) else 1
+        return 1
     for k in base_map:
         base_map[k].sort(key=sort_key)
     return anchors, base_map, anchor_to_path
@@ -109,13 +115,15 @@ def suggest(lines: List[str], anchors: Set[str], base_map: Dict[str, List[str]],
             aid = m.group(1)
             if aid in anchors:
                 continue
-            base = BASE_RE.match(aid).group(1)
+            mbase = BASE_RE.match(aid)
+            base = mbase.group(1) if mbase else aid
             cands = base_map.get(base, [])
             ranked = []
             for c in cands:
                 path = anchor_to_path.get(c, tuple())
                 score = 1 if (path and path == ctx[i]) else 0
-                suf = BASE_RE.match(c).group(2)
+                m2 = BASE_RE.match(c)
+                suf = m2.group(2) if m2 else None
                 suf_n = int(suf) if suf else 1
                 ranked.append((score, -suf_n, c, path))
             ranked.sort(reverse=True)

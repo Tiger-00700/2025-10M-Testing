@@ -1,6 +1,5 @@
 import importlib.util
 from pathlib import Path
-import sys
 import ast
 import importlib
 import importlib.util as ilu
@@ -27,8 +26,9 @@ def is_syntax_valid(py_path: Path) -> bool:
 
 def import_module_from_path(path: Path):
     spec = importlib.util.spec_from_file_location(path.stem, str(path))
-    mod = importlib.util.module_from_spec(spec)
+    # spec may be None; assert before using
     assert spec is not None and spec.loader is not None
+    mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)  # type: ignore
     return mod
 

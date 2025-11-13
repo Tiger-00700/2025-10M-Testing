@@ -1,22 +1,17 @@
 #!/usr/bin/env python3
 """
-Enforce placeholder policy across examples/ to keep the repo consistent.
+Enforce placeholder policy across `examples/` to keep the repo consistent.
 
-Rules:
-- For small text files (<= max-bytes, default 2048) under examples/, ensure they contain a
-  standard placeholder marker if they look like placeholders.
-- Marker substring accepted (any of):
-  - "Placeholder example file."
-  - "Placeholder example README."
-- Only checks text-like extensions: .py, .sh, .md, .txt, .yaml, .yml
-- Skips files inside version control/CI folders (none expected under examples/).
+Checks small text files (default <= 2048 bytes) and ensures they contain a
+standard placeholder marker when they appear to be placeholders. Only a few
+text extensions are checked (.py, .sh, .md, .txt, .yaml, .yml).
+
+Usage notes:
+    --max-bytes 4096     # override size threshold
+    --list-only          # print violations but don't fail (exit 0)
 
 Exit codes:
-- 0: OK
-- 1: Violations found
-
-You can override threshold by: --max-bytes 4096
-You can run in list-only mode by: --list-only (won't fail, just prints)
+    0 = OK, 1 = violations found
 """
 from __future__ import annotations
 import argparse
@@ -82,10 +77,33 @@ def is_allowed(rel_posix: str, allow_patterns: list[str]) -> bool:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Check placeholder policy for examples/")
-    ap.add_argument("--max-bytes", type=int, default=2048, help="Max size to consider a file a placeholder candidate")
-    ap.add_argument("--list-only", action="store_true", help="List violations but do not fail")
-    ap.add_argument("--allow-file", action="append", default=[], help="Path to a file with allow patterns (glob) relative to repo root")
-    ap.add_argument("--allow-path", action="append", default=[], help="Inline allow pattern (glob) relative to repo root")
+    ap.add_argument(
+        "--max-bytes",
+        type=int,
+        default=2048,
+        help="Max size to consider a file a placeholder candidate",
+    )
+    ap.add_argument(
+        "--list-only",
+        action="store_true",
+        help="List violations but do not fail",
+    )
+    ap.add_argument(
+        "--allow-file",
+        action="append",
+        default=[],
+        help=(
+            "Path to a file with allow patterns (glob) relative to repo root"
+        ),
+    )
+    ap.add_argument(
+        "--allow-path",
+        action="append",
+        default=[],
+        help=(
+            "Inline allow pattern (glob) relative to repo root"
+        ),
+    )
     args = ap.parse_args(argv)
 
     if not EXAMPLES.exists():
@@ -93,7 +111,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     # Build allowlist patterns (glob against posix-style relative path)
-    allow_files = [Path(s) if s else None for s in args.allow_file]
+    allow_files = [Path(s) for s in args.allow_file if s]
     if DEFAULT_ALLOW_FILE.exists():
         allow_files.append(DEFAULT_ALLOW_FILE)
     allow_patterns = load_allowlist(allow_files, args.allow_path)
@@ -109,7 +127,9 @@ def main(argv: list[str] | None = None) -> int:
             continue
         if looks_small(p, args.max_bytes) and not has_marker(p):
             # Likely a tiny placeholder but without marker
-            violations.append(f"{rel} (size={p.stat().st_size} bytes) missing placeholder marker")
+            size = p.stat().st_size
+            msg = "{} (size={} bytes) missing placeholder marker".format(rel, size)
+            violations.append(msg)
 
     if violations:
         print("[PLACEHOLDER POLICY] Violations:")
@@ -119,7 +139,11 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         return 1
 
-    print("[PLACEHOLDER POLICY] OK: All small text files under examples/ carry placeholder markers.")
+    ok_msg = (
+        "[PLACEHOLDER POLICY] OK: All small text files under examples/ "
+        "carry placeholder markers."
+    )
+    print(ok_msg)
     return 0
 
 

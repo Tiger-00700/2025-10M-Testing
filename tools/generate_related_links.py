@@ -16,9 +16,10 @@ Outputs a report with counts and modifies book in-place if any blocks added.
 from __future__ import annotations
 import re
 from pathlib import Path
-from collections import Counter, defaultdict
+from collections import Counter
 from math import sqrt
 from datetime import datetime, timezone
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 BOOK = ROOT / 'book' / '1022.2025.newbook.cleaned.md'
@@ -53,24 +54,24 @@ def slugify(title: str) -> str:
     t = re.sub(r"-{2,}", '-', t)
     return t
 
-def parse_sections(lines: list[str]):
-    sections = []
-    anchors = {}  # line index -> anchor id
+def parse_sections(lines: list[str]) -> list[dict[str, Any]]:
+    sections: list[dict[str, Any]] = []
+    anchors: dict[int, str] = {}  # line index -> anchor id
     for i, ln in enumerate(lines):
         am = ANCHOR_RE.match(ln.strip())
         if am:
             anchors[i] = am.group(1)
     current = None
     for i, ln in enumerate(lines):
-        m = HEAD_RE.match(ln)
-        if m:
-            level = len(m.group(1))
-            title = m.group(2).strip()
+        hm = HEAD_RE.match(ln)
+        if hm:
+            level = len(hm.group(1))
+            title = hm.group(2).strip()
             if current:
                 current['end'] = i
                 sections.append(current)
             # find anchor above within previous 3 lines
-            aid = None
+            aid: str | None = None
             for back in range(i-1, max(-1, i-4), -1):
                 if back in anchors:
                     aid = anchors[back]
@@ -85,12 +86,12 @@ def parse_sections(lines: list[str]):
         sections.append(current)
     # parse metadata from the first few lines of each section content
     for s in sections:
-        meta = {}
+        meta: dict[str, Any] = {}
         for ln in s['content'][:8]:
-            mm = META_RE.search(ln)
-            if not mm:
+            meta_m = META_RE.search(ln)
+            if not meta_m:
                 continue
-            cfg = mm.group(1)
+            cfg = meta_m.group(1)
             parts = [p.strip() for p in cfg.split(';') if p.strip()]
             for p in parts:
                 pl = p.lower()
@@ -110,10 +111,14 @@ def parse_sections(lines: list[str]):
                         pass
         s['meta'] = meta
     # propagate H2 chapter-level meta to subsections if not overridden
-    current_chapter_meta = {}
+    current_chapter_meta: dict[str, Any] = {}
     for s in sections:
         if s['level'] == 2:
-            current_chapter_meta = s.get('meta') or {}
+            val = s.get('meta')
+            if isinstance(val, dict):
+                current_chapter_meta = dict(val)
+            else:
+                current_chapter_meta = {}
         else:
             if current_chapter_meta:
                 m = s.get('meta') or {}
@@ -167,7 +172,8 @@ def main():
     if not BOOK.exists():
         raise SystemExit(f'Book not found: {BOOK}')
     lines = load_lines(BOOK)
-    sections = parse_sections(lines)
+    # annotate sections variable for mypy
+    sections: list[dict[str, Any]] = parse_sections(lines)
     vectors, norms = build_vectors(sections)
     added = 0
     # iterate sections and decide See Also insertion point (end-1 before next heading)
@@ -176,11 +182,18 @@ def main():
         if s.get('skip'):
             continue
         # section-level override or disable
-        meta = s.get('meta') or {}
+        meta: dict[str, Any] = s.get('meta') or {}
+        # set working thresholds from meta (coerce to expected types)
+        try:
+            local_min_sim: float = float(meta.get('min_sim', MIN_SIM))
+        except Exception:
+            local_min_sim = float(MIN_SIM)
+        try:
+            local_top_n: int = int(meta.get('top_n', TOP_N))
+        except Exception:
+            local_top_n = int(TOP_N)
         if meta.get('off'):
             continue
-        local_min_sim = meta.get('min_sim', MIN_SIM)
-        local_top_n = meta.get('top_n', TOP_N)
         # whitelist sections: relax thresholds a bit
         if meta.get('whitelist'):
             local_min_sim = max(0.25, local_min_sim - 0.05)
@@ -189,7 +202,7 @@ def main():
         tail_lines = s['content'][-6:]
         if any(SEE_ALSO_RE.match(t.strip()) for t in tail_lines):
             continue
-        sims = []
+        sims: list[tuple[float, dict[str, Any]]] = []
         for j, other in enumerate(sections):
             if j == idx or other.get('skip'):
                 continue

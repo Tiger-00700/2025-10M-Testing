@@ -5,25 +5,23 @@ Validate chapter files against the canonical book structure and links.
 
 Checks:
 1) Alignment: Each file under chapter/ maps to a heading in book/1022.2025.newbook.md
-   - Uses filename/title normalization to find a corresponding heading in the book
-   - Reports mismatch if not found
+    - Uses filename/title normalization to find a corresponding heading in the book
+    - Reports mismatch if not found
 2) Link validity:
-   - Relative file links: must exist
-   - Anchors to book: must match a known heading slug in the book
-   - Intra-file anchors: must match headings in the chapter file
-   - External links (http/https): reported but not validated (no network calls)
+    - Relative file links: must exist
+    - Anchors to book: must match a known heading slug in the book
+    - Intra-file anchors: must match headings in the chapter file
+    - External links (http/https): reported but not validated (no network calls)
 3) Visible content policy (archive pattern):
-   - Visible content outside archived block should be minimal (title + stub)
-   - If significant visible content is found (beyond stub), compare a snippet to the book and warn on drift
+    - Visible content outside archived block should be minimal (title + stub)
+    - If significant visible content is found (beyond stub), compare a snippet to the
+      book and warn on drift
 
 Outputs a timestamped report under tools/reports/ and exits non-zero on validation errors.
 """
 
-import os
 import re
 import sys
-import json
-import hashlib
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Tuple, Set
@@ -40,7 +38,12 @@ def read_text(p: Path) -> str:
 
 _heading_re = re.compile(r"^(#{1,6})\s+(.*)$", re.M)
 _link_re = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
-_html_comment_block_re = re.compile(r"<!--\s*archived-content:(?:start|begin)\s*-->(.*?)<!--\s*archived-content:(?:end)\s*-->", re.S|re.I)
+_html_comment_block_re = re.compile(
+    r"<!--\s*archived-content:(?:start|begin)\s*-->"
+    r"(.*?)"
+    r"<!--\s*archived-content:(?:end)\s*-->",
+    re.S | re.I,
+)
 
 _punct_cleanup_re = re.compile(r"[\t\n\r]+")
 _bracket_suffix_re = re.compile(r"【.*?】")
@@ -127,7 +130,11 @@ def load_chapter_file(p: Path) -> str:
 
 # ---------- Validation ----------
 
-def validate_alignment(chapter_path: Path, md: str, book_norm_titles: Dict[str, str]) -> Tuple[bool, str]:
+def validate_alignment(
+    chapter_path: Path,
+    md: str,
+    book_norm_titles: Dict[str, str],
+) -> Tuple[bool, str]:
     """Alignment is considered OK if either:
     - The visible stub links to the canonical book (explicitly indicating canonicalization), or
     - The (normalized) filename/title matches a heading in the book
@@ -150,7 +157,11 @@ def validate_alignment(chapter_path: Path, md: str, book_norm_titles: Dict[str, 
     return False, expected
 
 
-def validate_links(chapter_path: Path, md: str, book_slug_map: Dict[str, List[str]]) -> Tuple[List[str], List[str], List[str]]:
+def validate_links(
+    chapter_path: Path,
+    md: str,
+    book_slug_map: Dict[str, List[str]],
+) -> Tuple[List[str], List[str], List[str]]:
     errors: List[str] = []
     warnings: List[str] = []
     info: List[str] = []
@@ -173,7 +184,9 @@ def validate_links(chapter_path: Path, md: str, book_slug_map: Dict[str, List[st
                 if anchor.lower().strip().startswith("#"):
                     anchor = anchor[1:]
                 if anchor not in ch_slugs:
-                    warnings.append(f"broken intra-anchor: [{text}](#{anchor}) not found in {chapter_path.name}")
+                    warnings.append(
+                        f"broken intra-anchor: [{text}](#{anchor}) not found in {chapter_path.name}"
+                    )
             continue
 
         # Normalize path relative to repo root
@@ -190,8 +203,10 @@ def validate_links(chapter_path: Path, md: str, book_slug_map: Dict[str, List[st
                     s = s[1:]
                 if s not in book_slug_map:
                     # also try decoded/normalized
-                    if s not in book_slug_map and s.replace('%20','-') not in book_slug_map:
-                        errors.append(f"missing book anchor: [{text}]({path}#{anchor})")
+                    if s not in book_slug_map and s.replace('%20', '-') not in book_slug_map:
+                        errors.append(
+                            f"missing book anchor: [{text}]({path}#{anchor})"
+                        )
             else:
                 # For other md files, try to load and check slugs
                 try:
@@ -235,7 +250,7 @@ def main() -> int:
 
     lines_out: List[str] = []
     lines_out.append(f"# Chapter validation report ({ts})\n")
-    lines_out.append(f"- Canonical book: `book/1022.2025.newbook.md`")
+    lines_out.append("- Canonical book: `book/1022.2025.newbook.md`")
     lines_out.append(f"- Chapters scanned: {total}\n")
 
     for p in chapter_files:
@@ -244,13 +259,19 @@ def main() -> int:
         link_errors, link_warnings, link_info = validate_links(p, md, book_slug_map)
         visible_ok, visible_count = visible_content_check(md)
 
-        status = "OK" if (align_ok and not link_errors and visible_ok) else "ISSUES"
-        lines_out.append(f"## {p.name} — {status}")
+    status = "OK" if (align_ok and not link_errors and visible_ok) else "ISSUES"
+    lines_out.append(f"## {p.name} - {status}")
         if align_ok:
-            lines_out.append(f"- Alignment: OK → matched heading: `{matched_or_expected}`")
+            lines_out.append(
+                "- Alignment: OK -> matched heading: `" + str(matched_or_expected) + "`"
+            )
             ok_align += 1
         else:
-            lines_out.append(f"- Alignment: FAIL → not found in book; expected (normalized from filename): `{matched_or_expected}`")
+            lines_out.append(
+                "- Alignment: FAIL -> not found in book; expected (normalized from filename): `"
+                + str(matched_or_expected)
+                + "`"
+            )
             errors_total.append(f"ALIGN:{p.name}")
 
         if link_errors:
@@ -269,7 +290,12 @@ def main() -> int:
             lines_out.append("- Link warnings: 0")
 
         if not visible_ok:
-            lines_out.append(f"- Visible content: WARN → {visible_count} non-empty lines outside archive block (stub expected ≤ 30)")
+            lines_out.append(
+                "- Visible content: WARN -> "
+                + str(visible_count)
+                + " non-empty lines outside archive block"
+            )
+            lines_out.append("  (stub expected <= 30)")
         else:
             lines_out.append(f"- Visible content: OK ({visible_count} non-empty lines)")
 

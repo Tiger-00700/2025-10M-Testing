@@ -24,7 +24,7 @@ import csv
 import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from itertools import combinations
+# combinations import removed (unused) to satisfy flake8 F401
 from pathlib import Path
 
 REPORT_DIR = Path("tools/reports")

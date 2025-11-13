@@ -96,7 +96,8 @@ def build_report(headings_with_paths):
         lines.append("Line | Level | Path")
         lines.append("---- | ----- | ----")
         for ln, lvl, path in occ:
-            lines.append(f"{ln} | {lvl} | {path.replace('|', '\\|')}")
+            safe_path = path.replace('|', '\\|')
+            lines.append(f"{ln} | {lvl} | {safe_path}")
         lines.append("")
 
     return "\n".join(lines) + "\n"

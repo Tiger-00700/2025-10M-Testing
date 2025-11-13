@@ -2,10 +2,15 @@
 """Insert placeholder markers into small example files matching a filename pattern.
 
 Usage:
-  python tools/add_placeholders_pattern.py --target examples/99_book_exports --pattern "newbook__block*" --max-bytes 2048 --max-files 500
+    python tools/add_placeholders_pattern.py \
+        --target examples/99_book_exports \
+        --pattern "newbook__block*" \
+        --max-bytes 2048 \
+        --max-files 500
 
-This is a targeted helper for files that the generic inserter missed due to path/name patterns.
-It behaves like tools/add_placeholders.py but filters files by a shell-style pattern on the filename.
+This is a targeted helper for files that the generic inserter missed due to
+path/name patterns. It behaves like tools/add_placeholders.py but filters
+files by a shell-style pattern on the filename.
 """
 from pathlib import Path
 import argparse
@@ -68,7 +73,11 @@ def make_bak_and_prepend(p: Path, marker: str) -> bool:
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--target", default=str(DEFAULT_TARGET))
-    ap.add_argument("--pattern", required=True, help='Shell-style pattern to match filenames (e.g. "newbook__block*")')
+    pattern_help = (
+        'Shell-style pattern to match filenames '
+        '(e.g. "newbook__block*")'
+    )
+    ap.add_argument("--pattern", required=True, help=pattern_help)
     ap.add_argument("--max-bytes", type=int, default=2048)
     ap.add_argument("--max-files", type=int, default=500)
     args = ap.parse_args(argv)
@@ -107,7 +116,9 @@ def main(argv=None):
                 break
 
     if modified:
-        print(f"Inserted placeholders into {len(modified)} files (pattern={args.pattern}):")
+        msg = f"Inserted placeholders into {len(modified)} files"
+        msg += f" (pattern={args.pattern}):"
+        print(msg)
         for m in modified:
             print(" -", m)
     else:

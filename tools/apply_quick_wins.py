@@ -9,13 +9,16 @@ USAGE_BLOCK = (
     "\n## 如何使用本书\n\n"
     "- 读者对象：具备基础Linux/SQL/脚本能力的测试/数据从业者\n\n"
     "- 推荐阅读路径：入门（第1篇）→ 进阶（第2~4篇）→ 专家与实战（第5~6篇）\n\n"
-    "- 动手实践路径：每章“最小实操路径 + 断言 + 验收标准（SLO）”，示例参见附录 D\n\n"
-    "- 章节约定：章首“先修/学习目标/核心术语/阅读提示”，章末“小结/课后练习/延伸阅读”\n\n"
+    "- 动手实践路径：每章“最小实操路径 + 断言 + 验收标准（SLO）”，"
+    "示例参见附录 D\n\n"
+    "- 章节约定：章首“先修/学习目标/核心术语/阅读提示”，章末“"
+    "小结/课后练习/延伸阅读”\n\n"
 )
 
 APPENDICES_BLOCK = (
     "\n\n## 附录 D 代码清单与脚本索引\n\n"
-    "> 将正文中的“附：示例与脚本”统一汇总，按“章节索引/目录索引”双视图列出，指向 examples/ 对应路径。\n\n"
+    "> 将正文中的“附：示例与脚本”统一汇总，按“章节索引/目录索引”\n"
+    "双视图列出，指向 examples/ 对应路径。\n\n"
     "- 示例：\n"
     "  - 第1篇-第3章 环境搭建：examples/03_environment/\n"
     "  - 第1篇-第4章 数据管理：examples/04_data_management/\n\n"
@@ -84,7 +87,11 @@ def strip_source_suffix_in_reading_tips(text: str) -> str:
 def remove_lower_level_empty_triplets(text: str) -> str:
     # Remove exact empty triplets at lower heading levels (#### or ##### or ######)
     for level_marks in ("######", "#####", "####"):
-        pattern = rf"(?:\n)?{level_marks} 学习目标\s*\n\s*{level_marks} 小结\s*\n\s*{level_marks} 练习(?:\s*\n)?"
+        pattern = (
+            rf"(?:\n)?{level_marks} 学习目标\s*\n"
+            rf"\s*{level_marks} 小结\s*\n"
+            rf"\s*{level_marks} 练习(?:\s*\n)?"
+        )
         text = re.sub(pattern, "\n", text, flags=re.MULTILINE)
     return text
 
@@ -93,7 +100,6 @@ def insert_usage_section(text: str) -> str:
     if "## 如何使用本书" in text:
         return text
     # Insert after the very first H1
-    idx = text.find("\n", text.find("\n") + 1)
     # Safer: locate first H1 line start
     m = re.search(r"^# .*$", text, flags=re.MULTILINE)
     if not m:

@@ -1,13 +1,18 @@
 """Annotate exercise questions with difficulty gradient (入门/进阶/专家) in cleaned book.
 
 Heuristics:
-  - Detect blocks starting with "> 【课后思考/练习题】"
-  - For each numbered or bulleted question line inside the block, if no difficulty tag present,
-    assign one based on position (first third 入门, middle third 进阶, last third 专家).
-  - Very small sets: 1→入门; 2→入门,进阶; 3→入门,进阶,专家. For 4-5 allocate 1,2→入门; middle→进阶; last→专家.
+    - Detect blocks starting with "> 【课后思考/练习题】".
+    - For each numbered or bulleted question line inside the block, if no
+        difficulty tag is present, assign one based on position:
+        first third → 入门, middle third → 进阶, last third → 专家.
+    - Very small sets map as follows:
+            1 → 入门
+            2 → 入门, 进阶
+            3 → 入门, 进阶, 专家
+        For 4–5 questions use a 1/2 → 入门, middle → 进阶, last → 专家 allocation.
 
-Idempotent: skips lines already containing any of the tags at start after bullet/number.
-Writes updated book in-place and a markdown report.
+Idempotent: skips lines already containing any of the tags at the start (after
+bullet/number). Writes updated book in-place and a short markdown report.
 """
 from __future__ import annotations
 import re
@@ -20,11 +25,21 @@ BOOK = ROOT / 'book' / '1022.2025.newbook.cleaned.md'
 REPORTS = ROOT / 'tools' / 'reports'
 
 BLOCK_RE = re.compile(r"^>\s*【课后思考/练习题】")
-Q_RE = re.compile(r"^(?P<prefix>(?:\d+\.\s+|[-*]\s+))(?!【(?:入门|进阶|专家)】)(?P<body>.+)")
-HAS_TAG_RE = re.compile(r"^(?:\d+\.\s+|[-*]\s+)【(?:入门|进阶|专家)】")
+Q_RE = re.compile(
+    (
+        r"^(?P<prefix>(?:\d+\.\s+|[-*]\s+))"
+        r"(?!【(?:入门|进阶|专家)】)"
+        r"(?P<body>.+)"
+    )
+)
+HAS_TAG_RE = re.compile(
+    r"^(?:\d+\.\s+|[-*]\s+)【(?:入门|进阶|专家)】"
+)
 
 def load(p: Path) -> list[str]:
-    return p.read_text(encoding='utf-8').replace('\r\n','\n').replace('\r','\n').split('\n')
+    text = p.read_text(encoding='utf-8')
+    text = text.replace('\r\n', '\n').replace('\r', '\n')
+    return text.split('\n')
 
 def save(p: Path, lines: list[str]):
     p.write_text('\n'.join(lines) + '\n', encoding='utf-8')
@@ -87,7 +102,10 @@ def process(lines: list[str]):
                     if pos < len(tags):
                         prefix_match = Q_RE.match(lines[line_idx])
                         if prefix_match:
-                            new_line = f"{prefix_match.group('prefix')}【{tags[pos]}】 {prefix_match.group('body').strip()}"
+                            prefix = prefix_match.group('prefix')
+                            body = prefix_match.group('body').strip()
+                            label = f"【{tags[pos]}】 "
+                            new_line = prefix + label + body
                             lines[line_idx] = new_line
                             updated += 1
             i = j
@@ -97,7 +115,8 @@ def process(lines: list[str]):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--dry-run', action='store_true', help='Only report, do not modify book.')
+    dry_help = 'Only report, do not modify book.'
+    ap.add_argument('--dry-run', action='store_true', help=dry_help)
     args = ap.parse_args()
     if not BOOK.exists():
         raise SystemExit(f'Cleaned book not found: {BOOK}')
@@ -106,17 +125,23 @@ def main():
     REPORTS.mkdir(parents=True, exist_ok=True)
     ts = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')
     rep = REPORTS / f'exercise-difficulty-{ts}.md'
-    rep.write_text('\n'.join([
+    mode_str = "dry-run" if args.dry_run else "in-place"
+    md_lines = [
         f'# Exercise Difficulty Annotation Report ({ts})',
         '',
         f'Blocks scanned: {blocks}',
         f'Questions annotated: {updated}',
-        f'Mode: {"dry-run" if args.dry_run else "in-place"}',
+        f'Mode: {mode_str}',
         ''
-    ]), encoding='utf-8')
+    ]
+    rep.write_text('\n'.join(md_lines), encoding='utf-8')
     if not args.dry_run and updated > 0:
         save(BOOK, new_lines)
-    print(f'Blocks={blocks} annotated={updated} dry_run={args.dry_run} report={rep.name}')
+    msg = (
+        f'Blocks={blocks} annotated={updated} '
+        f'dry_run={args.dry_run} report={rep.name}'
+    )
+    print(msg)
 
 if __name__ == '__main__':
     main()

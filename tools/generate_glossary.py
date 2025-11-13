@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import List, Tuple, Dict, Set
+from typing import List, Tuple, Dict
 from datetime import datetime
 
 BOOK = Path(__file__).resolve().parents[1] / "book" / "1022.2025.newbook.md"
@@ -64,7 +64,8 @@ class Node:
         self.level = level
         self.idx = idx
         self.title = title
-        self.end = None
+        # end will be set to an int index later; annotate as Optional[int] for mypy
+        self.end: int | None = None
 
 
 def load_lines(p: Path) -> List[str]:
@@ -88,10 +89,9 @@ def parse_nodes(lines: List[str]) -> List[Node]:
 
 
 def build_anchor_map(lines: List[str]) -> Dict[Tuple[str, ...], str]:
-    nodes = parse_nodes(lines)
     path_stack: List[str] = []
     anchors: Dict[Tuple[str, ...], str] = {}
-    counts: Dict[str, int] = {}
+
 
     def slugify(text: str) -> str:
         t = re.sub(r"[!\"#$%&'()*+,\./:;<=>?@\[\\\]^_`{|}~，。、《》？；：‘’“”（）【】·—…]+", "", text.strip().lower())
@@ -153,7 +153,6 @@ def build_anchor_map(lines: List[str]) -> Dict[Tuple[str, ...], str]:
 
 
 def collect_terms(lines: List[str]) -> Dict[str, Dict[str, str]]:
-    nodes = parse_nodes(lines)
     anchors = build_anchor_map(lines)
     path_stack: List[str] = []
 

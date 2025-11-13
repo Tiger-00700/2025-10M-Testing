@@ -16,10 +16,10 @@ from __future__ import annotations
 import argparse
 import os
 import sys
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import List, Set, Tuple
+from typing import List, Set
 
 ROOT = Path.cwd()
 EXAMPLES = ROOT / "examples"
@@ -30,7 +30,7 @@ BOOK_LINKS = ROOT / "book" / "1022.2025.newbook.links.md"
 sys.path.insert(0, str((ROOT / 'tools').resolve()))
 try:
     import inventory_referenced_assets as inv
-except Exception as e:
+except Exception:
     inv = None
 
 

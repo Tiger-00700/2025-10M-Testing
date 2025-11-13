@@ -141,7 +141,7 @@ def normalize_content(lines: List[str]) -> Tuple[List[str], int, int]:
 
 def summarize_headings(lines: List[str]) -> str:
     """Produce a small summary of heading counts by level and first 5 examples."""
-    levels = {i: [] for i in range(1, 7)}
+    levels: dict[int, list[str]] = {i: [] for i in range(1, 7)}
     for i, line in enumerate(lines, start=1):
         m = RE_HEADING.match(line)
         if m:

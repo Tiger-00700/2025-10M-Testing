@@ -10,7 +10,9 @@ code_fence_re = re.compile(r"^(```|~~~)")
 
 
 def load_lines(p: Path) -> List[str]:
-    return p.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    txt = p.read_text(encoding="utf-8")
+    txt = txt.replace("\r\n", "\n").replace("\r", "\n")
+    return txt.split("\n")
 
 
 def write_lines(p: Path, lines: List[str]) -> None:

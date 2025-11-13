@@ -26,7 +26,8 @@ HEAD_RE = re.compile(r'^(#{1,6})\s+(.*\S)\s*$')
 PLACEHOLDER_KEY = 'Placeholder: migrated from book reference, please fill content.'
 
 def analyze(lines: list[str]):
-    issues = {
+    # Provide an explicit type for issues to satisfy var-annotated checks
+    issues: dict[str, list] = {
         'level_jumps': [],
         'trailing_spaces': [],
         'duplicate_adjacent': [],
@@ -35,7 +36,6 @@ def analyze(lines: list[str]):
     }
     prev_level = None
     prev_title = None
-    prev_line = None
     for i, line in enumerate(lines, start=1):
         m = HEAD_RE.match(line)
         if not m:
@@ -58,7 +58,7 @@ def analyze(lines: list[str]):
         if ' :' in title or ' ：' in title:
             issues['punctuation_spacing'].append((i, title))
 
-        prev_level, prev_title, prev_line = level, title, i
+    prev_level, prev_title = level, title
     return issues
 
 def main():

@@ -15,7 +15,12 @@ BOOK = ROOT / 'book' / '1022.2025.newbook.md'
 BOOK_LINKS = ROOT / 'book' / '1022.2025.newbook.links.md'
 
 LINK_RE = re.compile(r"\(([^)]+)\)")
-PLAIN_RE = re.compile(r"(?:^|[^\w/])(E/)?(examples/[\w\-/\.]+)")
+# Plain-path regex split into parts to keep source lines short (E501)
+PLAIN_RE = re.compile(
+    r"(?:^|[^\w/])"
+    r"(E/)?"
+    r"(examples/[\w\-/\.]+)"
+)
 
 
 def normalize(p: str) -> str:
@@ -41,8 +46,17 @@ def extract(text: str) -> set[str]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description='Ensure placeholders exist for referenced examples paths.')
-    ap.add_argument('--only-canonical', action='store_true', help='Only consider canonical book references')
+    ap = argparse.ArgumentParser(
+        description=(
+            'Ensure placeholders exist for referenced '
+            'examples paths.'
+        )
+    )
+    ap.add_argument(
+        '--only-canonical',
+        action='store_true',
+        help='Only consider canonical book references',
+    )
     args = ap.parse_args(argv)
 
     refs: set[str] = set()
@@ -62,14 +76,29 @@ def main(argv: list[str] | None = None) -> int:
         else:
             path.parent.mkdir(parents=True, exist_ok=True)
             ext = path.suffix.lower()
-            placeholder = {
-                '.py': '# Placeholder example file.\n',
-                '.sh': '#!/usr/bin/env bash\n# Placeholder example file.\n',
-                '.md': '# Placeholder example README.\n',
-                '.txt': 'Placeholder example file.\n',
-                '.yaml': '# Placeholder example file.\n',
-                '.yml': '# Placeholder example file.\n',
-            }.get(ext, 'Placeholder example file.\n')
+            # keep placeholder content lines short by using parenthesized literals
+            placeholder_map = {
+                '.py': (
+                    '# Placeholder example file.\n'
+                ),
+                '.sh': (
+                    '#!/usr/bin/env bash\n'
+                    '# Placeholder example file.\n'
+                ),
+                '.md': (
+                    '# Placeholder example README.\n'
+                ),
+                '.txt': (
+                    'Placeholder example file.\n'
+                ),
+                '.yaml': (
+                    '# Placeholder example file.\n'
+                ),
+                '.yml': (
+                    '# Placeholder example file.\n'
+                ),
+            }
+            placeholder = placeholder_map.get(ext, 'Placeholder example file.\n')
             path.write_text(placeholder, encoding='utf-8')
             created += 1
     print(f"Created {created} placeholders for referenced examples paths.")

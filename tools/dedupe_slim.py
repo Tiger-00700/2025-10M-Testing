@@ -4,10 +4,13 @@ Source: book/篇章内容.精简.md
 Target: book/篇章内容.精简.去重.md
 
 Rules:
-- Only collapse if two or more consecutive heading lines have the same normalized text.
-- Normalization: strip leading # and spaces, remove trailing HTML comment (<!-- ... -->), trim whitespace.
-- Non-heading lines (comments, placeholders, blank lines) are kept verbatim; consecutive duplicates among them are not collapsed.
-- Preserve first occurrence of each consecutive duplicate group.
+- Only collapse when two or more consecutive heading lines share the same
+    normalized text.
+- Normalization: strip the leading '#' and surrounding spaces, remove any
+    trailing HTML comment (e.g. <!-- ... -->), then trim whitespace.
+- Non-heading lines (comments, placeholders, blank lines) are kept verbatim;
+    duplicates among them are not collapsed.
+- Preserve the first occurrence of each consecutive duplicate group.
 """
 
 from __future__ import annotations
@@ -57,9 +60,12 @@ def main():
     deduped, removed = dedupe(lines)
     content = "\n".join(deduped) + "\n"
     DST.write_text(content, encoding="utf-8")
-    print(
-        f"Deduped file written: {DST.as_posix()} (removed={removed}, original={len(lines)}, final={len(deduped)})"
+    # avoid long single source lines (E501) by composing a short message
+    msg = (
+        f"Deduped file written: {DST.as_posix()} (removed={removed}, "
+        f"original={len(lines)}, final={len(deduped)})"
     )
+    print(msg)
 
 
 if __name__ == "__main__":

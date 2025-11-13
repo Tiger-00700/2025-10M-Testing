@@ -27,9 +27,11 @@ def detect_fence_language(lines, idx):
             return None
         if ls.startswith('$') or ls.startswith('./') or ls.startswith('sudo'):
             return 'bash'
-        if ls.startswith('select ') or 'select ' in ls or 'from ' in ls and ';' in ls:
+        if (ls.startswith('select ') or 'select ' in ls
+                or ('from ' in ls and ';' in ls)):
             return 'sql'
-        if ls.startswith('import ') or ls.startswith('def ') or ls.startswith('class ') or ls.startswith('print('):
+        if (ls.startswith('import ') or ls.startswith('def ')
+                or ls.startswith('class ') or ls.startswith('print(')):
             return 'python'
         if 'public class' in ls or 'System.out' in ls or ls.startswith('package '):
             return 'java'
@@ -53,12 +55,11 @@ def fix_file(p: Path):
     text = p.read_text(encoding='utf-8')
     lines = text.splitlines()
     changed = False
-    out = []
+    out: list[str] = []
     i = 0
     n = len(lines)
     while i < n:
         line = lines[i]
-        orig_line = line
         # remove trailing spaces
         if line.rstrip('\r\n') != line.rstrip():
             line = line.rstrip()
@@ -81,7 +82,8 @@ def fix_file(p: Path):
         out.append(line)
         # if current is a list item, ensure blank line after list end (peek next)
         if re.match(r'^(\s*[-+*]|\s*\d+\.)\s+', line):
-            # look ahead: if next line exists and is not a list item and not blank, insert blank
+            # look ahead: if next line exists and is not a list item
+            # and not blank, insert blank
             if i+1 < n:
                 nxt = lines[i+1]
                 if not re.match(r'^(\s*[-+*]|\s*\d+\.)\s+', nxt) and nxt.strip() != '':

@@ -62,7 +62,7 @@ def split_by_heading(md: str):
 
 
 def build_title_index(md: str):
-    idx = {}
+    idx: Dict[str, List[tuple[int,int,int]]] = {}
     for level, title, start, end in split_by_heading(md):
         idx.setdefault(title, []).append((level, start, end))
     return idx

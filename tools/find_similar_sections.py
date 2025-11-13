@@ -1,14 +1,20 @@
-"""Find highly similar section contents using a simple SimHash + Hamming threshold.
+"""
+Find highly similar section contents using a simple SimHash + Hamming threshold.
 
 Heuristics:
-- Parse headings (#..######). A section = heading + following lines until next heading of same or higher level.
-- Compute SimHash (64-bit) over normalized tokens (lowercase, split on non-word, filter stop words, length>=2).
-- Skip very short sections (< 50 tokens after filtering) and template titles (学习目标/小结/练习).
+- Parse headings (#..######). A section = heading + following lines until the
+    next heading of the same or higher level.
+- Compute a 64-bit SimHash over normalized tokens (lowercase, split on non-word,
+    filter stop words, keep tokens length >= 2).
+- Skip very short sections (< 50 tokens after filtering) and template titles
+    (学习目标/小结/练习).
 - Record path (stack of headings) for context.
-- Use bucketization (LSH style) splitting 64 bits into 8 bands of 8 bits to pre-group candidates, then do exact Hamming distance <= 6 check.
-- Output top pairs/groups sorted by similarity score (1 - hamming/64) descending, limited to first 200 pairs.
+- Use bucketization (LSH style) splitting 64 bits into 8 bands of 8 bits to
+    pre-group candidates, then do exact Hamming distance <= 6 checks.
+- Output top pairs/groups sorted by similarity score (1 - hamming/64), limited
+    to the first 200 pairs.
 
-Output report: tools/reports/similar-sections-<ts>.md and a CSV alongside
+Output report: tools/reports/similar-sections-<ts>.md and a CSV alongside.
 """
 
 from __future__ import annotations
@@ -30,7 +36,10 @@ SKIP_TITLES = {"学习目标", "小结", "练习"}
 HEAD_RE = re.compile(r"^(?P<hash>#{1,6})\s+(?P<title>.*\S)\s*$")
 TOKEN_RE = re.compile(r"[A-Za-z0-9_\u4e00-\u9fa5]+")
 
-STOP = {"the","and","of","to","in","a","for","is","on","with","by","an","or","be","as","at","that","this","it"}
+STOP = {
+    "the", "and", "of", "to", "in", "a", "for", "is", "on", "with",
+    "by", "an", "or", "be", "as", "at", "that", "this", "it",
+}
 
 
 def parse_sections(text: str):
@@ -142,19 +151,40 @@ def main():
     pairs = pairs[:MAX_PAIRS]
 
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    report_lines = [f"# Similar Sections Report ({ts} UTC)", "", f"Source file: {SRC.as_posix()}"]
+    report_lines = [f"# Similar Sections Report ({ts} UTC)", ""]
+    report_lines.append(f"Source file: {SRC.as_posix()}")
     report_lines.append(f"Total sections parsed: {len(sections)}")
     report_lines.append(f"Sections evaluated (after filters): {len(enriched)}")
-    report_lines.append(f"Candidate similar pairs: {len(pairs)} (threshold hamming<={HAMMING_THRESHOLD})")
+    report_lines.append(
+        "Candidate similar pairs: " + str(len(pairs))
+        + " (threshold hamming<=" + str(HAMMING_THRESHOLD) + ")"
+    )
     report_lines.append("")
-    report_lines.append("| Score | Hamming | A Line | A Path | B Line | B Path | A Tokens | B Tokens |")
-    report_lines.append("|-------|---------|--------|--------|--------|--------|----------|----------|")
+    # Build table header with shorter source lines to avoid E501
+    report_lines.append(
+        "| Score | Hamming | A Line | A Path | B Line | B Path |"
+        + " A Tokens | B Tokens |"
+    )
+    report_lines.append(
+        "|-------|---------|--------|--------|--------|--------|"
+        + "----------|----------|"
+    )
     for score, h, a_idx, b_idx in pairs:
         A = enriched[a_idx]
         B = enriched[b_idx]
-        report_lines.append(
-            f"| {score:.3f} | {h} | {A['line']} | {A['path']} | {B['line']} | {B['path']} | {A['tokens']} | {B['tokens']} |"
-        )
+        # Build row from smaller pieces to avoid long source lines (E501)
+        cells = [
+            f"{score:.3f}",
+            str(h),
+            str(A['line']),
+            A['path'],
+            str(B['line']),
+            B['path'],
+            str(A['tokens']),
+            str(B['tokens']),
+        ]
+        row = "| " + " | ".join(cells) + " |"
+        report_lines.append(row)
 
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     ts_simple = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
@@ -165,13 +195,24 @@ def main():
     # Write CSV for easier triage
     with out_csv.open('w', newline='', encoding='utf-8') as fh:
         writer = csv.writer(fh)
-        writer.writerow(["score","hamming","a_line","a_path","b_line","b_path","a_tokens","b_tokens"])
+        writer.writerow([
+            "score", "hamming", "a_line", "a_path",
+            "b_line", "b_path", "a_tokens", "b_tokens",
+        ])
         for score, h, a_idx, b_idx in pairs:
             A = enriched[a_idx]
             B = enriched[b_idx]
-            writer.writerow([
-                f"{score:.3f}", h, A['line'], A['path'], B['line'], B['path'], A['tokens'], B['tokens']
-            ])
+            cells = [
+                f"{score:.3f}",
+                h,
+                A['line'],
+                A['path'],
+                B['line'],
+                B['path'],
+                A['tokens'],
+                B['tokens'],
+            ]
+            writer.writerow(cells)
 
     print(f"Reports written: {out_md.as_posix()}, {out_csv.as_posix()}")
 

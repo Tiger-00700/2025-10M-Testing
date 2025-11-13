@@ -14,6 +14,7 @@ Outputs to: tools/reports/inventory-assets-YYYYMMDD-HHMMSS.md
 from __future__ import annotations
 import re
 import sys
+import os
 from pathlib import Path
 from datetime import datetime
 from typing import Iterable, Set, List

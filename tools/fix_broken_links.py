@@ -32,11 +32,20 @@ def gather_anchors(lines: List[str]) -> Tuple[Set[str], Dict[str, List[str]], Di
     last_anchor: Optional[str] = None
     for i, ln in enumerate(lines):
         am = ANCHOR_RE.match(ln)
-        if am:
-            aid = am.group(1)
-            anchors.add(aid)
-            b = BASE_RE.match(aid).group(1)
-            base_map.setdefault(b, []).append(aid)
+        if n:
+            BOOK_LINKS.write_text(new_text, encoding='utf-8')
+            msg = (
+                f"Removed {n} invalid appendix links from {BOOK_LINKS.relative_to(ROOT)} "
+                f"(backslash:{n1}, slash:{n2})"
+            )
+            print(msg)
+        else:
+            print("No invalid appendix links found.")
+                b = mbase.group(1)
+                base_map.setdefault(b, []).append(aid)
+            else:
+                # unexpected format; skip
+                continue
             last_anchor = aid
             continue
         hm = HEADING_RE.match(ln)
@@ -72,7 +81,9 @@ def gather_anchors(lines: List[str]) -> Tuple[Set[str], Dict[str, List[str]], Di
     # sort each base list by numeric suffix (None or ascending)
     def sort_key(a: str):
         m = BASE_RE.match(a)
-        return int(m.group(2)) if m and m.group(2) else 1
+        if m:
+            return int(m.group(2)) if m.group(2) else 1
+        return 1
     for k in base_map:
         base_map[k].sort(key=sort_key)
     return anchors, base_map, anchor_to_path
@@ -140,8 +151,9 @@ def fix_file(p: Path, anchors: Set[str], base_map: Dict[str, List[str]], anchor_
     current_exer_path: Tuple[str, ...] = tuple()
 
     def replace_in_line(i: int, line: str) -> str:
-        nonlocal fixed
-        nonlocal current_exer_path
+        # 'fixed' is modified in the inner repl(); keep nonlocal there.
+        # current_exer_path is read by repl() but not assigned here, so
+        # no nonlocal declaration is required at this level.
         def repl(m):
             nonlocal fixed
             target = m.group(1)
@@ -221,7 +233,9 @@ def main():
             out.append("| Line | Before | After |")
             out.append("|---|---|---|")
             for (ln, before, after) in ch[:300]:
-                out.append(f"| {ln} | {before.replace('|','\\|')} | {after.replace('|','\\|')} |")
+                safe_before = before.replace('|', '\\|')
+                safe_after = after.replace('|', '\\|')
+                out.append(f"| {ln} | {safe_before} | {safe_after} |")
             out.append("")
     report.write_text("\n".join(out), encoding="utf-8")
     print(f"Wrote fixed links report to {report}")

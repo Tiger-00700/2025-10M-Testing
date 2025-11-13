@@ -1,27 +1,20 @@
 """Apply merged drafts to produce a new merged book version.
 
-Reads latest merge-drafts-*.md under book/merge_drafts/ and original
-book/1022.2025.newbook.augmented.frozen.md then replaces source sections
-with merged sections:
+Reads merge drafts from book/merge_drafts/ and applies them to the frozen
+augmented source, replacing source sections with merged content while
+preserving traceability markers and skipping blocks when original headings
+cannot be resolved.
 
-Rules:
-  - For each merged block (### 【合并稿】...) find original A/B heading lines.
-  - Replace the first occurrence block (from its heading line until before the next heading of same or higher level) with merged content.
-  - Remove subsequent duplicate heading blocks (the B side) entirely.
-  - Preserve all other content outside replacements.
-  - Insert a comment marker delineating merged region for traceability.
-
-Output: book/1022.2025.newbook.merged.md
-Safety:
-  - If either original heading not found, skip that merged block.
-  - Does not modify frozen source file.
+Outputs the merged result to book/1022.2025.newbook.merged.md. This tool does
+not modify the frozen source file.
 """
 
 from __future__ import annotations
 
 import re
 from pathlib import Path
-from datetime import datetime, timezone
+# datetime/timezone were previously used for timestamping but are not needed
+# for current conservative merging behavior (kept as a note).
 
 BOOK_SRC = Path("book/1022.2025.newbook.augmented.frozen.md")
 MERGE_DIR = Path("book/merge_drafts")
@@ -35,7 +28,11 @@ HEADING_RE = re.compile(r"^(#{1,6})\s+.*\S\s*$")
 
 
 def latest_merge_draft() -> Path | None:
-    candidates = sorted(MERGE_DIR.glob("merge-drafts-*.md"), key=lambda p: p.name, reverse=True)
+    candidates = sorted(
+        MERGE_DIR.glob("merge-drafts-*.md"),
+        key=lambda p: p.name,
+        reverse=True,
+    )
     return candidates[0] if candidates else None
 
 
@@ -65,9 +62,11 @@ def main():
     draft = latest_merge_draft()
     # If no drafts, write passthrough merged (equal to frozen) and exit gracefully
     if not draft or not draft.exists():
-        src_text = BOOK_SRC.read_text(encoding="utf-8")
-        OUT_PATH.write_text(src_text, encoding="utf-8")
-        print(f"[apply_merge] No merge drafts found. Wrote passthrough merged = {OUT_PATH.as_posix()} (copied from frozen)")
+    src_text = BOOK_SRC.read_text(encoding="utf-8")
+    OUT_PATH.write_text(src_text, encoding="utf-8")
+    msg = "[apply_merge] No merge drafts found. Wrote passthrough merged = " + OUT_PATH.as_posix()
+    msg += " (copied from frozen)"
+    print(msg)
         return
 
     draft_text = draft.read_text(encoding="utf-8")
@@ -139,9 +138,10 @@ def main():
             continue
         a_end = block_end(a_line, a_level, book_headings) or len(book_lines)
         b_end = block_end(b_line, b_level, book_headings) or len(book_lines)
-        # Prepare merged block with markers
-        marker_start = f"<!-- MERGED-BEGIN a_line={a_line} b_line={b_line} source={draft.name} -->"
-        marker_end = "<!-- MERGED-END -->"
+    # Prepare merged block with markers
+    marker_start = "<!-- MERGED-BEGIN a_line=" + str(a_line) + " b_line=" + str(b_line)
+    marker_start += " source=" + draft.name + " -->"
+    marker_end = "<!-- MERGED-END -->"
         # Ensure the original heading line is preserved at the top of replacement
         orig_heading_line = book_lines[a_line - 1]
         new_block = [marker_start, orig_heading_line] + merged_content + [marker_end]
@@ -171,15 +171,18 @@ def main():
         out_lines.append(book_lines[ln - 1])
         ln += 1
 
-    ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H%M%SZ")
     # If no replacements and no deletions, still produce passthrough merged
     if not replacements and not to_delete_ranges:
         src_text = BOOK_SRC.read_text(encoding="utf-8")
         OUT_PATH.write_text(src_text, encoding="utf-8")
-        print(f"[apply_merge] No applicable merged blocks. Wrote passthrough merged = {OUT_PATH.as_posix()} (copied from frozen)")
+        msg = "[apply_merge] No applicable merged blocks. Wrote passthrough merged = " + OUT_PATH.as_posix()
+        msg += " (copied from frozen)"
+        print(msg)
         return
     OUT_PATH.write_text("\n".join(out_lines) + "\n", encoding="utf-8")
-    print(f"Merged book written: {OUT_PATH.as_posix()} (replaced {len(replacements)} blocks, removed {len(to_delete_ranges)} duplicates)")
+    msg2 = "Merged book written: " + OUT_PATH.as_posix()
+    msg2 += " (replaced " + str(len(replacements)) + " blocks, removed " + str(len(to_delete_ranges)) + " duplicates)"
+    print(msg2)
 
 
 if __name__ == "__main__":

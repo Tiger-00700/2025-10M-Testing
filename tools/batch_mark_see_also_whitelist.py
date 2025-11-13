@@ -1,19 +1,22 @@
 """Batch mark whitelist sections/chapters for See Also generation.
 
 Usage:
-  # Mark chapters whose H2 title contains any of the given substrings
-  python tools/batch_mark_see_also_whitelist.py --contains 概述 原理 案例 --apply
+    # Mark chapters whose H2 title contains any of the given substrings
+    python tools/batch_mark_see_also_whitelist.py --contains 概述 原理 案例 --apply
 
-  # Or provide an explicit titles file (one pattern per line)
-  python tools/batch_mark_see_also_whitelist.py --titles-file tools/whitelist_titles.txt --apply
+    # Or provide an explicit titles file (one pattern per line)
+    python tools/batch_mark_see_also_whitelist.py --titles-file \
+            tools/whitelist_titles.txt --apply
 
 Effect:
-  Inserts a metadata marker right after matching H2 lines:
-    <!-- see-also: whitelist -->
-  Which relaxes thresholds in generate_related_links.py (slightly lower min_sim, +1 to top_n).
+    Inserts a metadata marker right after matching H2 lines:
+        <!-- see-also: whitelist -->
+    Which relaxes thresholds in generate_related_links.py (slightly lower
+    min_sim, +1 to top_n).
 """
 from __future__ import annotations
-import argparse, re
+import argparse
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,14 +25,20 @@ H2_RE = re.compile(r'^##\s+(.*\S)\s*$')
 META_RE = re.compile(r'<!--\s*see-also:')
 
 def load_lines(p: Path) -> list[str]:
-    return p.read_text(encoding='utf-8').replace('\r\n','\n').replace('\r','\n').split('\n')
+    txt = p.read_text(encoding='utf-8')
+    txt = txt.replace('\r\n', '\n').replace('\r', '\n')
+    return txt.split('\n')
 
 def save_lines(p: Path, lines: list[str]):
     p.write_text('\n'.join(lines)+'\n', encoding='utf-8')
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--contains', nargs='*', default=[], help='Mark H2 chapters whose titles contain any of these substrings')
+    contains_help = 'Mark H2 chapters whose titles contain any of these substrings'
+    ap.add_argument(
+        '--contains', nargs='*', default=[],
+        help=contains_help,
+    )
     ap.add_argument('--titles-file', type=str, help='File with one pattern per line')
     ap.add_argument('--apply', action='store_true')
     args = ap.parse_args()

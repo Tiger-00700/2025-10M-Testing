@@ -2,12 +2,14 @@
 """Add placeholder markers to small text-like example files.
 
 Usage:
-  python tools/add_placeholders.py --max-bytes 2048 --max-files 150
+    python tools/add_placeholders.py --max-bytes 2048 \
+        --max-files 150
 
 Behavior:
 - Scans examples/ for files with extensions .py,.sh,.md,.txt,.yaml,.yml
 - Skips files that already contain the official markers used by check_placeholders.py
-- For each file, writes a .bak copy and then prepends a language-appropriate placeholder marker.
+- For each file, writes a .bak copy and then prepends a
+    language-appropriate placeholder marker.
 - Prints modified files and exits with 0.
 """
 from pathlib import Path

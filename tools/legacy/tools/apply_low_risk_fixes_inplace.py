@@ -20,7 +20,7 @@ def list_md_files():
 
 def fix_text(orig_text: str) -> str:
     lines = orig_text.splitlines()
-    new_lines = []
+    new_lines: list[str] = []
     i = 0
     while i < len(lines):
         line = lines[i].rstrip(' \t')

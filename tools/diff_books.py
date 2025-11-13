@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """
-Diff two book markdown files and report section-level and placeholder/template differences.
+Diff two book markdown files and report section-level and
+placeholder/template differences.
 
 Usage:
-  python tools/diff_books.py <fileA> <fileB>
+    python tools/diff_books.py <fileA> <fileB>
 
-Outputs a markdown diff summary: section headings, placeholder/template counts, and key differences.
+Outputs a markdown diff summary including section headings,
+placeholder/template counts and key differences.
 """
 import sys as _sys
 import re
@@ -47,12 +49,15 @@ def main():
     textB = fileB.read_text(encoding='utf-8')
     pa, sa, suma, exa = count_placeholders(textA)
     pb, sb, sumb, exb = count_placeholders(textB)
-    uprint(f"# Diff Report: {fileA.name} vs {fileB.name}\n")
-    uprint(f"| 类型 | {fileA.name} | {fileB.name} | 差异 |\n|---|---|---|---|")
-    uprint(f"| Placeholder | {pa} | {pb} | {pb-pa:+} |")
-    uprint(f"| 学习目标 | {sa} | {sb} | {sb-sa:+} |")
-    uprint(f"| 小结 | {suma} | {sumb} | {sumb-suma:+} |")
-    uprint(f"| 练习 | {exa} | {exb} | {exb-exa:+} |\n")
+    # Shorten long formatted lines to avoid E501
+    a_name = fileA.name
+    b_name = fileB.name
+    uprint(f"# Diff Report: {a_name} vs {b_name}\n")
+    uprint("| 类型 | {} | {} | 差异 |\n|---|---|---|---|".format(a_name, b_name))
+    uprint("| Placeholder | {} | {} | {} |".format(pa, pb, f"{pb-pa:+}"))
+    uprint("| 学习目标 | {} | {} | {} |".format(sa, sb, f"{sb-sa:+}"))
+    uprint("| 小结 | {} | {} | {} |".format(suma, sumb, f"{sumb-suma:+}"))
+    uprint("| 练习 | {} | {} | {} |\n".format(exa, exb, f"{exb-exa:+}"))
     # 可选：输出 section heading 差异
     headsA = set(re.findall(r"^#{1,6} +.*", textA, re.M))
     headsB = set(re.findall(r"^#{1,6} +.*", textB, re.M))

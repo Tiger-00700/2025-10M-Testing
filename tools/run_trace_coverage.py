@@ -1,6 +1,3 @@
-import runpy
-import sys
-import os
 from pathlib import Path
 from trace import Trace
 from datetime import datetime

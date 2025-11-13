@@ -50,9 +50,6 @@ def ensure_appendix():
 def extract_from_file(md_path: Path):
     text = md_path.read_text(encoding='utf-8')
     changed = False
-    parts = []
-    last_end = 0
-    out = []
     idx = 1
     def make_fname(lang, idx):
         ext = EXT_MAP.get(lang.lower(), None) if lang else None
@@ -79,7 +76,9 @@ def extract_from_file(md_path: Path):
         idx += 1
         # replace with link
         relpath = os.path.relpath(target, md_path.parent)
-        link = f"[脚本：{filename}]({relpath.replace('\\\\','/')})"
+        # normalize backslashes to forward slashes for Markdown links
+        normalized = relpath.replace('\\', '/')
+        link = f"[脚本：{filename}]({normalized})"
         return link
 
     new_text = FENCE_RE.sub(replace_block, text)

@@ -62,8 +62,8 @@ def main(argv=None):
     for m in matches:
         start, end = m.span()
         new_text.append(text[last_end:start])
-        src_raw = m.group('source')
-        lang = m.group('lang').strip()
+    src_raw = m.group('source')
+    _lang = m.group('lang').strip()
         code = m.group('code')
         src_norm = normalize_src(src_raw)
         target = ROOT / src_norm

@@ -2,7 +2,6 @@
 Usage: python tools/identify_unrelated_tools.py
 """
 from pathlib import Path
-import re
 ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ROOT / 'tools'
 KEYWORDS = ['1022.2025.newbook', 'newbook', 'book/', 'examples/', 'check_placeholders', 'placeholder']

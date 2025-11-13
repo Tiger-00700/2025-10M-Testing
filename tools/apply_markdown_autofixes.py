@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import sys
 import re
 from pathlib import Path
 
@@ -12,7 +11,10 @@ fence_open_re = re.compile(r"^(```+)(\s*\w+)?\s*$")
 # simple heuristics for fence language detection
 def detect_language(block_lines):
     sample = "\n".join(block_lines[:20])
-    if re.search(r"^\s*import\s+|def\s+\w+\(|class\s+\w+|print\(|from\s+\w+", sample, re.M):
+    code_pattern = (
+        r"^\s*import\s+|def\s+\w+\(|class\s+\w+|print\(|from\s+\w+"
+    )
+    if re.search(code_pattern, sample, re.M):
         return 'python'
     if re.search(r"\bSELECT\b|\bFROM\b|\bINSERT\b|\bUPDATE\b|\bWHERE\b", sample, re.I):
         return 'sql'
@@ -28,7 +30,7 @@ def detect_language(block_lines):
 def process_file(path: Path):
     changed = False
     lines = path.read_text(encoding='utf-8').splitlines()
-    out = []
+    out: list[str] = []
     i = 0
     n = len(lines)
     log = []
@@ -48,10 +50,8 @@ def process_file(path: Path):
             # possibly add language
             block = []
             j = i + 1
-            closed = False
             while j < n:
                 if lines[j].startswith(fence):
-                    closed = True
                     break
                 block.append(lines[j])
                 j += 1
@@ -81,12 +81,16 @@ def process_file(path: Path):
                 i += 1
             continue
 
-        # handle list items: ensure blank line before a list that follows non-blank non-list
+        # handle list items: ensure blank line before a list
+        # that follows a non-blank non-list line
         if list_item_re.match(line):
-            if len(out) > 0 and out[-1].strip() != '' and not list_item_re.match(out[-1]):
-                out.append('')
-                changed = True
-                log.append(f'Inserted blank line before list at {i+1}')
+                prev_is_nonblank_nonlist = (
+                    len(out) > 0 and out[-1].strip() != '' and not list_item_re.match(out[-1])
+                )
+                if prev_is_nonblank_nonlist:
+                    out.append('')
+                    changed = True
+                    log.append(f'Inserted blank line before list at {i+1}')
             out.append(line)
             # ensure after list ends, there's a blank line
             j = i + 1

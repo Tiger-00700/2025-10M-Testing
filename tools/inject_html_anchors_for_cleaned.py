@@ -66,10 +66,14 @@ def inject_anchors(lines: List[str]) -> Tuple[List[str], int]:
                     prev_line = out[prev_idx] if prev_idx >= 0 else ""
                     prev_prev = out[prev_idx - 1] if prev_idx - 1 >= 0 else None
                     anchor_id = None
-                    if anchor_re.match(prev_line or ""):
-                        anchor_id = anchor_re.match(prev_line).group(1)
-                    elif (prev_line.strip() == "" and prev_prev is not None and anchor_re.match(prev_prev)):
-                        anchor_id = anchor_re.match(prev_prev).group(1)
+                    m_prev = anchor_re.match(prev_line or "")
+                    if m_prev:
+                        anchor_id = m_prev.group(1)
+                    else:
+                        if (prev_line.strip() == "" and prev_prev is not None):
+                            m_prev_prev = anchor_re.match(prev_prev)
+                            if m_prev_prev:
+                                anchor_id = m_prev_prev.group(1)
                     base = slugify(title)
                     if anchor_id:
                         # sync counter

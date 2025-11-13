@@ -13,7 +13,7 @@ class Node:
         self.level = level
         self.idx = idx
         self.title = title
-        self.end = None
+        self.end: int | None = None
 
 
 def load_lines(p: Path) -> List[str]:

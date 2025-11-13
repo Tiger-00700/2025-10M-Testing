@@ -1,13 +1,14 @@
 """
-Cleanup merged book: remove duplicate anchors, empty placeholders, and redundant blank lines.
+Cleanup the merged book source by removing small, noisy artifacts.
 
-- Removes duplicate <!-- anchor:xxx --> lines (keeps first occurrence per anchor).
-- Removes <!-- Placeholder --> and empty template sections (学习目标/小结/练习) with no content.
-- Collapses multiple blank lines to a single blank line.
-- Optionally removes headings with no content (except if followed by subheadings).
+What it does:
+ - Remove duplicate <!-- anchor:xxx --> lines (keep the first occurrence).
+ - Remove <!-- Placeholder --> and empty template sections (学习目标/小结/练习).
+ - Collapse multiple blank lines into a single blank line.
+ - Optionally drop headings that have no content (unless followed by subheadings).
 
-Input: book/1022.2025.newbook.merged.md
-Output: book/1022.2025.newbook.cleaned.md
+Input  : book/1022.2025.newbook.merged.md
+Output : book/1022.2025.newbook.cleaned.md
 """
 import re
 from pathlib import Path

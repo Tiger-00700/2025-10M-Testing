@@ -11,7 +11,7 @@ class Node:
         self.level = level
         self.idx = idx
         self.title = title
-        self.end = None  # exclusive
+        self.end: int | None = None  # exclusive
 
 
 def load_lines(path: Path):
@@ -273,7 +273,8 @@ def tailored_content(title: str, level: int) -> Tuple[List[str], List[str]]:
 
 
 def replace_reading_tip(lines: List[str], nd: Node, new_tip: List[str]) -> bool:
-    for i in range(nd.idx + 1, min(nd.idx + 12, nd.end)):
+    nd_end = nd.end if nd.end is not None else len(lines)
+    for i in range(nd.idx + 1, min(nd.idx + 12, nd_end)):
         if i < len(lines) and lines[i].strip().startswith("> 【阅读提示】"):
             lines[i] = new_tip[0]
             ensure_blank_after(lines, i)
@@ -285,14 +286,15 @@ def replace_reading_tip(lines: List[str], nd: Node, new_tip: List[str]) -> bool:
 
 def replace_summary_and_exercises(lines: List[str], nd: Node, new_block: List[str]) -> bool:
     start = None
-    for i in range(nd.idx + 1, nd.end):
+    nd_end = nd.end if nd.end is not None else len(lines)
+    for i in range(nd.idx + 1, nd_end):
         if lines[i].strip().startswith("> 【章节重点难点总结】"):
             start = i
             break
     if start is None:
         return False
-    end = nd.end
-    for j in range(start + 1, nd.end):
+    end = nd_end
+    for j in range(start + 1, nd_end):
         if heading_re.match(lines[j]):
             end = j
             break

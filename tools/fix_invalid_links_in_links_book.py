@@ -17,8 +17,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BOOK_LINKS = ROOT / 'book' / '1022.2025.newbook.links.md'
 
-LINK_PATTERN1 = re.compile(r"\[([^\]]+)\]\(((?:\.\.[\\]+)+appendix[\\][^\)]+)\)")
-LINK_PATTERN2 = re.compile(r"\[([^\]]+)\]\(((?:\.\./+)+appendix/[^\)]+)\)")
+LINK_PATTERN1 = re.compile(
+    r"\[([^\]]+)\]"
+    r"\(((?:\.\.[\\]+)+appendix[\\][^\)]+)\)"
+)
+LINK_PATTERN2 = re.compile(
+    r"\[([^\]]+)\]"
+    r"\(((?:\.\./+)+appendix/[^\)]+)\)"
+)
 
 
 def main() -> int:
@@ -31,7 +37,12 @@ def main() -> int:
     n = n1 + n2
     if n:
         BOOK_LINKS.write_text(new_text, encoding='utf-8')
-        print(f"Removed {n} invalid appendix links from {BOOK_LINKS.relative_to(ROOT)} (backslash:{n1}, slash:{n2})")
+        msg = (
+            f"Removed {n} invalid appendix links from "
+            f"{BOOK_LINKS.relative_to(ROOT)} "
+            f"(backslash:{n1}, slash:{n2})"
+        )
+        print(msg)
     else:
         print("No invalid appendix links found.")
     return 0

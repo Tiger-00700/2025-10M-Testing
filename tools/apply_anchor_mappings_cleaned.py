@@ -6,13 +6,18 @@ Apply safe anchor mapping fixes to the cleaned book:
   (unique candidate with score=1), replacing the fragment with the suggested anchor.
 - Writes in-place and creates a .bak backup.
 """
-import json, re
+import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BOOK = ROOT / 'book' / '1022.2025.newbook.cleaned.md'
 REPORTS = ROOT / 'tools' / 'reports'
-LINK_RE = re.compile(r"\((?:\./)?1022\.2025\.newbook\.cleaned\.md#([^\)\s]+)\)")
+LINK_RE = re.compile(
+    r"\((?:\./)?1022\.2025\.newbook\.cleaned\.md#"
+    r"([^)\s]+)"
+    r"\)"
+)
 
 def latest_suggestions() -> Path | None:
     files = sorted(REPORTS.glob('anchor-mapping-suggestions-cleaned-*.json'))
@@ -50,7 +55,9 @@ def main():
         idx = ln - 1
         cur = lines[idx]
         for old, new in pairs:
-            cur = re.sub(rf"\((?:\./)?1022\.2025\.newbook\.cleaned\.md#{re.escape(old)}\)", f"(./1022.2025.newbook.cleaned.md#{new})", cur)
+            pattern = rf"\((?:\./)?1022\.2025\.newbook\.cleaned\.md#{re.escape(old)}\)"
+            repl_str = f"(./1022.2025.newbook.cleaned.md#{new})"
+            cur = re.sub(pattern, repl_str, cur)
         lines[idx] = cur
         applied += len(pairs)
     save_lines(BOOK, lines)

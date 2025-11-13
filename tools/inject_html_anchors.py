@@ -64,24 +64,19 @@ def inject_anchors(lines: List[str]) -> Tuple[List[str], int]:
                     prev_line = out[prev_idx] if prev_idx >= 0 else ""
                     if prev_line.strip() == "" and prev_idx - 1 >= 0:
                         prev_line2 = out[prev_idx - 1]
-                        prev_idx2 = prev_idx - 1
                     else:
                         prev_line2 = None
-                        prev_idx2 = None
 
-                    anchor_line_idx = None
                     anchor_id = None
 
                     # direct previous line
                     am = anchor_re.match(prev_line)
                     if am:
-                        anchor_line_idx = prev_idx
                         anchor_id = am.group(1)
                     # or one line above if blank line between
                     elif prev_line.strip() == "" and prev_line2 is not None:
                         am2 = anchor_re.match(prev_line2)
                         if am2:
-                            anchor_line_idx = prev_idx2
                             anchor_id = am2.group(1)
 
                     base = slugify(title)

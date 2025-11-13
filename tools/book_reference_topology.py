@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Generate reference topology among book/*.md files.
 
-Scans all markdown files under book/ (top-level .md) and finds markdown links whose target path
-includes 'book/' and ends with a .md filename. Produces:
+Scans all markdown files under book/ (top-level .md) and finds markdown links
+whose target path includes 'book/' and ends with a .md filename. Produces:
     - tools/reports/book-reference-topology-<ts>.md (adjacency list, stats)
-    - tools/reports/book-reference-topology-<ts>.dot (Graphviz DOT for visualization)
+    - tools/reports/book-reference-topology-<ts>.dot (Graphviz DOT)
 
-Edges: source_file -> target_file (filename only).
-Self-links ignored.
+Edges: source_file -> target_file (filename only). Self-links ignored.
 
-Optional: transitive closure from a given file using --from with --direction (out/in/both)
-and --max-depth. Outputs closure MD and DOT alongside the main reports.
+Optional: transitive closure from a given file using --from with --direction
+(out/in/both) and --max-depth. Outputs closure MD and DOT alongside
+the main reports.
 """
 from __future__ import annotations
 from pathlib import Path
@@ -40,7 +40,11 @@ def extract_book_links(text: str) -> set[str]:
         targets.add(name)
     return targets
 
-def build_graph() -> tuple[dict[str,set[str]], dict[str,set[str]], list[Path]]:
+def build_graph() -> tuple[
+    dict[str, set[str]],
+    dict[str, set[str]],
+    list[Path],
+]:
     files = sorted([p for p in BOOK_DIR.glob('*.md') if p.is_file()])
     adjacency: dict[str, set[str]] = {}
     for f in files:
@@ -55,7 +59,11 @@ def build_graph() -> tuple[dict[str,set[str]], dict[str,set[str]], list[Path]]:
             reverse.setdefault(t, set()).add(src)
     return adjacency, reverse, files
 
-def compute_closure(start: str, graph: dict[str,set[str]], max_depth: int) -> dict[str,int]:
+def compute_closure(
+    start: str,
+    graph: dict[str, set[str]],
+    max_depth: int,
+) -> dict[str, int]:
     # BFS to compute minimal depth to each reachable node
     depth: dict[str,int] = {}
     frontier = [(start, 0)]
@@ -73,10 +81,27 @@ def compute_closure(start: str, graph: dict[str,set[str]], max_depth: int) -> di
     return depth
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description='Generate book reference topology and optional closure reports.')
-    ap.add_argument('--from', dest='from_file', help='Start filename (e.g., 1022.2025.newbook.cleaned.md) for closure report')
-    ap.add_argument('--direction', choices=['out','in','both'], default='out', help='Closure direction: out (default), in (reverse), both')
-    ap.add_argument('--max-depth', type=int, default=999, help='Max depth for closure (default: 999)')
+    desc = (
+        'Generate book reference topology and optional closure reports.'
+    )
+    ap = argparse.ArgumentParser(description=desc)
+    help_from = (
+        'Start filename (e.g., 1022.2025.newbook.cleaned.md) for closure report'
+    )
+    ap.add_argument('--from', dest='from_file', help=help_from)
+    help_dir = 'Closure direction: out (default), in (reverse), both'
+    ap.add_argument(
+        '--direction',
+        choices=['out', 'in', 'both'],
+        default='out',
+        help=help_dir,
+    )
+    ap.add_argument(
+        '--max-depth',
+        type=int,
+        default=999,
+        help='Max depth for closure (default: 999)',
+    )
     args = ap.parse_args()
 
     ts = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')
@@ -98,8 +123,9 @@ def main() -> int:
     lines = [f'# Book Reference Topology ({ts})','']
     lines.append('## Adjacency List')
     for f in sorted(adjacency.keys()):
-        tgts = sorted(adjacency[f])
-        lines.append(f'- {f}: {", ".join(tgts) if tgts else "(none)"}')
+        tlist = sorted(adjacency[f])
+        tstr = ", ".join(tlist) if tlist else "(none)"
+        lines.append(f'- {f}: {tstr}')
     lines.append('')
     lines.append('## Degree Stats')
     lines.append('| File | Out-Degree | In-Degree |')
@@ -117,11 +143,17 @@ def main() -> int:
 
     # Cycle detection (simple DFS for directed cycles)
     def find_cycles(graph: dict[str,set[str]]) -> list[list[str]]:
-        cycles = []
-        path = []
-        visited = set()
-        in_path = set()
-        def dfs(node: str):
+        """Detect directed cycles (normalized rotation) in a graph.
+
+        This function was defined earlier in the file as well; keep a single
+        canonical implementation to avoid mypy 'redefinition' warnings.
+        """
+        cycles: list[list[str]] = []
+        path: list[str] = []
+        visited: set[str] = set()
+        in_path: set[str] = set()
+
+        def dfs(node: str) -> None:
             visited.add(node)
             path.append(node)
             in_path.add(node)
@@ -133,7 +165,8 @@ def main() -> int:
                     try:
                         idx = path.index(nxt)
                         cycle = path[idx:] + [nxt]
-                        # Normalize rotation based on smallest string to avoid duplicates
+                        # Normalize rotation based on smallest string to avoid
+                        # duplicates
                         min_idx = min(range(len(cycle)-1), key=lambda i: cycle[i])
                         norm = cycle[min_idx:-1] + cycle[:min_idx] + [cycle[min_idx]]
                         if norm not in cycles:
@@ -142,6 +175,7 @@ def main() -> int:
                         pass
             in_path.remove(node)
             path.pop()
+
         for n in graph.keys():
             if n not in visited:
                 dfs(n)
@@ -182,7 +216,11 @@ def main() -> int:
             if want_out:
                 out_depths = compute_closure(start, adjacency, args.max_depth)
                 md_clo = reports / f'book-ref-closure-out-{start}-{ts}.md'
-                lines = [f'# Reference Closure (out) for {start} (max-depth={args.max_depth})','']
+                lines = [
+                    '# Reference Closure (out) for ' + start +
+                    ' (max-depth=' + str(args.max_depth) + ')',
+                    '',
+                ]
                 for node, d in sorted(out_depths.items(), key=lambda kv:(kv[1],kv[0])):
                     lines.append(f"{'  '*d}- {node} (depth {d})")
                 md_clo.write_text('\n'.join(lines)+'\n', encoding='utf-8')
@@ -198,7 +236,11 @@ def main() -> int:
             if want_in:
                 in_depths = compute_closure(start, reverse, args.max_depth)
                 md_clo = reports / f'book-ref-closure-in-{start}-{ts}.md'
-                lines = [f'# Reference Closure (in) for {start} (max-depth={args.max_depth})','']
+                lines = [
+                    '# Reference Closure (in) for ' + start +
+                    ' (max-depth=' + str(args.max_depth) + ')',
+                    '',
+                ]
                 for node, d in sorted(in_depths.items(), key=lambda kv:(kv[1],kv[0])):
                     lines.append(f"{'  '*d}- {node} (depth {d})")
                 md_clo.write_text('\n'.join(lines)+'\n', encoding='utf-8')
@@ -212,72 +254,7 @@ def main() -> int:
                 dotc.append('}')
                 dot_clo.write_text('\n'.join(dotc)+'\n', encoding='utf-8')
 
-    # Build highlighted DOT for cycles and SCC DAG
-    # Reuse cycles computed above; if not computed (no --from), compute here
-    def find_cycles(graph: dict[str,set[str]]) -> list[list[str]]:
-        cycles = []
-        path = []
-        visited = set()
-        in_path = set()
-        def dfs(node: str):
-            visited.add(node)
-            path.append(node)
-            in_path.add(node)
-            for nxt in graph.get(node, set()):
-                if nxt not in visited:
-                    dfs(nxt)
-                elif nxt in in_path:
-                    try:
-                        idx = path.index(nxt)
-                        cycle = path[idx:] + [nxt]
-                        # Normalize rotation to minimize duplicates
-                        min_idx = min(range(len(cycle)-1), key=lambda i: cycle[i])
-                        norm = cycle[min_idx:-1] + cycle[:min_idx] + [cycle[min_idx]]
-                        if norm not in cycles:
-                            cycles.append(norm)
-                    except ValueError:
-                        pass
-            in_path.remove(node)
-            path.pop()
-        for n in graph.keys():
-            if n not in visited:
-                dfs(n)
-        return cycles
-
-    cycles = find_cycles(adjacency)
-    # Highlighted DOT
-    if cycles:
-        cyc_nodes = set()
-        cyc_edges = set()
-        for cyc in cycles:
-            for i in range(len(cyc)-1):
-                a, b = cyc[i], cyc[i+1]
-                cyc_nodes.add(a)
-                cyc_nodes.add(b)
-                cyc_edges.add((a,b))
-        dot_hl = ['digraph book_refs_cycles {','  rankdir=LR;']
-        # Define nodes
-        for f in sorted(adjacency.keys()):
-            if f in cyc_nodes:
-                dot_hl.append(f'  "{f}" [style=filled, fillcolor=lightcoral];')
-            else:
-                dot_hl.append(f'  "{f}";')
-        # Define edges
-        for src in sorted(adjacency.keys()):
-            for t in sorted(adjacency[src]):
-                if (src,t) in cyc_edges:
-                    dot_hl.append(f'  "{src}" -> "{t}" [color=red, penwidth=2.0];')
-                else:
-                    dot_hl.append(f'  "{src}" -> "{t}";')
-        dot_hl.append('}')
-        dot_hl_path = reports / f'book-reference-topology-{ts}-cycles.dot'
-        dot_hl_md = reports / f'book-reference-cycles-{ts}.md'
-        (reports / dot_hl_path.name).write_text('\n'.join(dot_hl)+'\n', encoding='utf-8')
-        cyc_md = ['# Detected Cycles (highlighted DOT produced)','']
-        for cyc in cycles:
-            cyc_md.append('- ' + ' -> '.join(cyc))
-        cyc_md.append(f'\nTotal cycles: {len(cycles)}')
-        dot_hl_md.write_text('\n'.join(cyc_md)+'\n', encoding='utf-8')
+    # cycles and highlighted DOT already produced above
 
     # Strongly Connected Components (Tarjan)
     index = 0

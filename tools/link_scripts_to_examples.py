@@ -15,7 +15,6 @@ Idempotent: re-running will keep links intact and won't duplicate copies.
 """
 from __future__ import annotations
 import re
-import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -82,17 +81,14 @@ def process_book() -> tuple[int, int, int]:
         # Check if already linked nearby (avoid double-linking)
         # We'll replace the token with a markdown link regardless.
         target = find_examples_target(fname)
-        created_here = False
-        copied_here = False
+        # local flags not needed; counts updated directly
         if target is None:
             # Try appendix migration
             target = ensure_migrated_from_appendix(fname)
             if (APPENDIX_ROOT / fname).exists():
                 copied += 1
-                copied_here = True
             else:
                 created += 1
-                created_here = True
         rel = target.relative_to(ROOT).as_posix()
         replacements += 1
         return f"[{prefix}{fname}]({rel})"

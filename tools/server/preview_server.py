@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import argparse
 import http.server
-import io
 import os
 import socketserver
 import sys

@@ -6,8 +6,9 @@ book/merge_drafts/merge-drafts-<ts>.md with proposed merged content blocks.
 
 Merging strategy (safe, editorial-friendly):
 - For 'similar' (同章/同篇):
-  * Create a merged heading labeled '【合并稿】<A.title> / <B.title>' under the common context.
-  * Combine paragraphs using ordered union (A then B), paragraph key = stripped text.
+    * Create a merged heading labeled '【合并稿】<A.title> / <B.title>'.
+        Place it under the shared context when available.
+    * Combine paragraphs using ordered union (A then B). Paragraph key = stripped text.
   * Emit two source subsections with diff paragraphs (A-only / B-only) if any.
 - For 'duplicate':
   * If 同章: pick the longest source as主稿，补充另一处缺失段落（有则补），并建议移除重复标题。
@@ -170,12 +171,12 @@ def main():
             out.append(f"- 相似度：{score}")
         if group_size:
             out.append(f"- 组大小：{group_size}（行：{lines_in_group}）")
-        out.append(f"- 建议：{suggestion}")
-        out.append(f"- 理由：{rationale}")
-        if path_a:
-            out.append(f"- A：行 {line_a} ｜ {path_a}")
-        if path_b:
-            out.append(f"- B：行 {line_b} ｜ {path_b}")
+            out.append("- 建议：{}".format(suggestion))
+            out.append("- 理由：{}".format(rationale))
+            if path_a:
+                out.append("- A：行 {} ｜ {}".format(line_a, path_a))
+            if path_b:
+                out.append("- B：行 {} ｜ {}".format(line_b, path_b))
         out.append("")
 
         # Extract sections
@@ -216,8 +217,18 @@ def main():
             out.extend(merged)
 
         # Optional diff view if there are unique paragraphs
-        only_a = [p for p in paras_a if p.strip() and p.strip() not in {q.strip() for q in paras_b}]
-        only_b = [p for p in paras_b if p.strip() and p.strip() not in {q.strip() for q in paras_a}]
+        b_stripped = {q.strip() for q in paras_b}
+        only_a = [
+            p
+            for p in paras_a
+            if p.strip() and p.strip() not in b_stripped
+        ]
+        a_stripped = {q.strip() for q in paras_a}
+        only_b = [
+            p
+            for p in paras_b
+            if p.strip() and p.strip() not in a_stripped
+        ]
 
         if only_a:
             out.append("")

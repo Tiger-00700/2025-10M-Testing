@@ -2,15 +2,15 @@
 """CI check for book reference topology.
 
 Checks:
-- Cycles in book reference graph (Markdown links that include 'book/' and target .md)
-- Unreferenced book files (no incoming links), excluding a keep allowlist
+    - Cycles in book reference graph (links that include 'book/' and target .md)
+    - Unreferenced book files (no incoming links), excluding a keep allowlist
 
 Exit codes:
-  0 = OK (or only warnings)
-  2 = ERROR (when --fail-on-* threshold is triggered)
+    0 = OK (or only warnings)
+    2 = ERROR (when --fail-on-* threshold is triggered)
 
-Outputs a concise markdown report under tools/reports/check-book-topology-<ts>.md and prints a
-one-line summary. UTF-8 safe printing.
+Writes a concise markdown report under tools/reports/check-book-topology-<ts>.md
+and prints a one-line summary. UTF-8 safe printing.
 """
 from __future__ import annotations
 from pathlib import Path
@@ -47,7 +47,11 @@ def extract_book_links(text: str) -> set[str]:
         targets.add(_P(t).name)
     return targets
 
-def build_graph() -> tuple[dict[str,set[str]], dict[str,set[str]], list[str]]:
+def build_graph() -> tuple[
+    dict[str, set[str]],
+    dict[str, set[str]],
+    list[str],
+]:
     files = sorted([p.name for p in BOOK_DIR.glob('*.md') if p.is_file()])
     adj: dict[str,set[str]] = {f:set() for f in files}
     for fname in files:
@@ -96,16 +100,33 @@ def uprint(s: str):
         print(s)
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description='CI checks for book topology (cycles, unreferenced).')
-    ap.add_argument('--fail-on-cycles', action='store_true', help='Exit non-zero when cycles detected')
-    ap.add_argument('--fail-on-unreferenced', action='store_true', help='Exit non-zero when unreferenced book files found')
-    ap.add_argument('--keep', default=','.join(sorted(DEFAULT_KEEP)), help='Comma-separated filenames to always keep from unreferenced warnings')
+    desc = 'CI checks for book topology (cycles, unreferenced).'
+    ap = argparse.ArgumentParser(description=desc)
+    help_cycles = 'Exit non-zero when cycles detected'
+    ap.add_argument('--fail-on-cycles', action='store_true', help=help_cycles)
+    help_unref = 'Exit non-zero when unreferenced book files found'
+    ap.add_argument('--fail-on-unreferenced', action='store_true', help=help_unref)
+    default_keep_str = ','.join(sorted(DEFAULT_KEEP))
+    ap.add_argument(
+        '--keep',
+        default=default_keep_str,
+        help='Comma-separated filenames to always keep from unreferenced warnings',
+    )
     args = ap.parse_args(argv)
 
     keep = {x.strip() for x in args.keep.split(',') if x.strip()}
     adj, rev, files = build_graph()
     in_deg = {f: len(rev.get(f, set())) for f in files}
-    unref = sorted([f for f in files if in_deg.get(f, 0)==0 and not f.startswith('附录-') and f not in keep])
+    unref = []
+    for f in files:
+        if in_deg.get(f, 0) != 0:
+            continue
+        if f.startswith('附录-'):
+            continue
+        if f in keep:
+            continue
+        unref.append(f)
+    unref = sorted(unref)
     cycles = find_cycles(adj)
 
     ts = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')
@@ -117,18 +138,22 @@ def main(argv: list[str] | None = None) -> int:
         lines.append('## Cycles (ERROR/WARN)')
         for cyc in cycles:
             lines.append('- ' + ' -> '.join(cyc))
-        lines.append(f'\nTotal cycles: {len(cycles)}\n')
+        lines.append('\nTotal cycles: ' + str(len(cycles)))
+        lines.append('')
     else:
         lines.append('## Cycles')
-        lines.append('- None\n')
+        lines.append('- None')
+        lines.append('')
     if unref:
         lines.append('## Unreferenced book files (WARN unless configured to fail)')
         for f in unref:
             lines.append(f'- {f}')
-        lines.append(f'\nTotal unreferenced: {len(unref)}\n')
+        lines.append('\nTotal unreferenced: ' + str(len(unref)))
+        lines.append('')
     else:
         lines.append('## Unreferenced book files')
-        lines.append('- None\n')
+        lines.append('- None')
+        lines.append('')
     out.write_text('\n'.join(lines)+'\n', encoding='utf-8')
 
     status = 'OK'
@@ -141,7 +166,13 @@ def main(argv: list[str] | None = None) -> int:
         exit_code = 2
     elif cycles or unref:
         status = 'WARN'
-    uprint(f'Status: {status} | cycles={len(cycles)} unreferenced={len(unref)} | Report: {out.name}')
+    msg = (
+        'Status: ' + status +
+        ' | cycles=' + str(len(cycles)) +
+        ' unreferenced=' + str(len(unref)) +
+        ' | Report: ' + out.name
+    )
+    uprint(msg)
     return exit_code
 
 if __name__ == '__main__':

@@ -109,7 +109,8 @@ def build_markdown_and_csv(headings_with_paths):
         md_lines.append("Line | Level | Path")
         md_lines.append("---- | ----- | ----")
         for ln, lvl, path in occ:
-            md_lines.append(f"{ln} | {lvl} | {path.replace('|','\\|')}")
+            safe_path = path.replace('|', '\\|')
+            md_lines.append(f"{ln} | {lvl} | {safe_path}")
         md_lines.append("")
 
     # CSV rows

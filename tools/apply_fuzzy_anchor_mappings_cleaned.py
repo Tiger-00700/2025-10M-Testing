@@ -1,8 +1,11 @@
 """Apply fuzzy anchor mappings (base-level) to update broken link fragments.
 
 Logic:
-  - Read latest fuzzy-anchor-suggestions-cleaned-*.json.
-  - For each confident suggestion: if there exists an actual anchor beginning with that base (exact or with -N suffix), pick the first (lowest suffix) and replace link fragment.
+    - Read latest fuzzy-anchor-suggestions-cleaned-*.json.
+        - For each confident suggestion:
+            - If there exists an actual anchor beginning with that base, use it.
+            - The match may be exact or have a -N suffix; prefer the lowest suffix.
+            - Replace the link fragment with the chosen anchor.
   - Skip if no realized anchor matches candidate base.
   - Create a backup of the book before modifying.
 """
@@ -13,7 +16,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BOOK = ROOT / 'book' / '1022.2025.newbook.cleaned.md'
 REPORTS = ROOT / 'tools' / 'reports'
-LINK_TARGET_RE = re.compile(r"(\((?:\./)?1022\.2025\.newbook\.cleaned\.md#)([^)\s]+)(\))")
+LINK_TARGET_RE = re.compile(
+    r"(\((?:\./)?1022\.2025\.newbook\.cleaned\.md#)"
+    r"([^)\s]+)"
+    r"(\))"
+)
 ANCHOR_RE = re.compile(r'^\s*<a\s+id="([^"/]+)"\s*></a>\s*$', re.IGNORECASE)
 
 def latest_json(prefix: str) -> Path | None:
