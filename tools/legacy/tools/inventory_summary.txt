@@ -1,5 +1,0 @@
-Files scanned: 35
-Fenced code blocks found: 50
-Image references found: 0, missing: 0
-Local links found: 128, missing: 0
-Duplicate headings detected: 366
