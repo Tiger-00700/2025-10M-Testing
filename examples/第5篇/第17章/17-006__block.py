@@ -1,4 +1,7 @@
 # Hadoop生态系统自动化测试示例
+import time
+
+
 class HadoopEcosystemTest:
     def __init__(self, config):
         self.config = config
@@ -42,8 +45,7 @@ class HadoopEcosystemTest:
         self.hdfs_client.makedirs(test_dir)
 
         # 验证目录创建
-        assert self.hdfs_client.status(test_dir, strict=False) is not None,
-            "Failed to create directory in HDFS"
+        assert self.hdfs_client.status(test_dir, strict=False) is not None, "Failed to create directory in HDFS"
 
         # 上传测试文件
         test_content = b"This is a test file for HDFS operations"
@@ -55,15 +57,13 @@ class HadoopEcosystemTest:
         # 验证文件内容
         with self.hdfs_client.read(test_file_path) as reader:
             content = reader.read()
-            assert content == test_content,
-                "File content verification failed"
+            assert content == test_content, "File content verification failed"
 
         # 删除测试目录
         self.hdfs_client.delete(test_dir, recursive=True)
 
         # 验证删除
-        assert self.hdfs_client.status(test_dir, strict=False) is None,
-            "Failed to delete directory from HDFS"
+        assert self.hdfs_client.status(test_dir, strict=False) is None, "Failed to delete directory from HDFS"
 
         return {"status": "passed", "message": "HDFS operations test passed"}
 
@@ -98,21 +98,17 @@ class HadoopEcosystemTest:
             )
 
             # 检查作业是否成功
-            assert result.returncode == 0,
-                f"MapReduce job failed: {result.stderr}"
+            assert result.returncode == 0, f"MapReduce job failed: {result.stderr}"
 
             # 验证输出结果
             output_files = self.hdfs_client.list(output_dir)
-            assert "part-r-00000" in output_files,
-                "Output file not found"
+            assert "part-r-00000" in output_files, "Output file not found"
 
             # 读取并验证输出
             with self.hdfs_client.read(f"{output_dir}/part-r-00000") as reader:
                 output = reader.read().decode('utf-8')
-                assert "Hello\t2" in output,
-                    "Expected word count not found"
-                assert "World\t1" in output,
-                    "Expected word count not found"
+                assert "Hello\t2" in output, "Expected word count not found"
+                assert "World\t1" in output, "Expected word count not found"
 
             return {"status": "passed", "message": "MapReduce job test passed"}
         finally:

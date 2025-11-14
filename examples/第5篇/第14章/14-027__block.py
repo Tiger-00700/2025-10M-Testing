@@ -1,4 +1,6 @@
 # ETL流程自动化测试示例
+import pytest
+
 @pytest.mark.parametrize("data_sample,expected_transformation", get_test_cases())
 def test_etl_transformation(data_sample, expected_transformation):
     # 执行ETL流程
