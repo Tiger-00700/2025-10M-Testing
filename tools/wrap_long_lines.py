@@ -94,8 +94,12 @@ def wrap_file(path):
             if not in_code:
                 m_lang = re.match(r'^```\s*([a-zA-Z0-9_+-]+)?', fence)
                 code_lang = m_lang.group(1).lower() if (m_lang and m_lang.group(1)) else None
-                in_code = True
                 fence_indent = len(L) - len(L.lstrip(' '))
+                # MD040: add default language if missing
+                if code_lang is None:
+                    L = (' ' * fence_indent) + '```text'
+                    code_lang = 'text'
+                in_code = True
             else:
                 in_code = False
                 code_lang = None
@@ -103,7 +107,6 @@ def wrap_file(path):
             out.append(L)
             continue
         if in_code:
-            # enforce minimum indentation equal to fence indentation
             orig_leading = re.match(r'^\s*', L).group(0)
             enforced_leading = ' ' * max(fence_indent, len(orig_leading))
             if code_lang in ('bash', 'sh') and len(L) > 80 and not L.strip().startswith('#'):
@@ -155,7 +158,14 @@ def wrap_file(path):
             continue
 
         # Normal paragraph
+        # Normal paragraph (skip link-dense lines)
         if len(L) > 80 and L.strip() != '':
+            # Heuristic: skip wrapping if link-dense or many URLs
+            url_count = len(re.findall(r'https?://', L))
+            mdlink_count = len(re.findall(r'\[[^\]]*\]\([^\)]*\)', L))
+            if (url_count + mdlink_count) >= 2:
+                out.append(L)
+                continue
             indent = len(L) - len(L.lstrip(' '))
             out.append(wrap_paragraph(L, width=80, indent=indent))
         else:
