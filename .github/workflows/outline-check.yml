@@ -1,0 +1,45 @@
+name: Outline Regeneration Check
+
+on:
+  pull_request:
+    paths:
+      - 'book/1022.2025.newbook.cleaned.md'
+      - 'tools/generate_outline_from_book.py'
+      - '.github/workflows/outline-check.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'book/1022.2025.newbook.cleaned.md'
+      - 'tools/generate_outline_from_book.py'
+      - '.github/workflows/outline-check.yml'
+
+jobs:
+  check-outline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Regenerate outline
+        run: |
+          python tools/generate_outline_from_book.py
+
+      - name: Show outline stats
+        run: |
+          wc -c chapter/1022.2025.newbook.大纲.md || true
+          echo "Last lines:" && tail -n 5 chapter/1022.2025.newbook.大纲.md || true
+
+      - name: Diff check outline
+        run: |
+          git config core.autocrlf input
+          # If file changed after regeneration, fail with a helpful message
+          if ! git diff --exit-code -- 'chapter/1022.2025.newbook.大纲.md'; then
+            echo "::error file=chapter/1022.2025.newbook.大纲.md::Outline is out of date. Run: python tools/generate_outline_from_book.py" 
+            git --no-pager diff --unified=0 -- 'chapter/1022.2025.newbook.大纲.md' | sed -n '1,200p'
+            exit 1
+          fi
