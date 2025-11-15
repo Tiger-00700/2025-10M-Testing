@@ -27,6 +27,13 @@ __pycache__/
 .venv*
 **/.venv*
 
+# Editor/IDE settings
+.idea/
+.vscode/
+
+# Node dependencies
+node_modules/
+
 # Ignore extra .gitignore/.gitattributes files in subfolders, but keep root ones tracked
 **/.gitignore
 **/.gitattributes
