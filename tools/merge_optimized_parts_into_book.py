@@ -5,21 +5,22 @@ import sys
 
 CHN_NUM = {
     '一': 1, '二': 2, '三': 3, '四': 4, '五': 5, '六': 6,
+    '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6,
 }
 NUM_TO_CHN = {v: k for k, v in CHN_NUM.items()}
 
 BASE_BOOK = Path('book/1022.2025.newbook.cleaned.md')
-OUT_BOOK = Path('book/1022.2025.cleaned.new.md')
+OUT_BOOK = Path('book/1022.2025.newbook.cleaned.new.md')
 FIXED_FILES = {
     1: Path('examples/第1篇/from_book_1.candidate.fixed.md'),
     2: Path('examples/第2篇/from_book_2.candidate.fixed.md'),
     3: Path('examples/第3篇/from_book_3.candidate.fixed.md'),
     4: Path('examples/第4篇/from_book_4.candidate.fixed.md'),
-    5: Path('examples/第5篇/from_book_5.candidate.md'),  # Chapter 5 originally promoted
+    5: Path('examples/第5篇/from_book_5.candidate.fixed.md'),
     6: Path('examples/第6篇/from_book_6.candidate.fixed.md'),
 }
 
-PART_HEAD_RE = re.compile(r'^\s*##\s*第([一二三四五六])篇')
+PART_HEAD_RE = re.compile(r'^\s*##\s*第([一二三四五六1-6])篇')
 HEAD_RE = re.compile(r'^(#{1,6})(\s+)(.+)$')
 
 
@@ -115,10 +116,23 @@ def merge_book(base_text: str, fixed_parts: dict[int, str]) -> str:
         if part_num in fixed_parts:
             # Insert fixed part content directly (already adjusted heading levels)
             fixed_block = fixed_parts[part_num]
+            original_heading = lines[i]
+            fixed_lines = fixed_block.splitlines()
+            has_part_heading = False
+            # Check first few lines for a part-level heading like "## 第N篇"
+            for k in range(min(10, len(fixed_lines))):
+                if PART_HEAD_RE.match(fixed_lines[k]):
+                    has_part_heading = True
+                    break
             # Ensure separation
             if out and out[-1].strip() != '':
                 out.append('')
-            out.append(fixed_block.rstrip('\n'))
+            if has_part_heading:
+                out.append(fixed_block.rstrip('\n'))
+            else:
+                out.append(original_heading.rstrip('\n'))
+                out.append('')
+                out.append(fixed_block.rstrip('\n'))
             if j < N and (out and out[-1].strip() != ''):
                 out.append('')
         else:

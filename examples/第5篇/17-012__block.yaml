@@ -1,0 +1,259 @@
+# 基于GitLab CI/CD的DevOps集成示例（.gitlab-ci.yml）
+# 定义全局变量
+variables:
+  DOCKER_REGISTRY: registry.example.com
+  IMAGE_NAME: $DOCKER_REGISTRY/bigdata-app
+  TEST_ENVIRONMENT: test
+
+# 定义stages
+stages:
+
+  - code-quality
+
+  - build
+
+  - unit-test
+
+  - prepare-integration-env
+
+  - integration-test
+
+  - performance-test
+
+  - package
+
+  - deploy-test
+
+  - acceptance-test
+
+  - deploy-staging
+
+# 代码质量检查
+code-quality:
+  stage: code-quality
+  image: maven:3.8-openjdk-11
+  script:
+
+    - mvn checkstyle:checkstyle
+
+    - mvn pmd:check
+
+    - mvn spotbugs:check
+
+  artifacts:
+    paths:
+
+      - target/site/
+
+    reports:
+      junit: target/surefire-reports/*.xml
+
+# 构建项目
+build:
+  stage: build
+  image: maven:3.8-openjdk-11
+  script:
+
+    - mvn clean compile -DskipTests
+
+  artifacts:
+    paths:
+
+      - target/
+
+# 单元测试
+unit-test:
+  stage: unit-test
+  image: maven:3.8-openjdk-11
+  script:
+
+    - mvn test
+
+  artifacts:
+    reports:
+      junit: target/surefire-reports/*.xml
+    paths:
+
+      - target/site/jacoco/
+
+# 准备集成测试环境
+prepare-integration-env:
+  stage: prepare-integration-env
+  image: docker/compose:1.29.2
+  services:
+
+    - docker:dind
+
+  script:
+    # 创建网络
+
+    - docker network create test-network
+
+    # 启动基础服务（Hadoop, Spark等）
+
+    - docker-compose -f docker-compose-infra.yml up -d
+
+    # 等待服务就绪
+
+    - ./scripts/wait-for-services.sh
+
+    # 初始化测试数据
+
+    - ./scripts/init-test-data.sh
+
+  artifacts:
+    paths:
+
+      - integration-test-config/
+
+# 集成测试
+integration-test:
+  stage: integration-test
+  image: maven:3.8-openjdk-11
+  services:
+
+    - docker:dind
+
+  script:
+    # 使用配置连接到测试环境
+
+    - export SPARK_MASTER=spark://spark-master:7077
+
+    - export HDFS_NAMENODE=hdfs://namenode:9000
+
+    # 运行集成测试
+
+    - mvn verify -DskipUnitTests
+
+  artifacts:
+    reports:
+      junit: target/failsafe-reports/*.xml
+  dependencies:
+
+    - prepare-integration-env
+
+# 性能测试
+performance-test:
+  stage: performance-test
+  image: maven:3.8-openjdk-11
+  services:
+
+    - docker:dind
+
+  script:
+    # 运行性能测试
+
+    - ./run-performance-tests.sh
+
+  artifacts:
+    paths:
+
+      - performance-reports/
+
+  dependencies:
+
+    - prepare-integration-env
+
+# 构建Docker镜像
+package:
+  stage: package
+  image: docker:20.10
+  services:
+
+    - docker:dind
+
+  script:
+    # 登录到Docker仓库
+
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $DOCKER_REGISTRY
+
+    # 构建镜像
+
+    - docker build -t $IMAGE_NAME:$CI_COMMIT_SHA .
+
+    - docker tag $IMAGE_NAME:$CI_COMMIT_SHA $IMAGE_NAME:latest
+
+    # 推送镜像
+
+    - docker push $IMAGE_NAME:$CI_COMMIT_SHA
+
+    - docker push $IMAGE_NAME:latest
+
+  only:
+
+    - main
+
+    - tags
+
+# 部署到测试环境
+deploy-test:
+  stage: deploy-test
+  image: bitnami/kubectl:latest
+  script:
+    # 设置kubectl配置
+
+    - mkdir -p ~/.kube
+
+    - echo "$KUBE_CONFIG" > ~/.kube/config
+
+    # 更新部署
+
+    - kubectl set image deployment/bigdata-app bigdata-app=$IMAGE_NAME:$CI_COMMIT_SHA -n test
+
+    # 等待部署完成
+
+    - kubectl rollout status deployment/bigdata-app -n test
+
+  only:
+
+    - main
+
+  environment:
+    name: test
+
+# 验收测试
+acceptance-test:
+  stage: acceptance-test
+  image: maven:3.8-openjdk-11
+  script:
+    # 运行验收测试
+
+    - mvn verify -Dtest=Acceptance*Test
+
+  artifacts:
+    reports:
+      junit: target/failsafe-reports/*.xml
+  dependencies:
+
+    - deploy-test
+
+  only:
+
+    - main
+
+# 部署到预发环境
+deploy-staging:
+  stage: deploy-staging
+  image: bitnami/kubectl:latest
+  script:
+    # 设置kubectl配置
+
+    - mkdir -p ~/.kube
+
+    - echo "$KUBE_CONFIG" > ~/.kube/config
+
+    # 更新部署
+
+    - kubectl set image deployment/bigdata-app bigdata-app=$IMAGE_NAME:$CI_COMMIT_SHA -n staging
+
+    # 等待部署完成
+
+    - kubectl rollout status deployment/bigdata-app -n staging
+
+  only:
+
+    - main
+
+  when: manual  # 手动触发
+  environment:
+    name: staging
