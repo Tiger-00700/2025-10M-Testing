@@ -100,14 +100,17 @@ def _type_of(path: Path) -> str:
     return "other"
 
 
-def _is_under_allowed_roots(path: Path) -> bool:
+def _is_under_allowed_roots(path: Path, extra: List[Path] | None = None) -> bool:
     try:
         path = path.resolve()
     except Exception:
         return False
     if not str(path).startswith(str(ROOT)):
         return False
-    for base in ALLOWED_ROOTS:
+    bases = list(ALLOWED_ROOTS)
+    if extra:
+        bases.extend(extra)
+    for base in bases:
         try:
             path.relative_to(base)
             return True
@@ -142,11 +145,17 @@ def main(argv: List[str]) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--sources", nargs="*", default=["book/*.md", "chapter/*.md"], help="Glob patterns (relative to repo root)")
     ap.add_argument("--types", nargs="*", default=["scripts", "attachments"], choices=["scripts", "attachments", "images", "other"], help="Asset types to generate placeholders for")
+    ap.add_argument("--allow-roots", nargs="*", default=[], help="Extra allowed roots (relative to repo root), e.g., examples/99_book_exports")
     ap.add_argument("--apply", action="store_true", help="Write placeholders to disk")
     ap.add_argument("--limit", type=int, default=10000, help="Maximum placeholders to consider (safety)")
     args = ap.parse_args(argv)
 
     sources = _gather_markdown_files(args.sources)
+    extra_roots: List[Path] = []
+    for r in args.allow_roots:
+        p = (ROOT / r).resolve()
+        if p.exists() or True:
+            extra_roots.append(p)
     ts = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
     report = REPORTS / f"placeholders_plan_{ts}.txt"
 
@@ -170,7 +179,7 @@ def main(argv: List[str]) -> int:
             t = _type_of(target)
             if t not in args.types:
                 continue
-            if not _is_under_allowed_roots(target):
+            if not _is_under_allowed_roots(target, extra_roots):
                 continue
             planned.append((md, target, t))
 
@@ -187,6 +196,10 @@ def main(argv: List[str]) -> int:
         rep.write(f"Placeholder generation plan @ {ts}\n")
         rep.write(f"Apply: {args.apply}\n")
         rep.write(f"Types: {', '.join(args.types)}\n")
+        if extra_roots:
+            rep.write("Extra roots:\n")
+            for er in extra_roots:
+                rep.write(f"  - {er}\n")
         rep.write(f"Planned unique targets: {len(unique)} (limited to {len(items)})\n\n")
         for tgt, (md, t) in items:
             rel = tgt.relative_to(ROOT)
