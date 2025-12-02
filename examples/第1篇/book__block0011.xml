@@ -1,8 +1,0 @@
-
-    <Rule>
-        <ID>TestDataExpiration</ID>
-        <Status>Enabled</Status>
-        <Expiration>
-            <Days>90</Days>
-        </Expiration>
-    </Rule>
