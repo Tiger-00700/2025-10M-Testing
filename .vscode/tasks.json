@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		
+		{
+			"label": "Normalize + Build (1130)",
+			"type": "shell",
+			"command": "pwsh",
+			"args": [
+				"-NoLogo",
+					{
+						"label": "Normalize + Build (1130)",
+				"\".\\.venv311\\Scripts\\python.exe\" tools/normalize_1130_structure.py --fix-numbering; & \"tools/pipeline/build_all.ps1\""
+			],
+			"isBackground": false,
+			"group": { "kind": "build", "isDefault": true }
+		}
+	]
+}
