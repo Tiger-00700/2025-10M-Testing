@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
 Inventory references in the canonical book to examples/ and appendix/ assets.
-- Scans book/1022.2025.newbook.md for any references to paths containing
-  'examples/' or 'appendix/' (also supports 'E/examples/' prefix in text)
+- Default canonical: book/1208.2025.newbook.md (fallback to older variants if missing)
+- Scans the chosen book for any references to paths containing
+    'examples/' or 'appendix/' (also supports 'E/examples/' prefix in text)
 - Normalizes to repo-root-relative paths (E/examples -> examples)
 - Lists actual filesystem contents under examples/ and appendix/
 - Produces a markdown report with:
@@ -22,12 +23,13 @@ from typing import Iterable, Set, List
 import argparse
 
 ROOT = Path(__file__).resolve().parents[1]
-# Prefer canonical frozen book if present, otherwise fall back to augmented/cleaned/filled/links variants
-BOOK = ROOT / 'book' / '1022.2025.newbook.md'
-BOOK_AUG = ROOT / 'book' / '1022.2025.newbook.augmented.md'
-BOOK_CLEAN = ROOT / 'book' / '1022.2025.newbook.cleaned.md'
-BOOK_FILLED = ROOT / 'book' / '1022.2025.newbook.filled.md'
-BOOK_LINKS = ROOT / 'book' / '1022.2025.newbook.links.md'
+# Prefer the latest canonical book; allow older snapshots as fallback for compatibility
+BOOK_PRIMARY = ROOT / 'book' / '1208.2025.newbook.md'
+BOOK_LEGACY = ROOT / 'book' / '1022.2025.newbook.md'
+BOOK_LEGACY_AUG = ROOT / 'book' / '1022.2025.newbook.augmented.md'
+BOOK_LEGACY_CLEAN = ROOT / 'book' / '1022.2025.newbook.cleaned.md'
+BOOK_LEGACY_FILLED = ROOT / 'book' / '1022.2025.newbook.filled.md'
+BOOK_LEGACY_LINKS = ROOT / 'book' / '1022.2025.newbook.links.md'
 
 # Match markdown links/images and plain-text path mentions
 # Examples:
@@ -131,27 +133,39 @@ def include_ancestor_dirs(paths: Iterable[str], target_dirs: List[str]) -> Set[s
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description='Inventory references in books to examples/ and appendix/.')
+    ap.add_argument('--book', type=str, help='Override book file (path relative to repo root or absolute). Default: book/1208.2025.newbook.md')
     ap.add_argument('--only-canonical', action='store_true', help='Only consider canonical book (ignore links-only variant)')
     ap.add_argument('--targets', default='examples,appendix', help='Comma-separated list of top-level target dirs to include (default: examples,appendix)')
     args = ap.parse_args(argv)
     sources: List[Path] = []
     # Build candidate list in preferred order
-    candidates = [BOOK, BOOK_AUG, BOOK_CLEAN, BOOK_FILLED]
-    # If only_canonical is requested, only consider BOOK; otherwise allow fallbacks
+    if args.book:
+        user_path = Path(args.book)
+        if not user_path.is_absolute():
+            user_path = ROOT / user_path
+        candidates = [user_path]
+        links_candidate = None
+    else:
+        candidates = [BOOK_PRIMARY, BOOK_LEGACY, BOOK_LEGACY_AUG, BOOK_LEGACY_CLEAN, BOOK_LEGACY_FILLED]
+        links_candidate = BOOK_LEGACY_LINKS
+    # If only_canonical is requested, only consider the first candidate
     if args.only_canonical:
-        candidates = [BOOK]
+        candidates = candidates[:1]
+        links_candidate = None
     # Pick first existing candidate(s)
     for c in candidates:
         if c.exists():
             sources.append(c)
             break
     # Still allow links-only variant to be included (as supplemental) unless only-canonical
-    if not args.only_canonical and BOOK_LINKS.exists():
-        # include links variant if not already added and it exists
-        if not sources or sources[0] != BOOK_LINKS:
-            sources.append(BOOK_LINKS)
+    if not args.only_canonical and links_candidate and links_candidate.exists():
+        if not sources or sources[0] != links_candidate:
+            sources.append(links_candidate)
     if not sources:
-        print(f"ERROR: book file not found (tried canonical/variants): {[str(p.relative_to(ROOT)) for p in candidates + [BOOK_LINKS]]}", file=sys.stderr)
+        missing_list = [p.relative_to(ROOT).as_posix() for p in candidates]
+        if links_candidate:
+            missing_list.append(links_candidate.relative_to(ROOT).as_posix())
+        print(f"ERROR: book file not found (tried): {missing_list}", file=sys.stderr)
         return 2
 
     refs: Set[str] = set()

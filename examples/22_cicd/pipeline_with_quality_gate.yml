@@ -1,0 +1,15 @@
+name: sample-pipeline-with-quality-gate
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run unit tests
+        run: echo "run tests"
+      - name: Quality gate
+        run: echo "quality gate placeholder"

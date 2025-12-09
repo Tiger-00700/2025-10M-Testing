@@ -1,0 +1,16 @@
+# Tool evaluation checklist (stub)
+criteria:
+  - name: functional_fit
+    weight: 3
+    description: "Covers required scenarios"
+  - name: operability
+    weight: 2
+    description: "Logging, metrics, alerts available"
+  - name: cost
+    weight: 1
+    description: "Licensing and runtime cost acceptable"
+  - name: integration
+    weight: 2
+    description: "CI/CD and data platform integration"
+scoring:
+  scale: 1-5
