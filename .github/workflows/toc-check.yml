@@ -1,0 +1,23 @@
+name: TOC Consistency Check
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  toc_check:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run TOC Consistency Check
+        shell: pwsh
+        run: |
+          python tools/check_toc_consistency.py
+          pwsh -NoLogo -NoProfile -File tools/ci/check_toc_consistency.ps1
