@@ -1,0 +1,49 @@
+# 数据契约（最小示例）
+contract:
+  name: transactions_daily_v1
+  owner: data-platform
+  domain: finance
+  version: 1.2.0
+  breaking_change: false
+  description: 日交易事实表的入仓契约（分区增量、字段约束、质量门）
+
+schema:
+  primary_keys: ["txn_id"]
+  partition_keys: ["dt"]
+  fields:
+    - name: txn_id
+      type: string
+      required: true
+    - name: user_id
+      type: string
+      required: true
+    - name: amount
+      type: decimal(18,2)
+      required: true
+      constraints:
+        min: 0
+    - name: currency
+      type: string
+      required: true
+      constraints:
+        enum: ["USD","EUR","CNY"]
+    - name: status
+      type: string
+      required: true
+      constraints:
+        enum: ["OK","FAILED","PENDING"]
+    - name: dt
+      type: date
+      required: true
+
+quality_gates:
+  - name: null_rate_threshold
+    target: "<= 0.5%"
+    scope: ["amount","currency","status"]
+  - name: status_distribution_check
+    rule: "P(FAILED) <= 2% AND P(PENDING) <= 5%"
+
+change_management:
+  deprecation_policy: "minor changes allowed with notice; breaking require major"
+  notification_channels: ["email:platform@example.org"]
+  review_boards: ["QA","Data Governance"]

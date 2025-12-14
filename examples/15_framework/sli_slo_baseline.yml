@@ -1,0 +1,56 @@
+# SLI/SLO Baseline Template
+service: example_service
+owner: data-platform
+contact: platform@example.org
+
+# Primary dataset/pipeline under test
+subject:
+  type: dataset
+  name: transactions_daily
+  domain: finance
+
+measurement_window: P1D  # ISO-8601 duration (1 day)
+
+slis:
+  - name: availability
+    description: Successful pipeline runs / total scheduled runs
+    formula: count_ok / count_total
+    unit: percent
+    target: 99.9
+
+  - name: latency_p95
+    description: End-to-end run duration (p95)
+    formula: p95(duration_ms)
+    unit: ms
+    target: 500
+
+  - name: freshness
+    description: Max time since latest successful load
+    formula: max(now - loaded_at)
+    unit: minutes
+    target: 30
+
+slos:
+  - sli: availability
+    objective: ">= 99.9%"
+    error_budget: 0.1
+
+  - sli: latency_p95
+    objective: "<= 500ms"
+
+  - sli: freshness
+    objective: "<= 30m"
+
+measurement:
+  datasource:
+    logs: examples/17_observability/log_health_check.py
+    metrics_registry: examples/11_analytics/report_reconciliation.py
+    quality_rules: examples/09_quality/rule_runner.py
+  schedule: "0 2 * * *"  # daily at 02:00
+
+reporting:
+  outputs:
+    - tools/reports/sli_slo_baseline_{timestamp}.md
+  reviewers:
+    - team: QA
+    - team: Data Governance

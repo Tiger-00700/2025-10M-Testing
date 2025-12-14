@@ -1,4 +1,0 @@
-markdownlint-cli2 v0.18.1 (markdownlint v0.38.0)
-Finding: --format json chapter/**/*.md book/**/*.md PR_DESCRIPTION.md
-Linting: 35 file(s)
-Summary: 2403 error(s)

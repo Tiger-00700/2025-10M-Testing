@@ -16,8 +16,87 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
+        - name: Generate Strategy Hit Summary
+          run: |
+            python tools/strategy_hit_summary.py
       - name: Run TOC Consistency Check
         shell: pwsh
         run: |
           python tools/check_toc_consistency.py
           pwsh -NoLogo -NoProfile -File tools/ci/check_toc_consistency.ps1
+      - name: Verify required templates exist
+        shell: pwsh
+        run: |
+          $paths = @(
+            "examples/15_framework/sli_slo_baseline.yml",
+            "examples/18_cases/audit_artifacts_checklist.md",
+            "tools/reports/templates/audit_artifact_report.md"
+          )
+          $missing = @()
+          foreach ($p in $paths) { if (-not (Test-Path $p)) { $missing += $p } }
+          if ($missing.Count -gt 0) {
+            Write-Host "Missing required templates:" $missing -ForegroundColor Red
+            throw "Required templates missing: $($missing -join ', ')"
+          } else {
+            Write-Host "All required templates present." -ForegroundColor Green
+          }
+      - name: Validate template structure
+        shell: pwsh
+        run: |
+          pip install pyyaml
+          python tools/validate_templates.py
+      - name: Validate data contract
+        shell: pwsh
+        run: |
+          pip install pyyaml
+          python tools/validate_contracts.py
+      - name: Validate quality rules
+        shell: pwsh
+        run: |
+          pip install pyyaml
+          python tools/validate_quality_rules.py
+        - name: Run Pre-Release Aggregation (Embed Strategy Summary)
+          run: |
+            python tools/pipeline/pre_release_check.py
+      - name: Pre-release aggregated check
+        shell: pwsh
+        run: |
+          python tools/pipeline/pre_release_check.py
+        - name: Report metric diff (real artifacts if present)
+          shell: pwsh
+          run: |
+            $a = "tools/reports/source_a_metrics.txt"
+            $b = "tools/reports/source_b_metrics.txt"
+            if ((Test-Path $a) -and (Test-Path $b)) {
+              Write-Host "Using real artifacts: $a and $b"
+              python tools/report_diff.py --source-a $a --source-b $b --tolerance-pct 1.5 --out-dir tools/reports
+            } else {
+              Write-Host "Artifacts not found. Falling back to demo CSV inputs."
+              "metric,total_rows" > demo_a.csv
+              "total_rows,1000" >> demo_a.csv
+              "metric,total_rows" > demo_b.csv
+              "total_rows,1015" >> demo_b.csv
+              python tools/report_diff.py --source-a demo_a.csv --source-b demo_b.csv --tolerance-pct 1.5 --out-dir tools/reports
+            }
+      - name: Ingest integrity & sample diff checks
+        shell: pwsh
+        run: |
+          python tools/ingest_checks.py
+      - name: Report metric diff (demo)
+        shell: pwsh
+        run: |
+          # Prepare minimal demo inputs (optional; real projects will replace these)
+          "Total_Sales=1000`nActive_Users=500" | Out-File -FilePath tools/reports/source_a_metrics.txt -Encoding utf8
+          "Total_Sales=1007`nActive_Users=503" | Out-File -FilePath tools/reports/source_b_metrics.txt -Encoding utf8
+          python tools/report_diff.py tools/reports/source_a_metrics.txt tools/reports/source_b_metrics.txt 1.5
+        - name: Run Completeness Gate
+          env:
+            COMPLETENESS_THRESHOLD: '0.6'
+          run: |
+            python tools/check_report_completeness.py
+      - name: Report completeness sampling check
+        shell: pwsh
+        env:
+          REPORT_COMPLETENESS_THRESHOLD: "60"
+        run: |
+          python tools/check_report_completeness.py

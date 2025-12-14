@@ -1,0 +1,5 @@
+metric,value
+records_ingested,1190
+errors,9
+latency_ms,150
+throughput_rps,300
