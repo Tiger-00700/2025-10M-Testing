@@ -1,3 +1,6 @@
+# <archived-content>
+# ...existing code...
+# </archived-content>
 #!/usr/bin/env python3
 """CLI runner demo with subcommands (stub)."""
 from __future__ import annotations

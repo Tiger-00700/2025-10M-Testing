@@ -1,0 +1,135 @@
+:root {
+  --bg: #f9f7f4;
+  --fg: #1f1a17;
+  --muted: #6b625b;
+  --accent: #b15c3d;
+  --border: #e2d8cf;
+  --max-width: 860px;
+  --font-body: "Georgia", "Times New Roman", serif;
+  --font-sans: "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  line-height: 1.65;
+  margin: 0;
+  padding: 0 0 56px 0;
+}
+
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 32px 28px 48px;
+  background: #fff;
+  border: 1px solid var(--border);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  letter-spacing: 0.3px;
+  margin-top: 2.2em;
+  margin-bottom: 0.6em;
+  color: #111;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-top: 0.4em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+h2 {
+  font-size: 1.6rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.25em;
+}
+
+h3 {
+  font-size: 1.25rem;
+  color: var(--accent);
+}
+
+p {
+  margin: 0 0 1.05em;
+  font-size: 1rem;
+}
+
+ul, ol {
+  padding-left: 1.2em;
+  margin: 0 0 1.05em;
+}
+
+blockquote {
+  margin: 1.4em 0;
+  padding: 0.75em 1em;
+  background: #faf6f2;
+  border-left: 4px solid var(--accent);
+  color: #3c2f2a;
+  font-style: italic;
+}
+
+code, pre {
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  background: #f3efeb;
+}
+
+pre {
+  padding: 0.9em 1em;
+  border: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2.4em 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.toc {
+  background: #fdfaf7;
+  border: 1px solid var(--border);
+  padding: 1em 1.25em;
+  margin-bottom: 2em;
+}
+
+.toc-header {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  margin-bottom: 0.6em;
+  color: #2b211c;
+}
+
+.page-break {
+  page-break-before: always;
+  margin-top: 2em;
+}
+
+/* Compact tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.2em 0;
+}
+
+td, th {
+  border: 1px solid var(--border);
+  padding: 0.4em 0.6em;
+}
+
+th {
+  background: #f2ebe5;
+  text-align: left;
+}

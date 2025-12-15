@@ -1,3 +1,7 @@
+<!-- markdownlint-disable MD025 -->
+<archived-content>
+...existing code...
+</archived-content>
 ### 第25章 CI/CD、GitOps 与运维治理中的测试角色【自动化与治理篇】
 
 #### 本章你将学到什么
