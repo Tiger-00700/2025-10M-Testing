@@ -7,10 +7,11 @@ REPO = os.path.dirname(os.path.dirname(ROOT))
 REPORT_DIR = os.path.join(REPO, 'tools', 'reports')
 
 checks = [
-    ('TOC Consistency', ['python', os.path.join(REPO, 'tools', 'check_toc_consistency.py')]),
-    ('Templates', ['python', os.path.join(REPO, 'tools', 'validate_templates.py')]),
-    ('Contracts', ['python', os.path.join(REPO, 'tools', 'validate_contracts.py')]),
-    ('Quality Rules', ['python', os.path.join(REPO, 'tools', 'validate_quality_rules.py')]),
+    ('TOC Consistency', [sys.executable, os.path.join(REPO, 'tools', 'check_toc_consistency.py')]),
+    ('Templates', [sys.executable, os.path.join(REPO, 'tools', 'validate_templates.py')]),
+    ('Contracts', [sys.executable, os.path.join(REPO, 'tools', 'validate_contracts.py')]),
+    ('Quality Rules', [sys.executable, os.path.join(REPO, 'tools', 'validate_quality_rules.py')]),
+    ('Framework Parts', [sys.executable, os.path.join(REPO, 'tools', 'check_framework_parts.py')]),
 ]
 
 results = []
