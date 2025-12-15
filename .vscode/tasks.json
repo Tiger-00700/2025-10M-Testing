@@ -1,19 +1,33 @@
 {
 	"version": "2.0.0",
 	"tasks": [
-		
 		{
 			"label": "Normalize + Build (1130)",
 			"type": "shell",
 			"command": "pwsh",
 			"args": [
 				"-NoLogo",
-					{
-						"label": "Normalize + Build (1130)",
-				"\".\\.venv311\\Scripts\\python.exe\" tools/normalize_1130_structure.py --fix-numbering; & \"tools/pipeline/build_all.ps1\""
+				"-NoProfile",
+				"-Command",
+				"\".\\.venv311\\Scripts\\python.exe\" tools/normalize_1130_structure.py --fix-numbering; & tools/pipeline/build_all.ps1"
 			],
 			"isBackground": false,
-			"group": { "kind": "build", "isDefault": true }
+			"group": { "kind": "build", "isDefault": true },
+			"problemMatcher": []
+		},
+		{
+			"label": "Aggregate: First Reports",
+			"type": "shell",
+			"command": "pwsh",
+			"args": [
+				"-NoLogo",
+				"-NoProfile",
+				"-Command",
+				"E:/DONT_TOUCH/10M-2025-Testing/.venv311/Scripts/python.exe tools/ci/first_reports.py"
+			],
+			"isBackground": false,
+			"group": { "kind": "build", "isDefault": false },
+			"problemMatcher": []
 		}
 	]
 }
