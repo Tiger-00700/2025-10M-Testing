@@ -1,5 +1,0 @@
-metric,value
-records_ingested,495
-errors,3
-latency_ms,115
-throughput_rps,240

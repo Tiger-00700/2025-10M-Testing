@@ -1,7 +1,0 @@
-metric,value
-records_ingested,800
-errors,4
-latency_ms,100
-throughput_rps,400
-dq_defects,12
-reconciliation_failures,1

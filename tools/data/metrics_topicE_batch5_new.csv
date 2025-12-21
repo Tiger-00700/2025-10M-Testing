@@ -1,8 +1,0 @@
-metric,value
-records_ingested,880
-errors,10
-latency_ms,155
-throughput_rps,340
-dq_defects,24
-reconciliation_failures,5
-sla_breach_rate,0.05
