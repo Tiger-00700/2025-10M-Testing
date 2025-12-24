@@ -1,0 +1,25 @@
+test_methods:
+  - category: "逻辑正确性"
+    key_steps: ["输入输出对账"]
+    test_points: ["记录数、主键集合、业务指标校验"]
+    tools_scripts: ["对账脚本"]
+  - category: "边界与异常数据"
+    key_steps: ["空值、极值、坏数据处理"]
+    test_points: ["容错与告警验证"]
+    tools_scripts: ["异常数据生成器"]
+  - category: "批次完整性"
+    key_steps: ["分区/窗口完整性检查"]
+    test_points: ["跨批次衔接、迟到数据"]
+    tools_scripts: ["完整性校验工具"]
+  - category: "幂等与重跑"
+    key_steps: ["模拟失败/重跑场景"]
+    test_points: ["去重、断点续跑口径一致"]
+    tools_scripts: ["幂等测试脚本"]
+  - category: "依赖与调度"
+    key_steps: ["依赖编排、重试、回滚"]
+    test_points: ["补偿、失败告警、SLA触发"]
+    tools_scripts: ["调度模拟器"]
+  - category: "性能与资源"
+    key_steps: ["输入规模放大测试"]
+    test_points: ["Shuffle/倾斜、内存/IO瓶颈"]
+    tools_scripts: ["性能基准测试"]

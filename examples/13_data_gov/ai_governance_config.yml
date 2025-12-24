@@ -1,0 +1,66 @@
+# examples/13_data_gov/ai_governance_config.yml
+# AI增强数据治理配置示例
+
+ai_enhanced_governance:
+  # 智能数据分类配置
+  intelligent_classification:
+    model: "bert_sensitive_data_classifier"
+    model_version: "v2.1"
+    confidence_threshold: 0.85
+    auto_labeling: true
+    supported_languages: ["zh", "en"]
+    update_frequency: "weekly"
+
+  # 异常检测配置
+  anomaly_detection:
+    algorithm: "isolation_forest"
+    sensitivity: "medium"  # low/medium/high
+    alert_threshold: 0.95
+    training_window: "30_days"
+    features:
+      - "access_frequency"
+      - "data_volume"
+      - "time_pattern"
+      - "user_role"
+
+  # 预测性监控配置
+  predictive_monitoring:
+    forecast_window: "7_days"
+    risk_indicators:
+      - "data_volume_spike"
+      - "unusual_access_pattern"
+      - "classification_confidence_drop"
+      - "anomaly_score_increase"
+    prediction_model: "time_series_forecast"
+    alert_sensitivity: "medium"
+
+  # AI治理策略
+  governance_policies:
+    automated_actions:
+      high_risk: ["immediate_audit", "access_restriction", "data_masking", "stakeholder_notification"]
+      medium_risk: ["enhanced_monitoring", "approval_required", "weekly_report"]
+      low_risk: ["standard_monitoring", "monthly_review"]
+
+    human_override:
+      enabled: true
+      approval_required: true
+      audit_trail: true
+      max_override_duration: "24_hours"
+
+  # 模型治理
+  model_governance:
+    model_validation:
+      accuracy_threshold: 0.90
+      drift_detection: true
+      retraining_trigger: "performance_drop_10_percent"
+    explainability:
+      feature_importance: true
+      decision_explanation: true
+      bias_detection: true
+
+  # 集成配置
+  integrations:
+    data_catalog: "enabled"
+    monitoring_dashboard: "enabled"
+    alert_system: "enabled"
+    audit_log: "enabled"

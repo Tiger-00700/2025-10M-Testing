@@ -1,0 +1,47 @@
+# examples/17_tools/helm_toolchain_chart.yaml
+apiVersion: v2
+name: bigdata-testing-toolchain
+description: A Helm chart for Big Data Testing Toolchain
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+
+dependencies:
+  - name: airflow
+    version: "1.8.0"
+    repository: "https://airflow.apache.org"
+    condition: airflow.enabled
+
+  - name: prometheus
+    version: "19.0.0"
+    repository: "https://prometheus-community.github.io/helm-charts"
+    condition: prometheus.enabled
+
+  - name: grafana
+    version: "6.50.0"
+    repository: "https://grafana.github.io/helm-charts"
+    condition: grafana.enabled
+
+  - name: spark
+    version: "1.3.0"
+    repository: "https://googlecloudplatform.github.io/spark-on-k8s-operator"
+    condition: spark.enabled
+
+keywords:
+  - bigdata
+  - testing
+  - quality
+  - monitoring
+  - orchestration
+
+home: https://github.com/company/bigdata-testing
+sources:
+  - https://github.com/company/bigdata-testing
+
+maintainers:
+  - name: Data Engineering Team
+    email: data-eng@company.com
+
+annotations:
+  example.com/display-name: "Big Data Testing Toolchain"
+  example.com/description: "Complete testing toolchain for big data pipelines"

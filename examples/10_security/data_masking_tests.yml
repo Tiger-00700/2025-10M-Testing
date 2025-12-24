@@ -1,0 +1,25 @@
+test_categories:
+  - category: "脱敏策略"
+    key_test_points: ["敏感字段掩码"]
+    validation_methods: ["全掩码/部分掩码测试"]
+    expected_results: ["不可逆且一致"]
+  - category: "伪造数据"
+    key_test_points: ["合成数据生成"]
+    validation_methods: ["统计特征相似性"]
+    expected_results: ["业务可用性保持"]
+  - category: "规则覆盖"
+    key_test_points: ["新表/分区自动套用"]
+    validation_methods: ["导出/下游脱敏检查"]
+    expected_results: ["无遗漏脱敏"]
+  - category: "一致性验证"
+    key_test_points: ["同值同掩"]
+    validation_methods: ["重复数据掩码对比"]
+    expected_results: ["掩码结果一致"]
+  - category: "性能影响"
+    key_test_points: ["脱敏处理延迟"]
+    validation_methods: ["性能基准测试"]
+    expected_results: ["延迟在可接受范围"]
+  - category: "合规审计"
+    key_test_points: ["脱敏报告生成"]
+    validation_methods: ["审批链路验证"]
+    expected_results: ["报告完整可追溯"]

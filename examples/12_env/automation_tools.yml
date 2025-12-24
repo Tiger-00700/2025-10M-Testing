@@ -1,0 +1,129 @@
+# 环境自动化工具配置
+# 定义各种IaC和自动化工具的配置和使用指南
+
+tools:
+  # IaC工具
+  terraform:
+    category: "IaC工具"
+    name: "Terraform"
+    function: "基础设施即代码，多云资源管理"
+    use_case: "云资源部署、配置管理"
+    advantages:
+      - "状态管理"
+      - "依赖解决"
+      - "计划执行"
+    learning_curve: "中等"
+    ecosystem: "广泛"
+
+  cloudformation:
+    category: "IaC工具"
+    name: "CloudFormation"
+    function: "AWS原生IaC工具"
+    use_case: "AWS环境自动化"
+    advantages:
+      - "与AWS服务深度集成"
+    learning_curve: "中等"
+    ecosystem: "AWS生态"
+
+  ansible:
+    category: "IaC工具"
+    name: "Ansible"
+    function: "配置管理和应用部署"
+    use_case: "服务器配置、应用发布"
+    advantages:
+      - "代理less"
+      - "无状态执行"
+    learning_curve: "低"
+    ecosystem: "广泛"
+
+  saltstack:
+    category: "配置管理"
+    name: "SaltStack"
+    function: "分布式配置管理"
+    use_case: "大规模服务器管理"
+    advantages:
+      - "实时配置"
+      - "事件驱动"
+    learning_curve: "中等"
+    ecosystem: "企业级"
+
+  # 大数据平台安装器
+  ambari:
+    category: "大数据平台安装器"
+    name: "Ambari"
+    function: "Hadoop生态系统管理"
+    use_case: "HDP集群部署运维"
+    advantages:
+      - "图形化界面"
+      - "组件管理"
+    learning_curve: "中等"
+    ecosystem: "Hadoop"
+
+  cloudera_manager:
+    category: "大数据平台安装器"
+    name: "Cloudera Manager"
+    function: "CDH生态系统管理"
+    use_case: "CDH集群部署运维"
+    advantages:
+      - "企业级功能"
+      - "监控告警"
+    learning_curve: "中等"
+    ecosystem: "Cloudera"
+
+  cloud_emr:
+    category: "大数据平台安装器"
+    name: "云厂商一键部署"
+    function: "AWS EMR、阿里云EMR等"
+    use_case: "云上大数据环境"
+    advantages:
+      - "托管服务"
+      - "弹性伸缩"
+    learning_curve: "低"
+    ecosystem: "云厂商"
+
+  # 配置管理
+  gitops:
+    category: "配置管理"
+    name: "GitOps"
+    function: "Git驱动的运维"
+    use_case: "Kubernetes应用管理"
+    advantages:
+      - "声明式配置"
+      - "版本控制"
+    learning_curve: "高"
+    ecosystem: "Kubernetes"
+
+  apollo:
+    category: "配置管理"
+    name: "Apollo"
+    function: "微服务配置管理"
+    use_case: "微服务配置管理"
+    advantages:
+      - "实时推送"
+      - "环境隔离"
+    learning_curve: "低"
+    ecosystem: "微服务"
+
+  nacos:
+    category: "配置管理"
+    name: "Nacos"
+    function: "微服务配置管理"
+    use_case: "微服务配置管理"
+    advantages:
+      - "服务发现"
+      - "配置管理"
+    learning_curve: "低"
+    ecosystem: "微服务"
+
+# 工具选择建议
+recommendations:
+  small_scale: "优先Ansible，学习成本低"
+  multi_cloud: "选择Terraform，支持跨云管理"
+  bigdata_platform: "根据所用发行版选择对应管理器"
+  cloud_native: "采用GitOps + 配置中心组合"
+
+# 组合推荐
+combinations:
+  dev_test: ["Ansible", "Docker", "Jenkins"]
+  production: ["Terraform", "Kubernetes", "GitLab CI"]
+  hybrid_cloud: ["Terraform", "Ansible", "Prometheus"]

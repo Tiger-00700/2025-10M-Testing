@@ -1,0 +1,29 @@
+focus_points:
+  - category: "数据完整性"
+    key_metrics: ["主键/外键", "唯一/非空", "检查约束"]
+    test_points: ["分区/分表下的约束一致性"]
+    tools_methods: ["约束校验脚本"]
+  - category: "事务一致性"
+    key_metrics: ["ACID", "隔离级别（RC/RR/SI/Serializable）"]
+    test_points: ["死锁/幻读/脏读用例"]
+    tools_methods: ["事务隔离测试"]
+  - category: "性能与扩展性"
+    key_metrics: ["批量写入", "复杂查询", "索引/统计信息"]
+    test_points: ["执行计划", "分库分表/分区裁剪"]
+    tools_methods: ["执行计划对比"]
+  - category: "备份与恢复"
+    key_metrics: ["全量/增量/日志备份"]
+    test_points: ["恢复时间", "恢复点", "校验与演练"]
+    tools_methods: ["备份恢复演练"]
+  - category: "高可用"
+    key_metrics: ["主备/多活", "只读节点延迟与一致性"]
+    test_points: ["故障切换的连接与事务影响"]
+    tools_methods: ["切换测试脚本"]
+  - category: "权限与安全"
+    key_metrics: ["用户/角色/行列权限", "加密（TDE/传输）"]
+    test_points: ["SQL注入", "审计"]
+    tools_methods: ["权限审计工具"]
+  - category: "存储与成本"
+    key_metrics: ["冷热分层", "压缩", "归档策略"]
+    test_points: ["对性能与费用的影响"]
+    tools_methods: ["成本评估脚本"]

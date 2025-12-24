@@ -1,0 +1,170 @@
+# examples/06_ingest/data_pipeline.yml
+# 数据摄入管道配置示例
+
+data_pipeline:
+  # 管道概述
+  overview:
+    name: "测试数据摄入管道"
+    description: "自动化测试数据生成和摄入流程"
+    version: "1.0.0"
+    owner: "数据工程团队"
+
+  # 数据源配置
+  data_sources:
+    production_database:
+      type: "postgresql"
+      connection:
+        host: "${PROD_DB_HOST}"
+        port: 5432
+        database: "production_db"
+        credentials: "${PROD_DB_CREDENTIALS}"
+      tables:
+        - "user_profiles"
+        - "transaction_history"
+        - "product_catalog"
+      extraction_method: "incremental"
+      watermark_column: "updated_at"
+
+    api_endpoints:
+      type: "rest_api"
+      endpoints:
+        - url: "https://api.example.com/users"
+          method: "GET"
+          authentication: "bearer_token"
+          pagination: "cursor_based"
+        - url: "https://api.example.com/products"
+          method: "GET"
+          authentication: "basic_auth"
+      rate_limiting:
+        requests_per_minute: 60
+        backoff_strategy: "exponential"
+
+    file_sources:
+      type: "s3_bucket"
+      bucket: "test-data-sources"
+      prefix: "daily_exports/"
+      file_formats: ["csv", "json", "parquet"]
+      compression: "gzip"
+
+  # 数据处理配置
+  data_processing:
+    validation_rules:
+      schema_validation:
+        enabled: true
+        strict_mode: false
+        allow_missing_columns: true
+
+      data_quality_checks:
+        completeness_check: true
+        uniqueness_check: true
+        range_validation: true
+        custom_rules:
+          - name: "email_format_check"
+            rule: "regex_match"
+            pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+
+    transformation_rules:
+      masking:
+        enabled: true
+        fields:
+          - field: "email"
+            method: "hash"
+            algorithm: "sha256"
+          - field: "phone"
+            method: "mask"
+            pattern: "XXX-XXX-XXXX"
+          - field: "ssn"
+            method: "tokenize"
+
+      aggregation:
+        enabled: false
+        rules: []
+
+      filtering:
+        enabled: true
+        conditions:
+          - "created_date >= '2023-01-01'"
+          - "status != 'deleted'"
+
+  # 数据存储配置
+  data_storage:
+    target_system: "data_warehouse"
+    schema: "test_data"
+    partitioning:
+      strategy: "date_based"
+      column: "created_date"
+      format: "YYYY-MM-DD"
+
+    file_formats:
+      primary: "parquet"
+      compression: "snappy"
+      options:
+        row_group_size: "128MB"
+        page_size: "1MB"
+
+    indexing:
+      enabled: true
+      columns:
+        - "user_id"
+        - "created_date"
+        - "data_type"
+
+  # 监控和告警
+  monitoring:
+    metrics:
+      - name: "pipeline_runtime"
+        type: "gauge"
+        unit: "seconds"
+      - name: "records_processed"
+        type: "counter"
+        unit: "records"
+      - name: "error_rate"
+        type: "percentage"
+
+    alerts:
+      - name: "pipeline_failure"
+        condition: "pipeline_status == 'failed'"
+        severity: "critical"
+        channels: ["email", "slack"]
+
+      - name: "data_quality_degraded"
+        condition: "quality_score < 0.9"
+        severity: "warning"
+        channels: ["slack"]
+
+      - name: "processing_delay"
+        condition: "processing_time > 3600"
+        severity: "warning"
+        channels: ["email"]
+
+  # 调度配置
+  scheduling:
+    frequency: "daily"
+    time: "02:00"
+    timezone: "UTC"
+    retry_policy:
+      max_attempts: 3
+      backoff_seconds: 300
+
+    dependencies:
+      - upstream_pipeline: "production_backup"
+      - downstream_consumers: ["test_data_refresh"]
+
+  # 安全配置
+  security:
+    encryption:
+      data_at_rest: true
+      data_in_transit: true
+      key_management: "aws_kms"
+
+    access_control:
+      service_account: "data-pipeline-service"
+      permissions:
+        - "read_from_production"
+        - "write_to_test_data"
+        - "manage_encryption_keys"
+
+    audit_logging:
+      enabled: true
+      log_level: "info"
+      retention_days: 365

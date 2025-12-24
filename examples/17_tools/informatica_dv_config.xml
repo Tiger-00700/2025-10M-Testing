@@ -1,0 +1,77 @@
+<!-- examples/17_tools/informatica_dv_config.xml -->
+<data-validation-project name="customer_data_validation">
+    <connections>
+        <connection name="source_db" type="oracle">
+            <host>oracle-prod.company.com</host>
+            <port>1521</port>
+            <service-name>CUSTDB</service-name>
+            <username>dv_user</username>
+            <password-encrypted>true</password-encrypted>
+        </connection>
+        <connection name="target_db" type="postgresql">
+            <host>postgres-dw.company.com</host>
+            <port>5432</port>
+            <database>customer_dw</database>
+            <username>etl_user</username>
+            <password-encrypted>true</password-encrypted>
+        </connection>
+    </connections>
+
+    <validation-rules>
+        <rule name="customer_id_uniqueness" type="uniqueness">
+            <table>customer</table>
+            <columns>
+                <column>customer_id</column>
+            </columns>
+            <error-threshold>0</error-threshold>
+        </rule>
+
+        <rule name="email_format_validation" type="pattern">
+            <table>customer</table>
+            <column>email</column>
+            <pattern>^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$</pattern>
+            <error-threshold>0.01</error-threshold>
+        </rule>
+
+        <rule name="age_range_validation" type="range">
+            <table>customer</table>
+            <column>age</column>
+            <min-value>0</min-value>
+            <max-value>120</max-value>
+            <error-threshold>0.001</error-threshold>
+        </rule>
+
+        <rule name="phone_format_validation" type="pattern">
+            <table>customer</table>
+            <column>phone</column>
+            <pattern>^\\+?1?[-.\\s]?\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$</pattern>
+            <error-threshold>0.05</error-threshold>
+        </rule>
+
+        <rule name="referential_integrity" type="referential">
+            <source-table>customer</source-table>
+            <source-column>city_id</source-column>
+            <reference-table>city</reference-table>
+            <reference-column>city_id</reference-column>
+            <error-threshold>0</error-threshold>
+        </rule>
+    </validation-rules>
+
+    <data-quality-thresholds>
+        <threshold name="overall_quality" value="0.95" />
+        <threshold name="completeness" value="0.98" />
+        <threshold name="accuracy" value="0.97" />
+        <threshold name="consistency" value="0.96" />
+    </data-quality-thresholds>
+
+    <reporting>
+        <report name="daily_quality_report" schedule="daily">
+            <recipients>
+                <email>data-quality@company.com</email>
+                <email>data-eng@company.com</email>
+            </recipients>
+            <format>html</format>
+            <include-charts>true</include-charts>
+        </report>
+    </reporting>
+</data-validation-project>

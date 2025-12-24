@@ -1,0 +1,237 @@
+# examples/21_project/project_retrospective.yml
+project_retrospective:
+  # 复盘框架
+  retrospective_framework:
+    timing:
+      - "里程碑完成后"
+      - "项目阶段结束后"
+      - "项目整体完成后"
+      - "重大事件发生后"
+
+    participants:
+      - "项目经理"
+      - "核心团队成员"
+      - "关键干系人"
+      - "外部观察者（可选）"
+
+    duration:
+      - "小型复盘: 1-2小时"
+      - "阶段复盘: 2-4小时"
+      - "项目复盘: 4-8小时"
+
+    format:
+      - "结构化会议"
+      - "工作坊形式"
+      - "在线协作工具"
+
+  # 复盘议题框架
+  retrospective_questions:
+    process_questions:
+      - "项目计划与实际执行的差距是什么？"
+      - "沟通协作机制是否有效？"
+      - "风险管理是否及时到位？"
+      - "资源配置是否合理？"
+
+    technical_questions:
+      - "技术选型是否合适？"
+      - "架构设计是否合理？"
+      - "质量控制是否有效？"
+      - "技术债务是否得到控制？"
+
+    business_questions:
+      - "业务目标是否达成？"
+      - "需求理解是否准确？"
+      - "业务价值是否实现？"
+      - "客户满意度如何？"
+
+    team_questions:
+      - "团队协作是否顺畅？"
+      - "个人成长是否得到支持？"
+      - "工作效率是否得到提升？"
+      - "团队氛围是否积极？"
+
+  # 数据收集与分析
+  data_collection:
+    quantitative_data:
+      - "项目进度数据"
+      - "质量指标数据"
+      - "资源使用数据"
+      - "成本效益数据"
+
+    qualitative_data:
+      - "团队反馈意见"
+      - "干系人评价"
+      - "问题解决记录"
+      - "经验教训记录"
+
+    data_sources:
+      - "项目管理工具"
+      - "质量管理平台"
+      - "沟通记录系统"
+      - "知识库系统"
+
+  # 经验教训分类
+  lessons_learned_categories:
+    technical_lessons:
+      description: "技术实现相关的经验教训"
+      examples:
+        - "技术选型决策"
+        - "架构设计优化"
+        - "工具使用经验"
+        - "性能调优技巧"
+
+    process_lessons:
+      description: "项目过程相关的经验教训"
+      examples:
+        - "需求管理流程"
+        - "测试流程优化"
+        - "发布流程改进"
+        - "协作机制完善"
+
+    management_lessons:
+      description: "项目管理相关的经验教训"
+      examples:
+        - "风险管理策略"
+        - "资源配置优化"
+        - "进度控制方法"
+        - "沟通协调技巧"
+
+    business_lessons:
+      description: "业务理解相关的经验教训"
+      examples:
+        - "需求理解方法"
+        - "业务价值评估"
+        - "用户体验优化"
+        - "市场适应策略"
+
+  # 改进措施制定
+  improvement_actions:
+    action_template:
+      fields:
+        - "改进措施描述"
+        - "预期效果"
+        - "责任人"
+        - "时间节点"
+        - "成功标准"
+        - "资源需求"
+        - "风险评估"
+
+    prioritization_criteria:
+      - "影响程度"
+      - "实施难度"
+      - "资源需求"
+      - "时间紧迫性"
+      - "战略重要性"
+
+    action_categories:
+      - "立即执行"
+      - "短期改进"
+      - "中期规划"
+      - "长期战略"
+
+  # 知识资产管理
+  knowledge_assets:
+    asset_types:
+      - type: "项目文档"
+        examples: ["项目计划", "技术方案", "测试报告", "复盘报告"]
+
+      - type: "过程模板"
+        examples: ["测试用例模板", "风险管理模板", "复盘会议模板"]
+
+      - type: "工具脚本"
+        examples: ["自动化脚本", "监控脚本", "分析脚本"]
+
+      - type: "最佳实践"
+        examples: ["成功案例", "解决方案", "方法论"]
+
+      - type: "经验教训"
+        examples: ["问题分析", "改进措施", "预防建议"]
+
+    storage_locations:
+      - "项目知识库"
+      - "团队共享平台"
+      - "公司知识管理系统"
+      - "开源社区贡献"
+
+    access_control:
+      - "公开分享"
+      - "内部共享"
+      - "受限访问"
+      - "机密保存"
+
+  # 持续改进机制
+  continuous_improvement:
+    feedback_loops:
+      - "项目复盘 → 改进措施 → 实施跟踪 → 效果评估 → 新项目应用"
+      - "度量数据 → 趋势分析 → 问题识别 → 解决方案 → 流程优化"
+      - "经验分享 → 知识积累 → 培训发展 → 能力提升 → 绩效改进"
+
+    metrics_tracking:
+      - "改进措施完成率"
+      - "经验教训复用率"
+      - "项目成功率趋势"
+      - "团队满意度变化"
+      - "知识资产利用率"
+
+    capability_building:
+      training_programs:
+        - "项目管理技能培训"
+        - "技术能力提升培训"
+        - "软技能发展培训"
+        - "领导力培养培训"
+
+      mentoring_programs:
+        - "新员工导师制度"
+        - "技术导师指导"
+        - "项目导师辅导"
+
+      certification_programs:
+        - "专业技能认证"
+        - "项目管理认证"
+        - "质量管理认证"
+
+  # 复盘会议组织
+  retrospective_meeting:
+    preparation_phase:
+      - "确定复盘目标和范围"
+      - "收集相关数据和资料"
+      - "邀请合适参与者"
+      - "设计会议议程和流程"
+
+    execution_phase:
+      - "创建安全开放的环境"
+      - "引导积极 constructive 的讨论"
+      - "使用适当的工具和技术"
+      - "记录关键点和行动项"
+
+    follow_up_phase:
+      - "整理会议记录和成果"
+      - "制定具体的行动计划"
+      - "跟踪改进措施的执行"
+      - "评估改进效果和影响"
+
+  # 成功因素
+  success_factors:
+    leadership_support:
+      - "管理层重视复盘文化"
+      - "为复盘活动提供时间和资源"
+      - "积极参与复盘过程"
+      - "支持改进措施的实施"
+
+    psychological_safety:
+      - "创建无责备的环境"
+      - "鼓励开放诚实的沟通"
+      - "尊重不同观点和意见"
+      - "保护个人隐私和安全"
+
+    structured_approach:
+      - "使用标准化的复盘框架"
+      - "遵循明确的复盘流程"
+      - "应用适当的工具和技术"
+      - "确保行动项的可执行性"
+
+    follow_through:
+      - "跟踪改进措施的执行"
+      - "定期 review 进展情况"
+      - "庆祝取得的改进成果"
+      - "持续优化复盘过程本身"

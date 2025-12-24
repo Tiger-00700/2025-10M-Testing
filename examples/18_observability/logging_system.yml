@@ -1,0 +1,240 @@
+# examples/17_observability/logging_system.yml
+# 日志系统架构配置示例
+
+logging_system:
+  # 日志架构概述
+  architecture:
+    components:
+      log_producers: "日志生产者 (应用、服务)"
+      log_shippers: "日志收集器 (Filebeat, Fluentd)"
+      log_aggregators: "日志聚合器 (Logstash, Fluent Bit)"
+      log_storages: "日志存储 (Elasticsearch, Loki)"
+      log_analyzers: "日志分析器 (Kibana, Grafana)"
+
+    data_flow:
+      collection: "生产者 → 收集器 → 聚合器"
+      processing: "聚合器 → 处理器 → 存储"
+      analysis: "存储 → 查询器 → 可视化"
+
+  # 日志收集配置
+  collection_config:
+    agents:
+      filebeat:
+        inputs:
+          - type: "log"
+            paths: ["/var/log/application/*.log"]
+            multiline:
+              pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+              negate: true
+              match: "after"
+          - type: "docker"
+            containers:
+              path: "/var/lib/docker/containers"
+              stream: "stdout"
+              ids: ["*"]
+
+        processors:
+          - add_host_metadata: ~
+          - add_cloud_metadata: ~
+          - add_docker_metadata: ~
+
+      fluentd:
+        sources:
+          - type: "tail"
+            path: "/var/log/app.log"
+            tag: "app.log"
+            format: "json"
+        filters:
+          - type: "record_transformer"
+            records:
+              - service: "api-server"
+              environment: "production"
+        matches:
+          - tag: "app.log"
+            type: "elasticsearch"
+            host: "elasticsearch:9200"
+            index_name: "app-logs-%Y.%m.%d"
+
+    buffering:
+      memory_buffer:
+        size: "100MB"
+        flush_interval: "5s"
+      disk_buffer:
+        path: "/var/log/buffer"
+        size: "1GB"
+        flush_interval: "30s"
+
+  # 日志处理配置
+  processing_config:
+    parsing:
+      grok_patterns:
+        apache_access: '%{IPORHOST:clientip} %{HTTPDUSER:ident} %{HTTPDUSER:auth} \[%{HTTPDATE:timestamp}\] "%{WORD:verb} %{DATA:request} HTTP/%{NUMBER:httpversion}" %{NUMBER:response:int} (?:%{NUMBER:bytes:int}|-) (?:%{QS:referrer}|-) %{QS:agent}'
+        json_log: '{"timestamp":"%{DATA:timestamp}","level":"%{DATA:level}","message":"%{DATA:message}","service":"%{DATA:service}"}'
+        custom_pattern: '%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:level} %{DATA:service} %{DATA:request_id} %{DATA:message}'
+
+      logfmt_parser:
+        format: 'time=%{DATA:timestamp} level=%{DATA:level} msg=%{DATA:message} service=%{DATA:service}'
+
+    enrichment:
+      geoip:
+        source_field: "client_ip"
+        target_field: "geo"
+        database_path: "/etc/logstash/geoip/GeoLite2-City.mmdb"
+
+      user_agent:
+        source_field: "user_agent"
+        target_field: "browser"
+        regex_file: "/etc/logstash/useragent/regexes.yaml"
+
+      dns_lookup:
+        source_field: "hostname"
+        target_field: "ip_address"
+        cache_size: 1000
+        cache_ttl: "1h"
+
+    filtering:
+      include_patterns:
+        - level: "ERROR"
+        - level: "FATAL"
+        - message: "*exception*"
+      exclude_patterns:
+        - message: "*healthcheck*"
+        - source: "/var/log/monitoring/*"
+
+  # 日志存储配置
+  storage_config:
+    elasticsearch:
+      indices:
+        - name: "app-logs-%{+YYYY.MM.dd}"
+          settings:
+            number_of_shards: 3
+            number_of_replicas: 1
+            refresh_interval: "30s"
+          mappings:
+            properties:
+              timestamp: { type: "date" }
+              level: { type: "keyword" }
+              service: { type: "keyword" }
+              message: { type: "text", analyzer: "standard" }
+              request_id: { type: "keyword" }
+
+      ilm_policy:
+        phases:
+          hot:
+            min_age: "0ms"
+            actions:
+              rollover:
+                max_size: "50GB"
+                max_age: "1d"
+          warm:
+            min_age: "7d"
+            actions:
+              readonly: {}
+              shrink:
+                number_of_shards: 1
+          cold:
+            min_age: "30d"
+            actions:
+              readonly: {}
+              searchable_snapshot:
+                snapshot_repository: "cold_snapshots"
+          delete:
+            min_age: "90d"
+            actions:
+              delete: {}
+
+    loki:
+      schema_config:
+        configs:
+          - from: "2020-01-01"
+            store: "boltdb-shipper"
+            object_store: "filesystem"
+            schema: "v11"
+            index:
+              prefix: "loki_index_"
+              period: "24h"
+
+      storage_config:
+        boltdb_shipper:
+          active_index_directory: "/loki/boltdb-shipper-active"
+          cache_location: "/loki/boltdb-shipper-cache"
+          cache_ttl: "24h"
+          shared_store: "filesystem"
+
+  # 日志查询和分析
+  query_config:
+    elasticsearch_queries:
+      error_logs: 'level:ERROR AND timestamp:[now-1h TO now]'
+      slow_queries: 'response_time:>1000 AND service:api'
+      user_activity: 'user_id:* AND action:login'
+
+    kibana_dashboards:
+      - title: "应用错误监控"
+        panels:
+          - type: "line"
+            query: 'level:ERROR'
+            time_field: "timestamp"
+          - type: "pie"
+            query: 'service:*'
+            field: "service"
+          - type: "table"
+            query: 'level:FATAL'
+            fields: ["timestamp", "service", "message"]
+
+    logql_queries:
+      error_rate: 'rate({level="error"}[5m])'
+      service_errors: 'count_over_time({service="api", level="error"}[1h])'
+      top_error_services: 'topk(5, count_over_time({level="error"}[1h]))'
+
+  # 日志监控和告警
+  monitoring_config:
+    health_checks:
+      - name: "log_ingestion_rate"
+        query: "rate(logstash_events_total[5m])"
+        threshold: 1000
+        alert: "Log ingestion rate too low"
+
+      - name: "log_parsing_errors"
+        query: "rate(logstash_parse_failures_total[5m])"
+        threshold: 0.01
+        alert: "Log parsing error rate too high"
+
+      - name: "storage_usage"
+        query: "(elasticsearch_filesystem_data_size_bytes / elasticsearch_filesystem_data_available_bytes) * 100"
+        threshold: 85
+        alert: "Log storage usage too high"
+
+    alerts:
+      - name: "Log Ingestion Failure"
+        condition: 'up{job="logstash"} == 0'
+        severity: "critical"
+        description: "Logstash服务不可用"
+
+      - name: "High Error Log Rate"
+        condition: 'rate(log_lines_total{level="error"}[5m]) > 100'
+        severity: "warning"
+        description: "错误日志率过高"
+
+  # 性能优化配置
+  performance_config:
+    indexing:
+      bulk_size: 5000
+      flush_interval: "5s"
+      refresh_interval: "30s"
+
+    compression:
+      enabled: true
+      level: 6
+      type: "gzip"
+
+    caching:
+      query_cache: true
+      fielddata_cache: "50MB"
+      request_cache: true
+
+    retention:
+      hot_data: "7d"
+      warm_data: "30d"
+      cold_data: "90d"
+      delete_after: "1y"</content>
+<parameter name="filePath">e:\DONT_TOUCH\10M-2025-Testing\examples\17_observability\logging_system.yml

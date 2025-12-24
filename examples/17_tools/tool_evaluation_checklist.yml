@@ -1,0 +1,253 @@
+# examples/17_tools/tool_evaluation_checklist.yml
+evaluation_framework:
+  version: "1.0.0"
+  last_updated: "2024-01-15"
+
+  evaluation_dimensions:
+    - name: "functionality"
+      weight: 0.25
+      description: "功能完整性和适用性评估"
+      criteria:
+        - name: "core_features"
+          description: "核心功能覆盖度"
+          scoring:
+            excellent: "完全满足需求，支持高级功能"
+            good: "基本满足需求，支持大部分功能"
+            fair: "部分满足需求，需要定制开发"
+            poor: "功能缺失严重"
+          weight: 0.4
+
+        - name: "extensibility"
+          description: "扩展性和定制能力"
+          scoring:
+            excellent: "丰富的插件和API，支持深度定制"
+            good: "提供基本扩展接口"
+            fair: "扩展能力有限"
+            poor: "不支持扩展"
+          weight: 0.3
+
+        - name: "maturity"
+          description: "产品成熟度和稳定性"
+          scoring:
+            excellent: "成熟稳定，广泛应用"
+            good: "相对成熟，有一定应用案例"
+            fair: "发展中，功能相对不稳定"
+            poor: "早期产品，功能不完整"
+          weight: 0.3
+
+    - name: "performance"
+      weight: 0.20
+      description: "性能表现和扩展性评估"
+      criteria:
+        - name: "throughput"
+          description: "处理吞吐量"
+          scoring:
+            excellent: "超过预期性能要求"
+            good: "满足性能要求"
+            fair: "基本满足最低要求"
+            poor: "无法满足性能要求"
+          weight: 0.3
+
+        - name: "scalability"
+          description: "扩展能力"
+          scoring:
+            excellent: "支持水平/垂直扩展"
+            good: "支持一定程度的扩展"
+            fair: "扩展能力有限"
+            poor: "不支持扩展"
+          weight: 0.3
+
+        - name: "resource_efficiency"
+          description: "资源利用效率"
+          scoring:
+            excellent: "资源利用率高，成本效益好"
+            good: "资源利用合理"
+            fair: "资源消耗较高"
+            poor: "资源消耗严重"
+          weight: 0.4
+
+    - name: "usability"
+      weight: 0.15
+      description: "易用性和用户体验评估"
+      criteria:
+        - name: "user_interface"
+          description: "用户界面友好性"
+          scoring:
+            excellent: "界面直观，操作简单"
+            good: "界面清晰，功能完整"
+            fair: "界面可用，但有改进空间"
+            poor: "界面复杂，使用困难"
+          weight: 0.4
+
+        - name: "documentation"
+          description: "文档完整性"
+          scoring:
+            excellent: "文档详尽，示例丰富"
+            good: "文档完整，有基本示例"
+            fair: "文档基本完整"
+            poor: "文档缺失或不完整"
+          weight: 0.3
+
+        - name: "learning_curve"
+          description: "学习曲线"
+          scoring:
+            excellent: "学习成本低，快速上手"
+            good: "中等学习成本"
+            fair: "学习成本较高"
+            poor: "学习成本很高"
+          weight: 0.3
+
+    - name: "integration"
+      weight: 0.15
+      description: "集成能力和生态系统评估"
+      criteria:
+        - name: "api_support"
+          description: "API支持程度"
+          scoring:
+            excellent: "丰富的REST/gRPC API"
+            good: "提供基本API接口"
+            fair: "API支持有限"
+            poor: "无API支持"
+          weight: 0.4
+
+        - name: "ecosystem"
+          description: "生态系统完整性"
+          scoring:
+            excellent: "生态系统完善，社区活跃"
+            good: "有一定生态系统"
+            fair: "生态系统发展中"
+            poor: "缺乏生态系统支持"
+          weight: 0.3
+
+        - name: "standards_compliance"
+          description: "标准协议支持"
+          scoring:
+            excellent: "支持主流标准协议"
+            good: "支持部分标准协议"
+            fair: "标准支持有限"
+            poor: "不支持标准协议"
+          weight: 0.3
+
+    - name: "cost"
+      weight: 0.10
+      description: "成本效益分析"
+      criteria:
+        - name: "licensing_cost"
+          description: "许可成本"
+          scoring:
+            excellent: "开源免费或成本很低"
+            good: "许可成本合理"
+            fair: "许可成本较高"
+            poor: "许可成本过高"
+          weight: 0.4
+
+        - name: "total_cost_ownership"
+          description: "总拥有成本"
+          scoring:
+            excellent: "TCO很低，性价比高"
+            good: "TCO合理"
+            fair: "TCO较高"
+            poor: "TCO过高"
+          weight: 0.6
+
+    - name: "vendor_support"
+      weight: 0.10
+      description: "供应商支持和服务评估"
+      criteria:
+        - name: "technical_support"
+          description: "技术支持质量"
+          scoring:
+            excellent: "24/7支持，响应迅速"
+            good: "工作时间支持，响应及时"
+            fair: "基本技术支持"
+            poor: "技术支持不足"
+          weight: 0.5
+
+        - name: "vendor_stability"
+          description: "供应商稳定性"
+          scoring:
+            excellent: "供应商稳定，财务健康"
+            good: "供应商相对稳定"
+            fair: "供应商稳定性一般"
+            poor: "供应商稳定性堪忧"
+          weight: 0.5
+
+    - name: "security"
+      weight: 0.05
+      description: "安全性和合规性评估"
+      criteria:
+        - name: "security_features"
+          description: "安全功能"
+          scoring:
+            excellent: "安全功能完善"
+            good: "基本安全功能"
+            fair: "安全功能有限"
+            poor: "缺乏安全功能"
+          weight: 0.5
+
+        - name: "compliance"
+          description: "合规性"
+          scoring:
+            excellent: "符合相关合规要求"
+            good: "基本符合合规要求"
+            fair: "部分符合合规要求"
+            poor: "不符合合规要求"
+          weight: 0.5
+
+evaluation_process:
+  phases:
+    - name: "requirement_analysis"
+      description: "需求分析阶段"
+      duration: "1-2 weeks"
+      deliverables:
+        - "需求规格说明书"
+        - "评估标准定义"
+
+    - name: "market_research"
+      description: "市场调研阶段"
+      duration: "1-2 weeks"
+      deliverables:
+        - "候选工具列表"
+        - "初步筛选报告"
+
+    - name: "proof_of_concept"
+      description: "概念验证阶段"
+      duration: "2-4 weeks"
+      deliverables:
+        - "POC测试报告"
+        - "功能验证结果"
+
+    - name: "detailed_evaluation"
+      description: "详细评估阶段"
+      duration: "2-3 weeks"
+      deliverables:
+        - "详细评估报告"
+        - "性能测试报告"
+        - "集成测试报告"
+
+    - name: "final_decision"
+      description: "最终决策阶段"
+      duration: "1 week"
+      deliverables:
+        - "工具选型报告"
+        - "实施计划"
+        - "风险评估报告"
+
+scoring_methodology:
+  scale:
+    excellent: 5
+    good: 4
+    fair: 3
+    poor: 2
+    unacceptable: 1
+
+  calculation:
+    dimension_score: "SUM(criterion_score * criterion_weight)"
+    weighted_score: "dimension_score * dimension_weight"
+    total_score: "SUM(weighted_score)"
+    maximum_score: 5.0
+
+  decision_criteria:
+    accept: "total_score >= 4.0 AND no_unacceptable_criteria"
+    consider: "total_score >= 3.0 AND total_score < 4.0"
+    reject: "total_score < 3.0 OR has_unacceptable_criteria"

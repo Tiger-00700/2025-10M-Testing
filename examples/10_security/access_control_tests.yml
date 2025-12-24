@@ -1,0 +1,25 @@
+test_categories:
+  - category: "最小权限"
+    key_test_points: ["角色/用户/作业权限"]
+    validation_methods: ["访问矩阵验证"]
+    expected_results: ["无越权访问"]
+  - category: "权限继承"
+    key_test_points: ["父子角色权限传递"]
+    validation_methods: ["继承/撤销测试"]
+    expected_results: ["权限正确传递"]
+  - category: "动态权限"
+    key_test_points: ["临时访问限时"]
+    validation_methods: ["限时回收验证"]
+    expected_results: ["过期自动失效"]
+  - category: "细粒度控制"
+    key_test_points: ["库/表/字段/行级"]
+    validation_methods: ["多级权限测试"]
+    expected_results: ["精确控制生效"]
+  - category: "多租户隔离"
+    key_test_points: ["跨租户访问拒绝"]
+    validation_methods: ["隔离测试"]
+    expected_results: ["数据隔离无泄露"]
+  - category: "审计留痕"
+    key_test_points: ["权限变更记录"]
+    validation_methods: ["日志完整性检查"]
+    expected_results: ["变更可追溯"]

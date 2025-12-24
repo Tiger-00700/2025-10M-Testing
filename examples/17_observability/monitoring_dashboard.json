@@ -1,0 +1,143 @@
+{
+  "dashboard": {
+    "title": "大数据测试环境监控",
+    "tags": ["bigdata", "testing", "monitoring"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "title": "系统资源使用率",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "100 - (avg by(instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+            "legendFormat": "CPU Usage {{instance}}"
+          },
+          {
+            "expr": "(1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100",
+            "legendFormat": "Memory Usage {{instance}}"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "percent",
+            "max": 100
+          }
+        ]
+      },
+      {
+        "title": "磁盘使用率",
+        "type": "bargauge",
+        "targets": [
+          {
+            "expr": "100 - ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes)",
+            "legendFormat": "{{instance}} {{mountpoint}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "orange",
+                  "value": 80
+                },
+                {
+                  "color": "red",
+                  "value": 90
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "title": "网络流量",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(node_network_receive_bytes_total[5m]) * 8",
+            "legendFormat": "RX {{instance}}"
+          },
+          {
+            "expr": "rate(node_network_transmit_bytes_total[5m]) * 8",
+            "legendFormat": "TX {{instance}}"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "bps",
+            "format": "bits"
+          }
+        ]
+      },
+      {
+        "title": "服务状态",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "up{job=\"bigdata-services\"}",
+            "legendFormat": "{{job}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "text": "DOWN",
+                    "color": "red"
+                  },
+                  "1": {
+                    "text": "UP",
+                    "color": "green"
+                  }
+                },
+                "type": "value"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "title": "大数据作业状态",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "hadoop_yarn_running_applications",
+            "legendFormat": "Running Applications"
+          },
+          {
+            "expr": "spark_job_count",
+            "legendFormat": "Spark Jobs"
+          }
+        ]
+      },
+      {
+        "title": "告警概览",
+        "type": "alertlist",
+        "options": {
+          "showValue": true,
+          "showInstance": true,
+          "maxItems": 20
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "30s",
+    "timepicker": {
+      "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"]
+    }
+  }
+}

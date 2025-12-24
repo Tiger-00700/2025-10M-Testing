@@ -1,0 +1,31 @@
+testing_methods:
+  - method: "自动化脚本"
+    key_technologies: ["SQL/Python脚本", "规则引擎"]
+    applicable_scenarios: ["字段校验", "业务规则"]
+    advantages: ["灵活", "可定制"]
+    tool_examples: ["Python脚本"]
+  - method: "规则引擎"
+    key_technologies: ["模板化规则生成", "元数据驱动"]
+    applicable_scenarios: ["批量规则配置"]
+    advantages: ["标准化", "高效"]
+    tool_examples: ["Apache Griffin"]
+  - method: "平台化工具"
+    key_technologies: ["一体化质量平台", "CI/CD集成"]
+    applicable_scenarios: ["全链路质量门"]
+    advantages: ["自动化", "可观测"]
+    tool_examples: ["Great Expectations"]
+  - method: "异常检测"
+    key_technologies: ["统计模型", "机器学习"]
+    applicable_scenarios: ["趋势/环比告警"]
+    advantages: ["智能", "减少误报"]
+    tool_examples: ["Prophet模型"]
+  - method: "对账测试"
+    key_technologies: ["跨表/跨链路一致性校验"]
+    applicable_scenarios: ["批流对账", "端到端验证"]
+    advantages: ["精准", "覆盖广"]
+    tool_examples: ["SQL对账脚本"]
+  - method: "Schema校验"
+    key_technologies: ["结构验证", "兼容性检查"]
+    applicable_scenarios: ["数据格式变更"]
+    advantages: ["预防性", "自动化"]
+    tool_examples: ["JSON Schema"]

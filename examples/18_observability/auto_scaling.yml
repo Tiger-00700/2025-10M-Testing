@@ -1,0 +1,164 @@
+# examples/17_observability/auto_scaling.yml
+# Kubernetes HPA配置示例 - 自动化扩缩容策略
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: bigdata-service-hpa
+  namespace: bigdata-testing
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: bigdata-service
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 85
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 20
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+      selectPolicy: Max
+
+---
+# Vertical Pod Autoscaler配置示例
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: bigdata-service-vpa
+  namespace: bigdata-testing
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: bigdata-service
+  updatePolicy:
+    updateMode: "Auto"
+  resourcePolicy:
+    containerPolicies:
+    - containerName: bigdata-container
+      minAllowed:
+        cpu: 100m
+        memory: 256Mi
+      maxAllowed:
+        cpu: 2000m
+        memory: 4096Mi
+
+---
+# Prometheus规则配置 - 扩缩容触发规则
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: bigdata-scaling-rules
+  namespace: monitoring
+spec:
+  groups:
+  - name: scaling_alerts
+    rules:
+    - alert: HighResourceUsage
+      expr: |
+        (
+          cpu_usage_percent > 80 or
+          memory_usage_percent > 85 or
+          disk_usage_percent > 90
+        ) and on(instance) up == 1
+      for: 5m
+      labels:
+        severity: warning
+        action: scale_up
+      annotations:
+        summary: "High resource usage detected"
+        description: "Resource usage is high on {{ $labels.instance }}, consider scaling up"
+
+    - alert: LowResourceUsage
+      expr: |
+        cpu_usage_percent < 30 and
+        memory_usage_percent < 40
+      for: 30m
+      labels:
+        severity: info
+        action: scale_down
+      annotations:
+        summary: "Low resource usage detected"
+        description: "Resource usage is low, consider scaling down to save costs"
+
+---
+# KEDA ScaledObject配置示例 - 事件驱动扩缩容
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: kafka-consumer-scaler
+  namespace: bigdata-testing
+spec:
+  scaleTargetRef:
+    name: kafka-consumer
+  pollingInterval: 30
+  cooldownPeriod: 300
+  minReplicaCount: 1
+  maxReplicaCount: 20
+  triggers:
+  - type: kafka
+    metadata:
+      bootstrapServers: kafka-cluster:9092
+      consumerGroup: bigdata-consumer-group
+      topic: data-processing-queue
+      lagThreshold: "50"
+      offsetResetPolicy: latest
+
+---
+# 自定义扩缩容策略配置
+custom_scaling_policies:
+  - name: predictive_scaling
+    description: "基于历史数据和预测算法的扩缩容"
+    triggers:
+      - type: prediction
+        algorithm: time_series_forecast
+        look_ahead_window: 30m
+        confidence_threshold: 0.8
+      - type: schedule
+        cron: "0 9 * * 1-5"  # 工作日早上9点
+        action: scale_up
+        target_replicas: 5
+
+  - name: cost_optimization
+    description: "基于成本优化的智能缩容"
+    triggers:
+      - type: cost_threshold
+        max_hourly_cost: 100.0
+        currency: USD
+      - type: utilization_drop
+        threshold: 20
+        duration: 1h
+
+  - name: performance_based
+    description: "基于性能指标的扩缩容"
+    triggers:
+      - type: latency_spike
+        metric: response_time_p95
+        threshold: 5000ms
+        duration: 5m
+      - type: throughput_drop
+        metric: requests_per_second
+        threshold: 1000
+        percentage_drop: 50

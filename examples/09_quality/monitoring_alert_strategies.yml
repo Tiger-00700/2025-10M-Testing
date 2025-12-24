@@ -1,0 +1,29 @@
+strategies:
+  - category: "多通道通知"
+    key_measures: ["IM/邮件/电话", "值班表"]
+    implementation_points: ["结合排班和抑制策略"]
+    expected_effects: ["快速响应"]
+  - category: "升级路径"
+    key_measures: ["值班→负责人→业务方"]
+    implementation_points: ["关键指标短SLO阶梯"]
+    expected_effects: ["分级处理"]
+  - category: "告警收敛"
+    key_measures: ["去重", "分组", "抑制"]
+    implementation_points: ["血缘关联自动屏蔽"]
+    expected_effects: ["减少风暴"]
+  - category: "告警内容"
+    key_measures: ["时间窗", "范围", "规则", "阈值"]
+    implementation_points: ["含影响范围、处置入口"]
+    expected_effects: ["精准定位"]
+  - category: "趋势告警"
+    key_measures: ["异常波动", "数据量突变"]
+    implementation_points: ["环比/趋势监控"]
+    expected_effects: ["早期发现"]
+  - category: "多级告警"
+    key_measures: ["致命/严重/一般分级"]
+    implementation_points: ["按影响范围通知"]
+    expected_effects: ["优先级排序"]
+  - category: "自动分派"
+    key_measures: ["责任人确认", "进度跟踪"]
+    implementation_points: ["与工单系统集成"]
+    expected_effects: ["闭环管理"]

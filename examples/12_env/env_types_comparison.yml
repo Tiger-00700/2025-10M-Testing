@@ -1,0 +1,131 @@
+# 大数据测试环境类型对比表
+# 详细对比不同类型测试环境的特性
+
+environment_types:
+  dev:
+    name: "开发环境"
+    physical_isolation: "可选"
+    network_isolation: "VLAN隔离"
+    data_isolation: "模拟数据"
+    permission_isolation: "开发团队"
+    monitoring_focus: "功能可用性"
+    cost_consideration: "按需付费"
+
+  test:
+    name: "测试环境"
+    physical_isolation: "推荐"
+    network_isolation: "VPC隔离"
+    data_isolation: "脱敏数据"
+    permission_isolation: "测试团队"
+    monitoring_focus: "功能正确性"
+    cost_consideration: "固定配额"
+
+  staging:
+    name: "预发环境"
+    physical_isolation: "必须"
+    network_isolation: "独立网络"
+    data_isolation: "生产影子"
+    permission_isolation: "运维团队"
+    monitoring_focus: "性能/稳定性"
+    cost_consideration: "高可用配置"
+
+  prod_mirror:
+    name: "生产镜像"
+    physical_isolation: "完全隔离"
+    network_isolation: "生产同网"
+    data_isolation: "生产数据"
+    permission_isolation: "最小权限"
+    monitoring_focus: "业务SLO"
+    cost_consideration: "企业级SLA"
+
+  disaster_recovery:
+    name: "灾备环境"
+    physical_isolation: "异地隔离"
+    network_isolation: "跨区域"
+    data_isolation: "实时同步"
+    permission_isolation: "备份账户"
+    monitoring_focus: "RTO/RPO"
+    cost_consideration: "冷备策略"
+
+# 隔离策略选择指南
+isolation_guide:
+  physical:
+    description: "最高安全，但成本最高，适合生产/预发环境"
+    implementation: "独立服务器/网络/数据中心"
+
+  logical:
+    description: "平衡安全与成本，适合测试/开发环境"
+    implementation: "Namespace/VPC/容器隔离/访问控制"
+
+  hybrid:
+    description: "按敏感度分级，灵活配置"
+    implementation: "核心系统物理隔离，非核心系统逻辑隔离"
+
+# 监控指标配置
+monitoring_metrics:
+  resource_utilization:
+    threshold: "80%"
+    action: "scale_up"
+    check_interval: "5m"
+
+  error_rate:
+    threshold: "1%"
+    action: "alert"
+    check_interval: "1m"
+
+  response_time:
+    threshold: "200ms"
+    action: "alert"
+    check_interval: "1m"
+
+  availability_sla:
+    threshold: "99.9%"
+    action: "escalate"
+    check_interval: "1h"
+
+# 告警配置
+alerts:
+  critical:
+    - condition: "service_down"
+      channels: ["email", "sms", "phone"]
+      escalation_time: "5m"
+
+    - condition: "data_loss"
+      channels: ["email", "sms", "phone"]
+      escalation_time: "1m"
+
+  warning:
+    - condition: "high_cpu"
+      channels: ["slack", "email"]
+      escalation_time: "15m"
+
+    - condition: "slow_response"
+      channels: ["slack"]
+      escalation_time: "30m"
+
+  info:
+    - condition: "resource_warning"
+      channels: ["email"]
+      escalation_time: "1h"
+
+# 成本控制策略
+cost_control:
+  dev:
+    strategy: "按需付费"
+    budget_limit: "unlimited"
+    optimization: "自动停机"
+
+  test:
+    strategy: "固定配额"
+    budget_limit: "monthly"
+    optimization: "利用率监控"
+
+  staging:
+    strategy: "高可用配置"
+    budget_limit: "monthly"
+    optimization: "弹性伸缩"
+
+  prod:
+    strategy: "企业级SLA"
+    budget_limit: "unlimited"
+    optimization: "成本效益分析"

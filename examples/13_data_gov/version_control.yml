@@ -1,0 +1,107 @@
+# examples/13_data_gov/version_control.yml
+# 测试数据版本控制配置示例
+
+version_control:
+  # 版本控制策略
+  versioning_strategy:
+    semantic_versioning:
+      enabled: true
+      format: "major.minor.patch"
+      auto_increment: true
+      
+    timestamp_versioning:
+      enabled: false
+      format: "YYYYMMDD_HHMMSS"
+      
+    content_based_versioning:
+      enabled: true
+      hash_algorithm: "SHA256"
+
+  # 版本管理规则
+  version_rules:
+    major_version_change:
+      triggers:
+        - "schema_changes"
+        - "data_format_changes"
+        - "breaking_changes"
+      requires_approval: true
+      
+    minor_version_change:
+      triggers:
+        - "data_additions"
+        - "non_breaking_improvements"
+        - "quality_improvements"
+      requires_approval: false
+      
+    patch_version_change:
+      triggers:
+        - "bug_fixes"
+        - "metadata_updates"
+        - "documentation_updates"
+      requires_approval: false
+
+  # 数据版本存储
+  storage_config:
+    versioned_storage:
+      enabled: true
+      storage_type: "object_storage"
+      retention_policy: "keep_all_versions"
+      
+    snapshot_frequency:
+      on_change: true
+      scheduled: "daily"
+      before_deployment: true
+      
+    compression:
+      enabled: true
+      algorithm: "gzip"
+      level: 6
+
+  # 版本比较与合并
+  version_comparison:
+    diff_enabled: true
+    supported_formats:
+      - "json"
+      - "csv"
+      - "parquet"
+      
+    merge_strategies:
+      last_wins: "overwrite_with_newer"
+      manual_merge: "require_human_review"
+      auto_merge: "for_non_conflicting_changes"
+
+  # 回滚配置
+  rollback_config:
+    rollback_enabled: true
+    max_rollback_versions: 10
+    rollback_approval_required: true
+    
+    rollback_validation:
+      data_integrity_check: true
+      dependency_validation: true
+      performance_regression_test: true
+
+  # 版本生命周期
+  lifecycle_management:
+    active_versions:
+      max_concurrent: 5
+      auto_archive_older: true
+      
+    archived_versions:
+      retention_period_years: 3
+      compression_enabled: true
+      access_restricted: true
+      
+    deprecated_versions:
+      grace_period_days: 90
+      notification_enabled: true
+
+  # 审计与跟踪
+  audit_trail:
+    version_changes_logging: true
+    access_logging: true
+    rollback_logging: true
+    
+    audit_reports:
+      generation_frequency: "weekly"
+      retention_period_years: 7

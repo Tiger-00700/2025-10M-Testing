@@ -1,0 +1,25 @@
+tools_cases:
+  - category: "一体化平台"
+    key_features: ["规则配置", "自动校验", "监控告警"]
+    tool_examples: ["Apache Griffin", "Great Expectations"]
+    practice_effects: ["全流程闭环"]
+  - category: "集成工具"
+    key_features: ["与开发/调度/运维平台集成"]
+    tool_examples: ["Deequ", "Soda"]
+    practice_effects: ["质量门自动化"]
+  - category: "可视化工具"
+    key_features: ["质量数据数仓化", "可视化"]
+    tool_examples: ["Tableau", "Grafana"]
+    practice_effects: ["查询/可视化结果"]
+  - category: "开源框架"
+    key_features: ["灵活配置", "社区支持"]
+    tool_examples: ["Pandera", "PyDeequ"]
+    practice_effects: ["定制化强"]
+  - category: "企业级平台"
+    key_features: ["多租户", "权限管理"]
+    tool_examples: ["Informatica", "Talend"]
+    practice_effects: ["大规模应用"]
+  - category: "AI增强工具"
+    key_features: ["智能异常检测", "自动修复"]
+    tool_examples: ["机器学习模型"]
+    practice_effects: ["减少人工干预"]

@@ -1,0 +1,29 @@
+# examples/13_data_gov/risk_assessment.yml
+# 风险评估配置
+
+risk_assessment:
+  risk_categories:
+    - name: "data_quality"
+      weight: 0.3
+      indicators: ["completeness", "accuracy", "consistency"]
+
+    - name: "security"
+      weight: 0.4
+      indicators: ["encryption", "access_control", "audit_trail"]
+
+    - name: "compliance"
+      weight: 0.3
+      indicators: ["gdpr_compliance", "retention_policy", "data_classification"]
+
+  assessment_rules:
+    - condition: "quality_score < 0.8"
+      risk_level: "high"
+      action: "immediate_review"
+
+    - condition: "security_score < 0.9"
+      risk_level: "medium"
+      action: "scheduled_review"
+
+    - condition: "compliance_score < 0.95"
+      risk_level: "low"
+      action: "monitoring"

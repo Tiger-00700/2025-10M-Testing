@@ -1,0 +1,25 @@
+compliance_dimensions:
+  - dimension: "数据最小化"
+    key_requirements: ["只采集必要数据"]
+    test_points: ["可选采集默认关闭"]
+    validation_methods: ["采集配置检查"]
+  - dimension: "授权与告知"
+    key_requirements: ["同意/撤回流程"]
+    test_points: ["留痕与版本化政策"]
+    validation_methods: ["流程模拟测试"]
+  - dimension: "可追溯性"
+    key_requirements: ["查询/导出/删除"]
+    test_points: ["可执行且可验证"]
+    validation_methods: ["功能测试脚本"]
+  - dimension: "数据驻留"
+    key_requirements: ["驻留要求合规"]
+    test_points: ["跨区域复制/缓存"]
+    validation_methods: ["驻留验证工具"]
+  - dimension: "跨境合规"
+    key_requirements: ["跨境评估与控制"]
+    test_points: ["出境访问告警"]
+    validation_methods: ["跨境监控脚本"]
+  - dimension: "审计报告"
+    key_requirements: ["定期报告生成"]
+    test_points: ["取证材料完整"]
+    validation_methods: ["报告自动化生成"]

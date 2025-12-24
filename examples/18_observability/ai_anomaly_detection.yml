@@ -1,0 +1,174 @@
+# examples/17_observability/ai_anomaly_detection.yml
+# AI辅助异常检测配置示例
+
+anomaly_detection:
+  # 算法配置
+  algorithms:
+    - name: isolation_forest
+      description: "基于孤立森林的无监督异常检测"
+      parameters:
+        contamination: 0.1
+        random_state: 42
+        n_estimators: 100
+      metrics:
+        - cpu_usage_percent
+        - memory_usage_percent
+        - network_traffic_bytes_per_second
+        - disk_io_operations_per_second
+      sensitivity: medium
+
+    - name: prophet_forecast
+      description: "基于Prophet的时间序列预测和异常检测"
+      parameters:
+        seasonality_mode: multiplicative
+        changepoint_prior_scale: 0.05
+        seasonality_prior_scale: 10.0
+        holidays_prior_scale: 10.0
+      metrics:
+        - request_latency_p95_ms
+        - error_rate_percent
+        - throughput_requests_per_second
+      forecast_horizon: 1h
+      anomaly_threshold: 3.0  # 标准差倍数
+
+    - name: autoencoder_neural_network
+      description: "基于自编码器神经网络的重建误差异常检测"
+      parameters:
+        encoding_dim: 32
+        epochs: 100
+        batch_size: 64
+        learning_rate: 0.001
+        reconstruction_threshold: 0.05
+      metrics:
+        - system_metrics_vector
+        - application_metrics_vector
+      training_window: 7d
+
+  # 告警配置
+  alerting:
+    sensitivity_levels:
+      low:
+        false_positive_rate: 0.05
+        detection_delay: 15m
+      medium:
+        false_positive_rate: 0.02
+        detection_delay: 5m
+      high:
+        false_positive_rate: 0.01
+        detection_delay: 1m
+
+    cooldown_period: 300s  # 告警冷却时间
+
+    notification_channels:
+      - type: slack
+        webhook_url: "${SLACK_WEBHOOK_URL}"
+        channel: "#bigdata-alerts"
+        username: "AI Anomaly Detector"
+
+      - type: email
+        smtp_server: "smtp.company.com"
+        smtp_port: 587
+        recipients: ["devops@company.com", "data-team@company.com"]
+        subject_template: "AI检测到异常: {{anomaly_type}} on {{service_name}}"
+
+      - type: pager_duty
+        integration_key: "${PAGERDUTY_INTEGRATION_KEY}"
+        severity_mapping:
+          critical: "critical"
+          warning: "warning"
+          info: "info"
+
+  # 根因分析配置
+  root_cause_analysis:
+    enabled: true
+    correlation_threshold: 0.7
+    max_analysis_depth: 3
+    analysis_methods:
+      - pearson_correlation
+      - mutual_information
+      - granger_causality
+
+    visualization:
+      enabled: true
+      graph_database: "neo4j"
+      max_nodes: 50
+      layout_algorithm: "force_directed"
+
+  # 模型管理配置
+  model_management:
+    retraining:
+      trigger_conditions:
+        - performance_drop_threshold: 0.1  # 性能下降10%
+        - time_based: "weekly"  # 每周重新训练
+        - data_drift_threshold: 0.15  # 数据漂移15%
+
+      validation:
+        holdout_percentage: 0.2
+        cross_validation_folds: 5
+        metrics:
+          - precision
+          - recall
+          - f1_score
+          - auc_roc
+
+    versioning:
+      enabled: true
+      storage_backend: "mlflow"
+      experiment_name: "bigdata_anomaly_detection"
+
+  # 数据预处理配置
+  data_preprocessing:
+    normalization:
+      methods: ["standard_scaler", "min_max_scaler", "robust_scaler"]
+      per_metric: true
+
+    feature_engineering:
+      rolling_windows: [5m, 15m, 1h, 1d]
+      statistical_features: ["mean", "std", "min", "max", "skew", "kurtosis"]
+      temporal_features: ["hour_of_day", "day_of_week", "is_weekend"]
+
+    missing_value_handling:
+      strategy: "interpolation"
+      method: "linear"
+      max_gap_fill: 300s  # 最大填充间隔
+
+  # 性能监控
+  performance_monitoring:
+    metrics_collection:
+      enabled: true
+      interval: 60s
+      retention_period: 90d
+
+    dashboards:
+      - name: "AI Anomaly Detection Performance"
+        refresh_interval: 5m
+        panels:
+          - title: "Detection Accuracy Over Time"
+            type: "time_series"
+            metrics: ["precision", "recall", "f1_score"]
+
+          - title: "False Positive Rate"
+            type: "gauge"
+            thresholds: [0.01, 0.05, 0.1]
+
+          - title: "Model Training Status"
+            type: "stat"
+            metrics: ["last_training_time", "model_age_days"]
+
+  # 集成配置
+  integrations:
+    prometheus:
+      enabled: true
+      metrics_prefix: "ai_anomaly_detector_"
+      push_interval: 30s
+
+    elasticsearch:
+      enabled: true
+      index_pattern: "ai-anomaly-detection-%{+yyyy.MM.dd}"
+      document_type: "anomaly_event"
+
+    kafka:
+      enabled: true
+      topic: "ai-anomaly-events"
+      bootstrap_servers: ["kafka1:9092", "kafka2:9092"]
+      serialization_format: "json"

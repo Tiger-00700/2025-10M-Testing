@@ -1,0 +1,29 @@
+focus_points:
+  - category: "读写正确性"
+    key_metrics: ["上传/下载", "分块/合并", "断点续传"]
+    test_points: ["校验和一致性", "大小文件混合"]
+    tools_methods: ["哈希校验脚本"]
+  - category: "一致性与副本"
+    key_metrics: ["多副本写入", "一致性模型", "主备切换"]
+    test_points: ["跨AZ/Region同步延迟"]
+    tools_methods: ["副本健康检查"]
+  - category: "容错与恢复"
+    key_metrics: ["节点/磁盘/网络故障"]
+    test_points: ["自动复制与重建", "删除恢复"]
+    tools_methods: ["故障注入演练"]
+  - category: "性能与扩展性"
+    key_metrics: ["大文件/小文件混合", "列表性能"]
+    test_points: ["带宽与IO瓶颈", "压缩/分片策略"]
+    tools_methods: ["性能基准测试"]
+  - category: "权限与安全"
+    key_metrics: ["ACL", "Ranger/Sentry", "KMS加密"]
+    test_points: ["传输加密", "审计日志"]
+    tools_methods: ["权限变更测试"]
+  - category: "小文件与元数据压力"
+    key_metrics: ["小文件风暴下的NN负载"]
+    test_points: ["延迟与合并策略"]
+    tools_methods: ["元数据监控"]
+  - category: "生命周期管理"
+    key_metrics: ["冷热分层", "存储策略"]
+    test_points: ["过期清理与成本"]
+    tools_methods: ["策略验证脚本"]

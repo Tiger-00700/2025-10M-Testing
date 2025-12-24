@@ -1,0 +1,21 @@
+focus_points:
+  - category: "数据模型与兼容性"
+    key_metrics: ["不同结构", "模式变更", "Schema演进"]
+    test_points: ["字段新增/删除/类型变更"]
+    tools_methods: ["兼容性测试脚本"]
+  - category: "一致性模型"
+    key_metrics: ["最终一致性", "强一致性", "分区容忍性"]
+    test_points: ["CAP定理下的权衡"]
+    tools_methods: ["一致性校验工具"]
+  - category: "性能与扩展性"
+    key_metrics: ["高并发读写", "分片", "分区"]
+    test_points: ["热点数据处理"]
+    tools_methods: ["性能负载测试"]
+  - category: "容错与恢复"
+    key_metrics: ["节点故障", "主从切换", "数据重建"]
+    test_points: ["自动故障转移"]
+    tools_methods: ["故障注入演练"]
+  - category: "安全与权限"
+    key_metrics: ["认证", "加密", "访问控制"]
+    test_points: ["最小权限原则"]
+    tools_methods: ["安全审计脚本"]

@@ -1,0 +1,25 @@
+processes:
+  - stage: "识别"
+    key_steps: ["告警触发", "监控指标异常"]
+    tools_methods: ["仪表盘", "日志分析"]
+    notes: ["快速判定类型"]
+  - stage: "定位"
+    key_steps: ["血缘追溯", "变更记录交叉"]
+    tools_methods: ["血缘图", "调度日志"]
+    notes: ["确认影响范围"]
+  - stage: "分析"
+    key_steps: ["根因挖掘", "影响评估"]
+    tools_methods: ["变更记录", "配置管理"]
+    notes: ["避免误判"]
+  - stage: "修复"
+    key_steps: ["重跑/回补", "规则调整"]
+    tools_methods: ["补偿脚本", "降级开关"]
+    notes: ["留痕可回滚"]
+  - stage: "验证"
+    key_steps: ["修复效果确认", "对账"]
+    tools_methods: ["自动化校验"]
+    notes: ["确保无副作用"]
+  - stage: "预防"
+    key_steps: ["SOP更新", "阈值优化"]
+    tools_methods: ["案例库", "回归用例"]
+    notes: ["沉淀经验"]

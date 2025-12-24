@@ -1,0 +1,72 @@
+# 多环境架构设计要点配置
+# 详细定义各测试环境的定位、特点和配置要求
+
+environments:
+  dev:
+    name: "开发环境"
+    purpose: "个人/小组开发与调试"
+    resources: "资源灵活，按需分配"
+    data: "脱敏/模拟数据"
+    frequency: "高频变更"
+    focus: "功能验证、代码质量"
+    priority: "low"
+    isolation: "logical"
+    monitoring: "basic"
+
+  test:
+    name: "测试环境"
+    purpose: "功能、集成、回归测试"
+    resources: "稳定隔离，预留资源"
+    data: "还原业务链路"
+    frequency: "中等频率"
+    focus: "功能完整性、接口兼容"
+    priority: "medium"
+    isolation: "vpc"
+    monitoring: "comprehensive"
+
+  staging:
+    name: "预发环境"
+    purpose: "上线前全链路验证"
+    resources: "高保真，生产规格"
+    data: "生产影子数据"
+    frequency: "低频变更"
+    focus: "性能压测、生产一致性"
+    priority: "high"
+    isolation: "physical"
+    monitoring: "production-like"
+
+  prod:
+    name: "生产环境"
+    purpose: "正式业务运行"
+    resources: "高可用、高安全"
+    data: "真实业务数据"
+    frequency: "受控变更"
+    focus: "稳定性、可用性、监控"
+    priority: "critical"
+    isolation: "complete"
+    monitoring: "full"
+
+  disaster_recovery:
+    name: "灾备环境"
+    purpose: "故障演练、灾备验证"
+    resources: "按需创建，临时资源"
+    data: "生产镜像数据"
+    frequency: "按需变更"
+    focus: "容灾能力、应急响应"
+    priority: "high"
+    isolation: "geo-separate"
+    monitoring: "minimal"
+
+# 环境切换配置
+switching:
+  automated: true
+  rollback_support: true
+  validation_required: true
+  audit_trail: true
+
+# 合规要求
+compliance:
+  data_residency: "cn-north"
+  encryption: "AES-256"
+  audit_retention: "7-years"
+  access_control: "RBAC"

@@ -1,0 +1,21 @@
+focus_points:
+  - category: "可靠性测试"
+    key_metrics: ["节点/机房故障", "网络分区", "磁盘损坏"]
+    test_points: ["数据可用性", "自动恢复/副本重建"]
+    tools_methods: ["故障注入工具"]
+  - category: "容灾测试"
+    key_metrics: ["跨AZ/Region复制延迟"]
+    test_points: ["复制中断后的追平时间"]
+    tools_methods: ["复制监控脚本"]
+  - category: "备份恢复测试"
+    key_metrics: ["全量/增量/日志/快照备份"]
+    test_points: ["恢复时间", "恢复点", "元数据同步"]
+    tools_methods: ["备份恢复演练"]
+  - category: "灾备切换测试"
+    key_metrics: ["计划内/计划外切换"]
+    test_points: ["步骤", "回滚与复原", "隔离演练"]
+    tools_methods: ["切换测试脚本"]
+  - category: "一致性校验"
+    key_metrics: ["副本/分片/索引/元数据"]
+    test_points: ["差异报告输出"]
+    tools_methods: ["对账脚本"]

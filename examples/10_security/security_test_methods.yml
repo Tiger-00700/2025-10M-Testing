@@ -1,0 +1,25 @@
+test_types:
+  - type: "权限矩阵测试"
+    key_methods: ["角色继承验证"]
+    test_points: ["最小权限、撤销有效性"]
+    tools_scripts: ["权限扫描脚本"]
+  - type: "渗透测试"
+    key_methods: ["黑盒/白盒模拟"]
+    test_points: ["越权、注入、绕过"]
+    tools_scripts: ["安全扫描工具"]
+  - type: "加密验证"
+    key_methods: ["全链路抓包比对"]
+    test_points: ["TLS/静态加密、密钥轮换"]
+    tools_scripts: ["加密校验工具"]
+  - type: "脱敏测试"
+    key_methods: ["敏感字段验证"]
+    test_points: ["掩码一致性、不可逆性"]
+    tools_scripts: ["脱敏检查脚本"]
+  - type: "审计测试"
+    key_methods: ["日志回溯模拟"]
+    test_points: ["完整性、防篡改、告警触发"]
+    tools_scripts: ["日志分析工具"]
+  - type: "合规核查"
+    key_methods: ["法规对照验证"]
+    test_points: ["数据最小化、授权告知"]
+    tools_scripts: ["合规清单脚本"]

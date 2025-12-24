@@ -1,0 +1,25 @@
+test_methods:
+  - category: "性能基准测试"
+    key_metrics: ["执行时间、吞吐量、资源利用率"]
+    test_points: ["输入规模放大、瓶颈识别"]
+    tools_methods: ["基准测试工具"]
+  - category: "扩展性验证"
+    key_metrics: ["节点/分区扩展、自动扩缩容"]
+    test_points: ["负载均衡、热点处理"]
+    tools_methods: ["扩展模拟器"]
+  - category: "压力测试"
+    key_metrics: ["高并发、峰值负载"]
+    test_points: ["背压、丢包、阻塞"]
+    tools_methods: ["压力生成器"]
+  - category: "容错扩展"
+    key_metrics: ["故障场景下的性能"]
+    test_points: ["恢复时间、数据一致性"]
+    tools_methods: ["故障注入框架"]
+  - category: "成本优化"
+    key_metrics: ["资源成本 vs 性能"]
+    test_points: ["弹性实例、按需扩展"]
+    tools_methods: ["成本分析工具"]
+  - category: "批流混合测试"
+    key_metrics: ["批流一致性、延迟平衡"]
+    test_points: ["资源共享、优先级调度"]
+    tools_methods: ["混合负载测试"]

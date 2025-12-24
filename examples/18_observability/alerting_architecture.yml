@@ -1,0 +1,290 @@
+# examples/17_observability/alerting_architecture.yml
+# 告警系统架构配置示例
+
+alerting_architecture:
+  # 告警系统组件
+  components:
+    alert_rules: "告警规则引擎"
+    alert_aggregation: "告警聚合器"
+    alert_deduplication: "告警去重器"
+    alert_suppression: "告警抑制器"
+    alert_routing: "告警路由器"
+    notification_dispatcher: "通知分发器"
+    alert_dashboard: "告警面板"
+    alert_escalation: "告警升级机制"
+
+  # 告警规则配置
+  rules:
+    - name: "high_cpu_alert"
+      description: "CPU使用率过高"
+      condition: 'cpu_usage_percent > 80'
+      duration: "5m"
+      severity: "warning"
+      labels:
+        service: "compute"
+        component: "cpu"
+      annotations:
+        summary: "High CPU usage detected"
+        description: "CPU usage is above 80% for more than 5 minutes"
+
+    - name: "service_down_alert"
+      description: "服务不可用"
+      condition: 'up == 0'
+      duration: "1m"
+      severity: "critical"
+      labels:
+        service: "api"
+        component: "availability"
+      annotations:
+        summary: "Service is down"
+        description: "Service has been down for more than 1 minute"
+
+    - name: "error_rate_alert"
+      description: "错误率过高"
+      condition: 'rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05'
+      duration: "5m"
+      severity: "error"
+      labels:
+        service: "api"
+        component: "reliability"
+      annotations:
+        summary: "High error rate detected"
+        description: "Error rate is above 5% for more than 5 minutes"
+
+    - name: "latency_alert"
+      description: "响应延迟过高"
+      condition: 'histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 2'
+      duration: "5m"
+      severity: "warning"
+      labels:
+        service: "api"
+        component: "performance"
+      annotations:
+        summary: "High latency detected"
+        description: "95th percentile latency is above 2 seconds"
+
+  # 告警聚合配置
+  aggregation:
+    group_by: ["alertname", "service", "severity", "cluster"]
+    group_wait: "30s"
+    group_interval: "5m"
+    repeat_interval: "4h"
+
+    strategies:
+      - name: "service_based"
+        group_by: ["service"]
+        description: "按服务聚合告警"
+      - name: "severity_based"
+        group_by: ["severity"]
+        description: "按严重程度聚合告警"
+      - name: "component_based"
+        group_by: ["service", "component"]
+        description: "按服务组件聚合告警"
+
+  # 告警去重配置
+  deduplication:
+    rules:
+      - name: "identical_alerts"
+        match_labels: ["alertname", "service", "instance"]
+        keep: "first"
+        description: "相同告警去重，保留第一个"
+
+      - name: "similar_alerts"
+        match_labels: ["service", "component"]
+        time_window: "5m"
+        max_alerts: 3
+        description: "相似告警去重，5分钟内最多保留3个"
+
+    fingerprinting:
+      method: "hash"
+      fields: ["alertname", "labels", "annotations"]
+
+  # 告警抑制配置
+  inhibition:
+    rules:
+      - source_match:
+          severity: "critical"
+        target_match:
+          severity: "warning"
+        equal: ["service"]
+        description: "关键告警抑制警告告警"
+
+      - source_match:
+          alertname: "service_down"
+        target_match_re:
+          alertname: ".*"
+        equal: ["service"]
+        description: "服务宕机抑制所有相关告警"
+
+      - source_match:
+          component: "database"
+        target_match:
+          component: "application"
+        equal: ["service"]
+        description: "数据库问题抑制应用告警"
+
+  # 告警路由配置
+  routes:
+    - match:
+        severity: "critical"
+      receiver: "critical-alerts"
+      continue: false
+      description: "关键告警直接路由到关键告警接收器"
+
+    - match:
+        severity: "error"
+      receiver: "error-alerts"
+      continue: true
+      description: "错误告警路由到错误告警接收器"
+
+    - match:
+        team: "backend"
+      receiver: "backend-team"
+      continue: true
+      description: "后端团队告警路由到后端团队"
+
+    - match_re:
+        service: ".*"
+      receiver: "default-alerts"
+      description: "默认告警路由"
+
+  # 通知接收器配置
+  receivers:
+    - name: "critical-alerts"
+      pagerduty_configs:
+        - service_key: "critical-service-key"
+          description: "Critical alert from {{ .GroupLabels.alertname }}"
+          details:
+            firing: "{{ .Alerts.Firing | len }}"
+            resolved: "{{ .Alerts.Resolved | len }}"
+      email_configs:
+        - to: "oncall@company.com"
+          subject: "CRITICAL: {{ .GroupLabels.alertname }}"
+          body: "{{ .CommonAnnotations.description }}"
+      slack_configs:
+        - channel: "#alerts-critical"
+          title: "Critical Alert"
+          text: "{{ .CommonAnnotations.summary }}"
+
+    - name: "error-alerts"
+      email_configs:
+        - to: "devops@company.com"
+          subject: "ERROR: {{ .GroupLabels.alertname }}"
+      slack_configs:
+        - channel: "#alerts-error"
+          title: "Error Alert"
+
+    - name: "backend-team"
+      slack_configs:
+        - channel: "#backend-alerts"
+          title: "Backend Alert"
+      email_configs:
+        - to: "backend-team@company.com"
+
+    - name: "default-alerts"
+      email_configs:
+        - to: "alerts@company.com"
+          subject: "{{ .GroupLabels.alertname }}"
+          body: "{{ .CommonAnnotations.description }}"
+
+  # 告警升级机制
+  escalation:
+    policies:
+      - name: "standard_escalation"
+        steps:
+          - delay: "0s"
+            receivers: ["primary-oncall"]
+          - delay: "15m"
+            receivers: ["secondary-oncall"]
+          - delay: "30m"
+            receivers: ["management"]
+        description: "标准升级策略：15分钟升级到二级值班，30分钟升级到管理层"
+
+      - name: "critical_escalation"
+        steps:
+          - delay: "0s"
+            receivers: ["primary-oncall", "management"]
+          - delay: "5m"
+            receivers: ["executive"]
+        description: "关键告警升级策略：立即通知管理层，5分钟后通知执行层"
+
+    triggers:
+      - condition: 'severity == "critical"'
+        policy: "critical_escalation"
+      - condition: 'severity == "error" AND age > "30m"'
+        policy: "standard_escalation"
+      - condition: 'severity == "warning" AND age > "2h"'
+        policy: "standard_escalation"
+
+  # 告警面板配置
+  dashboard:
+    panels:
+      - title: "告警概览"
+        type: "stat"
+        targets:
+          - expr: 'count(ALERTS{alertstate="firing"})'
+            legendFormat: "活跃告警数"
+
+      - title: "告警趋势"
+        type: "graph"
+        targets:
+          - expr: 'increase(alerts_total[1h])'
+            legendFormat: "告警触发数"
+
+      - title: "告警分布"
+        type: "pie"
+        targets:
+          - expr: 'count(ALERTS) by (severity)'
+            legendFormat: "{{ severity }}"
+
+      - title: "告警处理时间"
+        type: "heatmap"
+        targets:
+          - expr: 'histogram_quantile(0.95, rate(alert_processing_duration_seconds_bucket[5m]))'
+
+    alerts:
+      - name: "Alert Storm"
+        condition: 'count(ALERTS{alertstate="firing"}) > 50'
+        message: "告警风暴：活跃告警数超过50个"
+        severity: "critical"
+
+      - name: "Unacknowledged Alerts"
+        condition: 'count(ALERTS{alertstate="firing", acknowledged="false"}) > 10'
+        message: "未确认告警过多：超过10个未确认告警"
+        severity: "warning"
+
+  # 告警系统监控
+  monitoring:
+    metrics:
+      alert_creation_rate: 'rate(alerts_total[5m])'
+      alert_processing_latency: 'histogram_quantile(0.95, rate(alert_processing_duration_seconds_bucket[5m]))'
+      notification_success_rate: 'rate(notification_deliveries_total{status="success"}[5m]) / rate(notification_deliveries_total[5m])'
+      inhibition_rules_active: 'alertmanager_inhibition_rules'
+
+    health_checks:
+      - name: "alertmanager_health"
+        query: 'up{job="alertmanager"}'
+        expected: 1
+        alert: "Alertmanager服务不可用"
+
+      - name: "notification_delivery"
+        query: 'rate(notification_deliveries_total{status="failed"}[5m]) < 0.01'
+        alert: "通知送达失败率过高"
+
+  # 测试配置
+  testing:
+    accuracy_tests:
+      false_positive_rate: '< 0.01'
+      false_negative_rate: '< 0.01'
+      alert_timeliness: '< 30s'
+
+    reliability_tests:
+      system_uptime: '> 0.9999'
+      notification_delivery_rate: '> 0.999'
+      data_persistence: true
+
+    performance_tests:
+      alert_processing_rate: '> 1000 alerts/s'
+      notification_latency: '< 5s'
+      concurrent_alerts: '> 10000'</content>
+<parameter name="filePath">e:\DONT_TOUCH\10M-2025-Testing\examples\17_observability\alerting_architecture.yml

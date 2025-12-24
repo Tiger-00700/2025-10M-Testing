@@ -1,0 +1,25 @@
+trends:
+  - category: "自动化用例"
+    key_practices: ["CI/CD集成、模板生成"]
+    tool_examples: ["Jenkins、GitLab CI"]
+    advantages: ["快速回归、减少手动"]
+  - category: "端到端测试"
+    key_practices: ["批流混合、数据回放"]
+    tool_examples: ["Apache Beam测试框架"]
+    advantages: ["全链路覆盖、基线校验"]
+  - category: "平台集成"
+    key_practices: ["监控/告警/质量平台"]
+    tool_examples: ["Prometheus、Grafana"]
+    advantages: ["统一视图、分级响应"]
+  - category: "故障注入"
+    key_practices: ["预发影子环境演练"]
+    tool_examples: ["Chaos Monkey、Litmus"]
+    advantages: ["提升韧性、输出报告"]
+  - category: "数据质量"
+    key_practices: ["自动化校验、血缘追踪"]
+    tool_examples: ["Great Expectations"]
+    advantages: ["持续监控、异常告警"]
+  - category: "性能监控"
+    key_practices: ["基线建立、阈值告警"]
+    tool_examples: ["JMeter、Locust"]
+    advantages: ["性能保障、成本控制"]

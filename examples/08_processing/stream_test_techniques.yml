@@ -1,0 +1,25 @@
+test_techniques:
+  - category: "实时性与延迟"
+    key_metrics: ["端到端延迟、各节点延迟"]
+    test_points: ["带时间戳注入、背压监测"]
+    tools_methods: ["延迟测量工具"]
+  - category: "乱序/迟到/重复"
+    key_metrics: ["乱序、迟到、重复、空洞ID"]
+    test_points: ["窗口、水位线、去重、侧输出"]
+    tools_methods: ["事件模拟器"]
+  - category: "高并发与压力"
+    key_metrics: ["突增/抖动负载"]
+    test_points: ["背压、丢包、阻塞、扩缩容"]
+    tools_methods: ["压力测试框架"]
+  - category: "容错与恢复"
+    key_metrics: ["断源/断链路/故障节点"]
+    test_points: ["checkpoint/savepoint、重启、幂等"]
+    tools_methods: ["故障注入工具"]
+  - category: "批流一致性"
+    key_metrics: ["与离线结果对账"]
+    test_points: ["窗口对齐、去重口径、CDC一致性"]
+    tools_methods: ["对账脚本"]
+  - category: "状态与水位"
+    key_metrics: ["大状态快照恢复、状态TTL"]
+    test_points: ["State Backend变更、Watermark策略"]
+    tools_methods: ["状态管理工具"]

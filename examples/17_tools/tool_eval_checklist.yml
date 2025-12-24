@@ -1,0 +1,219 @@
+# Tool evaluation checklist and framework configuration examples
+# This file contains comprehensive configuration examples for big data testing tools
+
+# Tool evaluation criteria
+criteria:
+  - name: functional_fit
+    weight: 3
+    description: "Covers required test scenarios"
+  - name: performance
+    weight: 2
+    description: "Handles expected data volumes and concurrency"
+  - name: integration
+    weight: 2
+    description: "Integrates with existing tech stack"
+  - name: cost
+    weight: 1
+    description: "Licensing and operational costs acceptable"
+  - name: support
+    weight: 1
+    description: "Community/vendor support availability"
+  - name: learning_curve
+    weight: 1
+    description: "Team can adopt within reasonable time"
+
+scoring:
+  scale: 1-5
+  thresholds:
+    excellent: ">=4.5"
+    good: "3.5-4.4"
+    acceptable: "2.5-3.4"
+    poor: "<2.5"
+
+# Framework configuration examples
+framework:
+  name: bigdata_test_tools
+  version: "1.0.0"
+
+  tools:
+    data_quality:
+      great_expectations:
+        version: "0.16.0"
+        config:
+          datasources:
+            - name: "production_db"
+              type: "sql"
+              connection_string: "${PROD_DB_URL}"
+            - name: "data_lake"
+              type: "spark"
+              spark_config:
+                master: "spark://spark-master:7077"
+      deequ:
+        version: "2.0.0"
+        config:
+          spark_master: "spark://spark-master:7077"
+          checkpoint_dir: "s3://deequ-checkpoints/"
+
+    performance_testing:
+      jmeter:
+        version: "5.5"
+        config:
+          heap_size: "2g"
+          remote_hosts: "jmeter-slave-1,jmeter-slave-2"
+      locust:
+        version: "2.15.0"
+        config:
+          master_bind_host: "0.0.0.0"
+          master_bind_port: 5557
+
+    integration_testing:
+      testcontainers:
+        version: "1.17.0"
+        config:
+          docker_images:
+            postgres: "postgres:13"
+            kafka: "confluentinc/cp-kafka:7.0.0"
+      airflow:
+        version: "2.5.0"
+        config:
+          executor: "KubernetesExecutor"
+          dags_folder: "/opt/airflow/dags"
+
+    monitoring:
+      prometheus:
+        version: "2.40.0"
+        config:
+          scrape_interval: "15s"
+          evaluation_interval: "15s"
+      elk_stack:
+        elasticsearch: "8.5.0"
+        logstash: "8.5.0"
+        kibana: "8.5.0"
+
+    data_generation:
+      faker:
+        version: "15.0.0"
+        config:
+          locale: "zh_CN"
+      custom_generator:
+        version: "1.0.0"
+        config:
+          templates_dir: "/opt/data-templates"
+
+# Tool integration patterns
+integration_patterns:
+  api_driven:
+    description: "Tools communicate via REST APIs"
+    examples:
+      - "JMeter -> ELK Stack"
+      - "Airflow -> Prometheus"
+
+  message_driven:
+    description: "Tools communicate via message queues"
+    examples:
+      - "Test execution -> Kafka -> Monitoring"
+      - "Data quality checks -> RabbitMQ -> Alerting"
+
+  file_based:
+    description: "Tools exchange data via files"
+    examples:
+      - "Data generation -> CSV -> Quality checks"
+      - "Test results -> JSON -> Reporting"
+
+  plugin_based:
+    description: "Tools extend each other via plugins"
+    examples:
+      - "JMeter plugins for custom protocols"
+      - "Airflow operators for test execution"
+
+# Deployment configurations
+deployment:
+  docker_compose:
+    version: "3.8"
+    services:
+      great_expectations:
+        image: "great_expectations/great_expectations:latest"
+        volumes:
+          - "./great_expectations:/opt/great_expectations"
+        environment:
+          - GE_DATA_CONTEXT_ROOT=/opt/great_expectations
+
+      jmeter_master:
+        image: "justb4/jmeter:latest"
+        ports:
+          - "60000:60000"
+        volumes:
+          - "./jmeter/test_plans:/test_plans"
+          - "./jmeter/results:/results"
+
+      prometheus:
+        image: "prom/prometheus:latest"
+        volumes:
+          - "./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml"
+        ports:
+          - "9090:9090"
+
+  kubernetes:
+    namespace: bigdata-testing
+    deployments:
+      - name: test-orchestrator
+        replicas: 2
+        image: "airflow:2.5.0"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+
+# Monitoring and alerting
+monitoring:
+  metrics:
+    - name: test_execution_time
+      type: histogram
+      description: "Time taken to execute tests"
+      buckets: [1, 5, 10, 30, 60, 300]
+
+    - name: test_success_rate
+      type: gauge
+      description: "Percentage of successful tests"
+      labels: ["test_suite", "environment"]
+
+    - name: data_quality_score
+      type: gauge
+      description: "Overall data quality score"
+      labels: ["dataset", "quality_dimension"]
+
+  alerts:
+    - name: high_test_failure_rate
+      condition: "test_success_rate < 0.95"
+      for: "5m"
+      severity: critical
+      description: "Test failure rate is too high"
+
+    - name: slow_test_execution
+      condition: "test_execution_time{quantile='0.95'} > 300"
+      for: "10m"
+      severity: warning
+      description: "Test execution is taking too long"
+
+# Best practices and recommendations
+best_practices:
+  tool_selection:
+    - "Start with open source tools for proof of concept"
+    - "Evaluate commercial tools for enterprise requirements"
+    - "Consider total cost of ownership, not just licensing"
+    - "Validate integration capabilities early"
+
+  deployment:
+    - "Use containerization for consistent environments"
+    - "Implement proper monitoring from day one"
+    - "Plan for scalability and high availability"
+    - "Document all configurations and procedures"
+
+  maintenance:
+    - "Keep tools updated to latest stable versions"
+    - "Monitor resource usage and performance"
+    - "Regularly review and optimize configurations"
+    - "Maintain comprehensive documentation"

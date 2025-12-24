@@ -1,0 +1,96 @@
+# examples/12_governance/approval_workflow.yml
+# 数据治理审批工作流配置示例
+
+approval_workflow:
+  # 工作流类型
+  workflow_types:
+    data_deletion_approval:
+      description: "测试数据删除审批流程"
+      priority: "high"
+      sla_hours: 48
+      
+    access_rights_change:
+      description: "数据访问权限变更审批"
+      priority: "medium"
+      sla_hours: 24
+      
+    retention_policy_exception:
+      description: "数据保留策略例外审批"
+      priority: "medium"
+      sla_hours: 72
+      
+    sensitive_data_export:
+      description: "敏感数据导出审批"
+      priority: "high"
+      sla_hours: 24
+
+  # 审批层级
+  approval_levels:
+    level_1:
+      role: "data_steward"
+      approval_criteria: "routine_operations"
+      auto_approval_limit: "low_risk_actions"
+      
+    level_2:
+      role: "compliance_officer"
+      approval_criteria: "sensitive_operations"
+      auto_approval_limit: "none"
+      
+    level_3:
+      role: "data_governance_committee"
+      approval_criteria: "high_risk_operations"
+      auto_approval_limit: "none"
+
+  # 审批规则
+  approval_rules:
+    - rule_id: "rule_001"
+      trigger: "data_deletion_request"
+      required_level: "level_1"
+      conditions:
+        - "data_classification != 'restricted'"
+        - "requestor_has_steward_role"
+      
+    - rule_id: "rule_002"
+      trigger: "sensitive_data_access"
+      required_level: "level_2"
+      conditions:
+        - "data_classification == 'restricted'"
+        - "business_justification_provided"
+      
+    - rule_id: "rule_003"
+      trigger: "policy_exception_request"
+      required_level: "level_3"
+      conditions:
+        - "exception_justified"
+        - "impact_assessment_completed"
+
+  # 审批流程配置
+  workflow_config:
+    auto_assignment:
+      enabled: true
+      assignment_rules:
+        - "assign_to_data_domain_owner"
+        - "fallback_to_compliance_team"
+        
+    escalation_rules:
+      no_response_timeout_hours: 24
+      escalation_path: "supervisor > manager > committee"
+      
+    approval_notifications:
+      email_enabled: true
+      slack_enabled: true
+      dashboard_updates: true
+
+  # 审计与跟踪
+  audit_trail:
+    track_all_decisions: true
+    retention_period_years: 7
+    audit_report_generation: "monthly"
+    
+    audit_events:
+      - "workflow_initiated"
+      - "approval_requested"
+      - "approval_granted"
+      - "approval_denied"
+      - "escalation_triggered"
+      - "workflow_completed"

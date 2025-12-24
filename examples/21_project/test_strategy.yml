@@ -1,0 +1,218 @@
+# examples/21_project/test_strategy.yml
+test_strategy:
+  # 测试总体策略
+  overall_approach:
+    testing_methodology: "敏捷测试+风险导向"
+    test_levels: ["单元测试", "集成测试", "系统测试", "验收测试"]
+    test_types: ["功能测试", "性能测试", "安全测试", "兼容性测试"]
+    automation_goal: "80%测试用例自动化"
+    regression_frequency: "每日回归"
+
+  # 测试范围定义
+  test_scope:
+    in_scope:
+      - "核心业务功能测试"
+      - "数据处理流程测试"
+      - "系统性能基准测试"
+      - "安全合规性验证"
+      - "生产环境兼容性测试"
+    out_scope:
+      - "第三方系统功能测试"
+      - "非核心业务功能测试"
+      - "历史数据迁移验证"
+    assumptions:
+      - "测试环境与生产环境一致"
+      - "业务团队提供测试数据"
+      - "开发团队提供接口文档"
+
+  # 测试方法与技术
+  testing_methods:
+    functional_testing:
+      approach: "基于需求的黑盒测试"
+      techniques: ["等价类划分", "边界值分析", "决策表测试"]
+      tools: ["JIRA", "TestRail", "Selenium"]
+      coverage_target: "95%"
+
+    performance_testing:
+      approach: "基于SLA的性能基准测试"
+      techniques: ["负载测试", "压力测试", "容量测试"]
+      tools: ["JMeter", "LoadRunner", "Grafana"]
+      benchmarks:
+        response_time: "< 2s for 95th percentile"
+        throughput: "> 1000 TPS"
+        availability: "> 99.9%"
+
+    security_testing:
+      approach: "基于威胁建模的安全测试"
+      techniques: ["渗透测试", "漏洞扫描", "合规检查"]
+      tools: ["OWASP ZAP", "Nessus", "Custom scripts"]
+      compliance: ["数据脱敏", "访问控制", "审计日志"]
+
+    automation_testing:
+      approach: "分层自动化测试框架"
+      layers: ["单元测试", "API测试", "UI测试", "端到端测试"]
+      frameworks: ["JUnit", "RestAssured", "Selenium", "Cucumber"]
+      ci_cd_integration: true
+
+  # 资源配置
+  resource_allocation:
+    personnel:
+      test_managers: 1
+      senior_testers: 3
+      junior_testers: 4
+      automation_engineers: 2
+      performance_engineers: 1
+
+    environments:
+      development_env:
+        purpose: "单元测试和集成测试"
+        availability: "24/7"
+        setup_time: "< 1 hour"
+      testing_env:
+        purpose: "系统测试和验收测试"
+        availability: "工作时间"
+        setup_time: "< 4 hours"
+      staging_env:
+        purpose: "预发布验证"
+        availability: "按需"
+        setup_time: "< 8 hours"
+
+    tools_budget:
+      testing_tools: 50000
+      automation_framework: 80000
+      monitoring_tools: 30000
+      cloud_resources: 100000
+
+  # 测试进度计划
+  test_schedule:
+    phases:
+      unit_testing:
+        duration: "2周"
+        start_date: "2025-01-01"
+        end_date: "2025-01-14"
+        deliverables: ["单元测试报告", "代码覆盖率报告"]
+
+      integration_testing:
+        duration: "3周"
+        start_date: "2025-01-15"
+        end_date: "2025-02-05"
+        deliverables: ["集成测试报告", "接口测试报告"]
+
+      system_testing:
+        duration: "4周"
+        start_date: "2025-02-06"
+        end_date: "2025-03-05"
+        deliverables: ["系统测试报告", "功能验收报告"]
+
+      performance_testing:
+        duration: "2周"
+        start_date: "2025-03-06"
+        end_date: "2025-03-19"
+        deliverables: ["性能测试报告", "容量规划报告"]
+
+      user_acceptance_testing:
+        duration: "2周"
+        start_date: "2025-03-20"
+        end_date: "2025-04-02"
+        deliverables: ["UAT报告", "发布就绪报告"]
+
+    milestones:
+      - name: "测试计划完成"
+        date: "2024-12-20"
+        criteria: "测试策略文档评审通过"
+      - name: "测试用例完成"
+        date: "2025-01-10"
+        criteria: "80%测试用例编写完成"
+      - name: "自动化框架就绪"
+        date: "2025-01-15"
+        criteria: "自动化测试框架部署完成"
+      - name: "测试执行完成"
+        date: "2025-03-15"
+        criteria: "所有测试类型执行完毕"
+      - name: "发布验证完成"
+        date: "2025-04-02"
+        criteria: "UAT通过，获得发布批准"
+
+  # 风险管理
+  risk_management:
+    identified_risks:
+      - risk_id: "RISK_001"
+        description: "测试环境不稳定"
+        impact: "high"
+        probability: "medium"
+        mitigation_strategy: "提前搭建测试环境，制定环境管理SOP"
+        contingency_plan: "准备备用测试环境"
+
+      - risk_id: "RISK_002"
+        description: "测试数据准备延迟"
+        impact: "high"
+        probability: "high"
+        mitigation_strategy: "提前识别测试数据需求，建立数据准备流程"
+        contingency_plan: "使用生产数据子集或模拟数据"
+
+      - risk_id: "RISK_003"
+        description: "关键缺陷发现过晚"
+        impact: "critical"
+        probability: "medium"
+        mitigation_strategy: "实施每日构建和冒烟测试"
+        contingency_plan: "调整发布计划或实施紧急修复"
+
+    risk_monitoring:
+      review_frequency: "weekly"
+      escalation_threshold: "high_risk_triggered"
+      reporting: "风险状态周报"
+
+  # 质量门限
+  quality_gates:
+    unit_test_gate:
+      coverage_threshold: "80%"
+      blocker_defects: "0"
+      criteria: "单元测试覆盖率达标，无阻塞性缺陷"
+
+    integration_gate:
+      pass_rate_threshold: "95%"
+      critical_defects: "< 5"
+      criteria: "集成测试通过率达标，关键缺陷数量可控"
+
+    system_test_gate:
+      pass_rate_threshold: "98%"
+      major_defects: "< 3"
+      criteria: "系统测试通过率达标，主要缺陷已修复"
+
+    performance_gate:
+      response_time_sla: "meet_requirements"
+      throughput_sla: "meet_requirements"
+      criteria: "性能指标达到SLA要求"
+
+    security_gate:
+      vulnerability_severity: "no_critical"
+      compliance_status: "passed"
+      criteria: "无严重安全漏洞，合规检查通过"
+
+  # 度量与报告
+  metrics_reporting:
+    daily_metrics:
+      - "测试执行进度"
+      - "缺陷发现趋势"
+      - "测试覆盖率"
+      - "自动化执行结果"
+
+    weekly_reports:
+      - "测试状态报告"
+      - "质量趋势分析"
+      - "风险状态更新"
+      - "里程碑达成情况"
+
+    key_metrics:
+      - name: "测试覆盖率"
+        target: "> 90%"
+        formula: "covered_requirements / total_requirements"
+      - name: "缺陷密度"
+        target: "< 2.0 per KLOC"
+        formula: "total_defects / code_size"
+      - name: "缺陷发现效率"
+        target: "> 80%"
+        formula: "defects_found_in_testing / total_defects"
+      - name: "测试执行效率"
+        target: "> 85%"
+        formula: "automated_tests / total_tests"

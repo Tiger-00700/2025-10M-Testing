@@ -1,0 +1,93 @@
+# examples/17_tools/tool_integration_config.yml
+tool_integration:
+  orchestrator:
+    type: airflow
+    dag_folder: /opt/airflow/dags
+    default_args:
+      owner: data_team
+      depends_on_past: false
+      start_date: '2024-01-01'
+      email_on_failure: true
+      email_on_retry: false
+      retries: 3
+      retry_delay: 300
+
+  quality_tools:
+    great_expectations:
+      enabled: true
+      config_path: /opt/great_expectations/great_expectations.yml
+      checkpoint_store: /opt/great_expectations/checkpoints
+      data_docs: /opt/great_expectations/data_docs
+
+    deequ:
+      enabled: true
+      spark_master: local[*]
+      checkpoint_path: /data/checkpoints/deequ
+      result_path: /data/results/deequ
+
+  performance_tools:
+    jmeter:
+      enabled: true
+      home_path: /opt/jmeter
+      test_plans_path: /opt/jmeter/testplans
+      results_path: /opt/jmeter/results
+      properties:
+        jmeter.save.saveservice.output_format: xml
+        jmeter.save.saveservice.response_data: true
+
+    locust:
+      enabled: true
+      script_path: /opt/locust/locustfiles
+      results_path: /opt/locust/results
+      master_port: 5557
+      web_port: 8089
+
+  monitoring_tools:
+    prometheus:
+      enabled: true
+      config_path: /opt/prometheus/prometheus.yml
+      data_path: /opt/prometheus/data
+      retention: 30d
+
+    grafana:
+      enabled: true
+      config_path: /opt/grafana/grafana.ini
+      dashboards_path: /opt/grafana/dashboards
+      datasources_path: /opt/grafana/datasources
+
+  integration_patterns:
+    api_driven:
+      protocol: rest
+      auth_type: bearer_token
+      timeout: 30
+      retry_count: 3
+
+    message_driven:
+      broker: kafka
+      topic: tool.integration.events
+      group_id: data_quality_pipeline
+      auto_commit: true
+
+    file_sharing:
+      protocol: s3
+      bucket: data-quality-results
+      region: us-east-1
+      prefix: results/
+
+    plugin_based:
+      interface: spi
+      plugin_path: /opt/tools/plugins
+      config_path: /opt/tools/plugin-config
+
+  error_handling:
+    max_retries: 3
+    backoff_multiplier: 2
+    max_backoff: 300
+    alert_threshold: 5
+
+  logging:
+    level: INFO
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    file_path: /var/log/tool_integration.log
+    max_size: 100MB
+    backup_count: 5

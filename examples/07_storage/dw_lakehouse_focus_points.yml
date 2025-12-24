@@ -1,0 +1,25 @@
+focus_points:
+  - category: "数据一致性与原子性"
+    key_metrics: ["多表/多分区写入", "事务与快照隔离"]
+    test_points: ["Merge-On-Read/Copy-On-Write行为差异"]
+    tools_methods: ["事务一致性测试"]
+  - category: "Schema演进与兼容性"
+    key_metrics: ["字段新增/删除/类型变更"]
+    test_points: ["向前/向后/全兼容策略", "读写兼容"]
+    tools_methods: ["Schema变更脚本"]
+  - category: "分区与分桶策略"
+    key_metrics: ["分区裁剪", "分桶均衡"]
+    test_points: ["聚合/过滤性能", "倾斜与小文件治理"]
+    tools_methods: ["分区调优工具"]
+  - category: "批流一体一致性"
+    key_metrics: ["批/流对同一表写入", "并发一致性"]
+    test_points: ["去重/幂等", "Watermark影响"]
+    tools_methods: ["批流对账脚本"]
+  - category: "元数据与血缘"
+    key_metrics: ["表/分区/快照/版本元数据", "血缘与Catalog一致性"]
+    test_points: ["元数据正确性"]
+    tools_methods: ["元数据校验工具"]
+  - category: "Time Travel与快照"
+    key_metrics: ["版本回溯", "Rollback"]
+    test_points: ["时间点查询的正确性与性能"]
+    tools_methods: ["快照回溯测试"]

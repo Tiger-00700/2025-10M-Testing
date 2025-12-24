@@ -1,0 +1,25 @@
+test_points:
+  - category: "数据与特征"
+    key_metrics: ["特征提取/清洗/归一化/编码"]
+    test_points: ["训练/验证/测试切分无泄漏"]
+    tools_methods: ["特征验证脚本"]
+  - category: "模型效果与稳健性"
+    key_metrics: ["AUC/Accuracy/Recall、对抗样本"]
+    test_points: ["鲁棒性、偏差与公平性"]
+    tools_methods: ["模型评估工具"]
+  - category: "复现性与确定性"
+    key_metrics: ["固定随机种子、版本化数据/特征/代码"]
+    test_points: ["同输入多次训练结果一致"]
+    tools_methods: ["版本控制系统"]
+  - category: "上线前回归与A/B"
+    key_metrics: ["新旧模型离线对比+在线A/B"]
+    test_points: ["监控业务指标/延迟/成本回退"]
+    tools_methods: ["A/B测试平台"]
+  - category: "推理与资源"
+    key_metrics: ["推理延迟/吞吐、批量与流式"]
+    test_points: ["模型大小、量化/蒸馏影响"]
+    tools_methods: ["推理性能测试"]
+  - category: "漂移与监控"
+    key_metrics: ["数据/特征分布漂移、概念漂移"]
+    test_points: ["告警、触发回滚/重训策略"]
+    tools_methods: ["监控仪表盘"]

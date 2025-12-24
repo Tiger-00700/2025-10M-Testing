@@ -1,0 +1,116 @@
+# examples/17_observability/observability_pillars.yml
+# 可观测性三大支柱配置示例
+
+observability_pillars:
+  # 指标(Metrics) - 量化系统状态
+  metrics:
+    system_metrics:
+      cpu_usage: "CPU使用率 (%)"
+      memory_usage: "内存使用率 (%)"
+      disk_usage: "磁盘使用率 (%)"
+      network_io: "网络I/O (MB/s)"
+
+    application_metrics:
+      request_rate: "请求速率 (req/s)"
+      error_rate: "错误率 (%)"
+      response_time: "响应时间 (ms)"
+      throughput: "吞吐量 (req/s)"
+
+    business_metrics:
+      user_satisfaction: "用户满意度评分"
+      conversion_rate: "转化率 (%)"
+      revenue_per_user: "人均收入 ($)"
+
+  # 日志(Logs) - 记录系统事件
+  logs:
+    log_levels:
+      - DEBUG: "调试信息"
+      - INFO: "一般信息"
+      - WARN: "警告信息"
+      - ERROR: "错误信息"
+      - FATAL: "致命错误"
+
+    log_formats:
+      structured: "结构化日志 (JSON)"
+      unstructured: "非结构化日志 (文本)"
+
+    log_components:
+      application_logs: "应用日志"
+      system_logs: "系统日志"
+      audit_logs: "审计日志"
+      security_logs: "安全日志"
+
+  # 追踪(Traces) - 跟踪请求流程
+  traces:
+    trace_components:
+      trace_id: "全局追踪ID"
+      span_id: "跨度ID"
+      parent_span_id: "父跨度ID"
+      service_name: "服务名称"
+      operation_name: "操作名称"
+
+    trace_attributes:
+      http_method: "HTTP方法"
+      http_url: "请求URL"
+      http_status: "HTTP状态码"
+      user_agent: "用户代理"
+      client_ip: "客户端IP"
+
+    trace_sampling:
+      probability_sampling: 0.1  # 概率采样 (10%)
+      rate_limiting: 1000  # 速率限制 (1000 traces/s)
+      adaptive_sampling: true  # 自适应采样
+
+# 三大支柱对比分析
+pillar_comparison:
+  metrics:
+    advantages:
+      - 高效存储和查询
+      - 支持聚合和统计
+      - 适合监控和告警
+    disadvantages:
+      - 缺乏上下文信息
+      - 难以诊断具体问题
+      - 采样可能丢失细节
+
+  logs:
+    advantages:
+      - 包含丰富上下文
+      - 支持全文搜索
+      - 适合调试和审计
+    disadvantages:
+      - 存储成本高
+      - 查询效率低
+      - 难以聚合分析
+
+  traces:
+    advantages:
+      - 提供端到端视图
+      - 支持分布式调试
+      - 关联因果关系
+    disadvantages:
+      - 性能开销大
+      - 采样复杂度高
+      - 存储需求大
+
+# 集成配置示例
+integration_config:
+  correlation_rules:
+    - metric_to_log: "error_rate > 0.05 → search error logs"
+    - log_to_trace: "exception found → find related trace"
+    - trace_to_metric: "slow request → check latency metrics"
+
+  unified_dashboard:
+    widgets:
+      - type: "time_series"
+        title: "系统性能指标"
+        metrics: ["cpu_usage", "memory_usage", "request_rate"]
+
+      - type: "log_stream"
+        title: "实时错误日志"
+        filters: ["level:ERROR", "level:FATAL"]
+
+      - type: "trace_view"
+        title: "请求追踪图"
+        service_filter: "api-gateway"</content>
+<parameter name="filePath">e:\DONT_TOUCH\10M-2025-Testing\examples\17_observability\observability_pillars.yml

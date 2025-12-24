@@ -1,0 +1,81 @@
+# examples/13_data_gov/lifecycle_policy.yml
+# 测试数据生命周期管理策略配置
+
+lifecycle_policy:
+  # 数据保留策略
+  retention_policies:
+    test_data:
+      retention_period_days: 90
+      auto_cleanup: true
+      approval_required: false
+      
+    sensitive_test_data:
+      retention_period_days: 365
+      auto_cleanup: false
+      approval_required: true
+      
+    regression_test_data:
+      retention_period_days: 1095
+      auto_cleanup: false
+      approval_required: true
+
+  # 过期检查规则
+  expiry_rules:
+    check_frequency: "daily"
+    grace_period_days: 30
+    notification_enabled: true
+    auto_extend_allowed: false
+    
+    expiry_criteria:
+      - criterion: "creation_date + retention_period"
+        action: "mark_for_review"
+      - criterion: "last_access_date + 60_days"
+        action: "mark_for_cleanup"
+      - criterion: "test_case_deprecated"
+        action: "immediate_cleanup"
+
+  # 清理策略
+  cleanup_strategies:
+    soft_delete:
+      enabled: true
+      recovery_window_days: 7
+      
+    hard_delete:
+      secure_erase: true
+      verification_required: true
+      
+    archival_before_cleanup:
+      enabled: true
+      compression: true
+      encryption: true
+
+  # 审批流程
+  approval_workflow:
+    required_for:
+      - "sensitive_data_cleanup"
+      - "extended_retention"
+      - "bulk_cleanup_operations"
+      
+    approvers:
+      - role: "data_steward"
+        approval_level: "first_level"
+      - role: "compliance_officer"
+        approval_level: "final_approval"
+        
+    escalation_rules:
+      response_time_hours: 48
+      auto_escalation: true
+
+  # 审计与报告
+  audit:
+    lifecycle_events_logging: true
+    retention_audit_frequency: "monthly"
+    compliance_reporting: true
+    
+    audit_trail:
+      events_to_log:
+        - "data_creation"
+        - "data_access"
+        - "retention_policy_application"
+        - "cleanup_execution"
+        - "approval_decisions"

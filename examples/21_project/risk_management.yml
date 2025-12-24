@@ -1,0 +1,290 @@
+# examples/21_project/risk_management.yml
+risk_management:
+  # 风险识别框架
+  risk_identification:
+    risk_categories:
+      - category: "技术风险"
+        description: "与技术实现相关的风险"
+        examples:
+          - "技术选型不合适"
+          - "技术难题无法解决"
+          - "技术债务积累过多"
+          - "第三方依赖不稳定"
+        identification_methods: ["专家评估", "历史数据分析", "技术评审"]
+
+      - category: "业务风险"
+        description: "与业务需求和目标相关的风险"
+        examples:
+          - "需求理解偏差"
+          - "业务规则变更频繁"
+          - "业务目标不明确"
+          - "业务验收标准不清晰"
+        identification_methods: ["需求分析", "业务评审", "用户调研"]
+
+      - category: "资源风险"
+        description: "与项目资源相关的风险"
+        examples:
+          - "关键人员离职"
+          - "资源配置不足"
+          - "环境准备延迟"
+          - "预算超支"
+        identification_methods: ["资源评估", "能力分析", "预算审查"]
+
+      - category: "外部风险"
+        description: "外部环境和依赖相关的风险"
+        examples:
+          - "供应商交付延迟"
+          - "法规政策变更"
+          - "市场环境变化"
+          - "竞争对手影响"
+        identification_methods: ["外部评估", "环境扫描", "依赖分析"]
+
+    risk_assessment_criteria:
+      - criterion: "概率"
+        levels:
+          - level: "极低"
+            score: 1
+            description: "基本不可能发生"
+          - level: "低"
+            score: 2
+            description: "偶尔可能发生"
+          - level: "中等"
+            score: 3
+            description: "有时会发生"
+          - level: "高"
+            score: 4
+            description: "很可能发生"
+          - level: "极高"
+            score: 5
+            description: "几乎必然发生"
+
+      - criterion: "影响"
+        levels:
+          - level: "极低"
+            score: 1
+            description: "对项目几乎无影响"
+          - level: "低"
+            score: 2
+            description: "对项目有轻微影响"
+          - level: "中等"
+            score: 3
+            description: "对项目有中等影响"
+          - level: "高"
+            score: 4
+            description: "对项目有重大影响"
+          - level: "极高"
+            score: 5
+            description: "可能导致项目失败"
+
+  # 风险应对策略
+  risk_response_strategies:
+    avoidance_strategies:
+      - strategy: "风险规避"
+        description: "改变计划以消除风险或条件"
+        applicability: "高概率高影响风险"
+        examples:
+          - "选择更成熟的技术方案"
+          - "调整项目范围避免高风险功能"
+          - "更换不可靠的供应商"
+        success_factors: ["早期识别", "替代方案可行", "利益相关者同意"]
+
+    mitigation_strategies:
+      - strategy: "风险缓解"
+        description: "降低风险概率或影响"
+        applicability: "中等及以上风险"
+        examples:
+          - "增加技术预研时间"
+          - "实施原型验证"
+          - "建立备份方案"
+          - "加强监控和预警"
+        success_factors: ["及早行动", "资源充足", "措施有效"]
+
+    transfer_strategies:
+      - strategy: "风险转移"
+        description: "将风险转移给第三方"
+        applicability: "外部风险"
+        examples:
+          - "购买保险"
+          - "签订服务保障协议"
+          - "外包高风险任务"
+          - "建立供应商惩罚机制"
+        success_factors: ["合同明确", "转移对象可靠", "成本合理"]
+
+    acceptance_strategies:
+      - strategy: "风险接受"
+        description: "承认风险存在但不采取行动"
+        applicability: "低影响风险"
+        examples:
+          - "建立应急响应机制"
+          - "监控风险状态变化"
+          - "制定应急预案"
+        success_factors: ["监控机制完善", "应急能力充足", "影响可控"]
+
+  # 风险监控机制
+  risk_monitoring:
+    monitoring_indicators:
+      - indicator: "风险状态变化"
+        measurement: "风险概率/影响评分变化"
+        frequency: "weekly"
+        threshold: "评分变化>0.5"
+        action: "重新评估风险等级"
+
+      - indicator: "风险触发事件"
+        measurement: "风险事件发生次数"
+        frequency: "real-time"
+        threshold: "发生风险事件"
+        action: "激活应急响应"
+
+      - indicator: "缓解措施执行"
+        measurement: "措施完成率"
+        frequency: "weekly"
+        threshold: "< 80%"
+        action: "督促措施执行"
+
+      - indicator: "新风险识别"
+        measurement: "新识别风险数量"
+        frequency: "weekly"
+        threshold: "> 2个新风险"
+        action: "评估新风险影响"
+
+    early_warning_system:
+      warning_levels:
+        - level: "绿色"
+          criteria: "所有风险在可控范围内"
+          action: "正常监控"
+
+        - level: "黄色"
+          criteria: "有中等风险需要关注"
+          action: "加强监控，制定应对措施"
+
+        - level: "橙色"
+          criteria: "有高风险需要立即处理"
+          action: "激活风险应对计划"
+
+        - level: "红色"
+          criteria: "有极高风险威胁项目"
+          action: "启动应急预案"
+
+    reporting_mechanism:
+      risk_register:
+        update_frequency: "weekly"
+        distribution: ["项目经理", "风险责任人", "关键干系人"]
+        content: ["风险状态", "应对措施", "最新进展"]
+
+      risk_dashboard:
+        update_frequency: "daily"
+        audience: "项目团队"
+        metrics: ["风险数量", "风险分布", "应对进度"]
+
+      executive_summary:
+        update_frequency: "monthly"
+        audience: "管理层"
+        content: ["主要风险", "应对成效", "趋势分析"]
+
+  # 应急响应机制
+  contingency_planning:
+    emergency_response_plan:
+      activation_criteria:
+        - "关键路径延误>3天"
+        - "主要缺陷数量>10个"
+        - "性能指标不达标"
+        - "关键人员离职"
+        - "外部依赖中断"
+
+      response_team:
+        coordinator: "项目经理"
+        technical_lead: "架构师"
+        business_lead: "业务负责人"
+        communication_lead: "测试经理"
+
+      immediate_actions:
+        - "评估影响范围"
+        - "激活备用方案"
+        - "通知相关干系人"
+        - "调配应急资源"
+
+      escalation_procedures:
+        - level: "团队级别"
+          timeframe: "2小时内"
+          decision_maker: "项目经理"
+
+        - level: "部门级别"
+          timeframe: "4小时内"
+          decision_maker: "部门总监"
+
+        - level: "公司级别"
+          timeframe: "24小时内"
+          decision_maker: "CTO"
+
+    resource_contingency:
+      backup_resources:
+        - resource: "测试环境"
+          backup_count: 2
+          activation_time: "4小时"
+
+        - resource: "关键人员"
+          backup_count: 1
+          activation_time: "1周"
+
+        - resource: "第三方服务"
+          backup_count: 1
+          activation_time: "24小时"
+
+      resource_reallocation:
+        priority_projects: ["核心业务系统", "客户-facing功能"]
+        resource_pool: ["预备人员", "外部顾问", "云资源"]
+        reallocation_procedures: ["评估需求", "匹配能力", "培训过渡", "知识转移"]
+
+    communication_plan:
+      internal_communication:
+        - audience: "项目团队"
+          frequency: "每日更新"
+          channels: ["站会", "即时消息", "邮件"]
+
+        - audience: "管理层"
+          frequency: "事件发生后立即"
+          channels: ["电话", "邮件", "会议"]
+
+      external_communication:
+        - audience: "客户"
+          frequency: "视情况而定"
+          channels: ["正式邮件", "电话会议"]
+
+        - audience: "供应商"
+          frequency: "事件发生后立即"
+          channels: ["电话", "邮件", "会议"]
+
+  # 经验教训与改进
+  lessons_learned:
+    retrospective_process:
+      timing: "项目里程碑完成后"
+      participants: "项目全团队"
+      format: "结构化回顾会议"
+      duration: "2-4小时"
+
+    lessons_capture:
+      categories:
+        - "技术教训"
+        - "过程教训"
+        - "沟通教训"
+        - "资源教训"
+
+      documentation:
+        format: "结构化模板"
+        fields: ["事件描述", "根本原因", "影响评估", "改进措施", "预防建议"]
+        storage: "项目知识库"
+
+    continuous_improvement:
+      action_tracking:
+        responsible: "项目经理"
+        frequency: "monthly"
+        metrics: ["改进措施完成率", "重复问题发生率"]
+
+      capability_building:
+        training_needs: ["风险管理技能", "应急响应能力", "问题解决技巧"]
+        knowledge_sharing: ["最佳实践分享", "培训课程开发", "工具改进"]
+
+      process_optimization:
+        review_frequency: "quarterly"
+        optimization_areas: ["风险识别流程", "应对策略选择", "监控机制"]
+        success_metrics: ["风险预防率提升", "应急响应时间缩短", "项目成功率提高"]
