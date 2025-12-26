@@ -1,21 +1,118 @@
+# nosql_focus_points.yml
+# NoSQL数据库测试关注点配置
+
 focus_points:
-  - category: "数据模型与兼容性"
-    key_metrics: ["不同结构", "模式变更", "Schema演进"]
-    test_points: ["字段新增/删除/类型变更"]
-    tools_methods: ["兼容性测试脚本"]
-  - category: "一致性模型"
-    key_metrics: ["最终一致性", "强一致性", "分区容忍性"]
-    test_points: ["CAP定理下的权衡"]
-    tools_methods: ["一致性校验工具"]
-  - category: "性能与扩展性"
-    key_metrics: ["高并发读写", "分片", "分区"]
-    test_points: ["热点数据处理"]
-    tools_methods: ["性能负载测试"]
-  - category: "容错与恢复"
-    key_metrics: ["节点故障", "主从切换", "数据重建"]
-    test_points: ["自动故障转移"]
-    tools_methods: ["故障注入演练"]
-  - category: "安全与权限"
-    key_metrics: ["认证", "加密", "访问控制"]
-    test_points: ["最小权限原则"]
-    tools_methods: ["安全审计脚本"]
+  data_model_compatibility:
+    description: "数据模型与兼容性测试"
+    key_metrics:
+      - "Schema演进成功率"
+      - "字段变更兼容性"
+      - "数据结构正确性"
+    test_points:
+      - "字段新增/删除/类型变更"
+      - "向后兼容性验证"
+    tools_methods:
+      - "兼容性测试脚本"
+      - "Schema变更工具"
+
+  consistency_model:
+    description: "一致性模型测试"
+    key_metrics:
+      - "最终一致性延迟"
+      - "强一致性保证"
+      - "分区容忍性"
+    test_points:
+      - "CAP定理验证"
+      - "一致性权衡测试"
+    tools_methods:
+      - "一致性校验工具"
+      - "CAP测试框架"
+
+  performance_scalability:
+    description: "性能与扩展性测试"
+    key_metrics:
+      - "高并发读写吞吐量"
+      - "分片均衡性"
+      - "热点数据处理"
+    test_points:
+      - "分区策略优化"
+      - "负载均衡验证"
+    tools_methods:
+      - "性能负载测试工具"
+      - "分片监控脚本"
+
+  fault_tolerance_recovery:
+    description: "容错与恢复测试"
+    key_metrics:
+      - "节点故障恢复时间"
+      - "数据重建速度"
+      - "自动故障转移"
+    test_points:
+      - "主从切换测试"
+      - "数据重建验证"
+    tools_methods:
+      - "故障注入演练"
+      - "恢复测试工具"
+
+  security_permissions:
+    description: "安全与权限测试"
+    key_metrics:
+      - "认证机制有效性"
+      - "加密数据安全性"
+      - "访问控制准确性"
+    test_points:
+      - "最小权限原则"
+      - "安全审计验证"
+    tools_methods:
+      - "安全审计脚本"
+      - "权限测试工具"
+
+nosql_types:
+  key_value:
+    description: "键值存储"
+    examples: ["Redis", "DynamoDB", "Riak"]
+    consistency_models: ["最终一致性", "强一致性"]
+    use_cases: ["缓存", "会话存储", "配置管理"]
+
+  column_family:
+    description: "列族存储"
+    examples: ["Cassandra", "HBase", "Bigtable"]
+    consistency_models: ["可调一致性", "最终一致性"]
+    use_cases: ["时间序列数据", "日志存储"]
+
+  document:
+    description: "文档存储"
+    examples: ["MongoDB", "CouchDB", "Elasticsearch"]
+    consistency_models: ["单文档ACID", "最终一致性"]
+    use_cases: ["内容管理", "产品目录"]
+
+  graph:
+    description: "图数据库"
+    examples: ["Neo4j", "JanusGraph", "Amazon Neptune"]
+    consistency_models: ["ACID事务", "最终一致性"]
+    use_cases: ["社交网络", "推荐系统"]
+
+test_scenarios:
+  - name: "数据结构兼容性测试"
+    description: "验证不同数据结构的读写兼容性"
+    steps:
+      - "定义多种数据结构"
+      - "执行CRUD操作"
+      - "验证数据完整性"
+      - "测试Schema演进"
+
+  - name: "一致性模型验证"
+    description: "测试不同一致性模型下的行为"
+    steps:
+      - "配置一致性级别"
+      - "执行并发操作"
+      - "观察一致性保证"
+      - "分析性能影响"
+
+  - name: "故障恢复测试"
+    description: "模拟节点故障场景下的恢复"
+    steps:
+      - "部署分布式集群"
+      - "模拟节点故障"
+      - "观察自动恢复"
+      - "验证数据一致性"

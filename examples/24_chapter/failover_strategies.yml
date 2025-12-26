@@ -1,0 +1,16 @@
+failover_strategies:
+  active_passive: # 主备模式
+    description: "一个主节点，多个备节点"
+    advantages: ["简单可靠", "数据一致性好"]
+    disadvantages: ["资源浪费", "切换时间较长"]
+    use_case: "数据库、存储系统"
+  active_active: # 双主模式
+    description: "多个活动节点同时提供服务"
+    advantages: ["资源利用率高", "无缝切换"]
+    disadvantages: ["复杂度高", "数据同步挑战"]
+    use_case: "负载均衡的应用服务"
+  hybrid_approach: # 混合模式
+    description: "结合主备和双主模式的优势"
+    advantages: ["灵活性高", "性能优化"]
+    disadvantages: ["设计复杂", "管理成本高"]
+    use_case: "复杂分布式系统"

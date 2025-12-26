@@ -1,0 +1,16 @@
+quantitative_risk_assessment:
+  expected_monetary_value:
+    formula: "EMV = 风险影响金额 × 发生概率"
+    example: "数据丢失风险: 100万美元 × 5% = 5万美元"
+  risk_exposure_calculation:
+    formula: "风险暴露 = (影响程度 × 发生概率) × 时间窗口"
+    factors:
+      - impact_severity: "影响严重程度 (1-10)"
+      - occurrence_probability: "发生概率 (0-1)"
+      - exposure_window: "暴露时间窗口 (天)"
+  risk_reduction_leverage:
+    formula: "RRL = (风险减少金额) / 缓解措施成本"
+    interpretation:
+      - ">1": "值得投资的缓解措施"
+      - "=1": "边际效益"
+      - "<1": "不值得投资"

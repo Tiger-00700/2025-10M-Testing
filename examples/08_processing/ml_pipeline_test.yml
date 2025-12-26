@@ -1,25 +1,136 @@
-test_points:
-  - category: "数据与特征"
-    key_metrics: ["特征提取/清洗/归一化/编码"]
-    test_points: ["训练/验证/测试切分无泄漏"]
-    tools_methods: ["特征验证脚本"]
-  - category: "模型效果与稳健性"
-    key_metrics: ["AUC/Accuracy/Recall、对抗样本"]
-    test_points: ["鲁棒性、偏差与公平性"]
-    tools_methods: ["模型评估工具"]
-  - category: "复现性与确定性"
-    key_metrics: ["固定随机种子、版本化数据/特征/代码"]
-    test_points: ["同输入多次训练结果一致"]
-    tools_methods: ["版本控制系统"]
-  - category: "上线前回归与A/B"
-    key_metrics: ["新旧模型离线对比+在线A/B"]
-    test_points: ["监控业务指标/延迟/成本回退"]
-    tools_methods: ["A/B测试平台"]
-  - category: "推理与资源"
-    key_metrics: ["推理延迟/吞吐、批量与流式"]
-    test_points: ["模型大小、量化/蒸馏影响"]
-    tools_methods: ["推理性能测试"]
-  - category: "漂移与监控"
-    key_metrics: ["数据/特征分布漂移、概念漂移"]
-    test_points: ["告警、触发回滚/重训策略"]
-    tools_methods: ["监控仪表盘"]
+# ml_pipeline_test.yml
+# 机器学习与模型训练管道测试配置
+
+ml_pipeline_tests:
+  version: "1.0"
+  description: "机器学习与模型训练管道测试配置"
+
+  test_categories:
+    data_feature_engineering:
+      description: "数据与特征工程测试"
+      methods:
+        - feature_extraction_validation: "特征提取验证"
+        - data_cleaning_correctness: "数据清洗正确性"
+        - normalization_encoding_check: "归一化编码检查"
+        - train_validation_test_split: "训练/验证/测试分割"
+      tools:
+        - feature_validation_script: "特征验证脚本"
+        - data_integrity_checker: "数据完整性检查器"
+
+    model_effectiveness_robustness:
+      description: "模型效果与稳健性测试"
+      methods:
+        - performance_metrics_evaluation: "性能指标评估"
+        - adversarial_sample_testing: "对抗样本测试"
+        - robustness_validation: "鲁棒性验证"
+        - bias_fairness_assessment: "偏差公平性评估"
+      tools:
+        - model_evaluation_tool: "模型评估工具"
+        - fairness_checker: "公平性检查器"
+
+    reproducibility_determinism:
+      description: "复现性与确定性测试"
+      methods:
+        - random_seed_fixation: "随机种子固定"
+        - code_versioning: "代码版本化"
+        - data_versioning: "数据版本化"
+        - hyperparameter_tracking: "超参数跟踪"
+      tools:
+        - version_control_system: "版本控制系统"
+        - experiment_tracker: "实验跟踪器"
+
+    pre_deployment_regression:
+      description: "上线前回归与A/B测试"
+      methods:
+        - offline_model_comparison: "离线模型对比"
+        - online_ab_testing: "在线A/B测试"
+        - business_metrics_monitoring: "业务指标监控"
+        - rollback_procedures: "回滚流程"
+      tools:
+        - ab_testing_platform: "A/B测试平台"
+        - model_comparison_tool: "模型对比工具"
+
+    inference_performance:
+      description: "推理与资源测试"
+      methods:
+        - inference_latency_measurement: "推理延迟测量"
+        - throughput_capacity_testing: "吞吐量容量测试"
+        - batch_streaming_inference: "批量/流式推理"
+        - model_size_optimization: "模型大小优化"
+      tools:
+        - inference_performance_tester: "推理性能测试器"
+        - model_quantization_tool: "模型量化工具"
+
+    drift_monitoring:
+      description: "漂移与监控测试"
+      methods:
+        - data_distribution_drift: "数据分布漂移检测"
+        - feature_drift_monitoring: "特征漂移监控"
+        - concept_drift_detection: "概念漂移检测"
+        - automated_retraining: "自动化重训触发"
+      tools:
+        - drift_detection_system: "漂移检测系统"
+        - monitoring_dashboard: "监控仪表盘"
+
+  ml_specific_challenges:
+    data_pipeline_robustness:
+      - data_quality_degradation: "数据质量退化"
+      - feature_pipeline_failures: "特征管道故障"
+      - label_noise_handling: "标签噪声处理"
+      - data_distribution_shift: "数据分布偏移"
+
+    model_deployment_complexity:
+      - model_serialization_issues: "模型序列化问题"
+      - dependency_conflicts: "依赖冲突"
+      - runtime_environment_variance: "运行时环境差异"
+      - cold_start_performance: "冷启动性能"
+
+    production_monitoring:
+      - prediction_quality_tracking: "预测质量跟踪"
+      - model_performance_degradation: "模型性能退化"
+      - data_drift_alerting: "数据漂移告警"
+      - automated_model_refresh: "自动化模型刷新"
+
+  mlops_best_practices:
+    experiment_tracking:
+      - hyperparameter_logging: "超参数记录"
+      - metric_versioning: "指标版本化"
+      - artifact_storage: "制品存储"
+      - experiment_reproducibility: "实验复现性"
+
+    model_governance:
+      - model_lineage_tracking: "模型血缘跟踪"
+      - approval_workflows: "审批工作流"
+      - compliance_auditing: "合规审计"
+      - risk_assessment: "风险评估"
+
+    continuous_integration:
+      - automated_testing: "自动化测试"
+      - data_validation: "数据验证"
+      - model_validation: "模型验证"
+      - deployment_automation: "部署自动化"
+
+  tools_recommendations:
+    experiment_tracking:
+      - mlflow_tracking: "MLflow Tracking"
+      - weights_biases: "Weights & Biases"
+      - comet_ml: "Comet ML"
+      - neptune_ai: "Neptune.ai"
+
+    model_serving:
+      - tensorflow_serving: "TensorFlow Serving"
+      - torchserve: "TorchServe"
+      - bentoml: "BentoML"
+      - seldon_core: "Seldon Core"
+
+    monitoring_drift:
+      - evidently_ai: "Evidently.ai"
+      - arize_ai: "Arize AI"
+      - fiddler_ai: "Fiddler AI"
+      - whylabs: "WhyLabs"
+
+    ml_testing_frameworks:
+      - pytest_ml: "pytest-ml"
+      - great_expectations: "Great Expectations"
+      - deepchecks: "DeepChecks"
+      - modeltest: "ModelTest"

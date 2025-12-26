@@ -1,0 +1,202 @@
+# examples/20_evolution/architecture_design.yml
+architecture_design:
+  # 系统分层架构
+  layered_architecture:
+    data_source_layer:
+      components:
+        - name: "用户行为数据源"
+          type: "实时流数据"
+          format: "JSON/Protobuf"
+          volume: "10TB/day"
+          velocity: "100K events/sec"
+
+        - name: "业务日志数据源"
+          type: "批量日志数据"
+          format: "Text/CSV"
+          volume: "5TB/day"
+          frequency: "hourly"
+
+        - name: "第三方数据源"
+          type: "API数据源"
+          format: "REST/GraphQL"
+          volume: "2TB/day"
+          reliability: "99.5%"
+
+      data_characteristics:
+        structured_data: 30
+        semi_structured_data: 50
+        unstructured_data: 20
+
+    data_ingestion_layer:
+      components:
+        - name: "Kafka集群"
+          purpose: "实时数据缓冲与分发"
+          partitions: 100
+          replication_factor: 3
+          retention_hours: 168
+
+        - name: "Flume采集器"
+          purpose: "批量数据采集"
+          channels: 10
+          sinks: ["HDFS", "Kafka"]
+          reliability: "at-least-once"
+
+        - name: "DataStream API"
+          purpose: "流式数据接入"
+          protocols: ["HTTP", "WebSocket", "MQTT"]
+          authentication: "OAuth2/JWT"
+
+      ingestion_patterns:
+        real_time_ingestion:
+          latency_target: "< 10ms"
+          throughput_target: "> 10K events/sec"
+          data_loss_tolerance: "< 0.01%"
+
+        batch_ingestion:
+          window_size: "1 hour"
+          processing_delay: "< 30 minutes"
+          data_completeness: "> 99.9%"
+
+    data_storage_layer:
+      components:
+        - name: "HDFS数据湖"
+          purpose: "批量数据存储"
+          format: "Parquet/Delta"
+          compression: "Snappy"
+          partitioning: "date/hour"
+
+        - name: "HBase实时库"
+          purpose: "实时数据存储"
+          rowkey_design: "user_id + timestamp"
+          column_families: ["features", "events", "metadata"]
+          ttl: 30
+
+        - name: "Redis缓存层"
+          purpose: "热点数据缓存"
+          data_structures: ["Hash", "SortedSet", "String"]
+          expiration: "24 hours"
+          cluster_mode: true
+
+        - name: "MySQL业务库"
+          purpose: "业务数据存储"
+          schema_design: "星型模型"
+          indexing: "复合索引优化"
+          backup_strategy: "每日全量 + 实时增量"
+
+      data_consistency:
+        eventual_consistency:
+          window: "5 minutes"
+          accuracy: "> 99.9%"
+          conflict_resolution: "last-write-wins"
+
+        transactional_consistency:
+          scope: "单用户会话"
+          isolation_level: "read-committed"
+          rollback_support: true
+
+    data_processing_layer:
+      real_time_processing:
+        framework: "Apache Flink"
+        deployment_mode: "Kubernetes"
+        state_backend: "RocksDB"
+        checkpoint_interval: "30 seconds"
+
+        processing_topology:
+          source: "Kafka Consumer"
+          operators: ["Filter", "Map", "KeyBy", "Window", "Aggregate"]
+          sink: "HBase/Redis"
+          parallelism: 20
+
+        fault_tolerance:
+          checkpoint_semantics: "exactly-once"
+          restart_strategy: "fixed-delay"
+          savepoint_mechanism: true
+
+      batch_processing:
+        framework: "Apache Spark"
+        deployment_mode: "YARN"
+        execution_mode: "batch"
+        resource_allocation: "dynamic"
+
+        processing_pipeline:
+          input: "HDFS Parquet files"
+          transformations: ["ETL", "feature engineering", "model training"]
+          output: "HDFS + MySQL"
+
+        optimization:
+          data_skew_handling: "salting + repartitioning"
+          memory_management: "tungsten"
+          caching_strategy: "RDD persistence"
+
+      hybrid_processing:
+        lambda_architecture:
+          speed_layer: "Flink real-time recommendations"
+          batch_layer: "Spark model training"
+          serving_layer: "Redis + HBase hybrid storage"
+
+        kappa_architecture:
+          unified_framework: "Flink"
+          stream_batch_unification: true
+          state_management: "unified"
+
+    data_service_layer:
+      api_services:
+        - name: "推荐API服务"
+          protocol: "REST/gRPC"
+          authentication: "JWT"
+          rate_limiting: "1000 req/sec"
+          caching: "Redis"
+
+        - name: "特征计算服务"
+          computation_engine: "Flink SQL"
+          feature_store: "Feast"
+          real_time_features: true
+          batch_features: true
+
+        - name: "模型推理服务"
+          model_serving: "TensorFlow Serving"
+          model_versions: "A/B testing"
+          performance_monitoring: true
+
+      service_mesh:
+        service_discovery: "Kubernetes DNS"
+        load_balancing: "Istio"
+        circuit_breaker: "automatic"
+        observability: "integrated"
+
+    application_layer:
+      user_interfaces:
+        - name: "推荐界面"
+          technology: "React/Vue"
+          real_time_updates: "WebSocket"
+          personalization: "user-based"
+
+        - name: "数据大屏"
+          technology: "Grafana/Superset"
+          refresh_interval: "30 seconds"
+          alerting: "integrated"
+
+        - name: "管理后台"
+          technology: "Vue.js + ElementUI"
+          user_management: "RBAC"
+          audit_logging: true
+
+    monitoring_operations_layer:
+      monitoring_stack:
+        metrics_collection: "Prometheus"
+        visualization: "Grafana"
+        alerting: "AlertManager"
+        log_aggregation: "ELK Stack"
+
+      monitoring_coverage:
+        infrastructure: ["CPU", "Memory", "Disk", "Network"]
+        application: ["Latency", "Throughput", "Error Rate"]
+        business: ["Conversion Rate", "User Engagement"]
+        data_quality: ["Completeness", "Accuracy", "Timeliness"]
+
+      alerting_rules:
+        critical_alerts:
+          - "System unavailable > 5 minutes"
+          - "Data latency > 100ms (P95"
+          - "Error rate > 5%"
+          - "Resource utilization > 90%"

@@ -1,0 +1,360 @@
+# examples/20_evolution/implementation_steps.yml
+implementation_steps:
+  # 环境搭建准备阶段
+  environment_setup:
+    infrastructure_provisioning:
+      cloud_platform: "阿里云/AWS"
+      kubernetes_cluster:
+        version: "1.24+"
+        nodes: 20
+        node_spec: "8C32G + 500G SSD"
+        networking: "Calico CNI"
+
+      storage_systems:
+        hdfs_cluster:
+          namenodes: 2
+          datanodes: 10
+          total_capacity: "100TB"
+
+        hbase_cluster:
+          masters: 3
+          regionservers: 10
+          total_capacity: "50TB"
+
+        redis_cluster:
+          masters: 3
+          slaves: 6
+          memory_capacity: "100GB"
+
+      messaging_system:
+        kafka_cluster:
+          brokers: 5
+          zookeepers: 3
+          topics: 20
+          retention_days: 7
+
+    development_environment:
+      ide_setup:
+        - "IntelliJ IDEA + Scala plugin"
+        - "VS Code + Python extension"
+        - "Jupyter Notebook for data exploration"
+
+      local_development:
+        docker_compose:
+          services: ["kafka", "zookeeper", "redis", "minio"]
+          networks: "streaming_batch_net"
+
+        local_testing:
+          unit_tests: "JUnit + Mockito"
+          integration_tests: "TestContainers"
+          performance_tests: "JMeter"
+
+    testing_environment:
+      staging_environment:
+        replica_ratio: "1:1 production"
+        data_volume: "10% production"
+        refresh_frequency: "daily"
+
+      performance_environment:
+        scale_factor: "2x production"
+        load_generators: 5
+        monitoring_tools: ["Prometheus", "Grafana"]
+
+    ci_cd_pipeline:
+      build_pipeline:
+        tools: ["GitHub Actions", "Jenkins"]
+        stages: ["Compile", "Unit Test", "Integration Test", "Build Image"]
+        triggers: "push to main branch"
+
+      deployment_pipeline:
+        environments: ["dev", "staging", "prod"]
+        strategies: ["blue-green", "canary", "rolling"]
+        approval_gates: true
+
+      quality_gates:
+        test_coverage: "> 80%"
+        security_scan: "pass"
+        performance_regression: "< 5%"
+
+  # 数据集成开发阶段
+  data_integration:
+    data_source_integration:
+      real_time_sources:
+        - name: "用户行为事件"
+          source_type: "Kafka topic"
+          schema: "Protobuf"
+          volume: "100K events/min"
+          data_quality_checks: ["schema validation", "null checks"]
+
+        - name: "业务订单数据"
+          source_type: "MySQL CDC"
+          schema: "Avro"
+          volume: "10K records/min"
+          data_quality_checks: ["referential integrity", "business rules"]
+
+        - name: "第三方推荐数据"
+          source_type: "REST API"
+          schema: "JSON"
+          volume: "1K requests/min"
+          data_quality_checks: ["API response validation", "data freshness"]
+
+      batch_sources:
+        - name: "历史用户行为"
+          source_type: "HDFS files"
+          format: "Parquet"
+          volume: "1TB/day"
+          partitioning: "date/user_id"
+
+        - name: "产品目录数据"
+          source_type: "MySQL export"
+          format: "CSV"
+          volume: "100GB/day"
+          update_frequency: "daily"
+
+    data_quality_assurance:
+      real_time_quality:
+        validation_rules:
+          - "数据格式校验"
+          - "必填字段检查"
+          - "数值范围校验"
+          - "业务规则验证"
+
+        monitoring_metrics:
+          - "数据丢失率 < 0.01%"
+          - "格式错误率 < 0.1%"
+          - "延迟时间 < 5秒"
+
+        error_handling:
+          - "无效数据隔离"
+          - "错误数据重试"
+          - "告警通知机制"
+
+      batch_quality:
+        validation_rules:
+          - "数据完整性检查"
+          - "一致性校验"
+          - "重复数据检测"
+          - "异常值识别"
+
+        reconciliation_processes:
+          - "源系统 vs 目标系统对账"
+          - "数据量级校验"
+          - "关键指标核对"
+
+    data_lineage_tracking:
+      metadata_management:
+        data_dictionary:
+          fields: ["field_name", "data_type", "description", "source"]
+          transformations: ["mapping_rules", "business_logic"]
+
+        lineage_graph:
+          nodes: ["source_tables", "processing_jobs", "target_tables"]
+          edges: ["data_flow", "dependencies"]
+
+      lineage_tools:
+        integration: "Apache Atlas"
+        custom_tracking: "code annotations"
+        visualization: "web interface"
+
+    data_consistency_guarantee:
+      stream_batch_consistency:
+        watermark_strategy: "event time"
+        window_alignment: "aligned windows"
+        state_management: "exactly-once semantics"
+
+      cross_system_consistency:
+        distributed_transactions: "2PC protocol"
+        eventual_consistency: "conflict resolution"
+        reconciliation_jobs: "daily batch reconciliation"
+
+  # 核心功能实现阶段
+  core_functionality:
+    real_time_processing:
+      flink_implementation:
+        dataflow_design:
+          sources: ["KafkaSource"]
+          operators: ["Filter", "Map", "KeyBy", "Window", "Aggregate"]
+          sinks: ["HBaseSink", "RedisSink"]
+
+        state_management:
+          keyed_state: "ValueState, MapState"
+          operator_state: "ListState"
+          checkpoint_config: "RocksDB, 30s interval"
+
+        fault_tolerance:
+          checkpoint_semantics: "exactly-once"
+          restart_strategy: "fixed-delay"
+          savepoint_mechanism: true
+
+      feature_engineering:
+        real_time_features:
+          - "用户实时行为序列"
+          - "商品实时热度"
+          - "上下文特征提取"
+
+        feature_computation:
+          framework: "Flink SQL"
+          window_functions: ["TUMBLE", "HOP", "SESSION"]
+          aggregation_functions: ["COUNT", "SUM", "AVG", "MAX"]
+
+    batch_processing:
+      spark_implementation:
+        data_pipeline:
+          input: "HDFS Parquet files"
+          transformations: ["ETL", "feature engineering", "model training"]
+          output: "HDFS + MySQL"
+
+        optimization_techniques:
+          catalyst_optimizer: true
+          tungsten_execution: true
+          data_skew_handling: "salting + repartitioning"
+
+        scheduling_orchestration:
+          airflow_dags: "daily feature engineering"
+          dependencies: "upstream data availability"
+          retry_logic: "exponential backoff"
+
+      model_training:
+        algorithm_selection:
+          collaborative_filtering: "ALS algorithm"
+          content_based: "TF-IDF + cosine similarity"
+          hybrid_approach: "weighted combination"
+
+        training_pipeline:
+          data_preparation: "feature extraction + normalization"
+          model_training: "distributed training on Spark"
+          model_evaluation: "precision@K, recall@K"
+          model_deployment: "model serialization + serving"
+
+    hybrid_processing:
+      lambda_architecture:
+        speed_layer: "Flink real-time recommendations"
+        batch_layer: "Spark model training"
+        serving_layer: "Redis + HBase hybrid storage"
+
+      unified_processing:
+        flink_batch_processing:
+          batch_execution_mode: "BATCH"
+          dataset_api: "DataSet transformations"
+          integration_with_streaming: "same codebase"
+
+        stream_batch_unification:
+          table_api: "unified API for batch and streaming"
+          sql_support: "same SQL queries"
+          state_consistency: "unified state management"
+
+    service_interfaces:
+      recommendation_api:
+        rest_endpoints:
+          - "GET /recommendations/{user_id}"
+          - "POST /feedback"
+          - "GET /recommendations/batch"
+
+        grpc_services:
+          real_time_recommendation: "streaming RPC"
+          batch_recommendation: "unary RPC"
+
+        api_gateway:
+          rate_limiting: "token bucket"
+          authentication: "JWT"
+          caching: "Redis"
+
+      feature_service:
+        online_feature_store:
+          feature_retrieval: "low latency < 10ms"
+          feature_computation: "real-time + pre-computed"
+          feature_versioning: "point-in-time correctness"
+
+        feature_api:
+          endpoints: ["get_features", "update_features"]
+          protocols: ["REST", "gRPC"]
+          consistency: "strong consistency"
+
+  # 测试验证优化阶段
+  testing_validation:
+    unit_testing:
+      flink_testing:
+        test_harnesses: "FlinkMiniCluster"
+        test_utils: "FlinkTestUtils"
+        state_testing: "StateBackend testing"
+
+      spark_testing:
+        test_frameworks: ["SparkTestingBase", "SharedSparkContext"]
+        data_testing: "DataFrame equality checks"
+        udf_testing: "UDF unit tests"
+
+    integration_testing:
+      end_to_end_testing:
+        test_scenarios:
+          - "完整数据流从源到推荐结果"
+          - "故障场景下的系统恢复"
+          - "性能压力下的系统表现"
+
+        test_data:
+          synthetic_data: "generated test data"
+          production_subset: "anonymized production data"
+          edge_cases: "boundary conditions"
+
+      component_integration:
+        kafka_flink_integration: "source/sink testing"
+        flink_hbase_integration: "state store testing"
+        spark_hdfs_integration: "file system testing"
+
+    performance_testing:
+      load_testing:
+        tools: ["JMeter", "Gatling", "Custom load generators"]
+        scenarios: ["normal load", "peak load", "stress load"]
+        metrics: ["throughput", "latency", "error rate"]
+
+      benchmark_testing:
+        baseline_establishment: "current system performance"
+        regression_detection: "performance degradation alerts"
+        optimization_validation: "performance improvements"
+
+    end_to_end_validation:
+      data_flow_validation:
+        data_lineage_verification: "source to sink tracing"
+        data_consistency_checks: "cross-system reconciliation"
+        business_logic_validation: "recommendation quality metrics"
+
+      system_integration_testing:
+        deployment_testing: "blue-green deployments"
+        rollback_testing: "failure recovery procedures"
+        monitoring_validation: "alerts and dashboards"
+
+  # 部署上线运维阶段
+  deployment_operations:
+    production_deployment:
+      deployment_strategy:
+        blue_green_deployment:
+          blue_environment: "current production"
+          green_environment: "new version"
+          traffic_switching: "load balancer configuration"
+
+        canary_deployment:
+          percentage_rollout: "10% -> 25% -> 50% -> 100%"
+          monitoring_gates: "error rate < 1%, latency < +10%"
+          rollback_triggers: "automatic rollback on failures"
+
+      configuration_management:
+        environment_configs: ["dev", "staging", "prod"]
+        secret_management: "HashiCorp Vault"
+        config_validation: "schema validation"
+
+      database_migrations:
+        schema_changes: "liquibase scripts"
+        data_migrations: "Spark jobs"
+        rollback_scripts: "automated rollback"
+
+    monitoring_alerting:
+      metrics_collection:
+        infrastructure_metrics: "CPU, memory, disk, network"
+        application_metrics: "latency, throughput, error rates"
+        business_metrics: "conversion rates, user engagement"
+
+      alerting_rules:
+        critical_alerts:
+          - "System unavailable > 5 minutes"
+          - "Data latency > 100ms (P95"
+          - "Error rate > 5%"
+          - "Resource utilization > 90%"

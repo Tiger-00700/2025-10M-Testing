@@ -1,0 +1,17 @@
+multi_region_dr_architecture:
+  primary_region:
+    services: "主要业务服务"
+    database: "主数据库"
+    storage: "主存储"
+  secondary_region:
+    services: "灾备服务(冷备/温备/热备)"
+    database: "灾备数据库(异步同步)"
+    storage: "灾备存储(跨区域复制)"
+  global_distribution:
+    cdn: "全球CDN分发"
+    dns: "全局DNS负载均衡"
+    traffic_manager: "流量管理器"
+  automation:
+    failover: "自动故障转移"
+    failback: "自动故障恢复"
+    monitoring: "实时监控告警"

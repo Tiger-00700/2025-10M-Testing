@@ -1,0 +1,125 @@
+# 环境自动化工具配置
+# 对应锚点12-003: 环境自动化工具表格
+
+tools:
+  iac_tools:
+    - name: Terraform
+      category: IaC工具
+      functions:
+        - 基础设施即代码
+        - 多云资源管理
+      advantages:
+        - 状态管理
+        - 依赖解决
+        - 计划执行
+      use_cases:
+        - 云资源部署
+        - 配置管理
+
+    - name: CloudFormation
+      category: IaC工具
+      functions:
+        - AWS原生IaC工具
+      advantages:
+        - 与AWS服务深度集成
+      use_cases:
+        - AWS环境自动化
+
+    - name: Ansible
+      category: IaC工具
+      functions:
+        - 配置管理和应用部署
+      advantages:
+        - 代理less
+        - 无状态执行
+      use_cases:
+        - 服务器配置
+        - 应用发布
+
+    - name: SaltStack
+      category: IaC工具
+      functions:
+        - 分布式配置管理
+      advantages:
+        - 实时配置
+        - 事件驱动
+      use_cases:
+        - 大规模服务器管理
+
+  bigdata_installers:
+    - name: Ambari
+      category: 大数据平台安装器
+      functions:
+        - Hadoop生态系统管理
+      advantages:
+        - 图形化界面
+        - 组件管理
+      use_cases:
+        - HDP集群部署运维
+
+    - name: Cloudera Manager
+      category: 大数据平台安装器
+      functions:
+        - CDH生态系统管理
+      advantages:
+        - 企业级功能
+        - 监控告警
+      use_cases:
+        - CDH集群部署运维
+
+    - name: 云厂商一键部署
+      category: 大数据平台安装器
+      functions:
+        - 云上大数据环境
+      examples:
+        - AWS EMR
+        - 阿里云EMR
+      advantages:
+        - 托管服务
+        - 弹性伸缩
+
+  config_management:
+    - name: GitOps
+      category: 配置管理
+      functions:
+        - Git驱动的运维
+      advantages:
+        - 声明式配置
+        - 版本控制
+      use_cases:
+        - Kubernetes应用管理
+
+    - name: 配置中心
+      category: 配置管理
+      examples:
+        - Apollo
+        - Nacos
+      functions:
+        - 微服务配置管理
+      advantages:
+        - 实时推送
+        - 环境隔离
+
+    - name: 参数模板
+      category: 配置管理
+      examples:
+        - Helm Charts
+        - Kustomize
+      functions:
+        - Kubernetes应用模板化
+      advantages:
+        - 可复用
+        - 参数化配置
+
+# 工具选择建议
+selection_guide:
+  small_scale: Ansible
+  multi_cloud: Terraform
+  bigdata_platform: 根据所用发行版选择对应管理器
+  cloud_native: GitOps + 配置中心组合
+
+# 组合推荐
+recommended_stacks:
+  dev_test: [Ansible, Docker, Jenkins]
+  production: [Terraform, Kubernetes, GitLab CI]
+  hybrid_cloud: [Terraform, Ansible, Prometheus]

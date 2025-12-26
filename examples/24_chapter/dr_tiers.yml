@@ -1,0 +1,26 @@
+disaster_recovery_tiers:
+  tier_0: # 无灾备
+    rto: "数天到数周"
+    rpo: "全部数据丢失"
+    cost: "最低"
+    use_case: "非关键应用"
+  tier_1: # 基础灾备
+    rto: "数小时到1天"
+    rpo: "数小时数据丢失"
+    cost: "低"
+    use_case: "一般业务应用"
+  tier_2: # 中级灾备
+    rto: "1-4小时"
+    rpo: "1小时内数据丢失"
+    cost: "中等"
+    use_case: "重要业务应用"
+  tier_3: # 高级灾备
+    rto: "15分钟到1小时"
+    rpo: "15分钟内数据丢失"
+    cost: "高"
+    use_case: "关键业务应用"
+  tier_4: # 顶级灾备
+    rto: "<15分钟"
+    rpo: "<5分钟数据丢失"
+    cost: "最高"
+    use_case: "核心金融系统"

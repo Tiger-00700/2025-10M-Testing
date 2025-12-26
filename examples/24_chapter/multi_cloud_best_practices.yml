@@ -1,0 +1,16 @@
+multi_cloud_best_practices:
+  architecture_best_practices:
+    - design_for_portability: "设计应用可移植性"
+    - implement_service_mesh: "实施服务网格"
+    - use_multi_cloud_tools: "使用多云管理工具"
+    - establish_governance: "建立治理框架"
+  operational_best_practices:
+    - unified_monitoring: "统一监控"
+    - centralized_logging: "集中日志"
+    - automated_compliance: "自动化合规"
+    - cost_optimization: "成本优化"
+  security_best_practices:
+    - consistent_security_policies: "一致安全策略"
+    - identity_federation: "身份联合"
+    - data_encryption: "数据加密"
+    - regular_security_audits: "定期安全审计"

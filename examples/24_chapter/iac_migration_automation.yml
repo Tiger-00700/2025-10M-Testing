@@ -1,0 +1,22 @@
+iac_migration_automation:
+  terraform_migration_modules:
+    description: "Terraform迁移模块"
+    capabilities:
+      - infrastructure_provisioning: "基础设施配置"
+      - state_management: "状态管理"
+      - dependency_handling: "依赖处理"
+      - drift_detection: "漂移检测"
+  cloudformation_templates:
+    description: "AWS CloudFormation模板"
+    capabilities:
+      - stack_deployment: "堆栈部署"
+      - resource_orchestration: "资源编排"
+      - parameterization: "参数化配置"
+      - rollback_automation: "回滚自动化"
+  arm_templates:
+    description: "Azure Resource Manager模板"
+    capabilities:
+      - declarative_syntax: "声明式语法"
+      - resource_grouping: "资源分组"
+      - template_functions: "模板函数"
+      - validation_rules: "验证规则"

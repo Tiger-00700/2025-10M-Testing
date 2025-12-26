@@ -1,0 +1,15 @@
+# examples/20_evolution/autonomous_variant.yml
+autonomous_case:
+  business_focus: "自动驾驶车辆状态监控与安全保障"
+  real_time_requirements:
+    - "车辆传感器数据实时处理 (< 10ms)"
+    - "驾驶环境实时风险评估"
+    - "自动驾驶决策实时辅助"
+  batch_requirements:
+    - "历史驾驶数据批量分析与建模"
+    - "车辆故障模式批量识别"
+    - "驾驶行为模式批量学习"
+  key_metrics:
+    safety_incident_reduction: "-80%"
+    real_time_response_latency: "< 50ms"
+    predictive_maintenance_accuracy: "> 95%"

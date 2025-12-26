@@ -1,0 +1,135 @@
+# cloud_storage_focus_points.yml
+# 云存储测试关注点配置
+
+cloud_storage_types:
+  object_storage:
+    description: "对象存储 (AWS S3, Azure Blob, GCP Cloud Storage)"
+    key_characteristics:
+      - high_durability: "11个9的持久性保证"
+      - unlimited_scalability: "理论上无限扩展"
+      - eventual_consistency: "最终一致性模型"
+      - metadata_support: "丰富的元数据支持"
+    test_focus_points:
+      - name: "upload_download_consistency"
+        description: "上传下载一致性验证"
+        test_methods: ["MD5校验", "分块上传", "断点续传"]
+        tools: ["AWS CLI", "Azure CLI", "gsutil"]
+      - name: "versioning_control"
+        description: "版本控制测试"
+        test_methods: ["版本创建", "版本恢复", "版本清理"]
+        tools: ["版本管理API", "生命周期策略"]
+      - name: "cross_az_replication"
+        description: "跨可用区复制"
+        test_methods: ["复制延迟测量", "一致性验证", "故障转移测试"]
+        tools: ["CloudWatch", "Azure Monitor", "Cloud Logging"]
+      - name: "access_control"
+        description: "访问控制验证"
+        test_methods: ["IAM策略", "Bucket Policy", "预签名URL"]
+        tools: ["Policy Simulator", "Access Analyzer"]
+
+  block_storage:
+    description: "块存储 (AWS EBS, Azure Disk, GCP Persistent Disk)"
+    key_characteristics:
+      - low_latency: "低延迟访问"
+      - high_iops: "高IOPS性能"
+      - direct_attached: "直接挂载到实例"
+      - snapshot_support: "快照备份支持"
+    test_focus_points:
+      - name: "mount_unmount"
+        description: "挂载卸载测试"
+        test_methods: ["热插拔", "多实例共享", "权限验证"]
+        tools: ["mount/umount", "Cloud SDK"]
+      - name: "snapshot_operations"
+        description: "快照操作测试"
+        test_methods: ["快照创建", "从快照恢复", "增量快照"]
+        tools: ["AWS EC2 API", "Azure Compute API"]
+      - name: "encryption_validation"
+        description: "加密验证"
+        test_methods: ["静态加密", "传输加密", "密钥轮换"]
+        tools: ["KMS API", "加密工具"]
+      - name: "performance_benchmark"
+        description: "性能基准测试"
+        test_methods: ["IOPS测试", "吞吐量测试", "延迟测试"]
+        tools: ["fio", "dd", "iometer"]
+
+  file_storage:
+    description: "文件存储 (AWS EFS, Azure Files, GCP Filestore)"
+    key_characteristics:
+      - shared_filesystem: "共享文件系统"
+      - posix_compatible: "POSIX兼容"
+      - concurrent_access: "并发访问支持"
+      - hierarchical_structure: "层次化目录结构"
+    test_focus_points:
+      - name: "protocol_compatibility"
+        description: "协议兼容性测试"
+        test_methods: ["NFS挂载", "SMB访问", "POSIX权限"]
+        tools: ["mount", "smbclient", "chmod/chown"]
+      - name: "concurrency_testing"
+        description: "并发访问测试"
+        test_methods: ["多客户端读写", "文件锁机制", "冲突解决"]
+        tools: ["rsync", "Filebench", "Custom Scripts"]
+      - name: "performance_scaling"
+        description: "性能扩展测试"
+        test_methods: ["负载均衡", "自动扩展", "缓存效果"]
+        tools: ["iozone", "fs_mark", "监控工具"]
+
+cloud_provider_specific:
+  aws:
+    services: ["S3", "EBS", "EFS", "Glacier"]
+    unique_features: ["S3 Select", "EBS优化实例", "EFS生命周期管理"]
+    testing_tools: ["AWS CLI", "CloudWatch", "X-Ray"]
+    compliance: ["HIPAA", "PCI DSS", "FedRAMP"]
+
+  azure:
+    services: ["Blob Storage", "Disk Storage", "Files", "Archive Storage"]
+    unique_features: ["Blob Index", "软删除", "存储访问策略"]
+    testing_tools: ["Azure CLI", "Monitor", "Storage Explorer"]
+    compliance: ["ISO 27001", "GDPR", "HIPAA"]
+
+  gcp:
+    services: ["Cloud Storage", "Persistent Disk", "Filestore", "Archive Storage"]
+    unique_features: ["多区域存储", "自动分层", "对象版本控制"]
+    testing_tools: ["gsutil", "Cloud Monitoring", "Cloud Logging"]
+    compliance: ["ISO 27001", "PCI DSS", "FedRAMP"]
+
+multi_cloud_testing:
+  challenges:
+    - api_differences: "API接口差异"
+    - data_transfer_costs: "数据传输成本"
+    - latency_variations: "延迟差异"
+    - unified_monitoring: "统一监控难度"
+
+  strategies:
+    - abstraction_layer: "存储抽象层"
+      tools: ["Apache Ozone", "MinIO", "Dell ECS"]
+    - data_synchronization: "数据同步验证"
+      tools: ["Custom Replication Scripts", "Third-party Tools"]
+    - cost_optimization: "成本效益分析"
+      tools: ["Cloud Pricing Calculators", "Performance Benchmarks"]
+    - governance_unification: "治理统一化"
+      tools: ["Multi-cloud Management Platforms"]
+
+testing_best_practices:
+  data_persistence:
+    - verify_durability: "验证持久性保证"
+    - test_redundancy: "测试冗余机制"
+    - simulate_failures: "模拟故障场景"
+    - measure_rto_rpo: "测量RTO/RPO"
+
+  performance_optimization:
+    - benchmark_baselines: "建立性能基准"
+    - test_storage_classes: "测试存储类切换"
+    - optimize_data_layout: "优化数据布局"
+    - monitor_cost_performance: "监控成本效益比"
+
+  security_compliance:
+    - encryption_validation: "加密验证"
+    - access_control_audit: "访问控制审计"
+    - compliance_reporting: "合规报告"
+    - data_sovereignty: "数据主权验证"
+
+  cost_management:
+    - lifecycle_policies: "生命周期策略"
+    - storage_class_optimization: "存储类优化"
+    - data_compression: "数据压缩"
+    - monitoring_alerts: "监控告警"

@@ -1,0 +1,105 @@
+# GitOps工作流测试集成配置模板
+# examples/23_chapter/gitops_testing_integration.yml
+
+gitops_testing_integration:
+  # GitOps配置
+  gitops_config:
+    git_repository: "https://github.com/org/data-platform"
+    branch_strategy: "GitFlow"
+    sync_interval: "5分钟"
+    drift_detection: true
+
+  # 声明式测试配置
+  declarative_testing:
+    test_environments:
+      development:
+        replicas: 1
+        resources: "minimal"
+        tests_enabled: ["unit", "integration"]
+
+      staging:
+        replicas: 3
+        resources: "medium"
+        tests_enabled: ["integration", "system", "performance"]
+
+      production:
+        replicas: 5
+        resources: "full"
+        tests_enabled: ["smoke", "monitoring"]
+
+    test_policies:
+      - name: "数据质量策略"
+        type: "declarative"
+        rules:
+          - "数据完整性检查"
+          - "数据一致性验证"
+          - "业务规则校验"
+
+      - name: "性能监控策略"
+        type: "declarative"
+        rules:
+          - "响应时间监控"
+          - "吞吐量监控"
+          - "资源使用监控"
+
+  # 环境同步测试
+  environment_sync_testing:
+    sync_validation:
+      pre_sync_checks:
+        - "配置语法验证"
+        - "依赖关系检查"
+        - "安全策略审核"
+
+      post_sync_checks:
+        - "服务健康检查"
+        - "数据连接验证"
+        - "功能可用性测试"
+
+    drift_detection:
+      monitoring_enabled: true
+      alert_thresholds:
+        config_drift: "立即告警"
+        performance_drift: "5%阈值"
+        security_drift: "立即告警"
+
+  # 渐进式部署验证
+  progressive_deployment:
+    canary_deployment:
+      traffic_percentage: "5%"
+      success_criteria:
+        error_rate: "<1%"
+        response_time: "<基准+10%"
+        business_metrics: "正常"
+
+      rollback_triggers:
+        - "错误率>5%"
+        - "响应时间>基准+50%"
+        - "业务指标异常"
+
+    blue_green_deployment:
+      switch_traffic: "瞬间切换"
+      validation_period: "30分钟"
+      rollback_time: "<5分钟"
+
+  # 自动化回滚测试
+  automated_rollback:
+    failure_detection:
+      health_checks:
+        - "应用健康检查"
+        - "依赖服务检查"
+        - "数据一致性检查"
+
+      metric_thresholds:
+        error_rate_threshold: 5
+        latency_threshold_ms: 5000
+        saturation_threshold: 90
+
+    rollback_execution:
+      strategy: "自动回滚"
+      timeout: "10分钟"
+      verification: "回滚后功能测试"
+
+    post_rollback_actions:
+      incident_creation: true
+      root_cause_analysis: true
+      improvement_planning: true

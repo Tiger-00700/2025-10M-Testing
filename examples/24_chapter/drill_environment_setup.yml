@@ -1,0 +1,16 @@
+drill_environment_setup:
+  staging_environment:
+    - replicate_production: "复制生产环境配置"
+    - scale_down_resources: "适当缩减资源规模"
+    - anonymize_data: "数据脱敏处理"
+    - isolate_network: "网络隔离保护"
+  testing_tools:
+    - load_generators: "负载生成工具"
+    - monitoring_tools: "监控工具"
+    - validation_scripts: "验证脚本"
+    - rollback_tools: "回滚工具"
+  team_preparation:
+    - training_sessions: "培训会议"
+    - responsibility_assignment: "职责分配"
+    - communication_channels: "沟通渠道"
+    - escalation_procedures: "升级流程"

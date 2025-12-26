@@ -1,0 +1,167 @@
+# 运维监控测试指标体系配置模板
+# examples/23_chapter/monitoring_metrics_system.yml
+
+monitoring_metrics_system:
+  # 基础设施监控指标
+  infrastructure_metrics:
+    system_resources:
+      cpu_usage:
+        metric_name: "cpu_usage_percent"
+        collection_interval: "30秒"
+        warning_threshold: 75
+        critical_threshold: 90
+        aggregation: "平均值"
+
+      memory_usage:
+        metric_name: "memory_usage_percent"
+        collection_interval: "30秒"
+        warning_threshold: 80
+        critical_threshold: 95
+        aggregation: "平均值"
+
+      disk_usage:
+        metric_name: "disk_usage_percent"
+        collection_interval: "5分钟"
+        warning_threshold: 85
+        critical_threshold: 95
+        aggregation: "最大值"
+
+    network_traffic:
+      bandwidth_utilization:
+        metric_name: "network_bandwidth_percent"
+        collection_interval: "1分钟"
+        warning_threshold: 70
+        critical_threshold: 90
+        aggregation: "95百分位"
+
+      connection_count:
+        metric_name: "active_connections"
+        collection_interval: "30秒"
+        warning_threshold: 1000
+        critical_threshold: 5000
+        aggregation: "当前值"
+
+  # 应用性能监控指标
+  application_metrics:
+    response_times:
+      api_response_time:
+        metric_name: "api_response_time_ms"
+        collection_interval: "10秒"
+        warning_threshold: 2000
+        critical_threshold: 5000
+        aggregation: "95百分位"
+
+      database_query_time:
+        metric_name: "db_query_time_ms"
+        collection_interval: "10秒"
+        warning_threshold: 1000
+        critical_threshold: 3000
+        aggregation: "95百分位"
+
+    error_rates:
+      http_error_rate:
+        metric_name: "http_5xx_error_rate"
+        collection_interval: "1分钟"
+        warning_threshold: 1
+        critical_threshold: 5
+        aggregation: "平均值"
+
+      application_errors:
+        metric_name: "application_error_rate"
+        collection_interval: "1分钟"
+        warning_threshold: 0.5
+        critical_threshold: 2
+        aggregation: "平均值"
+
+  # 业务指标监控
+  business_metrics:
+    user_experience:
+      user_satisfaction_score:
+        metric_name: "user_satisfaction"
+        collection_interval: "1小时"
+        warning_threshold: 4.0
+        critical_threshold: 3.0
+        aggregation: "平均值"
+
+      session_success_rate:
+        metric_name: "session_success_percent"
+        collection_interval: "5分钟"
+        warning_threshold: 95
+        critical_threshold: 90
+        aggregation: "平均值"
+
+    data_quality:
+      data_accuracy:
+        metric_name: "data_accuracy_percent"
+        collection_interval: "1小时"
+        warning_threshold: 99.5
+        critical_threshold: 99.0
+        aggregation: "平均值"
+
+      data_completeness:
+        metric_name: "data_completeness_percent"
+        collection_interval: "1小时"
+        warning_threshold: 99.0
+        critical_threshold: 98.0
+        aggregation: "平均值"
+
+  # 告警配置
+  alerting_configuration:
+    alert_rules:
+      critical_alerts:
+        - condition: "cpu_usage > 90"
+          severity: "critical"
+          channels: ["email", "sms", "slack"]
+          escalation_time: "5分钟"
+
+        - condition: "memory_usage > 95"
+          severity: "critical"
+          channels: ["email", "sms", "slack"]
+          escalation_time: "5分钟"
+
+      warning_alerts:
+        - condition: "response_time > 3000"
+          severity: "warning"
+          channels: ["slack", "email"]
+          escalation_time: "15分钟"
+
+        - condition: "error_rate > 2"
+          severity: "warning"
+          channels: ["slack"]
+          escalation_time: "30分钟"
+
+    alert_suppression:
+      maintenance_windows:
+        - name: "系统维护窗口"
+          schedule: "每周日02:00-04:00"
+          suppress_alerts: ["performance", "availability"]
+
+      dependency_based_suppression:
+        - condition: "database_down = true"
+          suppress_alerts: ["application_errors"]
+
+  # 趋势分析配置
+  trend_analysis:
+    metric_trends:
+      performance_trends:
+        analysis_period: "30天"
+        trend_detection: "线性回归"
+        anomaly_detection: "3σ法则"
+
+      capacity_trends:
+        analysis_period: "90天"
+        forecasting_model: "指数平滑"
+        prediction_horizon: "30天"
+
+    reporting:
+      daily_reports:
+        recipients: ["devops_team", "management"]
+        metrics: ["availability", "performance", "errors"]
+
+      weekly_reports:
+        recipients: ["all_teams", "stakeholders"]
+        metrics: ["trends", "forecasts", "recommendations"]
+
+      monthly_reports:
+        recipients: ["executives", "board"]
+        metrics: ["kpi_achievements", "improvement_plans"]

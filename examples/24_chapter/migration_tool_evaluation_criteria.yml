@@ -1,0 +1,21 @@
+migration_tool_evaluation_criteria:
+  functional_requirements:
+    - migration_scope: "迁移范围支持"
+    - automation_level: "自动化程度"
+    - validation_capabilities: "验证能力"
+    - rollback_support: "回滚支持"
+  technical_requirements:
+    - cloud_compatibility: "云兼容性"
+    - scalability: "可扩展性"
+    - security_compliance: "安全合规"
+    - performance_requirements: "性能要求"
+  operational_requirements:
+    - ease_of_use: "易用性"
+    - monitoring_visibility: "监控可见性"
+    - support_and_documentation: "支持文档"
+    - cost_effectiveness: "成本效益"
+  business_requirements:
+    - time_to_market: "上市时间"
+    - risk_mitigation: "风险缓解"
+    - business_continuity: "业务连续性"
+    - future_proofing: "未来保障"

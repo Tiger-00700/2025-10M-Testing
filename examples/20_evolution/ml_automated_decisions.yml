@@ -1,0 +1,36 @@
+# examples/20_evolution/ml_automated_decisions.yml
+automated_decision_making:
+  recommendation_optimization:
+    multi_armed_bandit:
+      algorithm: "thompson_sampling"
+      exploration_rate: 0.1
+      reward_function: "user_engagement_score"
+
+    contextual_bandits:
+      algorithm: "linucb"
+      context_features: ["user_demographics", "item_attributes", "time_features"]
+      action_space: "recommendation_candidates"
+
+  dynamic_pricing:
+    reinforcement_learning:
+      algorithm: "deep_q_network"
+      state_features: ["demand_signals", "inventory_levels", "competitor_prices"]
+      action_space: "price_adjustments"
+      reward_function: "revenue_optimization + margin_maintenance"
+
+    price_elasticity_modeling:
+      causal_inference: "difference_in_differences"
+      experimentation: "a_b_testing_with_synthetic_control"
+      optimization: "gradient_descent"
+
+  resource_auto_scaling:
+    predictive_scaling:
+      time_series_forecasting: "prophet_model"
+      features: ["historical_load", "seasonal_patterns", "external_factors"]
+      prediction_intervals: ["15min", "1h", "6h"]
+
+    reinforcement_learning_scaling:
+      algorithm: "actor_critic"
+      state_space: ["current_load", "resource_utilization", "cost_metrics"]
+      action_space: ["scale_up", "scale_down", "no_action"]
+      reward_function: "performance_sla + cost_efficiency"

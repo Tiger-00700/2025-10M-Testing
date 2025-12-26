@@ -1,25 +1,81 @@
-test_types:
-  - type: "权限矩阵测试"
-    key_methods: ["角色继承验证"]
-    test_points: ["最小权限、撤销有效性"]
-    tools_scripts: ["权限扫描脚本"]
-  - type: "渗透测试"
-    key_methods: ["黑盒/白盒模拟"]
-    test_points: ["越权、注入、绕过"]
-    tools_scripts: ["安全扫描工具"]
-  - type: "加密验证"
-    key_methods: ["全链路抓包比对"]
-    test_points: ["TLS/静态加密、密钥轮换"]
-    tools_scripts: ["加密校验工具"]
-  - type: "脱敏测试"
-    key_methods: ["敏感字段验证"]
-    test_points: ["掩码一致性、不可逆性"]
-    tools_scripts: ["脱敏检查脚本"]
-  - type: "审计测试"
-    key_methods: ["日志回溯模拟"]
-    test_points: ["完整性、防篡改、告警触发"]
-    tools_scripts: ["日志分析工具"]
-  - type: "合规核查"
-    key_methods: ["法规对照验证"]
-    test_points: ["数据最小化、授权告知"]
-    tools_scripts: ["合规清单脚本"]
+# 安全测试类型与方法配置
+# 锚点055 对应配置
+
+security_test_methods:
+  - type: 权限矩阵测试 (Permission Matrix Testing)
+    key_methods:
+      - 角色继承验证
+      - 最小权限检查
+      - 撤销有效性测试
+    test_points:
+      - 访问矩阵构建
+      - 权限继承链路
+      - 回收机制验证
+    tools_scripts:
+      - 权限扫描脚本
+      - 角色验证工具
+
+  - type: 渗透测试 (Penetration Testing)
+    key_methods:
+      - 黑盒模拟攻击
+      - 白盒代码审查
+      - 越权注入测试
+    test_points:
+      - 接口安全扫描
+      - SQL注入检测
+      - 横向移动验证
+    tools_scripts:
+      - 安全扫描工具
+      - 漏洞检测器
+
+  - type: 加密验证 (Encryption Validation)
+    key_methods:
+      - 全链路抓包比对
+      - TLS握手验证
+      - 静态加密检查
+    test_points:
+      - 传输加密开启
+      - 存储加密完整性
+      - 密钥轮换机制
+    tools_scripts:
+      - 加密校验工具
+      - 证书验证器
+
+  - type: 脱敏测试 (Data Masking Testing)
+    key_methods:
+      - 敏感字段验证
+      - 掩码一致性检查
+      - 不可逆性测试
+    test_points:
+      - 脱敏规则应用
+      - 掩码格式标准
+      - 业务可用性保持
+    tools_scripts:
+      - 脱敏检查脚本
+      - 字段扫描工具
+
+  - type: 审计测试 (Audit Testing)
+    key_methods:
+      - 日志回溯模拟
+      - 完整性验证
+      - 防篡改检查
+    test_points:
+      - 日志留存周期
+      - 告警触发机制
+      - 检索性能测试
+    tools_scripts:
+      - 日志分析工具
+      - 审计验证器
+
+  - type: 合规核查 (Compliance Verification)
+    key_methods:
+      - 法规对照验证
+      - 数据最小化检查
+      - 授权告知确认
+    test_points:
+      - 收集存储合规
+      - 处理共享合规
+      - 销毁流程合规
+    tools_scripts:
+      - 合规清单脚本
+      - 法规验证工具

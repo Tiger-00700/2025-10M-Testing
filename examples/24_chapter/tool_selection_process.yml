@@ -1,0 +1,21 @@
+tool_selection_process:
+  requirement_gathering:
+    - stakeholder_interviews: "利益相关者访谈"
+    - current_state_analysis: "现状分析"
+    - future_state_vision: "未来愿景"
+    - constraint_identification: "约束识别"
+  market_research:
+    - vendor_landscape: "供应商格局"
+    - product_comparison: "产品对比"
+    - reference_checks: "参考检查"
+    - proof_of_concept: "概念验证"
+  evaluation_and_selection:
+    - weighted_scoring: "加权评分"
+    - pilot_testing: "试点测试"
+    - cost_benefit_analysis: "成本效益分析"
+    - final_decision: "最终决策"
+  implementation_planning:
+    - procurement_process: "采购流程"
+    - deployment_planning: "部署规划"
+    - training_program: "培训计划"
+    - change_management: "变革管理"

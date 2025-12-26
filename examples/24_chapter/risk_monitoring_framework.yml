@@ -1,0 +1,13 @@
+risk_monitoring_framework:
+  risk_indicators:
+    - leading_indicators: "领先指标 - 预测风险"
+    - lagging_indicators: "滞后指标 - 确认风险"
+    - key_risk_indicators: "关键风险指标"
+  monitoring_frequency:
+    - daily_monitoring: "每日监控 - 高风险项目"
+    - weekly_reviews: "每周审查 - 中风险项目"
+    - monthly_assessments: "每月评估 - 低风险项目"
+  threshold_management:
+    - warning_thresholds: "警告阈值"
+    - critical_thresholds: "临界阈值"
+    - escalation_triggers: "升级触发条件"

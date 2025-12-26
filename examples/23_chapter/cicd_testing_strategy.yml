@@ -1,0 +1,90 @@
+# CI/CD流水线测试策略配置模板
+# examples/23_chapter/cicd_testing_strategy.yml
+
+cicd_testing_strategy:
+  # 流水线配置
+  pipeline_config:
+    name: "大数据平台CI/CD流水线"
+    trigger_conditions:
+      - "代码推送主分支"
+      - "PR合并请求"
+      - "定时构建"
+      - "手动触发"
+
+    stages:
+      commit_stage:
+        name: "代码提交阶段"
+        tests:
+          - type: "单元测试"
+            framework: "pytest"
+            coverage_target: "80%"
+            timeout_minutes: 10
+
+          - type: "代码质量检查"
+            tools: ["sonar", "black", "flake8"]
+            quality_gate: "A级"
+
+      build_stage:
+        name: "构建测试阶段"
+        tests:
+          - type: "集成测试"
+            environment: "staging"
+            data_volume: "1GB测试数据"
+            timeout_minutes: 30
+
+          - type: "性能测试"
+            baseline_comparison: true
+            performance_regression_threshold: "5%"
+            timeout_minutes: 45
+
+      deploy_stage:
+        name: "部署验证阶段"
+        tests:
+          - type: "端到端测试"
+            user_scenarios: ["登录", "数据查询", "报表生成"]
+            success_criteria: "通过率>95%"
+            timeout_minutes: 60
+
+          - type: "生产冒烟测试"
+            critical_paths: ["核心业务流程"]
+            response_time_threshold: "3秒"
+            timeout_minutes: 15
+
+  # 质量门禁配置
+  quality_gates:
+    unit_test_gate:
+      coverage_minimum: 80
+      test_success_rate: 100
+      max_test_duration: "10分钟"
+
+    integration_test_gate:
+      api_success_rate: 99
+      data_accuracy: 100
+      performance_degradation: "<5%"
+
+    e2e_test_gate:
+      user_journey_success: 95
+      critical_path_coverage: 100
+      production_readiness: "自动判断"
+
+    security_gate:
+      vulnerability_severity: "无高危"
+      compliance_score: ">90"
+      license_compliance: "通过"
+
+  # 反馈与改进机制
+  feedback_mechanisms:
+    test_reporting:
+      formats: ["JUnit", "Cucumber", "Allure"]
+      dashboards: ["Jenkins", "GitLab", "自定义看板"]
+      notifications: ["邮件", "Slack", "企业微信"]
+
+    failure_analysis:
+      root_cause_detection: "自动分析"
+      blame_assignment: "智能分配"
+      remediation_suggestions: "AI推荐"
+
+    continuous_improvement:
+      metrics_collection: ["测试执行时间", "失败率", "覆盖率趋势"]
+      retrospective_meetings: "双周回顾"
+      automation_targets: "季度提升目标"

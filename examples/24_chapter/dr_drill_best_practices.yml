@@ -1,0 +1,16 @@
+dr_drill_best_practices:
+  preparation_best_practices:
+    - define_clear_objectives: "明确演练目标"
+    - create_realistic_scenarios: "创建现实场景"
+    - involve_all_stakeholders: "涉及所有利益相关者"
+    - document_procedures: "记录流程和步骤"
+  execution_best_practices:
+    - simulate_real_conditions: "模拟真实条件"
+    - time_the_activities: "计时所有活动"
+    - document_issues_and_lessons: "记录问题和教训"
+    - maintain_safety_procedures: "保持安全流程"
+  follow_up_best_practices:
+    - conduct_debrief_sessions: "进行 debrief会议"
+    - update_dr_procedures: "更新灾备流程"
+    - implement_improvements: "实施改进措施"
+    - schedule_regular_drills: "安排定期演练"

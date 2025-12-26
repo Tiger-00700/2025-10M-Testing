@@ -1,0 +1,18 @@
+# examples/20_evolution/healthcare_variant.yml
+healthcare_case:
+  business_focus: "患者健康实时监测与预警"
+  real_time_requirements:
+    - "生命体征实时异常检测 (< 5ms)"
+    - "患者状态实时评估"
+    - "医疗预警实时触发"
+    - "紧急情况实时响应"
+  batch_requirements:
+    - "患者历史数据批量分析"
+    - "疾病预测模型训练"
+    - "治疗效果批量评估"
+    - "医疗报告批量生成"
+  key_metrics:
+    anomaly_detection_accuracy: "+50%"
+    early_warning_effectiveness: "+60%"
+    patient_outcome_improvement: "+25%"
+    response_time_reduction: "+80%"

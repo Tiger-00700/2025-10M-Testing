@@ -1,0 +1,21 @@
+monitoring_tools_integration:
+  infrastructure_monitoring:
+    - cloudwatch: "AWS CloudWatch"
+    - azure_monitor: "Azure Monitor"
+    - cloud_monitoring: "Google Cloud Monitoring"
+    - datadog: "Datadog"
+  application_performance_monitoring:
+    - new_relic: "New Relic"
+    - appdynamics: "AppDynamics"
+    - dynatrace: "Dynatrace"
+    - application_insights: "Azure Application Insights"
+  log_aggregation:
+    - cloudwatch_logs: "AWS CloudWatch Logs"
+    - azure_log_analytics: "Azure Log Analytics"
+    - cloud_logging: "Google Cloud Logging"
+    - elk_stack: "ELK Stack"
+  alerting_and_notification:
+    - pager_duty: "PagerDuty"
+    - opsgenie: "OpsGenie"
+    - victor_ops: "VictorOps"
+    - slack_integrations: "Slack集成"

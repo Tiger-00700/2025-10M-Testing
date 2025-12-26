@@ -1,0 +1,17 @@
+multi_cloud_security_governance:
+  identity_management:
+    - unified_iam: "统一身份访问管理"
+    - sso_integration: "单点登录集成"
+    - role_based_access: "基于角色的访问控制"
+  network_security:
+    - perimeter_protection: "边界防护"
+    - micro_segmentation: "微分段"
+    - encrypted_communication: "加密通信"
+  data_protection:
+    - encryption_at_rest: "静态数据加密"
+    - encryption_in_transit: "传输数据加密"
+    - data_loss_prevention: "数据丢失防护"
+  compliance_monitoring:
+    - automated_audits: "自动化审计"
+    - regulatory_compliance: "监管合规"
+    - security_certifications: "安全认证"

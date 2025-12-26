@@ -1,0 +1,165 @@
+# CI/CD流水线质量门禁配置模板
+# examples/23_chapter/pipeline_with_quality_gate.yml
+
+pipeline_with_quality_gate:
+  # 流水线定义
+  pipeline:
+    name: "大数据平台CI/CD流水线"
+    stages:
+      - name: "代码质量检查"
+        type: "quality_gate"
+        quality_checks:
+          - name: "单元测试覆盖率"
+            type: "coverage"
+            threshold: 80
+            framework: "pytest"
+            report_format: "cobertura"
+
+          - name: "代码质量评分"
+            type: "static_analysis"
+            tool: "sonar"
+            quality_gate: "A"
+            blocking: true
+
+          - name: "安全漏洞扫描"
+            type: "security_scan"
+            tool: "snyk"
+            severity_threshold: "high"
+            blocking: true
+
+      - name: "集成测试"
+        type: "integration"
+        environment: "staging"
+        tests:
+          - name: "API集成测试"
+            framework: "pytest"
+            timeout: "30分钟"
+            retry_count: 2
+
+          - name: "数据管道测试"
+            framework: "custom"
+            data_volume: "1GB"
+            timeout: "45分钟"
+
+      - name: "性能测试"
+        type: "performance"
+        environment: "performance"
+        tests:
+          - name: "负载测试"
+            tool: "jmeter"
+            concurrent_users: 1000
+            duration: "10分钟"
+            response_time_threshold: "2000ms"
+
+          - name: "压力测试"
+            tool: "k6"
+            scenarios: ["peak_load", "sustained_load"]
+            failure_criteria: "error_rate > 5%"
+
+      - name: "安全测试"
+        type: "security"
+        environment: "security"
+        tests:
+          - name: "渗透测试"
+            tool: "owasp_zap"
+            scan_type: "full_scan"
+            risk_threshold: "medium"
+
+          - name: "合规检查"
+            tool: "custom"
+            standards: ["GDPR", "PCI_DSS"]
+            blocking: true
+
+      - name: "部署验证"
+        type: "deployment_validation"
+        environment: "production_canary"
+        validations:
+          - name: "冒烟测试"
+            type: "smoke"
+            critical_paths: ["login", "data_query", "report_generation"]
+            timeout: "15分钟"
+
+          - name: "监控验证"
+            type: "monitoring"
+            metrics: ["response_time", "error_rate", "throughput"]
+            baseline_comparison: true
+
+  # 质量门禁规则
+  quality_gates:
+    commit_gate:
+      name: "代码提交质量门禁"
+      conditions:
+        - metric: "unit_test_coverage"
+          operator: ">="
+          value: 80
+          blocking: true
+
+        - metric: "code_quality_score"
+          operator: ">="
+          value: "A"
+          blocking: true
+
+        - metric: "security_vulnerabilities"
+          operator: "=="
+          value: 0
+          severity: "high"
+          blocking: true
+
+    build_gate:
+      name: "构建质量门禁"
+      conditions:
+        - metric: "integration_test_success_rate"
+          operator: ">="
+          value: 95
+          blocking: true
+
+        - metric: "performance_regression"
+          operator: "<="
+          value: 5
+          blocking: true
+
+    deploy_gate:
+      name: "部署质量门禁"
+      conditions:
+        - metric: "e2e_test_success_rate"
+          operator: ">="
+          value: 95
+          blocking: true
+
+        - metric: "security_compliance"
+          operator: "=="
+          value: "passed"
+          blocking: true
+
+        - metric: "production_readiness_score"
+          operator: ">="
+          value: 90
+          blocking: true
+
+  # 反馈机制
+  feedback:
+    notifications:
+      on_failure:
+        channels: ["slack", "email"]
+        recipients: ["dev_team", "qa_team", "devops_team"]
+
+      on_success:
+        channels: ["slack"]
+        recipients: ["all_teams"]
+
+    reporting:
+      formats: ["junit", "allure", "custom_dashboard"]
+      retention_period: "90天"
+
+    metrics_collection:
+      test_metrics:
+        - "execution_time"
+        - "success_rate"
+        - "coverage_trend"
+        - "defect_trend"
+
+      quality_metrics:
+        - "code_quality_score"
+        - "security_score"
+        - "performance_score"
+        - "reliability_score"

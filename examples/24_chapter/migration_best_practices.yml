@@ -1,0 +1,16 @@
+migration_best_practices:
+  assessment_and_planning:
+    - comprehensive_discovery: "全面应用和服务发现"
+    - detailed_dependency_mapping: "详细依赖关系映射"
+    - realistic_timeline_planning: "现实的时间规划"
+    - risk_assessment_and_mitigation: "风险评估和缓解"
+  execution_best_practices:
+    - start_small_pilot_first: "从小规模试点开始"
+    - implement_phased_migration: "实施分阶段迁移"
+    - establish_rollback_procedures: "建立回滚流程"
+    - continuous_monitoring: "持续监控和验证"
+  organizational_best_practices:
+    - cross_functional_team: "跨职能团队协作"
+    - stakeholder_communication: "利益相关者沟通"
+    - change_management: "变革管理"
+    - knowledge_transfer: "知识转移"

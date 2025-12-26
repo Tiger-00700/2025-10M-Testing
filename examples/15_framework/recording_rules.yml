@@ -1,0 +1,293 @@
+# examples/15_framework/recording_rules.yml
+# 大数据可观测性记录规则
+
+groups:
+
+  # Hadoop记录规则
+  - name: hadoop_recording_rules
+    rules:
+
+      # NameNode操作延迟
+      - record: hadoop_namenode_operation_duration_seconds
+        expr: |
+          histogram_quantile(0.95,
+            rate(hadoop_namenode_operation_duration_seconds_bucket[5m]))
+
+      # DataNode I/O操作统计
+      - record: hadoop_datanode_io_operations_total
+        expr: |
+          rate(hadoop_datanode_bytes_read_total[5m]) +
+          rate(hadoop_datanode_bytes_written_total[5m])
+
+      # HDFS存储利用率
+      - record: hdfs_storage_utilization_ratio
+        expr: |
+          sum(hadoop_datanode_dfs_used) /
+          sum(hadoop_datanode_dfs_capacity)
+
+      # YARN应用成功率
+      - record: yarn_application_success_rate
+        expr: |
+          rate(yarn_application_finished_total{state="SUCCEEDED"}[1h]) /
+          rate(yarn_application_finished_total[1h])
+
+  # Spark记录规则
+  - name: spark_recording_rules
+    rules:
+
+      # Spark作业执行时间
+      - record: spark_job_execution_duration_seconds
+        expr: |
+          histogram_quantile(0.95,
+            rate(spark_job_duration_seconds_bucket[5m]))
+
+      # Spark任务失败率
+      - record: spark_task_failure_rate
+        expr: |
+          rate(spark_task_failed_total[5m]) /
+          rate(spark_task_total[5m])
+
+      # Spark Executor内存使用率
+      - record: spark_executor_memory_usage_ratio
+        expr: |
+          spark_executor_memory_used_bytes /
+          spark_executor_memory_total_bytes
+
+      # Spark应用CPU利用率
+      - record: spark_application_cpu_utilization
+        expr: |
+          rate(spark_executor_cpu_time_seconds_total[5m]) /
+          rate(spark_executor_run_time_seconds_total[5m])
+
+  # Kafka记录规则
+  - name: kafka_recording_rules
+    rules:
+
+      # Kafka消息吞吐量
+      - record: kafka_messages_in_per_second
+        expr: rate(kafka_server_brokertopicmetrics_messagesin_total[1m])
+
+      # Kafka消费者延迟
+      - record: kafka_consumer_lag_average
+        expr: |
+          avg by(consumergroup, topic) (
+            kafka_consumergroup_lag
+          )
+
+      # Kafka分区平衡度
+      - record: kafka_partition_balance_ratio
+        expr: |
+          count by(topic) (
+            kafka_server_replicamanager_partitioncount
+          ) / count by(topic) (
+            kafka_server_replicamanager_leaderpartitioncount
+          )
+
+      # Kafka请求队列大小
+      - record: kafka_request_queue_size_average
+        expr: |
+          avg by(broker) (
+            kafka_server_request_channel_request_queues_size
+          )
+
+  # Elasticsearch记录规则
+  - name: elasticsearch_recording_rules
+    rules:
+
+      # Elasticsearch查询延迟
+      - record: elasticsearch_query_latency_seconds
+        expr: |
+          histogram_quantile(0.95,
+            rate(elasticsearch_indices_search_query_time_seconds_bucket[5m]))
+
+      # Elasticsearch索引延迟
+      - record: elasticsearch_indexing_latency_seconds
+        expr: |
+          histogram_quantile(0.95,
+            rate(elasticsearch_indices_indexing_index_time_seconds_bucket[5m]))
+
+      # Elasticsearch缓存命中率
+      - record: elasticsearch_cache_hit_ratio
+        expr: |
+          elasticsearch_indices_request_cache_hit_count /
+          (elasticsearch_indices_request_cache_hit_count +
+           elasticsearch_indices_request_cache_miss_count)
+
+      # Elasticsearch集群可用性
+      - record: elasticsearch_cluster_availability
+        expr: |
+          count(up{job="elasticsearch"}) /
+          count by(job) (up{job="elasticsearch"})
+
+  # 系统资源记录规则
+  - name: system_recording_rules
+    rules:
+
+      # 节点CPU利用率
+      - record: node_cpu_utilization_ratio
+        expr: |
+          1 - avg by(instance) (
+            rate(node_cpu_seconds_total{mode="idle"}[5m])
+          )
+
+      # 节点内存利用率
+      - record: node_memory_utilization_ratio
+        expr: |
+          1 - node_memory_MemAvailable_bytes /
+              node_memory_MemTotal_bytes
+
+      # 节点磁盘I/O利用率
+      - record: node_disk_io_utilization
+        expr: |
+          rate(node_disk_io_time_seconds_total[5m]) /
+          rate(node_disk_io_time_weighted_seconds_total[5m])
+
+      # 节点网络利用率
+      - record: node_network_utilization_ratio
+        expr: |
+          (rate(node_network_receive_bytes_total[5m]) +
+           rate(node_network_transmit_bytes_total[5m])) /
+          (node_network_speed_bytes * 0.8)  # 80%阈值
+
+  # 业务指标记录规则
+  - name: business_recording_rules
+    rules:
+
+      # API响应时间
+      - record: api_response_time_p95_seconds
+        expr: |
+          histogram_quantile(0.95,
+            rate(http_request_duration_seconds_bucket{job="api"}[5m]))
+
+      # 数据处理吞吐量
+      - record: data_processing_throughput_records_per_second
+        expr: |
+          rate(data_processing_records_total[5m])
+
+      # 作业队列长度
+      - record: job_queue_length_current
+        expr: |
+          job_queue_pending_total - job_queue_processing_total
+
+      # 数据质量评分
+      - record: data_quality_score
+        expr: |
+          (data_quality_valid_records_total /
+           (data_quality_valid_records_total + data_quality_invalid_records_total))
+
+  # 可观测性系统记录规则
+  - name: observability_recording_rules
+    rules:
+
+      # Prometheus抓取延迟
+      - record: prometheus_scrape_duration_seconds
+        expr: |
+          histogram_quantile(0.95,
+            rate(prometheus_target_scrape_duration_seconds_bucket[5m]))
+
+      # Elasticsearch索引速率
+      - record: elasticsearch_indexing_rate_documents_per_second
+        expr: |
+          rate(elasticsearch_indices_indexing_index_total[5m])
+
+      # Jaeger追踪采样率
+      - record: jaeger_tracing_sample_rate
+        expr: |
+          rate(jaeger_tracer_reporter_spans_total[5m]) /
+          rate(jaeger_tracer_sampler_sampled_total[5m])
+
+      # 告警触发频率
+      - record: alert_firing_rate_per_minute
+        expr: |
+          rate(alerts_total{alertstate="firing"}[5m]) * 60
+
+  # 复合指标记录规则
+  - name: composite_recording_rules
+    rules:
+
+      # 大数据平台整体健康评分
+      - record: bigdata_platform_health_score
+        expr: |
+          (
+            (1 - hadoop_namenode_operation_duration_seconds / 10) * 0.3 +
+            yarn_application_success_rate * 0.2 +
+            (1 - spark_task_failure_rate) * 0.2 +
+            (1 - kafka_consumer_lag_average / 10000) * 0.15 +
+            elasticsearch_cluster_availability * 0.15
+          ) * 100
+
+      # 系统资源压力指数
+      - record: system_resource_pressure_index
+        expr: |
+          (
+            node_cpu_utilization_ratio * 0.4 +
+            node_memory_utilization_ratio * 0.4 +
+            node_disk_io_utilization * 0.2
+          ) * 100
+
+      # 应用性能指数
+      - record: application_performance_index
+        expr: |
+          (
+            (1 - api_response_time_p95_seconds / 5) * 0.5 +
+            data_processing_throughput_records_per_second / 1000 * 0.3 +
+            data_quality_score * 0.2
+          ) * 100
+
+      # 可观测性覆盖率
+      - record: observability_coverage_ratio
+        expr: |
+          count(up) / count by(job) (up) * 100
+
+      # 故障恢复时间 (MTTR)
+      - record: mean_time_to_recovery_minutes
+        expr: |
+          rate(alerts_total{alertstate="resolved"}[1h]) /
+          rate(alerts_total{alertstate="firing"}[1h]) * 60
+
+      # 故障检测时间 (MTTD)
+      - record: mean_time_to_detection_minutes
+        expr: |
+          histogram_quantile(0.95,
+            rate(alert_detection_latency_minutes_bucket[5m]))
+
+  # SLO/SLI记录规则
+  - name: slo_sli_recording_rules
+    rules:
+
+      # 服务可用性SLI
+      - record: service_availability_sli
+        expr: |
+          (1 - (rate(http_requests_total{status=~"5.."}[30d]) /
+                rate(http_requests_total[30d]))) * 100
+
+      # 服务延迟SLI (P95)
+      - record: service_latency_sli_p95
+        expr: |
+          histogram_quantile(0.95,
+            rate(http_request_duration_seconds_bucket[30d]))
+
+      # 数据新鲜度SLI
+      - record: data_freshness_sli_minutes
+        expr: |
+          time() - max(data_last_updated_timestamp)
+
+      # 作业成功率SLI
+      - record: job_success_rate_sli
+        expr: |
+          rate(job_completed_total{status="success"}[30d]) /
+          rate(job_started_total[30d]) * 100
+
+      # 错误预算消耗率
+      - record: error_budget_burn_rate
+        expr: |
+          rate(http_requests_total{status=~"5.."}[1h]) /
+          rate(http_requests_total[1h]) /
+          (1 - 0.999)  # 针对99.9% SLO
+
+      # SLO合规状态
+      - record: slo_compliance_status
+        expr: |
+          service_availability_sli >= 99.9 and
+          service_latency_sli_p95 <= 1.0 and
+          job_success_rate_sli >= 95.0

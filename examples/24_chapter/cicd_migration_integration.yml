@@ -1,0 +1,16 @@
+cicd_migration_integration:
+  migration_pipelines:
+    - assessment_pipeline: "评估流水线"
+    - migration_pipeline: "迁移流水线"
+    - validation_pipeline: "验证流水线"
+    - rollback_pipeline: "回滚流水线"
+  automated_testing:
+    - infrastructure_tests: "基础设施测试"
+    - application_tests: "应用测试"
+    - integration_tests: "集成测试"
+    - performance_tests: "性能测试"
+  deployment_strategies:
+    - blue_green_deployment: "蓝绿部署"
+    - canary_deployment: "金丝雀部署"
+    - rolling_deployment: "滚动部署"
+    - immutable_deployment: "不可变部署"

@@ -1,0 +1,595 @@
+[2025-12-26 00:57:22] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 00:57:22] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 00:57:22] [INFO] 初始化构建环境...
+[2025-12-26 00:57:22] [INFO] 找到依赖: python
+[2025-12-26 00:57:22] [INFO] 找到依赖: java
+[2025-12-26 00:57:22] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 00:57:22] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 00:57:22] [INFO] 开始构建阶段...
+[2025-12-26 00:57:22] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 00:57:22] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 00:57:22] [INFO] 开始单元测试...
+[2025-12-26 00:57:23] [INFO] 执行 Python 单元测试...
+[2025-12-26 00:57:23] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 00:57:23] [INFO] 开始集成测试...
+[2025-12-26 00:57:23] [INFO] 启动集成测试环境...
+[2025-12-26 00:57:23] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 00:57:23] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 00:57:23] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 00:57:22
+结束时间: 2025-12-26 00:57:23
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 00:57:23] [INFO] 发送通知...
+[2025-12-26 00:57:23] [INFO] 通知发送完成
+[2025-12-26 01:00:00] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 01:00:00] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 01:00:00] [INFO] 初始化构建环境...
+[2025-12-26 01:00:00] [INFO] 找到依赖: python
+[2025-12-26 01:00:00] [INFO] 找到依赖: java
+[2025-12-26 01:00:00] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 01:00:00] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 01:00:00] [INFO] 开始构建阶段...
+[2025-12-26 01:00:00] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 01:00:00] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 01:00:00] [INFO] 开始单元测试...
+[2025-12-26 01:00:00] [INFO] 执行 Python 单元测试...
+[2025-12-26 01:00:00] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 01:00:00] [INFO] 开始集成测试...
+[2025-12-26 01:00:00] [INFO] 启动集成测试环境...
+[2025-12-26 01:00:00] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 01:00:00] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 01:00:00] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 00:59:59
+结束时间: 2025-12-26 01:00:00
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 01:00:00] [INFO] 发送通知...
+[2025-12-26 01:00:00] [INFO] 通知发送完成
+[2025-12-26 01:03:13] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 01:03:13] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 01:03:13] [INFO] 初始化构建环境...
+[2025-12-26 01:03:13] [INFO] 找到依赖: python
+[2025-12-26 01:03:13] [INFO] 找到依赖: java
+[2025-12-26 01:03:13] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 01:03:13] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 01:03:13] [INFO] 开始构建阶段...
+[2025-12-26 01:03:13] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 01:03:13] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 01:03:13] [INFO] 开始单元测试...
+[2025-12-26 01:03:13] [INFO] 执行 Python 单元测试...
+[2025-12-26 01:03:13] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 01:03:13] [INFO] 开始集成测试...
+[2025-12-26 01:03:13] [INFO] 启动集成测试环境...
+[2025-12-26 01:03:13] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 01:03:13] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 01:03:13] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 01:03:13
+结束时间: 2025-12-26 01:03:13
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 01:03:13] [INFO] 发送通知...
+[2025-12-26 01:03:13] [INFO] 通知发送完成
+[2025-12-26 01:05:43] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 01:05:43] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 01:05:43] [INFO] 初始化构建环境...
+[2025-12-26 01:05:43] [INFO] 找到依赖: python
+[2025-12-26 01:05:43] [INFO] 找到依赖: java
+[2025-12-26 01:05:43] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 01:05:43] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 01:05:43] [INFO] 开始构建阶段...
+[2025-12-26 01:05:43] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 01:05:43] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 01:05:43] [INFO] 开始单元测试...
+[2025-12-26 01:05:43] [INFO] 执行 Python 单元测试...
+[2025-12-26 01:05:43] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 01:05:43] [INFO] 开始集成测试...
+[2025-12-26 01:05:43] [INFO] 启动集成测试环境...
+[2025-12-26 01:05:43] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 01:05:43] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 01:05:43] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 01:05:43
+结束时间: 2025-12-26 01:05:43
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 01:05:43] [INFO] 发送通知...
+[2025-12-26 01:05:43] [INFO] 通知发送完成
+[2025-12-26 01:09:14] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 01:09:14] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 01:09:14] [INFO] 初始化构建环境...
+[2025-12-26 01:09:14] [INFO] 找到依赖: python
+[2025-12-26 01:09:14] [INFO] 找到依赖: java
+[2025-12-26 01:09:14] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 01:09:14] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 01:09:14] [INFO] 开始构建阶段...
+[2025-12-26 01:09:14] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 01:09:14] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 01:09:14] [INFO] 开始单元测试...
+[2025-12-26 01:09:14] [INFO] 执行 Python 单元测试...
+[2025-12-26 01:09:14] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 01:09:14] [INFO] 开始集成测试...
+[2025-12-26 01:09:14] [INFO] 启动集成测试环境...
+[2025-12-26 01:09:14] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 01:09:14] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 01:09:14] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 01:09:14
+结束时间: 2025-12-26 01:09:14
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 01:09:14] [INFO] 发送通知...
+[2025-12-26 01:09:14] [INFO] 通知发送完成
+[2025-12-26 01:26:50] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 01:26:50] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 01:26:50] [INFO] 初始化构建环境...
+[2025-12-26 01:26:50] [INFO] 找到依赖: python
+[2025-12-26 01:26:50] [INFO] 找到依赖: java
+[2025-12-26 01:26:50] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 01:26:50] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 01:26:50] [INFO] 开始构建阶段...
+[2025-12-26 01:26:50] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 01:26:50] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 01:26:50] [INFO] 开始单元测试...
+[2025-12-26 01:26:50] [INFO] 执行 Python 单元测试...
+[2025-12-26 01:26:50] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 01:26:50] [INFO] 开始集成测试...
+[2025-12-26 01:26:50] [INFO] 启动集成测试环境...
+[2025-12-26 01:26:50] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 01:26:50] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 01:26:50] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 01:26:50
+结束时间: 2025-12-26 01:26:50
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 01:26:50] [INFO] 发送通知...
+[2025-12-26 01:26:50] [INFO] 通知发送完成
+[2025-12-26 01:50:51] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 01:50:51] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 01:50:51] [INFO] 初始化构建环境...
+[2025-12-26 01:50:51] [INFO] 找到依赖: python
+[2025-12-26 01:50:51] [INFO] 找到依赖: java
+[2025-12-26 01:50:51] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 01:50:51] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 01:50:51] [INFO] 开始构建阶段...
+[2025-12-26 01:50:51] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 01:50:51] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 01:50:51] [INFO] 开始单元测试...
+[2025-12-26 01:50:51] [INFO] 执行 Python 单元测试...
+[2025-12-26 01:50:52] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 01:50:52] [INFO] 开始集成测试...
+[2025-12-26 01:50:52] [INFO] 启动集成测试环境...
+[2025-12-26 01:50:52] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 01:50:52] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 01:50:52] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 01:50:51
+结束时间: 2025-12-26 01:50:52
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 01:50:52] [INFO] 发送通知...
+[2025-12-26 01:50:52] [INFO] 通知发送完成
+[2025-12-26 09:31:57] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 09:31:57] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 09:31:57] [INFO] 初始化构建环境...
+[2025-12-26 09:31:57] [INFO] 找到依赖: python
+[2025-12-26 09:31:57] [INFO] 找到依赖: java
+[2025-12-26 09:31:57] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 09:31:57] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 09:31:57] [INFO] 开始构建阶段...
+[2025-12-26 09:31:57] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 09:31:57] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 09:31:57] [INFO] 开始单元测试...
+[2025-12-26 09:31:57] [INFO] 执行 Python 单元测试...
+[2025-12-26 09:31:57] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 09:31:57] [INFO] 开始集成测试...
+[2025-12-26 09:31:57] [INFO] 启动集成测试环境...
+[2025-12-26 09:31:57] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 09:31:57] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 09:31:57] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 09:31:57
+结束时间: 2025-12-26 09:31:57
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 09:31:57] [INFO] 发送通知...
+[2025-12-26 09:31:57] [INFO] 通知发送完成
+[2025-12-26 09:54:53] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 09:54:53] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 09:54:53] [INFO] 初始化构建环境...
+[2025-12-26 09:54:53] [INFO] 找到依赖: python
+[2025-12-26 09:54:53] [INFO] 找到依赖: java
+[2025-12-26 09:54:53] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 09:54:53] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 09:54:53] [INFO] 开始构建阶段...
+[2025-12-26 09:54:53] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 09:54:53] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 09:54:53] [INFO] 开始单元测试...
+[2025-12-26 09:54:53] [INFO] 执行 Python 单元测试...
+[2025-12-26 09:54:53] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 09:54:53] [INFO] 开始集成测试...
+[2025-12-26 09:54:53] [INFO] 启动集成测试环境...
+[2025-12-26 09:54:53] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 09:54:54] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 09:54:54] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 09:54:53
+结束时间: 2025-12-26 09:54:54
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 09:54:54] [INFO] 发送通知...
+[2025-12-26 09:54:54] [INFO] 通知发送完成
+[2025-12-26 09:58:25] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 09:58:25] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 09:58:25] [INFO] 初始化构建环境...
+[2025-12-26 09:58:25] [INFO] 找到依赖: python
+[2025-12-26 09:58:25] [INFO] 找到依赖: java
+[2025-12-26 09:58:25] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 09:58:25] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 09:58:25] [INFO] 开始构建阶段...
+[2025-12-26 09:58:25] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 09:58:25] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 09:58:25] [INFO] 开始单元测试...
+[2025-12-26 09:58:25] [INFO] 执行 Python 单元测试...
+[2025-12-26 09:58:25] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 09:58:25] [INFO] 开始集成测试...
+[2025-12-26 09:58:25] [INFO] 启动集成测试环境...
+[2025-12-26 09:58:25] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 09:58:25] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 09:58:25] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 09:58:25
+结束时间: 2025-12-26 09:58:25
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 09:58:25] [INFO] 发送通知...
+[2025-12-26 09:58:25] [INFO] 通知发送完成
+[2025-12-26 10:03:53] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 10:03:53] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 10:03:53] [INFO] 初始化构建环境...
+[2025-12-26 10:03:53] [INFO] 找到依赖: python
+[2025-12-26 10:03:53] [INFO] 找到依赖: java
+[2025-12-26 10:03:53] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 10:03:54] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 10:03:54] [INFO] 开始构建阶段...
+[2025-12-26 10:03:54] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 10:03:54] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 10:03:54] [INFO] 开始单元测试...
+[2025-12-26 10:03:54] [INFO] 执行 Python 单元测试...
+[2025-12-26 10:03:54] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 10:03:54] [INFO] 开始集成测试...
+[2025-12-26 10:03:54] [INFO] 启动集成测试环境...
+[2025-12-26 10:03:54] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 10:03:54] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 10:03:54] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 10:03:53
+结束时间: 2025-12-26 10:03:54
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 10:03:54] [INFO] 发送通知...
+[2025-12-26 10:03:54] [INFO] 通知发送完成
+[2025-12-26 10:10:09] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 10:10:09] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 10:10:09] [INFO] 初始化构建环境...
+[2025-12-26 10:10:09] [INFO] 找到依赖: python
+[2025-12-26 10:10:09] [INFO] 找到依赖: java
+[2025-12-26 10:10:09] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 10:10:09] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 10:10:09] [INFO] 开始构建阶段...
+[2025-12-26 10:10:09] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 10:10:09] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 10:10:09] [INFO] 开始单元测试...
+[2025-12-26 10:10:09] [INFO] 执行 Python 单元测试...
+[2025-12-26 10:10:09] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 10:10:09] [INFO] 开始集成测试...
+[2025-12-26 10:10:09] [INFO] 启动集成测试环境...
+[2025-12-26 10:10:09] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 10:10:09] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 10:10:09] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 10:10:09
+结束时间: 2025-12-26 10:10:09
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 10:10:09] [INFO] 发送通知...
+[2025-12-26 10:10:09] [INFO] 通知发送完成
+[2025-12-26 10:20:52] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 10:20:52] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 10:20:52] [INFO] 初始化构建环境...
+[2025-12-26 10:20:52] [INFO] 找到依赖: python
+[2025-12-26 10:20:52] [INFO] 找到依赖: java
+[2025-12-26 10:20:52] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 10:20:52] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 10:20:52] [INFO] 开始构建阶段...
+[2025-12-26 10:20:52] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 10:20:53] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 10:20:53] [INFO] 开始单元测试...
+[2025-12-26 10:20:53] [INFO] 执行 Python 单元测试...
+[2025-12-26 10:20:53] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 10:20:53] [INFO] 开始集成测试...
+[2025-12-26 10:20:53] [INFO] 启动集成测试环境...
+[2025-12-26 10:20:53] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 10:20:53] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 10:20:53] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 10:20:52
+结束时间: 2025-12-26 10:20:53
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 10:20:53] [INFO] 发送通知...
+[2025-12-26 10:20:53] [INFO] 通知发送完成
+[2025-12-26 10:21:36] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 10:21:36] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 10:21:36] [INFO] 初始化构建环境...
+[2025-12-26 10:21:36] [INFO] 找到依赖: python
+[2025-12-26 10:21:36] [INFO] 找到依赖: java
+[2025-12-26 10:21:36] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 10:21:36] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 10:21:36] [INFO] 开始构建阶段...
+[2025-12-26 10:21:36] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 10:21:36] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 10:21:36] [INFO] 开始单元测试...
+[2025-12-26 10:21:36] [INFO] 执行 Python 单元测试...
+[2025-12-26 10:21:36] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 10:21:36] [INFO] 开始集成测试...
+[2025-12-26 10:21:36] [INFO] 启动集成测试环境...
+[2025-12-26 10:21:36] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 10:21:36] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 10:21:37] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 10:21:36
+结束时间: 2025-12-26 10:21:36
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 10:21:37] [INFO] 发送通知...
+[2025-12-26 10:21:37] [INFO] 通知发送完成
+[2025-12-26 10:27:46] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 10:27:46] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 10:27:46] [INFO] 初始化构建环境...
+[2025-12-26 10:27:46] [INFO] 找到依赖: python
+[2025-12-26 10:27:46] [INFO] 找到依赖: java
+[2025-12-26 10:27:46] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 10:27:46] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 10:27:46] [INFO] 开始构建阶段...
+[2025-12-26 10:27:46] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 10:27:46] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 10:27:46] [INFO] 开始单元测试...
+[2025-12-26 10:27:46] [INFO] 执行 Python 单元测试...
+[2025-12-26 10:27:46] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 10:27:46] [INFO] 开始集成测试...
+[2025-12-26 10:27:46] [INFO] 启动集成测试环境...
+[2025-12-26 10:27:46] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 10:27:46] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 10:27:46] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 10:27:46
+结束时间: 2025-12-26 10:27:46
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 10:27:46] [INFO] 发送通知...
+[2025-12-26 10:27:46] [INFO] 通知发送完成
+[2025-12-26 11:08:05] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 11:08:05] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 11:08:05] [INFO] 初始化构建环境...
+[2025-12-26 11:08:05] [INFO] 找到依赖: python
+[2025-12-26 11:08:05] [INFO] 找到依赖: java
+[2025-12-26 11:08:05] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 11:08:05] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 11:08:05] [INFO] 开始构建阶段...
+[2025-12-26 11:08:05] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 11:08:05] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 11:08:05] [INFO] 开始单元测试...
+[2025-12-26 11:08:05] [INFO] 执行 Python 单元测试...
+[2025-12-26 11:08:05] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 11:08:05] [INFO] 开始集成测试...
+[2025-12-26 11:08:06] [INFO] 启动集成测试环境...
+[2025-12-26 11:08:06] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 11:08:06] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 11:08:06] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 11:08:05
+结束时间: 2025-12-26 11:08:06
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 11:08:06] [INFO] 发送通知...
+[2025-12-26 11:08:06] [INFO] 通知发送完成
+[2025-12-26 11:16:45] [INFO] 开始执行流批一体构建流水线
+[2025-12-26 11:16:45] [INFO] 模式: full, 环境: dev, 跳过测试: False
+[2025-12-26 11:16:45] [INFO] 初始化构建环境...
+[2025-12-26 11:16:45] [INFO] 找到依赖: python
+[2025-12-26 11:16:45] [INFO] 找到依赖: java
+[2025-12-26 11:16:45] [WARN] 警告: 未找到依赖 docker
+[2025-12-26 11:16:45] [WARN] 警告: 未找到依赖 kubectl
+[2025-12-26 11:16:45] [INFO] 开始构建阶段...
+[2025-12-26 11:16:45] [INFO] 执行 Python 代码静态检查...
+[2025-12-26 11:16:45] [ERROR] 构建阶段失败: Python 代码编译失败
+[2025-12-26 11:16:45] [INFO] 开始单元测试...
+[2025-12-26 11:16:45] [INFO] 执行 Python 单元测试...
+[2025-12-26 11:16:46] [ERROR] 单元测试失败: 单元测试失败
+[2025-12-26 11:16:46] [INFO] 开始集成测试...
+[2025-12-26 11:16:46] [INFO] 启动集成测试环境...
+[2025-12-26 11:16:46] [ERROR] 集成测试失败: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 11:16:46] [ERROR] 流水线执行异常: The term 'docker-compose' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+[2025-12-26 11:16:46] [INFO] 流批一体构建流水线执行完成
+=====================================
+开始时间: 2025-12-26 11:16:45
+结束时间: 2025-12-26 11:16:46
+执行时长: 00:00:00
+
+执行结果:
+- 构建: 失败
+- 单元测试: 失败
+- 集成测试: 失败
+- 性能测试: 失败
+- 部署: 失败
+
+总体状态: 失败
+[2025-12-26 11:16:46] [INFO] 发送通知...
+[2025-12-26 11:16:46] [INFO] 通知发送完成

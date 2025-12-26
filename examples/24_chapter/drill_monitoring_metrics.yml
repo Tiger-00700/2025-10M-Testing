@@ -1,0 +1,16 @@
+drill_monitoring_metrics:
+  performance_metrics:
+    - response_time: "响应时间"
+    - throughput: "吞吐量"
+    - error_rate: "错误率"
+    - resource_utilization: "资源利用率"
+  migration_metrics:
+    - migration_progress: "迁移进度"
+    - data_transfer_rate: "数据传输速率"
+    - downtime_duration: "停机时长"
+    - rollback_time: "回滚时间"
+  quality_metrics:
+    - data_accuracy: "数据准确性"
+    - system_stability: "系统稳定性"
+    - user_experience: "用户体验"
+    - compliance_status: "合规状态"

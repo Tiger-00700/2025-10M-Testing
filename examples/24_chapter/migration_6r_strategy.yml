@@ -1,0 +1,37 @@
+migration_strategies:
+  rehost: # 直接迁移
+    description: "Lift and Shift - 直接将应用迁移到目标云"
+    use_case: "快速迁移，对应用修改最小"
+    complexity: "低"
+    cost: "中等"
+    downtime: "最小"
+  refactor: # 重构迁移
+    description: "应用现代化改造，充分利用云原生特性"
+    use_case: "优化性能和成本，需要应用修改"
+    complexity: "高"
+    cost: "高"
+    downtime: "中等"
+  revise: # 修订迁移
+    description: "大规模重构，采用微服务架构"
+    use_case: "完全现代化改造"
+    complexity: "很高"
+    cost: "很高"
+    downtime: "较长"
+  rebuild: # 重建迁移
+    description: "完全重写应用，采用云原生技术栈"
+    use_case: "技术栈过时，需要完全重写"
+    complexity: "极高"
+    cost: "极高"
+    downtime: "最长"
+  replace: # 替换迁移
+    description: "用SaaS产品替换自建应用"
+    use_case: "应用功能可由云服务替代"
+    complexity: "低"
+    cost: "低"
+    downtime: "最小"
+  retain: # 保留策略
+    description: "暂时保留在原云，或选择不迁移"
+    use_case: "应用复杂，迁移成本过高"
+    complexity: "无"
+    cost: "无"
+    downtime: "无"

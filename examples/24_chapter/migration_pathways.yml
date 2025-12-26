@@ -1,0 +1,16 @@
+migration_pathways:
+  big_bang_migration: # 大爆炸式迁移
+    approach: "一次性迁移所有应用和服务"
+    advantages: ["快速完成", "管理简单"]
+    disadvantages: ["风险高", "回滚困难", "停机时间长"]
+    suitable_for: "小型应用，时间紧迫的项目"
+  phased_migration: # 分阶段迁移
+    approach: "按优先级分批次迁移"
+    advantages: ["风险可控", "渐进优化", "可回滚"]
+    disadvantages: ["时间长", "管理复杂", "持续成本"]
+    suitable_for: "大型复杂系统"
+  hybrid_migration: # 混合迁移
+    approach: "部分应用迁移，保持混合架构"
+    advantages: ["灵活性高", "风险最小", "渐进转型"]
+    disadvantages: ["架构复杂", "管理成本高"]
+    suitable_for: "长期战略转型"

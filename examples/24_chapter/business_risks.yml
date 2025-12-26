@@ -1,0 +1,21 @@
+business_risks:
+  operational_disruption:
+    description: "业务运营中断"
+    impact: "极高"
+    probability: "低"
+    mitigation: "分阶段迁移，备用方案"
+  cost_overruns:
+    description: "迁移成本超出预算"
+    impact: "高"
+    probability: "中等"
+    mitigation: "详细成本规划和监控"
+  timeline_delays:
+    description: "迁移时间延误"
+    impact: "中等"
+    probability: "高"
+    mitigation: "合理的时间规划和缓冲"
+  skill_shortage:
+    description: "团队技能不足"
+    impact: "高"
+    probability: "中等"
+    mitigation: "培训和外部支持"

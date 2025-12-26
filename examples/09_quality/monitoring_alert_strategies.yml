@@ -1,29 +1,94 @@
-strategies:
-  - category: "多通道通知"
-    key_measures: ["IM/邮件/电话", "值班表"]
-    implementation_points: ["结合排班和抑制策略"]
-    expected_effects: ["快速响应"]
-  - category: "升级路径"
-    key_measures: ["值班→负责人→业务方"]
-    implementation_points: ["关键指标短SLO阶梯"]
-    expected_effects: ["分级处理"]
-  - category: "告警收敛"
-    key_measures: ["去重", "分组", "抑制"]
-    implementation_points: ["血缘关联自动屏蔽"]
-    expected_effects: ["减少风暴"]
-  - category: "告警内容"
-    key_measures: ["时间窗", "范围", "规则", "阈值"]
-    implementation_points: ["含影响范围、处置入口"]
-    expected_effects: ["精准定位"]
-  - category: "趋势告警"
-    key_measures: ["异常波动", "数据量突变"]
-    implementation_points: ["环比/趋势监控"]
-    expected_effects: ["早期发现"]
-  - category: "多级告警"
-    key_measures: ["致命/严重/一般分级"]
-    implementation_points: ["按影响范围通知"]
-    expected_effects: ["优先级排序"]
-  - category: "自动分派"
-    key_measures: ["责任人确认", "进度跟踪"]
-    implementation_points: ["与工单系统集成"]
-    expected_effects: ["闭环管理"]
+# 数据质量监控与告警策略配置
+# 锚点052 对应配置
+
+monitoring_alert_strategies:
+  - category: 多通道通知 (Multi-Channel Notification)
+    measures:
+      - IM/邮件/电话通知
+      - 值班表集成
+      - 排班策略
+      - 抑制策略
+    implementation_points:
+      - 结合团队排班
+      - 避免告警疲劳
+    expected_effects:
+      - 快速响应
+      - 责任到人
+
+  - category: 升级路径 (Escalation Path)
+    measures:
+      - 值班 → 负责人 → 业务方
+      - 关键指标短SLO阶梯
+      - 时间窗口升级
+    implementation_points:
+      - 按影响程度分级
+      - 自动升级机制
+    expected_effects:
+      - 分级处理
+      - 及时响应
+
+  - category: 告警收敛 (Alert Convergence)
+    measures:
+      - 去重处理
+      - 分组聚合
+      - 抑制策略
+      - 血缘关联屏蔽
+    implementation_points:
+      - 避免重复告警
+      - 关联性过滤
+    expected_effects:
+      - 减少风暴
+      - 提高效率
+
+  - category: 告警内容 (Alert Content)
+    measures:
+      - 时间窗信息
+      - 数据范围/分区
+      - 规则名称
+      - 阈值/实际值
+      - 影响范围
+      - 处置入口
+    implementation_points:
+      - 信息完整性
+      - 定位便捷性
+    expected_effects:
+      - 精准定位
+      - 快速处置
+
+  - category: 趋势告警 (Trend Alert)
+    measures:
+      - 异常波动检测
+      - 数据量突变监控
+      - 环比分析
+      - 趋势预测
+    implementation_points:
+      - 历史数据分析
+      - 动态阈值
+    expected_effects:
+      - 早期发现
+      - 预防性告警
+
+  - category: 多级告警 (Multi-Level Alert)
+    measures:
+      - 致命/严重/一般分级
+      - 按影响范围分类
+      - 不同级别通知方式
+    implementation_points:
+      - 影响评估
+      - 优先级排序
+    expected_effects:
+      - 优先级处理
+      - 资源优化
+
+  - category: 自动分派 (Auto Assignment)
+    measures:
+      - 责任人自动确认
+      - 处理进度跟踪
+      - 工单系统集成
+      - 超时提醒
+    implementation_points:
+      - 责任矩阵
+      - 流程自动化
+    expected_effects:
+      - 闭环管理
+      - 效率提升

@@ -1,25 +1,93 @@
-compliance_dimensions:
-  - dimension: "数据最小化"
-    key_requirements: ["只采集必要数据"]
-    test_points: ["可选采集默认关闭"]
-    validation_methods: ["采集配置检查"]
-  - dimension: "授权与告知"
-    key_requirements: ["同意/撤回流程"]
-    test_points: ["留痕与版本化政策"]
-    validation_methods: ["流程模拟测试"]
-  - dimension: "可追溯性"
-    key_requirements: ["查询/导出/删除"]
-    test_points: ["可执行且可验证"]
-    validation_methods: ["功能测试脚本"]
-  - dimension: "数据驻留"
-    key_requirements: ["驻留要求合规"]
-    test_points: ["跨区域复制/缓存"]
-    validation_methods: ["驻留验证工具"]
-  - dimension: "跨境合规"
-    key_requirements: ["跨境评估与控制"]
-    test_points: ["出境访问告警"]
-    validation_methods: ["跨境监控脚本"]
-  - dimension: "审计报告"
-    key_requirements: ["定期报告生成"]
-    test_points: ["取证材料完整"]
-    validation_methods: ["报告自动化生成"]
+# 合规测试关注点配置
+# 锚点058 对应配置
+
+compliance_focus_points:
+  - dimension: 数据最小化 (Data Minimization)
+    key_requirements:
+      - 只采集必要数据
+      - 可选采集默认关闭
+      - 敏感级别与用途绑定
+      - 最小化原则执行
+    test_points:
+      - 采集配置检查
+      - 必要性评估
+      - 用途绑定验证
+    validation_methods:
+      - 配置审计检查
+      - 采集流程验证
+      - 必要性证明
+
+  - dimension: 授权与告知 (Authorization & Notice)
+    key_requirements:
+      - 同意流程完整
+      - 撤回流程支持
+      - 重新授权机制
+      - 留痕与版本化
+    test_points:
+      - 流程模拟测试
+      - 留痕验证
+      - 版本化检查
+    validation_methods:
+      - 流程自动化测试
+      - 留痕完整性检查
+      - 版本控制验证
+
+  - dimension: 可追溯性 (Traceability)
+    key_requirements:
+      - 查询功能可执行
+      - 导出功能可验证
+      - 删除功能有效
+      - 更正功能支持
+    test_points:
+      - 功能测试脚本
+      - 可执行性验证
+      - 有效性确认
+    validation_methods:
+      - 自动化功能测试
+      - 追溯链路验证
+      - 合规性评估
+
+  - dimension: 数据驻留 (Data Residency)
+    key_requirements:
+      - 驻留要求合规
+      - 跨区域复制控制
+      - 缓存合规管理
+      - 日志驻留验证
+    test_points:
+      - 驻留验证工具
+      - 复制控制检查
+      - 缓存合规测试
+    validation_methods:
+      - 自动化驻留检查
+      - 区域控制验证
+      - 合规性审计
+
+  - dimension: 跨境合规 (Cross-border Compliance)
+    key_requirements:
+      - 跨境评估机制
+      - 出境访问控制
+      - 告警监控系统
+      - 合规审批流程
+    test_points:
+      - 跨境监控脚本
+      - 访问告警验证
+      - 评估流程检查
+    validation_methods:
+      - 跨境流量监控
+      - 告警系统测试
+      - 审批流程验证
+
+  - dimension: 审计报告 (Audit Reporting)
+    key_requirements:
+      - 定期报告生成
+      - 取证材料完整
+      - 自动化报告系统
+      - 报告质量保证
+    test_points:
+      - 报告自动化生成
+      - 材料完整性检查
+      - 质量评估验证
+    validation_methods:
+      - 报告生成测试
+      - 材料验证脚本
+      - 质量控制检查

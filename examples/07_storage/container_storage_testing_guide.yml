@@ -1,0 +1,216 @@
+# container_storage_testing_guide.yml
+# 容器存储专项测试指南
+
+docker_volume_testing:
+  volume_types:
+    local:
+      description: "本地存储卷"
+      driver: "local"
+      use_cases: ["开发环境", "单节点测试"]
+      test_scenarios:
+        - persistence: "容器重启后数据保留"
+        - performance: "本地磁盘I/O性能"
+        - capacity: "存储容量限制"
+
+    tmpfs:
+      description: "内存临时文件系统"
+      driver: "local"
+      options:
+        type: "tmpfs"
+        device: "tmpfs"
+      use_cases: ["高速缓存", "临时数据"]
+      test_scenarios:
+        - volatility: "重启后数据丢失"
+        - performance: "内存访问速度"
+        - resource_limits: "内存使用限制"
+
+    nfs:
+      description: "NFS网络文件系统"
+      driver: "local"
+      options:
+        type: "nfs"
+        o: "addr=192.168.1.100,rw"
+        device: ":/path/to/share"
+      use_cases: ["共享存储", "集群环境"]
+      test_scenarios:
+        - connectivity: "网络连接稳定性"
+        - permissions: "访问权限控制"
+        - performance: "网络I/O延迟"
+
+  testing_framework:
+    stress_test:
+      concurrent_containers: 10
+      data_patterns: ["random", "sequential", "mixed"]
+      file_sizes: ["1KB", "1MB", "100MB", "1GB"]
+      operations: ["read", "write", "mixed"]
+
+    persistence_test:
+      container_lifecycle: ["create", "stop", "start", "remove"]
+      volume_lifecycle: ["create", "attach", "detach", "remove"]
+      data_integrity_checks: ["checksum", "size", "content"]
+
+podman_storage_testing:
+  storage_drivers:
+    overlay:
+      description: "Overlay文件系统驱动"
+      performance_characteristics:
+        - fast_image_pull: true
+        - copy_on_write: true
+        - shared_layers: true
+      test_focus:
+        - layer_integrity: "镜像层完整性"
+        - copy_performance: "写时复制性能"
+        - disk_usage: "磁盘空间利用率"
+
+    vfs:
+      description: "虚拟文件系统驱动"
+      performance_characteristics:
+        - simple_implementation: true
+        - no_special_requirements: true
+        - slower_performance: true
+      test_focus:
+        - compatibility: "广泛兼容性"
+        - debugging: "便于调试"
+        - baseline_performance: "基准性能测试"
+
+  volume_management:
+    named_volumes:
+      creation: "podman volume create"
+      inspection: "podman volume inspect"
+      listing: "podman volume ls"
+      removal: "podman volume rm"
+
+    testing_scenarios:
+      - data_persistence: "卷数据跨容器持久化"
+      - concurrent_access: "多容器并发访问"
+      - backup_restore: "卷数据备份恢复"
+      - migration: "卷数据迁移"
+
+containerd_storage_testing:
+  snapshotters:
+    overlayfs:
+      description: "OverlayFS快照器"
+      advantages: ["高性能", "空间效率", "主流选择"]
+      test_metrics:
+        - snapshot_creation_time: "快照创建时间"
+        - memory_usage: "内存使用"
+        - disk_usage: "磁盘使用"
+
+    native:
+      description: "原生快照器"
+      advantages: ["简单", "兼容性好", "调试友好"]
+      test_metrics:
+        - baseline_performance: "基础性能"
+        - resource_overhead: "资源开销"
+        - stability: "稳定性"
+
+    btrfs:
+      description: "Btrfs快照器"
+      advantages: ["高级特性", "快照功能", "压缩支持"]
+      requirements: ["Btrfs文件系统"]
+      test_metrics:
+        - snapshot_efficiency: "快照效率"
+        - compression_ratio: "压缩率"
+        - advanced_features: "高级功能"
+
+  namespace_isolation:
+    testing_focus:
+      - container_isolation: "容器间存储隔离"
+      - namespace_permissions: "命名空间权限"
+      - resource_limits: "资源限制"
+      - cleanup_verification: "清理验证"
+
+kubernetes_storage_testing:
+  extended_scenarios:
+    stateful_sets:
+      description: "有状态应用存储测试"
+      test_cases:
+        - pod_rescheduling: "Pod重新调度数据一致性"
+        - rolling_updates: "滚动更新数据安全"
+        - scaling_operations: "扩缩容数据完整性"
+
+    storage_classes:
+      description: "存储类测试"
+      parameters:
+        - provisioner: "存储提供者"
+        - reclaim_policy: "回收策略"
+        - volume_binding_mode: "卷绑定模式"
+        - allow_volume_expansion: "允许卷扩展"
+
+    persistent_volume_claims:
+      description: "持久卷声明测试"
+      lifecycle_tests:
+        - creation_binding: "创建和绑定"
+        - expansion: "卷扩展"
+        - deletion: "删除和清理"
+
+  advanced_orchestration:
+    volume_snapshots:
+      description: "卷快照测试"
+      scenarios:
+        - backup_creation: "备份创建"
+        - restore_operations: "恢复操作"
+        - snapshot_performance: "快照性能"
+
+    volume_cloning:
+      description: "卷克隆测试"
+      scenarios:
+        - clone_creation: "克隆创建"
+        - data_consistency: "数据一致性"
+        - performance_impact: "性能影响"
+
+performance_benchmarking:
+  container_storage_metrics:
+    throughput:
+      unit: "MB/s"
+      test_tools: ["fio", "dd", "custom_scripts"]
+      scenarios: ["sequential_read", "sequential_write", "random_read", "random_write"]
+
+    iops:
+      unit: "operations/second"
+      test_tools: ["fio", "iozone"]
+      scenarios: ["4KB_random_read", "4KB_random_write", "64KB_sequential"]
+
+    latency:
+      unit: "milliseconds"
+      percentiles: ["p50", "p95", "p99"]
+      test_tools: ["fio", "ioping"]
+
+  comparative_analysis:
+    storage_backends:
+      - docker_volumes: "Docker命名卷"
+      - hostpath: "主机路径挂载"
+      - nfs: "NFS网络存储"
+      - ceph_rbd: "Ceph RBD"
+      - glusterfs: "GlusterFS"
+
+    performance_characteristics:
+      - local_storage: "最高性能，最低延迟"
+      - network_storage: "平衡性能和可扩展性"
+      - cloud_storage: "高可用性，较高延迟"
+
+container_storage_best_practices:
+  testing_methodology:
+    - baseline_testing: "建立性能基线"
+    - regression_testing: "回归测试"
+    - stress_testing: "压力测试"
+    - chaos_testing: "混沌测试"
+
+  monitoring_recommendations:
+    - storage_utilization: "存储利用率"
+    - i/o_operations: "I/O操作统计"
+    - error_rates: "错误率"
+    - performance_trends: "性能趋势"
+
+  troubleshooting_guide:
+    - common_issues:
+        - permission_denied: "权限问题排查"
+        - disk_full: "磁盘空间不足"
+        - network_connectivity: "网络连接问题"
+        - driver_incompatibility: "驱动兼容性"
+
+    - diagnostic_tools:
+        - docker_stats: "Docker统计信息"
+        - podman_system_df: "Podman存储使用"
+        - ctr_snapshots: "Containerd快照信息"
+        - kubectl_describe_pvc: "Kubernetes PVC详情"

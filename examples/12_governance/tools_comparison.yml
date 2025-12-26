@@ -1,0 +1,67 @@
+# 大数据测试环境常用工具对比
+# 对应锚点12-004: 大数据测试环境常用工具对比表
+
+tools_comparison:
+  - name: Terraform
+    deployment: 声明式IaC
+    state_management: 有状态
+    learning_curve: 中等
+    scale: 中大型
+    rollback: 强
+    monitoring: Prometheus
+    cost_control: 云资源优化
+
+  - name: Ansible
+    deployment: 过程式配置
+    state_management: 无状态
+    learning_curve: 低
+    scale: 任意规模
+    rollback: 中等
+    monitoring: 自定义
+    cost_control: 脚本执行
+
+  - name: Kubernetes
+    deployment: 容器编排
+    state_management: 有状态
+    learning_curve: 高
+    scale: 大型分布式
+    rollback: 强
+    monitoring: 内置
+    cost_control: 资源调度
+
+  - name: Jenkins
+    deployment: 流水线
+    state_management: 无状态
+    learning_curve: 中等
+    scale: 中小型
+    rollback: 中等
+    monitoring: 插件丰富
+    cost_control: 构建时间
+
+  - name: GitLab CI
+    deployment: 流水线
+    state_management: 有状态
+    learning_curve: 中等
+    scale: 中大型
+    rollback: 强
+    monitoring: 内置
+    cost_control: 构建时间
+
+# 工具组合推荐
+recommended_combinations:
+  development_testing: [Ansible, Docker, Jenkins]
+  production: [Terraform, Kubernetes, GitLab CI]
+  hybrid_cloud: [Terraform, Ansible, Prometheus]
+
+# 自动化实践步骤
+automation_steps:
+  1: 环境描述 - 用脚本/配置文件描述环境，支持快速复现和变更管理
+  2: 版本控制 - 环境变更纳入代码评审和版本管理，支持回滚
+  3: 质量门禁 - 自动化集成测试、健康检查、基线性能测试
+  4: 基线报告 - 产出环境基线报告，版本、配置、阈值、SLO，便于对账与审计
+
+# 实践案例
+practice_cases:
+  - 使用Terraform管理云资源，Ansible配置服务器，Jenkins编排流水线
+  - 实施GitOps，环境变更通过MR评审，确保可审计性
+  - 集成健康检查脚本，部署后自动验证服务可用性

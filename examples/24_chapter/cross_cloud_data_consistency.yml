@@ -1,0 +1,13 @@
+cross_cloud_data_consistency:
+  eventual_consistency: # 最终一致性
+    description: "允许临时不一致，最终达到一致"
+    use_case: "非关键业务数据"
+    trade_offs: ["高可用性", "vs", "强一致性"]
+  strong_consistency: # 强一致性
+    description: "保证数据在所有副本间的一致性"
+    use_case: "金融交易数据"
+    trade_offs: ["数据准确性", "vs", "性能和可用性"]
+  causal_consistency: # 因果一致性
+    description: "保持因果关系的一致性"
+    use_case: "社交媒体数据"
+    trade_offs: ["业务逻辑一致性", "vs", "简单性"]

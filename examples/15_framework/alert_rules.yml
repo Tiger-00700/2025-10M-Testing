@@ -1,0 +1,403 @@
+# examples/15_framework/alert_rules.yml
+# 大数据可观测性告警规则
+
+groups:
+
+  # Hadoop集群告警
+  - name: hadoop_alerts
+    rules:
+
+      # NameNode可用性告警
+      - alert: NameNodeDown
+        expr: up{job="hadoop-namenode"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          service: hadoop
+          component: namenode
+        annotations:
+          summary: "NameNode节点不可用"
+          description: "Hadoop NameNode ({{ $labels.instance }}) 已停止运行超过5分钟"
+          runbook_url: "https://docs.example.com/runbooks/hadoop-namenode-down"
+
+      # NameNode内存使用率过高
+      - alert: NameNodeHighMemoryUsage
+        expr: |
+          (jvm_memory_used_bytes{job="hadoop-namenode", area="heap"}
+           / jvm_memory_max_bytes{job="hadoop-namenode", area="heap"}) * 100 > 90
+        for: 10m
+        labels:
+          severity: warning
+          service: hadoop
+          component: namenode
+        annotations:
+          summary: "NameNode内存使用率过高"
+          description: "NameNode堆内存使用率超过90%，当前值: {{ $value }}%"
+
+      # DataNode可用性告警
+      - alert: DataNodeDown
+        expr: up{job="hadoop-datanode"} == 0
+        for: 5m
+        labels:
+          severity: warning
+          service: hadoop
+          component: datanode
+        annotations:
+          summary: "DataNode节点不可用"
+          description: "Hadoop DataNode ({{ $labels.instance }}) 已停止运行超过5分钟"
+
+      # DataNode存储空间不足
+      - alert: DataNodeLowDiskSpace
+        expr: |
+          (hadoop_datanode_dfs_used{job="hadoop-datanode"}
+           / hadoop_datanode_dfs_capacity{job="hadoop-datanode"}) * 100 > 85
+        for: 15m
+        labels:
+          severity: warning
+          service: hadoop
+          component: datanode
+        annotations:
+          summary: "DataNode磁盘空间不足"
+          description: "DataNode磁盘使用率超过85%，当前值: {{ $value }}%"
+
+      # YARN ResourceManager告警
+      - alert: ResourceManagerDown
+        expr: up{job="yarn-resourcemanager"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          service: yarn
+          component: resourcemanager
+        annotations:
+          summary: "ResourceManager不可用"
+          description: "YARN ResourceManager已停止运行超过5分钟"
+
+      # YARN队列资源不足
+      - alert: YarnQueueResourcesExhausted
+        expr: |
+          yarn_queue_available_memory_mb{job="yarn-resourcemanager"} /
+          yarn_queue_max_memory_mb{job="yarn-resourcemanager"} < 0.1
+        for: 10m
+        labels:
+          severity: warning
+          service: yarn
+          component: resourcemanager
+        annotations:
+          summary: "YARN队列资源耗尽"
+          description: "YARN队列可用内存少于10%"
+
+  # Spark集群告警
+  - name: spark_alerts
+    rules:
+
+      # Spark Master不可用
+      - alert: SparkMasterDown
+        expr: up{job="spark-master"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          service: spark
+          component: master
+        annotations:
+          summary: "Spark Master不可用"
+          description: "Spark Master已停止运行超过5分钟"
+
+      # Spark作业失败率过高
+      - alert: SparkJobHighFailureRate
+        expr: |
+          rate(spark_job_failed_total[5m]) /
+          rate(spark_job_total[5m]) > 0.1
+        for: 10m
+        labels:
+          severity: warning
+          service: spark
+          component: application
+        annotations:
+          summary: "Spark作业失败率过高"
+          description: "Spark作业失败率超过10%，当前值: {{ $value }}"
+
+      # Spark任务执行时间过长
+      - alert: SparkTaskLongRunning
+        expr: spark_task_duration_seconds > 3600
+        for: 30m
+        labels:
+          severity: warning
+          service: spark
+          component: task
+        annotations:
+          summary: "Spark任务执行时间过长"
+          description: "Spark任务执行时间超过1小时"
+
+      # Spark Worker内存不足
+      - alert: SparkWorkerLowMemory
+        expr: |
+          spark_worker_memory_used_mb / spark_worker_memory_total_mb > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          service: spark
+          component: worker
+        annotations:
+          summary: "Spark Worker内存不足"
+          description: "Spark Worker内存使用率超过90%"
+
+  # Kafka集群告警
+  - name: kafka_alerts
+    rules:
+
+      # Kafka Broker不可用
+      - alert: KafkaBrokerDown
+        expr: up{job="kafka-broker"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          service: kafka
+          component: broker
+        annotations:
+          summary: "Kafka Broker不可用"
+          description: "Kafka Broker ({{ $labels.instance }}) 已停止运行超过5分钟"
+
+      # Kafka分区无主副本
+      - alert: KafkaUnderReplicatedPartitions
+        expr: kafka_server_replicamanager_underreplicatedpartitions > 0
+        for: 5m
+        labels:
+          severity: warning
+          service: kafka
+          component: broker
+        annotations:
+          summary: "Kafka分区副本不足"
+          description: "存在未充分复制的分区数量: {{ $value }}"
+
+      # Kafka消费者延迟过高
+      - alert: KafkaConsumerLagHigh
+        expr: kafka_consumergroup_lag > 10000
+        for: 10m
+        labels:
+          severity: warning
+          service: kafka
+          component: consumer
+        annotations:
+          summary: "Kafka消费者延迟过高"
+          description: "消费者组 {{ $labels.consumergroup }} 延迟超过10000条消息"
+
+      # Kafka请求处理失败
+      - alert: KafkaRequestHandlerFailed
+        expr: |
+          rate(kafka_server_request_handler_avg_idle_percent[5m]) < 0.5
+        for: 5m
+        labels:
+          severity: warning
+          service: kafka
+          component: broker
+        annotations:
+          summary: "Kafka请求处理器负载过高"
+          description: "Kafka请求处理器空闲率低于50%"
+
+  # Elasticsearch集群告警
+  - name: elasticsearch_alerts
+    rules:
+
+      # Elasticsearch节点不可用
+      - alert: ElasticsearchNodeDown
+        expr: up{job="elasticsearch"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          service: elasticsearch
+          component: node
+        annotations:
+          summary: "Elasticsearch节点不可用"
+          description: "Elasticsearch节点 ({{ $labels.instance }}) 已停止运行超过5分钟"
+
+      # Elasticsearch集群健康状态
+      - alert: ElasticsearchClusterUnhealthy
+        expr: elasticsearch_cluster_health_status{status="red"} == 1
+        for: 5m
+        labels:
+          severity: critical
+          service: elasticsearch
+          component: cluster
+        annotations:
+          summary: "Elasticsearch集群不健康"
+          description: "Elasticsearch集群状态为红色，表示存在未分配的分片"
+
+      # Elasticsearch磁盘空间不足
+      - alert: ElasticsearchLowDiskSpace
+        expr: |
+          (elasticsearch_filesystem_data_available_bytes /
+           elasticsearch_filesystem_data_size_bytes) < 0.15
+        for: 15m
+        labels:
+          severity: warning
+          service: elasticsearch
+          component: node
+        annotations:
+          summary: "Elasticsearch磁盘空间不足"
+          description: "Elasticsearch数据磁盘可用空间少于15%"
+
+      # Elasticsearch JVM内存压力
+      - alert: ElasticsearchHighJVMMemoryPressure
+        expr: |
+          elasticsearch_jvm_memory_used_bytes{area="heap"} /
+          elasticsearch_jvm_memory_max_bytes{area="heap"} > 0.85
+        for: 10m
+        labels:
+          severity: warning
+          service: elasticsearch
+          component: jvm
+        annotations:
+          summary: "Elasticsearch JVM内存压力过高"
+          description: "Elasticsearch JVM堆内存使用率超过85%"
+
+  # 系统资源告警
+  - name: system_alerts
+    rules:
+
+      # 节点CPU使用率过高
+      - alert: NodeHighCPUUsage
+        expr: |
+          100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
+        for: 10m
+        labels:
+          severity: warning
+          service: system
+          component: cpu
+        annotations:
+          summary: "节点CPU使用率过高"
+          description: "节点 {{ $labels.instance }} CPU使用率超过90%"
+
+      # 节点内存使用率过高
+      - alert: NodeHighMemoryUsage
+        expr: |
+          (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 > 90
+        for: 10m
+        labels:
+          severity: warning
+          service: system
+          component: memory
+        annotations:
+          summary: "节点内存使用率过高"
+          description: "节点 {{ $labels.instance }} 内存使用率超过90%"
+
+      # 节点磁盘空间不足
+      - alert: NodeLowDiskSpace
+        expr: |
+          (node_filesystem_size_bytes - node_filesystem_free_bytes) /
+          node_filesystem_size_bytes * 100 > 85
+        for: 15m
+        labels:
+          severity: warning
+          service: system
+          component: disk
+        annotations:
+          summary: "节点磁盘空间不足"
+          description: "节点 {{ $labels.instance }} 磁盘使用率超过85%"
+
+      # 节点网络错误
+      - alert: NodeNetworkErrors
+        expr: |
+          rate(node_network_receive_errs_total[5m]) +
+          rate(node_network_transmit_errs_total[5m]) > 10
+        for: 5m
+        labels:
+          severity: warning
+          service: system
+          component: network
+        annotations:
+          summary: "节点网络错误"
+          description: "节点 {{ $labels.instance }} 网络错误率过高"
+
+  # 业务指标告警
+  - name: business_alerts
+    rules:
+
+      # 数据处理延迟过高
+      - alert: DataProcessingLatencyHigh
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 5
+        for: 10m
+        labels:
+          severity: warning
+          service: business
+          component: api
+        annotations:
+          summary: "数据处理延迟过高"
+          description: "API请求P95延迟超过5秒"
+
+      # 作业处理失败率过高
+      - alert: JobProcessingFailureRateHigh
+        expr: |
+          rate(job_processing_failed_total[5m]) /
+          rate(job_processing_total[5m]) > 0.05
+        for: 10m
+        labels:
+          severity: warning
+          service: business
+          component: job
+        annotations:
+          summary: "作业处理失败率过高"
+          description: "作业处理失败率超过5%"
+
+      # 数据质量问题
+      - alert: DataQualityIssues
+        expr: data_quality_validation_errors_total > 100
+        for: 15m
+        labels:
+          severity: warning
+          service: business
+          component: data
+        annotations:
+          summary: "数据质量问题"
+          description: "数据质量验证错误超过100个"
+
+  # 可观测性系统自身告警
+  - name: observability_alerts
+    rules:
+
+      # Prometheus抓取失败
+      - alert: PrometheusScrapeFailed
+        expr: up == 0
+        for: 5m
+        labels:
+          severity: warning
+          service: observability
+          component: prometheus
+        annotations:
+          summary: "Prometheus抓取失败"
+          description: "Prometheus无法抓取目标 {{ $labels.job }}:{{ $labels.instance }}"
+
+      # Elasticsearch索引失败
+      - alert: ElasticsearchIndexingFailed
+        expr: rate(elasticsearch_indexing_failed_total[5m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+          service: observability
+          component: elasticsearch
+        annotations:
+          summary: "Elasticsearch索引失败"
+          description: "Elasticsearch索引操作失败"
+
+      # Jaeger收集器队列满
+      - alert: JaegerCollectorQueueFull
+        expr: jaeger_collector_queue_capacity > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          service: observability
+          component: jaeger
+        annotations:
+          summary: "Jaeger收集器队列满"
+          description: "Jaeger追踪收集器队列使用率超过90%"
+
+      # 告警管理器不可用
+      - alert: AlertmanagerDown
+        expr: up{job="alertmanager"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          service: observability
+          component: alertmanager
+        annotations:
+          summary: "告警管理器不可用"
+          description: "Alertmanager已停止运行"

@@ -1,0 +1,21 @@
+business_effectiveness_evaluation:
+  operational_efficiency:
+    - process_automation: "流程自动化程度"
+    - time_to_market: "上市时间"
+    - deployment_frequency: "部署频率"
+    - incident_response_time: "事件响应时间"
+  cost_benefit_analysis:
+    - migration_cost_breakdown: "迁移成本分解"
+    - operational_cost_savings: "运营成本节约"
+    - roi_calculation: "投资回报率计算"
+    - total_cost_of_ownership: "总拥有成本"
+  user_experience_impact:
+    - performance_perception: "性能感知"
+    - reliability_experience: "可靠性体验"
+    - feature_accessibility: "功能可访问性"
+    - support_ticket_analysis: "支持工单分析"
+  strategic_alignment:
+    - business_agility: "业务敏捷性"
+    - innovation_capability: "创新能力"
+    - competitive_advantage: "竞争优势"
+    - future_readiness: "未来就绪性"

@@ -1,0 +1,179 @@
+# examples/15_framework/monitoring_config.yml
+# 大数据可观测性监控配置
+
+# 全局配置
+global:
+  scrape_interval: 15s      # 抓取间隔
+  evaluation_interval: 15s  # 评估间隔
+  scrape_timeout: 10s       # 抓取超时
+
+# 告警配置
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# 规则文件
+rule_files:
+  - "alert_rules.yml"
+  - "recording_rules.yml"
+
+# 抓取配置
+scrape_configs:
+
+  # Prometheus自身监控
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Hadoop NameNode监控
+  - job_name: 'hadoop-namenode'
+    static_configs:
+      - targets: ['namenode:9870']
+    metrics_path: '/jmx'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'namenode:9870'
+      - source_labels: [__address__]
+        target_label: job
+        replacement: 'hadoop-namenode'
+
+  # Hadoop DataNode监控
+  - job_name: 'hadoop-datanode'
+    static_configs:
+      - targets:
+        - 'datanode1:9864'
+        - 'datanode2:9864'
+        - 'datanode3:9864'
+    metrics_path: '/jmx'
+    scrape_interval: 30s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '(.+):9864'
+        replacement: '${1}'
+
+  # YARN ResourceManager监控
+  - job_name: 'yarn-resourcemanager'
+    static_configs:
+      - targets: ['resourcemanager:8088']
+    metrics_path: '/jmx'
+    scrape_interval: 30s
+
+  # Spark Master监控
+  - job_name: 'spark-master'
+    static_configs:
+      - targets: ['spark-master:4040']
+    metrics_path: '/metrics/json'
+    scrape_interval: 30s
+
+  # Spark Worker监控
+  - job_name: 'spark-worker'
+    static_configs:
+      - targets:
+        - 'spark-worker1:4041'
+        - 'spark-worker2:4041'
+    metrics_path: '/metrics/json'
+    scrape_interval: 30s
+
+  # Kafka Broker监控
+  - job_name: 'kafka-broker'
+    static_configs:
+      - targets:
+        - 'kafka1:9092'
+        - 'kafka2:9092'
+        - 'kafka3:9092'
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Zookeeper监控
+  - job_name: 'zookeeper'
+    static_configs:
+      - targets:
+        - 'zk1:2181'
+        - 'zk2:2181'
+        - 'zk3:2181'
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Elasticsearch监控
+  - job_name: 'elasticsearch'
+    static_configs:
+      - targets:
+        - 'elasticsearch1:9200'
+        - 'elasticsearch2:9200'
+        - 'elasticsearch3:9200'
+    metrics_path: '/_prometheus/metrics'
+    scrape_interval: 30s
+
+  # Kibana监控
+  - job_name: 'kibana'
+    static_configs:
+      - targets: ['kibana:5601']
+    metrics_path: '/api/status'
+    scrape_interval: 30s
+
+  # Node Exporter (系统指标)
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets:
+        - 'namenode:9100'
+        - 'datanode1:9100'
+        - 'datanode2:9100'
+        - 'datanode3:9100'
+        - 'spark-master:9100'
+        - 'spark-worker1:9100'
+        - 'spark-worker2:9100'
+        - 'kafka1:9100'
+        - 'kafka2:9100'
+        - 'kafka3:9100'
+        - 'elasticsearch1:9100'
+        - 'elasticsearch2:9100'
+        - 'elasticsearch3:9100'
+    scrape_interval: 15s
+
+  # JMX Exporter (通用配置)
+  - job_name: 'jmx-exporter'
+    static_configs:
+      - targets:
+        - 'hadoop-namenode:9404'
+        - 'hadoop-datanode1:9404'
+        - 'hadoop-datanode2:9404'
+        - 'hadoop-datanode3:9404'
+        - 'yarn-resourcemanager:9404'
+        - 'spark-master:9404'
+        - 'spark-worker1:9404'
+        - 'spark-worker2:9404'
+    scrape_interval: 30s
+
+  # 自定义应用指标
+  - job_name: 'custom-application'
+    static_configs:
+      - targets:
+        - 'app1:8080'
+        - 'app2:8080'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 15s
+
+# 远程写入配置 (可选)
+remote_write:
+  - url: "http://cortex:9009/api/prom/push"
+    remote_timeout: 30s
+    queue_config:
+      capacity: 10000
+      max_shards: 50
+      min_shards: 1
+      max_samples_per_send: 1000
+      batch_send_deadline: 5s
+      min_backoff: 30ms
+      max_backoff: 5s
+
+# 远程读取配置 (可选)
+remote_read:
+  - url: "http://cortex:9009/api/prom/read"
+    remote_timeout: 30s
+    read_recent: true

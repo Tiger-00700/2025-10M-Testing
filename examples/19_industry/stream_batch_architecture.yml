@@ -1,0 +1,70 @@
+# 流批一体架构配置示例
+# Stream-Batch Unified Architecture Configuration
+
+# 数据湖存储配置
+data_lake:
+  type: "delta_lake"
+  format: "parquet"
+  location: "s3://data-lake/stream-batch-unified/"
+  partitioning:
+    - "date"
+    - "event_type"
+
+# 流处理配置
+streaming:
+  framework: "flink"
+  checkpoint_interval: "30s"
+  parallelism: 4
+  watermark_strategy: "bounded_out_of_orderness"
+  window:
+    type: "tumbling"
+    size: "1h"
+
+# 批处理配置
+batch:
+  framework: "spark"
+  batch_size: "1h"
+  parallelism: 8
+  retry_policy:
+    max_attempts: 3
+    backoff_multiplier: 2.0
+
+# 统一元数据管理
+metadata:
+  catalog: "hive"
+  schema: "stream_batch_unified"
+  tables:
+    - name: "events_raw"
+      type: "streaming_table"
+      retention: "30d"
+    - name: "events_aggregated"
+      type: "batch_table"
+      partitions: ["year", "month", "day"]
+
+# 调度编排配置
+orchestration:
+  tool: "airflow"
+  dag_id: "stream_batch_unified_pipeline"
+  schedule_interval: "@hourly"
+  dependencies:
+    - streaming_ingestion -> batch_aggregation
+    - batch_aggregation -> consistency_check
+
+# 一致性校验配置
+consistency:
+  validation_type: "dual_write_verification"
+  window_alignment: "1h"
+  tolerance_threshold: 0.01
+  reconciliation_strategy: "backfill_on_mismatch"
+
+# 监控配置
+monitoring:
+  metrics:
+    - streaming_throughput
+    - batch_processing_time
+    - data_consistency_ratio
+    - end_to_end_latency
+  alerts:
+    - condition: "consistency_ratio < 0.99"
+      severity: "critical"
+      message: "Data consistency violation detected"

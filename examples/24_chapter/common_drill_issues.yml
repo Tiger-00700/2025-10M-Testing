@@ -1,0 +1,16 @@
+common_drill_issues:
+  technical_issues:
+    - compatibility_problems: "兼容性问题"
+    - performance_degradation: "性能下降"
+    - data_inconsistency: "数据不一致"
+    - security_vulnerabilities: "安全漏洞"
+  operational_issues:
+    - communication_breakdown: "沟通中断"
+    - resource_shortage: "资源短缺"
+    - timeline_delays: "时间延误"
+    - coordination_problems: "协调问题"
+  process_issues:
+    - incomplete_procedures: "流程不完整"
+    - unclear_responsibilities: "职责不清"
+    - inadequate_testing: "测试不足"
+    - poor_documentation: "文档不完善"

@@ -1,41 +1,91 @@
-dimensions:
-  - dimension: "准确性"
-    key_metrics: ["对账通过率", "字段校验通过率"]
-    calculation: "校验成功数/总记录数"
-    threshold: ">95%"
-    frequency: "实时/每日"
-  - dimension: "完整性"
-    key_metrics: ["缺失率", "空值占比"]
-    calculation: "空值记录数/总记录数"
-    threshold: "<5%"
-    frequency: "每日"
-  - dimension: "一致性"
-    key_metrics: ["跨表一致性通过率", "幂等一致率"]
-    calculation: "一致记录数/总记录数"
-    threshold: ">98%"
-    frequency: "实时"
-  - dimension: "及时性"
-    key_metrics: ["端到端延迟", "超时率"]
-    calculation: "平均延迟时间"
-    threshold: "<30min"
-    frequency: "实时"
-  - dimension: "唯一性"
-    key_metrics: ["重复率", "主键冲突比例"]
-    calculation: "重复记录数/总记录数"
-    threshold: "<1%"
-    frequency: "每日"
-  - dimension: "有效性"
-    key_metrics: ["格式校验通过率", "Schema兼容性"]
-    calculation: "有效记录数/总记录数"
-    threshold: ">99%"
-    frequency: "实时"
-  - dimension: "合规性"
-    key_metrics: ["脱敏覆盖率", "审计缺失数"]
-    calculation: "合规记录数/总记录数"
-    threshold: "100%"
-    frequency: "每周"
-  - dimension: "稳定性"
-    key_metrics: ["告警恢复时间", "误报率"]
-    calculation: "平均恢复时间"
-    threshold: "<1h"
-    frequency: "实时"
+# 数据质量维度与指标体系配置
+# 锚点050 对应配置
+
+quality_dimensions:
+  - dimension: 准确性 (Accuracy)
+    metrics:
+      - name: 对账通过率
+        formula: 校验成功数/总记录数
+        threshold: ">95%"
+        frequency: 实时/每日
+      - name: 字段校验通过率
+        formula: 有效字段数/总字段数
+        threshold: ">98%"
+        frequency: 实时
+
+  - dimension: 完整性 (Completeness)
+    metrics:
+      - name: 缺失率
+        formula: 空值记录数/总记录数
+        threshold: "<5%"
+        frequency: 每日
+      - name: 分区完整性
+        formula: 实际分区数/期望分区数
+        threshold: "=100%"
+        frequency: 实时
+
+  - dimension: 一致性 (Consistency)
+    metrics:
+      - name: 跨表一致性通过率
+        formula: 一致记录数/总记录数
+        threshold: ">98%"
+        frequency: 实时
+      - name: 幂等一致率
+        formula: 重复处理一致记录数/总记录数
+        threshold: "=100%"
+        frequency: 实时
+
+  - dimension: 及时性 (Timeliness)
+    metrics:
+      - name: 端到端延迟
+        formula: 平均延迟时间
+        threshold: "<30min"
+        frequency: 实时
+      - name: 超时率
+        formula: 超时记录数/总记录数
+        threshold: "<1%"
+        frequency: 实时
+
+  - dimension: 唯一性 (Uniqueness)
+    metrics:
+      - name: 重复率
+        formula: 重复记录数/总记录数
+        threshold: "<1%"
+        frequency: 每日
+      - name: 主键冲突比例
+        formula: 冲突记录数/总记录数
+        threshold: "=0%"
+        frequency: 实时
+
+  - dimension: 有效性 (Validity)
+    metrics:
+      - name: 格式校验通过率
+        formula: 有效记录数/总记录数
+        threshold: ">99%"
+        frequency: 实时
+      - name: Schema兼容性
+        formula: 兼容记录数/总记录数
+        threshold: "=100%"
+        frequency: 实时
+
+  - dimension: 合规性 (Compliance)
+    metrics:
+      - name: 脱敏覆盖率
+        formula: 脱敏字段数/敏感字段数
+        threshold: "=100%"
+        frequency: 每周
+      - name: 审计缺失数
+        formula: 缺失审计记录数
+        threshold: "=0"
+        frequency: 每周
+
+  - dimension: 稳定性 (Stability)
+    metrics:
+      - name: 告警恢复时间
+        formula: 平均恢复时间
+        threshold: "<1h"
+        frequency: 实时
+      - name: 误报率
+        formula: 误报告警数/总告警数
+        threshold: "<5%"
+        frequency: 每日

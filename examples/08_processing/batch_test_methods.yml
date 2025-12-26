@@ -1,25 +1,100 @@
-test_methods:
-  - category: "逻辑正确性"
-    key_steps: ["输入输出对账"]
-    test_points: ["记录数、主键集合、业务指标校验"]
-    tools_scripts: ["对账脚本"]
-  - category: "边界与异常数据"
-    key_steps: ["空值、极值、坏数据处理"]
-    test_points: ["容错与告警验证"]
-    tools_scripts: ["异常数据生成器"]
-  - category: "批次完整性"
-    key_steps: ["分区/窗口完整性检查"]
-    test_points: ["跨批次衔接、迟到数据"]
-    tools_scripts: ["完整性校验工具"]
-  - category: "幂等与重跑"
-    key_steps: ["模拟失败/重跑场景"]
-    test_points: ["去重、断点续跑口径一致"]
-    tools_scripts: ["幂等测试脚本"]
-  - category: "依赖与调度"
-    key_steps: ["依赖编排、重试、回滚"]
-    test_points: ["补偿、失败告警、SLA触发"]
-    tools_scripts: ["调度模拟器"]
-  - category: "性能与资源"
-    key_steps: ["输入规模放大测试"]
-    test_points: ["Shuffle/倾斜、内存/IO瓶颈"]
-    tools_scripts: ["性能基准测试"]
+# batch_test_methods.yml
+# 批处理作业测试方法配置
+
+batch_processing_tests:
+  version: "1.0"
+  description: "批处理作业测试方法配置"
+
+  test_categories:
+    logic_correctness:
+      description: "逻辑正确性测试"
+      methods:
+        - input_output_reconciliation: "输入输出对账"
+        - record_count_verification: "记录数校验"
+        - primary_key_consistency: "主键集合一致性"
+        - business_metrics_validation: "业务指标校验"
+      tools:
+        - reconciliation_scripts: "对账脚本"
+        - data_comparison_tools: "数据对比工具"
+
+    boundary_exception_handling:
+      description: "边界与异常数据处理"
+      methods:
+        - null_value_handling: "空值处理"
+        - extreme_value_processing: "极值处理"
+        - corrupted_data_tolerance: "坏数据容错"
+        - duplicate_data_detection: "重复数据检测"
+      tools:
+        - exception_data_generator: "异常数据生成器"
+        - data_quality_checker: "数据质量检查器"
+
+    batch_integrity:
+      description: "批次完整性测试"
+      methods:
+        - partition_completeness: "分区完整性检查"
+        - window_integrity: "窗口完整性验证"
+        - cross_batch_continuity: "跨批次衔接"
+        - late_data_handling: "迟到数据处理"
+      tools:
+        - integrity_validation_tool: "完整性校验工具"
+        - batch_boundary_checker: "批次边界检查器"
+
+    idempotency_rerun:
+      description: "幂等与重跑测试"
+      methods:
+        - failure_simulation: "失败场景模拟"
+        - rerun_consistency: "重跑一致性验证"
+        - deduplication_logic: "去重逻辑测试"
+        - checkpoint_resume: "断点续跑测试"
+      tools:
+        - idempotency_test_script: "幂等测试脚本"
+        - rerun_simulation_tool: "重跑模拟工具"
+
+    dependency_scheduling:
+      description: "依赖与调度测试"
+      methods:
+        - dependency_orchestration: "依赖编排测试"
+        - retry_mechanism: "重试机制验证"
+        - rollback_procedures: "回滚流程测试"
+        - compensation_logic: "补偿逻辑验证"
+      tools:
+        - scheduling_simulator: "调度模拟器"
+        - dependency_graph_analyzer: "依赖图分析器"
+
+    performance_resources:
+      description: "性能与资源测试"
+      methods:
+        - input_scale_amplification: "输入规模放大测试"
+        - shuffle_skew_detection: "Shuffle倾斜检测"
+        - memory_io_bottleneck: "内存/IO瓶颈识别"
+        - execution_plan_optimization: "执行计划优化"
+      tools:
+        - performance_benchmark_tool: "性能基准测试工具"
+        - resource_monitoring_system: "资源监控系统"
+
+  best_practices:
+    automation:
+      - establish_reconciliation_scripts: "建立输入-输出对账脚本"
+      - integrate_ci_cd_pipeline: "集成CI/CD流水线"
+      - record_differences_fixes: "记录差异与修复路径"
+    regression_testing:
+      - full_regression_key_chains: "关键链路定期全量回归"
+      - incremental_sampling_daily: "日常增量抽检"
+      - scripted_rerun_processes: "重跑/补数流程脚本化"
+    monitoring:
+      - baseline_establishment: "基线建立"
+      - threshold_alerting: "阈值告警"
+      - performance_trending: "性能趋势分析"
+
+  tools_recommendations:
+    open_source:
+      - apache_spark_testing: "Apache Spark测试框架"
+      - hadoop_mapreduce_test: "Hadoop MapReduce测试工具"
+      - airflow_dag_testing: "Airflow DAG测试"
+    commercial:
+      - informatica_powercenter_test: "Informatica PowerCenter测试"
+      - talend_data_integration_test: "Talend数据集成测试"
+      - microsoft_ssis_test: "Microsoft SSIS测试"
+    custom_scripts:
+      - data_validation_framework: "数据验证框架"
+      - etl_testing_automation: "ETL测试自动化脚本"

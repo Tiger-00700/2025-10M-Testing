@@ -1,0 +1,36 @@
+# examples/20_evolution/ml_anomaly_detection.yml
+intelligent_monitoring:
+  real_time_anomaly_detection:
+    unsupervised_learning:
+      algorithm: "isolation_forest"
+      contamination: 0.01
+      features: ["latency", "throughput", "error_rate", "resource_utilization"]
+
+    supervised_learning:
+      model_type: "xgboost_classifier"
+      training_data: "historical_anomalies"
+      prediction_threshold: 0.8
+
+    streaming_inference:
+      flink_integration: "process_function"
+      state_management: "rocksdb"
+      alert_trigger: "anomaly_score > threshold"
+
+  predictive_maintenance:
+    equipment_failure_prediction:
+      time_series_forecasting:
+        algorithm: "lstm_autoencoder"
+        lookback_window: "24h"
+        prediction_horizon: "6h"
+
+      survival_analysis:
+        algorithm: "cox_proportional_hazards"
+        censoring_handling: "right_censored"
+        risk_factors: ["usage_intensity", "environmental_conditions"]
+
+    maintenance_optimization:
+      reinforcement_learning:
+        algorithm: "q_learning"
+        state_space: ["equipment_age", "usage_pattern", "failure_history"]
+        action_space: ["immediate_maintenance", "scheduled_maintenance", "monitor_only"]
+        reward_function: "cost_savings + reliability_improvement"

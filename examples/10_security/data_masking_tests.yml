@@ -1,25 +1,93 @@
-test_categories:
-  - category: "脱敏策略"
-    key_test_points: ["敏感字段掩码"]
-    validation_methods: ["全掩码/部分掩码测试"]
-    expected_results: ["不可逆且一致"]
-  - category: "伪造数据"
-    key_test_points: ["合成数据生成"]
-    validation_methods: ["统计特征相似性"]
-    expected_results: ["业务可用性保持"]
-  - category: "规则覆盖"
-    key_test_points: ["新表/分区自动套用"]
-    validation_methods: ["导出/下游脱敏检查"]
-    expected_results: ["无遗漏脱敏"]
-  - category: "一致性验证"
-    key_test_points: ["同值同掩"]
-    validation_methods: ["重复数据掩码对比"]
-    expected_results: ["掩码结果一致"]
-  - category: "性能影响"
-    key_test_points: ["脱敏处理延迟"]
-    validation_methods: ["性能基准测试"]
-    expected_results: ["延迟在可接受范围"]
-  - category: "合规审计"
-    key_test_points: ["脱敏报告生成"]
-    validation_methods: ["审批链路验证"]
-    expected_results: ["报告完整可追溯"]
+# 数据脱敏与伪造测试配置
+# 锚点057 对应配置
+
+data_masking_tests:
+  - category: 脱敏策略 (Masking Strategy)
+    key_test_points:
+      - 敏感字段识别
+      - 掩码规则应用
+      - 全掩码验证
+      - 部分掩码验证
+    validation_methods:
+      - 字段扫描测试
+      - 掩码一致性检查
+      - 不可逆性验证
+    expected_results:
+      - 敏感字段全覆盖
+      - 掩码规则正确
+      - 不可逆且一致
+
+  - category: 伪造数据 (Synthetic Data)
+    key_test_points:
+      - 合成数据生成
+      - 统计特征相似性
+      - 业务可用性保持
+      - 数据分布匹配
+    validation_methods:
+      - 特征相似性测试
+      - 业务逻辑验证
+      - 统计分布检查
+    expected_results:
+      - 特征高度相似
+      - 业务可用性保持
+      - 隐私安全保护
+
+  - category: 规则覆盖 (Rule Coverage)
+    key_test_points:
+      - 新表自动套用
+      - 新分区自动套用
+      - 导出脱敏检查
+      - 下游脱敏验证
+    validation_methods:
+      - 规则继承测试
+      - 覆盖范围检查
+      - 链路脱敏验证
+    expected_results:
+      - 无遗漏脱敏
+      - 规则自动应用
+      - 链路脱敏完整
+
+  - category: 一致性验证 (Consistency Validation)
+    key_test_points:
+      - 同值同掩规则
+      - 重复数据掩码
+      - 掩码结果对比
+      - 一致性保证
+    validation_methods:
+      - 重复值测试
+      - 掩码对比验证
+      - 一致性检查
+    expected_results:
+      - 同值同掩生效
+      - 掩码结果一致
+      - 一致性100%
+
+  - category: 性能影响 (Performance Impact)
+    key_test_points:
+      - 脱敏处理延迟
+      - 性能基准测试
+      - 资源消耗评估
+      - 扩展性验证
+    validation_methods:
+      - 延迟测量测试
+      - 基准性能对比
+      - 资源监控分析
+    expected_results:
+      - 延迟在可接受范围
+      - 性能影响最小化
+      - 扩展性良好
+
+  - category: 合规审计 (Compliance Audit)
+    key_test_points:
+      - 脱敏报告生成
+      - 审批链路验证
+      - 报告完整性检查
+      - 可追溯性保证
+    validation_methods:
+      - 报告生成测试
+      - 审批流程验证
+      - 追溯链路检查
+    expected_results:
+      - 报告完整可追溯
+      - 审批链路闭环
+      - 合规要求满足

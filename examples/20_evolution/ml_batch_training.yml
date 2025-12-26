@@ -1,0 +1,38 @@
+# examples/20_evolution/ml_batch_training.yml
+batch_ml_training:
+  distributed_training:
+    framework: "Spark MLlib + Horovod"
+    algorithm: "deep_learning_recommendation"
+    architecture: "two_tower_model"
+
+    training_config:
+      batch_size: 4096
+      learning_rate: 0.001
+      epochs: 10
+      optimizer: "adam"
+      loss_function: "binary_crossentropy"
+
+    data_pipeline:
+      input_format: "parquet"
+      feature_engineering:
+        - "categorical_encoding: one_hot"
+        - "numerical_scaling: standard_scaler"
+        - "text_embedding: bert_base"
+      train_validation_split: "0.8:0.2"
+
+  feature_store_integration:
+    feature_registry:
+      real_time_features:
+        - "user_profile_features"
+        - "item_content_features"
+        - "contextual_features"
+
+      batch_features:
+        - "historical_behavior_patterns"
+        - "collaborative_filtering_embeddings"
+        - "content_based_features"
+
+    feature_serving:
+      online_store: "Redis + Feast"
+      offline_store: "HDFS + Delta Lake"
+      point_in_time_correctness: true

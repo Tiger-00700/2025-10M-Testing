@@ -1,0 +1,17 @@
+high_availability_design:
+  infrastructure_layer:
+    - redundant_power: "冗余电源"
+    - redundant_network: "冗余网络"
+    - redundant_hardware: "冗余硬件"
+  platform_layer:
+    - load_balancing: "负载均衡"
+    - auto_scaling: "自动扩展"
+    - health_checks: "健康检查"
+  application_layer:
+    - stateless_design: "无状态设计"
+    - circuit_breaker: "断路器模式"
+    - retry_mechanism: "重试机制"
+  data_layer:
+    - data_replication: "数据复制"
+    - backup_strategy: "备份策略"
+    - consistency_models: "一致性模型"

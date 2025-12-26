@@ -1,0 +1,21 @@
+knowledge_transfer_training:
+  documentation_and_knowledge_base:
+    - migration_documentation: "迁移文档"
+    - runbooks_and_procedures: "运行手册和流程"
+    - troubleshooting_guides: "故障排除指南"
+    - best_practices_repository: "最佳实践库"
+  team_training_programs:
+    - technical_skills_training: "技术技能培训"
+    - operational_procedures: "运营流程培训"
+    - emergency_response_training: "应急响应培训"
+    - continuous_learning: "持续学习计划"
+  vendor_and_partner_support:
+    - support_agreements: "支持协议"
+    - escalation_procedures: "升级流程"
+    - expert_consultation: "专家咨询"
+    - community_engagement: "社区参与"
+  organizational_learning:
+    - lessons_learned_repository: "经验教训库"
+    - success_stories: "成功案例分享"
+    - innovation_workshops: "创新工作坊"
+    - cross_team_collaboration: "跨团队协作"

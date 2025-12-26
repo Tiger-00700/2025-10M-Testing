@@ -1,21 +1,85 @@
-data_mining_test_methods:
-  - test_category: "输入输出一致性校验"
-    key_methods: "黄金样本对比/规则替代计算"
-    validation_points: "梯度/损失可复现性验证"
-    tools_examples: "一致性校验脚本"
-  - test_category: "特征工程验证"
-    key_methods: "特征来源/缺失处理检查"
-    validation_points: "训练/推理一致性评估"
-    tools_examples: "特征验证工具"
-  - test_category: "结果可解释性"
-    key_methods: "特征重要性/SHAP分析"
-    validation_points: "业务合理性评估"
-    tools_examples: "可解释性工具"
-  - test_category: "模型回归与对比"
-    key_methods: "新旧模型指标对比"
-    validation_points: "置信区间显著性检验"
-    tools_examples: "模型对比框架"
-  - test_category: "数据/配置可复现性"
-    key_methods: "训练集版本/随机种子记录"
-    validation_points: "重训可复现性保证"
-    tools_examples: "版本控制工具"
+# 数据挖掘与传统建模测试方法配置
+# 涵盖输入输出一致性、特征工程、结果可解释性等测试维度
+
+test_categories:
+  - name: "输入输出一致性校验"
+    description: "验证模型输入输出数据的完整性和一致性"
+    methods:
+      - "黄金样本对比测试"
+      - "规则替代计算验证"
+      - "梯度/损失函数可复现性检查"
+      - "端到端pipeline一致性测试"
+    tools: ["Pandas", "NumPy", "自定义验证脚本"]
+    
+  - name: "特征工程验证"
+    description: "确保特征处理过程的正确性和一致性"
+    methods:
+      - "特征来源和血缘追踪"
+      - "缺失值处理逻辑验证"
+      - "数据截断、归一化、分桶操作检查"
+      - "特征泄漏检测"
+      - "训练/推理一致性保证"
+    validation_rules:
+      - "特征分布稳定性检查"
+      - "特征重要性变化监控"
+      - "特征工程pipeline版本控制"
+    
+  - name: "结果可解释性评估"
+    description: "验证模型预测结果的可理解性和合理性"
+    methods:
+      - "分组对比分析"
+      - "特征重要性评估"
+      - "SHAP/LIME可解释性工具应用"
+      - "业务合理性专家评审"
+    explainability_metrics:
+      - "特征贡献度"
+      - "预测置信度"
+      - "决策路径透明度"
+    
+  - name: "模型回归与对比测试"
+    description: "比较新旧模型性能和行为的差异"
+    methods:
+      - "新旧模型参数对比"
+      - "特征版本一致性检查"
+      - "性能指标变化分析 (AUC, MAE, F1)"
+      - "置信区间和显著性检验"
+    comparison_framework:
+      - "A/B测试设计"
+      - "统计显著性检验"
+      - "业务指标影响评估"
+    
+  - name: "数据与配置可复现性"
+    description: "确保模型训练和推理过程的可重复性"
+    methods:
+      - "训练数据版本控制"
+      - "随机种子固定"
+      - "代码和依赖版本管理"
+      - "特征字典和模型卡版本化"
+      - "重训练一致性验证"
+    reproducibility_checks:
+      - "Docker容器化"
+      - "环境配置文档"
+      - "种子重置验证"
+
+# 模型验证框架
+validation_framework:
+  offline_validation:
+    - "交叉验证"
+    - "时间序列分割"
+    - "领域专家评审"
+  online_validation:
+    - "A/B测试"
+    - "灰度发布"
+    - "效果监控"
+  continuous_monitoring:
+    - "性能漂移检测"
+    - "数据分布变化监控"
+    - "模型退化告警"
+
+# 质量保障措施
+quality_assurance:
+  code_review: "必需"
+  peer_review: "必需"
+  automated_testing: "每日执行"
+  performance_regression: "发布前执行"
+  documentation: "模型卡和使用说明"

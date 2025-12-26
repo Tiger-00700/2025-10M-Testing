@@ -1,0 +1,77 @@
+toolchain_config:
+  version: "1.0"
+  environment: production
+  
+  tools:
+    - name: great_expectations
+      version: "0.18.0"
+      config:
+        datasource: postgresql://localhost:5432/test_db
+        expectations_store: file:///opt/gx/expectations
+        validations_store: file:///opt/gx/validations
+        
+    - name: jmeter
+      version: "5.6.3"
+      config:
+        jvm_args: "-Xms512m -Xmx2048m"
+        plugins_path: "/opt/jmeter/plugins"
+        results_path: "/opt/jmeter/results"
+        
+    - name: selenium_grid
+      version: "4.15.0"
+      config:
+        hub_url: "http://selenium-hub:4444/wd/hub"
+        browser_configs:
+          - browser: chrome
+            version: "latest"
+            instances: 5
+          - browser: firefox
+            version: "latest"
+            instances: 3
+
+  integrations:
+    - type: api
+      source: great_expectations
+      target: data_pipeline
+      endpoint: "/api/v1/validate"
+      auth:
+        type: bearer
+        token_env: GX_API_TOKEN
+        
+    - type: plugin
+      source: jmeter
+      target: test_framework
+      plugin_class: "com.example.JMeterPlugin"
+      
+    - type: container
+      source: selenium_grid
+      target: ui_test_suite
+      network: test_network
+      volumes:
+        - /opt/selenium/logs:/var/log/selenium
+
+  monitoring:
+    prometheus:
+      scrape_interval: 30s
+      metrics_path: "/metrics"
+      
+    grafana:
+      dashboards:
+        - name: toolchain_health
+          template: "toolchain_health.json"
+        - name: performance_metrics
+          template: "performance_metrics.json"
+
+  governance:
+    policies:
+      - name: tool_version_policy
+        rule: "versions must be stable releases"
+        enforcement: automatic
+        
+      - name: security_scan_policy
+        rule: "daily security scans required"
+        enforcement: scheduled
+        
+      - name: resource_limit_policy
+        rule: "cpu < 80%, memory < 90%"
+        enforcement: alerting

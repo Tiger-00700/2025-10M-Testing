@@ -1,0 +1,23 @@
+infrastructure_migration_tools:
+  aws_server_migration_service:
+    category: "AWS原生迁移工具"
+    capabilities:
+      - agentless_migration: "无代理迁移"
+      - incremental_replication: "增量复制"
+      - automated_networking: "自动化网络配置"
+    use_cases: ["AWS内部迁移", "物理机到云迁移"]
+  azure_migrate:
+    category: "Azure迁移评估和迁移工具"
+    capabilities:
+      - discovery_and_assessment: "发现和评估"
+      - dependency_mapping: "依赖关系映射"
+      - cost_planning: "成本规划"
+      - migration_execution: "迁移执行"
+    use_cases: ["Azure迁移规划", "混合云迁移"]
+  google_cloud_migration_tools:
+    category: "GCP迁移工具套件"
+    capabilities:
+      - migrate_for_compute_engine: "计算引擎迁移"
+      - migrate_for_anthos: "Anthos迁移"
+      - bigquery_data_transfer: "大数据迁移"
+    use_cases: ["GCP云迁移", "容器化迁移"]

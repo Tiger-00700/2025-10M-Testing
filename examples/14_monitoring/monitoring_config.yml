@@ -1,0 +1,64 @@
+# examples/14_monitoring/monitoring_config.yml
+# 测试环境监控配置模板
+# Service Level Indicators (SLI) 配置
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - alerting_rules.yml
+
+scrape_configs:
+  - job_name: 'test_environment'
+    static_configs:
+      - targets: ['localhost:9090']
+    metrics_path: '/metrics'
+    params:
+      format: ['prometheus']
+
+  - job_name: 'application_metrics'
+    static_configs:
+      - targets: ['app:8080']
+    scrape_interval: 5s
+
+# SLI/SLO 配置
+service_level_objectives:
+  - name: api_response_time
+    sli:
+      metric: http_request_duration_seconds
+      selector: 'method="GET"'
+    slo:
+      target: 0.95
+      window: 30d
+
+  - name: test_execution_success
+    sli:
+      metric: test_execution_status
+      selector: 'status="success"'
+    slo:
+      target: 0.99
+      window: 7d
+
+# 监控指标定义
+metrics:
+  - name: test_environment_health
+    type: gauge
+    description: "测试环境整体健康状态"
+    labels:
+      - environment
+      - component
+
+  - name: resource_utilization
+    type: gauge
+    description: "资源利用率指标"
+    labels:
+      - resource_type
+      - environment
+
+  - name: error_rate
+    type: counter
+    description: "错误率统计"
+    labels:
+      - service
+      - error_type

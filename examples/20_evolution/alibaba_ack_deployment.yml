@@ -1,0 +1,125 @@
+# examples/20_evolution/alibaba_ack_deployment.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: streaming-batch-config
+  namespace: data-platform
+data:
+  flink-config.yaml: |
+    jobmanager.rpc.address: flink-jobmanager
+    taskmanager.numberOfTaskSlots: 4
+    parallelism.default: 4
+    state.backend: rocksdb
+    state.checkpoints.dir: oss://streaming-batch-checkpoints/
+    state.savepoints.dir: oss://streaming-batch-savepoints/
+
+  spark-config.yaml: |
+    spark.master: k8s://https://kubernetes.default.svc
+    spark.kubernetes.container.image: registry.cn-hangzhou.aliyuncs.com/streaming-batch/spark:3.3.0
+    spark.kubernetes.authenticate.driver.serviceAccountName: spark-sa
+    spark.dynamicAllocation.enabled: true
+    spark.shuffle.service.enabled: true
+    spark.hadoop.fs.oss.accessKeyId: ${ALIBABA_CLOUD_ACCESS_KEY_ID}
+    spark.hadoop.fs.oss.accessKeySecret: ${ALIBABA_CLOUD_ACCESS_KEY_SECRET}
+    spark.hadoop.fs.oss.endpoint: oss-cn-hangzhou.aliyuncs.com
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: flink-sa
+  namespace: data-platform
+  annotations:
+    ram.aliyun.com/role-name: flink-service-role
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink-jobmanager
+  namespace: data-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink-jobmanager
+  template:
+    metadata:
+      labels:
+        app: flink-jobmanager
+    spec:
+      serviceAccountName: flink-sa
+      containers:
+      - name: jobmanager
+        image: registry.cn-hangzhou.aliyuncs.com/streaming-batch/flink:1.17.0
+        ports:
+        - containerPort: 8081
+          name: webui
+        - containerPort: 6123
+          name: rpc
+        env:
+        - name: JOB_MANAGER_RPC_ADDRESS
+          value: flink-jobmanager
+        - name: ALICLOUD_REGION_ID
+          value: "cn-hangzhou"
+        volumeMounts:
+        - name: flink-config
+          mountPath: /opt/flink/conf/flink-conf.yaml
+          subPath: flink-conf.yaml
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "2000m"
+          limits:
+            memory: "8Gi"
+            cpu: "4000m"
+      volumes:
+      - name: flink-config
+        configMap:
+          name: streaming-batch-config
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink-taskmanager
+  namespace: data-platform
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flink-taskmanager
+  template:
+    metadata:
+      labels:
+        app: flink-taskmanager
+    spec:
+      serviceAccountName: flink-sa
+      containers:
+      - name: taskmanager
+        image: registry.cn-hangzhou.aliyuncs.com/streaming-batch/flink:1.17.0
+        ports:
+        - containerPort: 6121
+          name: data
+        - containerPort: 6122
+          name: ipc
+        env:
+        - name: JOB_MANAGER_RPC_ADDRESS
+          value: flink-jobmanager
+        - name: ALICLOUD_REGION_ID
+          value: "cn-hangzhou"
+        volumeMounts:
+        - name: flink-config
+          mountPath: /opt/flink/conf/flink-conf.yaml
+          subPath: flink-conf.yaml
+        resources:
+          requests:
+            memory: "8Gi"
+            cpu: "4000m"
+          limits:
+            memory: "16Gi"
+            cpu: "8000m"
+      volumes:
+      - name: flink-config
+        configMap:
+          name: streaming-batch-config

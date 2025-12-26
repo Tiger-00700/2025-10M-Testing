@@ -1,0 +1,103 @@
+# storage_testing_tools_guide.yml
+# 存储测试工具选型指南
+
+tool_categories:
+  performance_testing:
+    description: "性能测试工具"
+    tools:
+      - name: "Apache JMeter"
+        pros: ["分布式测试", "丰富协议支持", "可扩展插件"]
+        cons: ["学习曲线陡峭", "资源消耗较大"]
+        best_for: ["HDFS性能测试", "数据库连接池测试"]
+        cost: "免费"
+        learning_curve: "中"
+
+      - name: "YCSB"
+        pros: ["标准化基准", "多数据库支持", "详细指标"]
+        cons: ["配置复杂", "结果解读需要经验"]
+        best_for: ["NoSQL性能对比", "云数据库基准测试"]
+        cost: "免费"
+        learning_curve: "高"
+
+      - name: "TPC Benchmarks"
+        pros: ["行业标准", "权威认证", "全面评估"]
+        cons: ["实施周期长", "成本高昂"]
+        best_for: ["数据仓库性能认证", "企业级评估"]
+        cost: "付费"
+        learning_curve: "高"
+
+  monitoring_observability:
+    description: "监控与可观测性工具"
+    tools:
+      - name: "Prometheus + Grafana"
+        pros: ["强大的查询语言", "丰富的可视化", "活跃社区"]
+        cons: ["存储扩展复杂", "学习曲线陡"]
+        best_for: ["存储系统监控", "指标聚合分析"]
+        cost: "免费"
+        learning_curve: "中"
+
+      - name: "Datadog"
+        pros: ["开箱即用", "多云支持", "智能告警"]
+        cons: ["成本较高", "定制化有限"]
+        best_for: ["云原生监控", "企业级仪表板"]
+        cost: "付费"
+        learning_curve: "低"
+
+      - name: "Zabbix"
+        pros: ["企业级功能", "灵活的监控项", "强大的告警"]
+        cons: ["界面较老", "配置复杂"]
+        best_for: ["传统基础设施监控", "大规模部署"]
+        cost: "免费"
+        learning_curve: "中"
+
+  data_quality_consistency:
+    description: "数据质量与一致性工具"
+    tools:
+      - name: "Great Expectations"
+        pros: ["声明式验证", "丰富内置规则", "版本控制"]
+        cons: ["Python依赖", "学习曲线陡"]
+        best_for: ["数据质量门", "自动化验证"]
+        cost: "免费"
+        learning_curve: "中"
+
+      - name: "Deequ"
+        pros: ["Spark集成", "大规模数据支持", "AWS原生"]
+        cons: ["仅限Spark生态", "配置复杂"]
+        best_for: ["大数据质量检查", "AWS环境"]
+        cost: "免费"
+        learning_curve: "高"
+
+selection_decision_tree:
+  - question: "测试重点是什么？"
+    options:
+      performance:
+        question: "是数据库还是文件系统？"
+        database: ["YCSB", "TPC Benchmarks", "HammerDB"]
+        filesystem: ["Apache JMeter", "fio", "Filebench"]
+      monitoring:
+        question: "是云环境还是传统环境？"
+        cloud: ["Datadog", "New Relic", "CloudWatch"]
+        traditional: ["Zabbix", "Nagios", "Prometheus"]
+      data_quality:
+        question: "数据规模如何？"
+        small_medium: ["Great Expectations", "Custom Scripts"]
+        large: ["Deequ", "Apache Griffin"]
+
+implementation_best_practices:
+  - "从小规模试点开始，验证工具适用性"
+  - "结合现有技术栈选择，避免技术栈碎片化"
+  - "考虑团队技能和维护成本"
+  - "优先选择有活跃社区和商业支持的工具"
+  - "建立工具评估和切换的标准化流程"
+
+cost_considerations:
+  - "开源工具：初始成本低，但可能需要更多定制开发"
+  - "商业工具：功能完整，但需要考虑长期订阅成本"
+  - "云服务：按需付费，适合弹性需求"
+  - "自建工具：最高度定制，但开发维护成本高"
+
+integration_patterns:
+  - "CI/CD集成：将存储测试纳入自动化流水线"
+  - "监控集成：与现有监控系统集成，避免孤岛"
+  - "告警集成：统一告警平台，避免告警疲劳"
+  - "报告集成：自动化生成测试报告和趋势分析"

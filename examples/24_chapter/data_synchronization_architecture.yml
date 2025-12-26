@@ -1,0 +1,16 @@
+data_synchronization_architecture:
+  real_time_sync: # 实时同步
+    technology: "Change Data Capture (CDC)"
+    tools: ["Debezium", "Maxwell", "AWS DMS"]
+    use_case: "关键业务数据"
+    latency: "< 1 second"
+  batch_sync: # 批量同步
+    technology: "ETL/ELT pipelines"
+    tools: ["Apache Airflow", "AWS Glue", "Azure Data Factory"]
+    use_case: "历史数据迁移"
+    latency: "minutes to hours"
+  hybrid_sync: # 混合同步
+    technology: "结合实时和批量"
+    tools: ["Custom solutions"]
+    use_case: "复杂数据架构"
+    latency: "application dependent"

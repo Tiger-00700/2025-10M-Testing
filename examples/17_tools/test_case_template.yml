@@ -1,0 +1,721 @@
+# 大数据测试用例设计模板
+
+## 模板概述
+
+本模板提供了标准化的测试用例设计框架，适用于各种大数据测试场景。模板采用YAML格式，便于版本控制、自动化处理和团队协作。
+
+## 基础模板结构
+
+```yaml
+# 大数据测试用例基础模板
+test_case_template:
+  # 元信息
+  metadata:
+    id: "TC-BD-001"                    # 唯一标识符
+    title: "数据管道完整性测试"         # 用例标题
+    category: "data_pipeline"          # 分类：data_pipeline, data_quality, performance, security等
+    priority: "high"                   # 优先级：critical, high, medium, low
+    type: "functional"                 # 类型：functional, performance, security, usability, compatibility
+    author: "测试工程师姓名"            # 作者
+    created_date: "2024-01-01"         # 创建日期
+    updated_date: "2024-01-01"         # 更新日期
+    version: "1.0"                     # 版本号
+    tags: ["大数据", "数据管道", "完整性"] # 标签列表
+
+  # 业务上下文
+  business_context:
+    domain: "数据仓库"                  # 业务领域
+    feature: "数据ETL处理"             # 功能特性
+    user_story: "作为数据工程师，我需要确保数据从源系统到目标系统的完整传输"
+    acceptance_criteria:               # 验收标准
+      - "数据传输完整性达到99.9%"
+      - "数据格式转换正确"
+      - "异常数据得到适当处理"
+
+  # 测试目标
+  test_objective:
+    primary_goal: "验证数据管道的数据完整性和准确性"
+    success_criteria: "所有测试断言通过，数据质量指标达到标准"
+    risk_assessment: "数据丢失可能导致业务决策错误"
+
+  # 前置条件
+  preconditions:
+    environment:                       # 环境要求
+      - "测试环境已搭建完成"
+      - "测试数据已准备就绪"
+      - "相关服务正常运行"
+    data_requirements:                 # 数据要求
+      - "源数据表包含100万条记录"
+      - "数据包含各种边界情况"
+    system_state:                      # 系统状态
+      - "ETL作业调度器正常运行"
+      - "目标数据库连接正常"
+
+  # 测试数据
+  test_data:
+    datasets:
+      - name: "customer_data"
+        type: "source_table"
+        location: "database://test_db.customers"
+        record_count: 1000000
+        schema:
+          - name: "customer_id"
+            type: "integer"
+            constraints: ["primary_key", "not_null"]
+          - name: "customer_name"
+            type: "varchar(100)"
+            constraints: ["not_null"]
+          - name: "email"
+            type: "varchar(255)"
+            constraints: ["unique"]
+      - name: "transformed_data"
+        type: "target_table"
+        location: "database://test_db.customer_dim"
+        expected_count: 1000000
+
+    data_generation:
+      strategy: "synthetic"            # synthetic, subset, anonymized
+      parameters:
+        record_multiplier: 1.0
+        include_edge_cases: true
+        data_quality_level: "production_like"
+
+  # 测试步骤
+  test_steps:
+    - step_id: "TS-001"
+      description: "启动ETL作业"
+      action: "Execute ETL job 'customer_etl_job'"
+      expected_result: "作业成功启动，无错误信息"
+      validation_type: "status_check"
+      timeout: 300                    # 超时时间（秒）
+
+    - step_id: "TS-002"
+      description: "监控作业执行状态"
+      action: "Monitor job execution progress"
+      expected_result: "作业执行进度正常，无阻塞"
+      validation_type: "progress_monitoring"
+      checkpoints:
+        - "数据读取阶段完成"
+        - "数据转换阶段完成"
+        - "数据写入阶段完成"
+
+    - step_id: "TS-003"
+      description: "验证数据完整性"
+      action: "Compare source and target record counts"
+      expected_result: "目标表记录数与源表一致"
+      validation_type: "data_comparison"
+      assertions:
+        - type: "record_count_match"
+          source: "customer_data"
+          target: "transformed_data"
+          tolerance: 0.001             # 允许0.1%的误差
+
+  # 预期结果
+  expected_results:
+    functional:
+      - "ETL作业成功完成"
+      - "所有数据正确转换和加载"
+      - "数据质量满足业务要求"
+
+    performance:
+      - "作业执行时间不超过30分钟"
+      - "系统资源使用率正常"
+      - "并发处理能力满足要求"
+
+    quality:
+      - "数据完整性 > 99.9%"
+      - "数据准确性 = 100%"
+      - "数据一致性 > 99.5%"
+
+  # 断言与验证
+  assertions:
+    - id: "ASSERT-001"
+      name: "record_count_assertion"
+      type: "count_equality"
+      description: "验证源表和目标表记录数一致"
+      parameters:
+        source_query: "SELECT COUNT(*) FROM customers"
+        target_query: "SELECT COUNT(*) FROM customer_dim"
+        tolerance: 0.001
+      severity: "critical"
+
+    - id: "ASSERT-002"
+      name: "data_integrity_assertion"
+      type: "checksum_validation"
+      description: "验证数据完整性通过校验和"
+      parameters:
+        source_checksum: "MD5 hash of source data"
+        target_checksum: "MD5 hash of target data"
+      severity: "high"
+
+    - id: "ASSERT-003"
+      name: "business_rule_assertion"
+      type: "rule_validation"
+      description: "验证业务规则正确性"
+      parameters:
+        rules:
+          - "customer_id唯一性"
+          - "email格式有效性"
+          - "年龄范围合理性"
+      severity: "medium"
+
+  # 异常处理
+  exception_handling:
+    expected_exceptions:
+      - type: "data_quality_exception"
+        condition: "发现重复记录"
+        handling: "记录警告，继续处理"
+        severity: "warning"
+
+      - type: "connection_timeout"
+        condition: "数据库连接超时"
+        handling: "重试连接，最多3次"
+        severity: "error"
+
+    error_recovery:
+      strategy: "rollback"            # rollback, skip, continue
+      cleanup_actions:
+        - "清理临时文件"
+        - "回滚部分提交的数据"
+        - "记录错误日志"
+
+  # 性能基准
+  performance_baseline:
+    execution_time:
+      target: 1800                    # 目标执行时间（秒）
+      threshold: 2700                 # 阈值（秒）
+      unit: "seconds"
+
+    resource_usage:
+      cpu_limit: 80                   # CPU使用率上限（%）
+      memory_limit: 4096              # 内存使用上限（MB）
+      io_limit: 1000                  # IO速率上限（MB/s）
+
+    scalability:
+      concurrent_users: 100           # 并发用户数
+      data_volume: 10000000          # 数据量（条）
+      throughput_target: 1000         # 吞吐量目标（条/秒）
+
+  # 自动化配置
+  automation_config:
+    framework: "pytest"               # 测试框架
+    execution_mode: "parallel"        # 执行模式：sequential, parallel, distributed
+    retry_policy:
+      max_attempts: 3
+      backoff_strategy: "exponential" # fixed, linear, exponential
+      base_delay: 5                   # 基础延迟（秒）
+
+    reporting:
+      format: "json"                  # json, xml, html
+      include_screenshots: false
+      attach_logs: true
+
+  # 依赖关系
+  dependencies:
+    prerequisite_tests:
+      - "TC-BD-ENV-001"              # 环境准备测试
+      - "TC-BD-DATA-001"             # 数据准备测试
+
+    external_dependencies:
+      - "Database connection: test_db"
+      - "ETL engine: Apache Spark"
+      - "Monitoring system: Prometheus"
+
+  # 风险评估
+  risk_assessment:
+    likelihood: "medium"              # low, medium, high, critical
+    impact: "high"                    # low, medium, high, critical
+    mitigation_strategy: "自动化监控和快速回滚"
+    contingency_plan: "手动数据修复和业务补偿"
+
+  # 维护信息
+  maintenance:
+    review_cycle: "monthly"           # 评审周期
+    last_reviewed: "2024-01-01"
+    next_review: "2024-02-01"
+    change_history:
+      - version: "1.0"
+        date: "2024-01-01"
+        changes: "初始创建"
+        author: "测试工程师"
+```
+
+## 专用模板类型
+
+### 数据管道测试模板
+
+```yaml
+# 数据管道测试专用模板
+data_pipeline_test_template:
+  metadata:
+    category: "data_pipeline"
+    type: "integration"
+
+  pipeline_config:
+    source_system: "MySQL"
+    target_system: "PostgreSQL"
+    transformation_logic: "数据清洗和格式转换"
+    scheduling: "daily"
+
+  data_flow_validation:
+    checkpoints:
+      - stage: "extraction"
+        validation: "source_data_extraction"
+        metrics: ["extraction_time", "records_extracted"]
+
+      - stage: "transformation"
+        validation: "data_transformation"
+        metrics: ["transformation_time", "data_quality_score"]
+
+      - stage: "loading"
+        validation: "target_data_loading"
+        metrics: ["loading_time", "records_loaded"]
+
+  quality_gates:
+    - gate: "data_completeness"
+      threshold: 0.999
+      action: "block"                 # block, warn, allow
+
+    - gate: "data_accuracy"
+      threshold: 0.995
+      action: "warn"
+
+    - gate: "performance_sla"
+      threshold: 3600                 # 1小时
+      action: "block"
+```
+
+### 数据质量测试模板
+
+```yaml
+# 数据质量测试专用模板
+data_quality_test_template:
+  metadata:
+    category: "data_quality"
+    type: "validation"
+
+  quality_dimensions:
+    completeness:
+      checks:
+        - "null_value_check"
+        - "missing_data_check"
+        - "record_count_validation"
+
+    accuracy:
+      checks:
+        - "format_validation"
+        - "range_validation"
+        - "reference_data_comparison"
+
+    consistency:
+      checks:
+        - "cross_table_validation"
+        - "business_rule_validation"
+        - "temporal_consistency"
+
+    timeliness:
+      checks:
+        - "data_freshness_check"
+        - "sla_compliance"
+        - "processing_delay_validation"
+
+  quality_rules:
+    - rule_id: "DQ-001"
+      name: "customer_id_format"
+      dimension: "accuracy"
+      expression: "customer_id ~ '^[0-9]{8}$'"
+      severity: "high"
+      action: "reject"
+
+    - rule_id: "DQ-002"
+      name: "email_validity"
+      dimension: "accuracy"
+      expression: "email ~ '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'"
+      severity: "medium"
+      action: "warn"
+```
+
+### 性能测试模板
+
+```yaml
+# 性能测试专用模板
+performance_test_template:
+  metadata:
+    category: "performance"
+    type: "load"
+
+  workload_profile:
+    user_profile:
+      concurrent_users: 100
+      ramp_up_time: 300              # 爬坡时间（秒）
+      hold_time: 1800                # 持续时间（秒）
+      ramp_down_time: 300            # 降坡时间（秒）
+
+    data_profile:
+      record_count: 10000000
+      batch_size: 10000
+      data_distribution: "uniform"   # uniform, normal, skewed
+
+  performance_metrics:
+    response_time:
+      p50_target: 1000               # 中位数响应时间（毫秒）
+      p95_target: 2000               # 95分位响应时间（毫秒）
+      p99_target: 5000               # 99分位响应时间（毫秒）
+
+    throughput:
+      target: 1000                   # 目标吞吐量（TPS）
+      unit: "transactions_per_second"
+
+    resource_utilization:
+      cpu_target: 70                 # CPU使用率目标（%）
+      memory_target: 80              # 内存使用率目标（%）
+      io_target: 90                  # IO使用率目标（%）
+
+  scalability_testing:
+    scale_out_test:
+      user_increment: 50
+      max_users: 500
+      performance_degradation_threshold: 20  # 性能下降阈值（%）
+
+    data_volume_test:
+      volume_increment: 5000000
+      max_volume: 50000000
+      performance_degradation_threshold: 30
+```
+
+### 安全测试模板
+
+```yaml
+# 安全测试专用模板
+security_test_template:
+  metadata:
+    category: "security"
+    type: "penetration"
+
+  security_aspects:
+    authentication:
+      tests:
+        - "invalid_credentials_test"
+        - "session_timeout_test"
+        - "password_policy_test"
+
+    authorization:
+      tests:
+        - "access_control_test"
+        - "privilege_escalation_test"
+        - "data_isolation_test"
+
+    data_protection:
+      tests:
+        - "data_encryption_test"
+        - "data_masking_test"
+        - "audit_logging_test"
+
+    compliance:
+      tests:
+        - "gdpr_compliance_test"
+        - "data_retention_test"
+        - "access_logging_test"
+
+  vulnerability_scanning:
+    scan_types:
+      - "sql_injection"
+      - "xss_attack"
+      - "data_leakage"
+      - "unauthorized_access"
+
+    risk_levels:
+      - level: "critical"
+        cvss_score_min: 9.0
+        response_time: "immediate"
+
+      - level: "high"
+        cvss_score_min: 7.0
+        response_time: "within_24_hours"
+
+      - level: "medium"
+        cvss_score_min: 4.0
+        response_time: "within_week"
+```
+
+## 模板管理与使用
+
+### 模板版本控制
+
+```yaml
+# 模板版本管理
+template_versioning:
+  current_version: "2.1.0"
+  compatibility: "backward_compatible"
+  changelog:
+    - version: "2.1.0"
+      date: "2024-01-15"
+      changes:
+        - "添加性能基准配置"
+        - "增强异常处理机制"
+      type: "feature"
+
+    - version: "2.0.0"
+      date: "2024-01-01"
+      changes:
+        - "重构模板结构"
+        - "添加自动化配置"
+      type: "breaking"
+
+  deprecation_policy:
+    support_period: "2_years"
+    migration_guide: "template_migration_v2.md"
+```
+
+### 模板实例化
+
+```python
+import yaml
+from pathlib import Path
+from typing import Dict, Any
+
+class TestCaseGenerator:
+    """测试用例生成器"""
+
+    def __init__(self, template_dir: str):
+        self.template_dir = Path(template_dir)
+        self.templates = {}
+
+    def load_template(self, template_name: str) -> Dict[str, Any]:
+        """加载模板"""
+        template_path = self.template_dir / f"{template_name}.yml"
+        with open(template_path, 'r', encoding='utf-8') as f:
+            template = yaml.safe_load(f)
+        return template
+
+    def instantiate_template(self, template: Dict[str, Any],
+                           customizations: Dict[str, Any]) -> Dict[str, Any]:
+        """实例化模板"""
+        # 深拷贝模板
+        instance = json.loads(json.dumps(template))
+
+        # 应用自定义配置
+        self._apply_customizations(instance, customizations)
+
+        # 生成唯一ID
+        instance['metadata']['id'] = self._generate_unique_id(instance)
+
+        # 更新时间戳
+        instance['metadata']['created_date'] = datetime.now().isoformat()
+        instance['metadata']['version'] = "1.0"
+
+        return instance
+
+    def _apply_customizations(self, instance: Dict[str, Any],
+                            customizations: Dict[str, Any]):
+        """应用自定义配置"""
+        def deep_update(base: Dict[str, Any], update: Dict[str, Any]):
+            for key, value in update.items():
+                if isinstance(value, dict) and key in base and isinstance(base[key], dict):
+                    deep_update(base[key], value)
+                else:
+                    base[key] = value
+
+        deep_update(instance, customizations)
+
+    def _generate_unique_id(self, instance: Dict[str, Any]) -> str:
+        """生成唯一ID"""
+        category = instance['metadata']['category']
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        return f"TC-{category.upper()}-{timestamp}"
+
+    def validate_instance(self, instance: Dict[str, Any]) -> List[str]:
+        """验证实例"""
+        errors = []
+
+        # 必需字段检查
+        required_fields = [
+            'metadata.id', 'metadata.title', 'metadata.category',
+            'test_objective', 'preconditions', 'test_steps', 'expected_results'
+        ]
+
+        def check_required(obj: Dict, path: str, fields: List[str]):
+            for field in fields:
+                field_path = f"{path}.{field}" if path else field
+                keys = field.split('.')
+                current = obj
+                for key in keys:
+                    if key not in current:
+                        errors.append(f"Missing required field: {field_path}")
+                        break
+                    current = current[key]
+
+        check_required(instance, '', required_fields)
+
+        # 逻辑一致性检查
+        if instance.get('metadata', {}).get('priority') == 'critical':
+            if not instance.get('risk_assessment'):
+                errors.append("Critical priority test cases must have risk assessment")
+
+        return errors
+
+    def export_instance(self, instance: Dict[str, Any], output_path: str):
+        """导出实例"""
+        with open(output_path, 'w', encoding='utf-8') as f:
+            yaml.dump(instance, f, default_flow_style=False, allow_unicode=True,
+                     sort_keys=False, indent=2)
+```
+
+### 模板库管理
+
+```python
+import sqlite3
+from pathlib import Path
+
+class TemplateRepository:
+    """模板库管理"""
+
+    def __init__(self, db_path: str = 'template_repository.db'):
+        self.db_path = db_path
+        self._init_database()
+
+    def _init_database(self):
+        """初始化数据库"""
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS templates (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT UNIQUE NOT NULL,
+                    category TEXT NOT NULL,
+                    version TEXT NOT NULL,
+                    description TEXT,
+                    content TEXT NOT NULL,
+                    author TEXT,
+                    created_date TEXT,
+                    updated_date TEXT,
+                    usage_count INTEGER DEFAULT 0
+                )
+            ''')
+
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS template_tags (
+                    template_id INTEGER,
+                    tag TEXT,
+                    FOREIGN KEY (template_id) REFERENCES templates(id)
+                )
+            ''')
+
+    def add_template(self, name: str, category: str, content: Dict[str, Any],
+                    description: str = "", author: str = ""):
+        """添加模板"""
+        content_str = yaml.dump(content, default_flow_style=False, allow_unicode=True)
+
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.execute('''
+                INSERT INTO templates (name, category, version, description, content, author, created_date, updated_date)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (name, category, content.get('metadata', {}).get('version', '1.0'),
+                  description, content_str, author,
+                  datetime.now().isoformat(), datetime.now().isoformat()))
+
+            template_id = cursor.lastrowid
+
+            # 添加标签
+            tags = content.get('metadata', {}).get('tags', [])
+            for tag in tags:
+                conn.execute('INSERT INTO template_tags (template_id, tag) VALUES (?, ?)',
+                           (template_id, tag))
+
+    def get_template(self, name: str) -> Dict[str, Any]:
+        """获取模板"""
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.execute('''
+                SELECT content FROM templates WHERE name = ?
+            ''', (name,))
+
+            row = cursor.fetchone()
+            if row:
+                content_str = row[0]
+                content = yaml.safe_load(content_str)
+
+                # 增加使用计数
+                conn.execute('UPDATE templates SET usage_count = usage_count + 1 WHERE name = ?',
+                           (name,))
+
+                return content
+
+        return None
+
+    def search_templates(self, category: str = None, tags: List[str] = None) -> List[Dict[str, Any]]:
+        """搜索模板"""
+        with sqlite3.connect(self.db_path) as conn:
+            query = '''
+                SELECT t.*, GROUP_CONCAT(tt.tag) as tags
+                FROM templates t
+                LEFT JOIN template_tags tt ON t.id = tt.template_id
+                WHERE 1=1
+            '''
+            params = []
+
+            if category:
+                query += ' AND t.category = ?'
+                params.append(category)
+
+            if tags:
+                tag_conditions = ' OR '.join(['tt.tag = ?'] * len(tags))
+                query += f' AND ({tag_conditions})'
+                params.extend(tags)
+
+            query += ' GROUP BY t.id ORDER BY t.usage_count DESC'
+
+            cursor = conn.execute(query, params)
+
+            results = []
+            for row in cursor.fetchall():
+                template_info = {
+                    'id': row[0],
+                    'name': row[1],
+                    'category': row[2],
+                    'version': row[3],
+                    'description': row[4],
+                    'author': row[6],
+                    'created_date': row[7],
+                    'updated_date': row[8],
+                    'usage_count': row[9],
+                    'tags': row[10].split(',') if row[10] else []
+                }
+                results.append(template_info)
+
+            return results
+
+    def update_template(self, name: str, content: Dict[str, Any]):
+        """更新模板"""
+        content_str = yaml.dump(content, default_flow_style=False, allow_unicode=True)
+
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute('''
+                UPDATE templates
+                SET content = ?, version = ?, updated_date = ?
+                WHERE name = ?
+            ''', (content_str, content.get('metadata', {}).get('version', '1.0'),
+                  datetime.now().isoformat(), name))
+
+            # 更新标签
+            template_id = conn.execute('SELECT id FROM templates WHERE name = ?',
+                                     (name,)).fetchone()[0]
+
+            conn.execute('DELETE FROM template_tags WHERE template_id = ?', (template_id,))
+
+            tags = content.get('metadata', {}).get('tags', [])
+            for tag in tags:
+                conn.execute('INSERT INTO template_tags (template_id, tag) VALUES (?, ?)',
+                           (template_id, tag))
+```
+
+## 最佳实践
+
+1. **标准化**: 使用统一的模板结构，确保测试用例的一致性和可维护性
+2. **模块化**: 将复杂测试用例分解为可重用的模块和组件
+3. **参数化**: 使用参数化配置，使模板适用于不同场景
+4. **版本控制**: 对模板进行版本管理，跟踪变更历史
+5. **评审机制**: 建立模板评审机制，确保质量和一致性
+6. **自动化生成**: 利用工具自动生成测试用例实例
+7. **持续更新**: 根据项目经验和最佳实践持续优化模板
+8. **培训普及**: 对团队成员进行模板使用培训
+
+这个模板体系提供了灵活、可扩展的测试用例设计框架，支持各种大数据测试场景的需求。

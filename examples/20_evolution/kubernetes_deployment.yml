@@ -1,0 +1,113 @@
+# examples/20_evolution/kubernetes_deployment.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: streaming-batch-config
+  namespace: data-platform
+data:
+  flink-config.yaml: |
+    jobmanager.rpc.address: flink-jobmanager
+    taskmanager.numberOfTaskSlots: 4
+    parallelism.default: 4
+    state.backend: rocksdb
+    state.checkpoints.dir: s3://checkpoints/
+    state.savepoints.dir: s3://savepoints/
+
+  spark-config.yaml: |
+    spark.master: k8s://https://kubernetes.default.svc
+    spark.kubernetes.container.image: spark:3.3.0
+    spark.kubernetes.authenticate.driver.serviceAccountName: spark
+    spark.dynamicAllocation.enabled: true
+    spark.shuffle.service.enabled: true
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink-jobmanager
+  namespace: data-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink-jobmanager
+  template:
+    metadata:
+      labels:
+        app: flink-jobmanager
+    spec:
+      containers:
+      - name: jobmanager
+        image: flink:1.17.0-scala_2.12
+        ports:
+        - containerPort: 8081
+          name: webui
+        - containerPort: 6123
+          name: rpc
+        env:
+        - name: JOB_MANAGER_RPC_ADDRESS
+          value: flink-jobmanager
+        volumeMounts:
+        - name: flink-config
+          mountPath: /opt/flink/conf/flink-conf.yaml
+          subPath: flink-conf.yaml
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+      volumes:
+      - name: flink-config
+        configMap:
+          name: streaming-batch-config
+          items:
+          - key: flink-config.yaml
+            path: flink-conf.yaml
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink-taskmanager
+  namespace: data-platform
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flink-taskmanager
+  template:
+    metadata:
+      labels:
+        app: flink-taskmanager
+    spec:
+      containers:
+      - name: taskmanager
+        image: flink:1.17.0-scala_2.12
+        ports:
+        - containerPort: 6121
+          name: data
+        - containerPort: 6122
+          name: ipc
+        env:
+        - name: JOB_MANAGER_RPC_ADDRESS
+          value: flink-jobmanager
+        volumeMounts:
+        - name: flink-config
+          mountPath: /opt/flink/conf/flink-conf.yaml
+          subPath: flink-conf.yaml
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "2000m"
+          limits:
+            memory: "8Gi"
+            cpu: "4000m"
+      volumes:
+      - name: flink-config
+        configMap:
+          name: streaming-batch-config
+          items:
+          - key: flink-config.yaml
+            path: flink-conf.yaml

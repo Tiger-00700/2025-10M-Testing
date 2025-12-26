@@ -1,25 +1,140 @@
+# dw_lakehouse_focus_points.yml
+# 数据仓库与湖仓一体存储测试关注点配置
+
 focus_points:
-  - category: "数据一致性与原子性"
-    key_metrics: ["多表/多分区写入", "事务与快照隔离"]
-    test_points: ["Merge-On-Read/Copy-On-Write行为差异"]
-    tools_methods: ["事务一致性测试"]
-  - category: "Schema演进与兼容性"
-    key_metrics: ["字段新增/删除/类型变更"]
-    test_points: ["向前/向后/全兼容策略", "读写兼容"]
-    tools_methods: ["Schema变更脚本"]
-  - category: "分区与分桶策略"
-    key_metrics: ["分区裁剪", "分桶均衡"]
-    test_points: ["聚合/过滤性能", "倾斜与小文件治理"]
-    tools_methods: ["分区调优工具"]
-  - category: "批流一体一致性"
-    key_metrics: ["批/流对同一表写入", "并发一致性"]
-    test_points: ["去重/幂等", "Watermark影响"]
-    tools_methods: ["批流对账脚本"]
-  - category: "元数据与血缘"
-    key_metrics: ["表/分区/快照/版本元数据", "血缘与Catalog一致性"]
-    test_points: ["元数据正确性"]
-    tools_methods: ["元数据校验工具"]
-  - category: "Time Travel与快照"
-    key_metrics: ["版本回溯", "Rollback"]
-    test_points: ["时间点查询的正确性与性能"]
-    tools_methods: ["快照回溯测试"]
+  data_consistency_atomicity:
+    description: "数据一致性与原子性测试"
+    key_metrics:
+      - "事务隔离级别"
+      - "快照隔离正确性"
+      - "原子性保证"
+    test_points:
+      - "Merge-On-Read行为"
+      - "Copy-On-Write行为"
+      - "多表事务一致性"
+    tools_methods:
+      - "事务一致性测试工具"
+      - "隔离级别验证脚本"
+
+  schema_evolution_compatibility:
+    description: "Schema演进与兼容性测试"
+    key_metrics:
+      - "字段变更成功率"
+      - "向前兼容性"
+      - "向后兼容性"
+    test_points:
+      - "字段新增/删除/类型变更"
+      - "读写兼容策略"
+      - "Schema版本管理"
+    tools_methods:
+      - "Schema变更脚本"
+      - "兼容性测试工具"
+
+  partitioning_bucketing_strategy:
+    description: "分区与分桶策略测试"
+    key_metrics:
+      - "分区裁剪效率"
+      - "分桶均衡性"
+      - "查询性能提升"
+    test_points:
+      - "聚合操作优化"
+      - "过滤性能测试"
+      - "数据倾斜治理"
+    tools_methods:
+      - "分区调优工具"
+      - "性能分析脚本"
+
+  batch_stream_consistency:
+    description: "批流一体一致性测试"
+    key_metrics:
+      - "并发写入一致性"
+      - "去重幂等性"
+      - "Watermark准确性"
+    test_points:
+      - "批流混合写入"
+      - "迟到数据处理"
+      - "乱序数据处理"
+    tools_methods:
+      - "批流对账脚本"
+      - "一致性校验工具"
+
+  metadata_lineage:
+    description: "元数据与血缘测试"
+    key_metrics:
+      - "元数据正确性"
+      - "血缘追踪准确性"
+      - "Catalog一致性"
+    test_points:
+      - "表/分区元数据"
+      - "快照版本管理"
+      - "血缘关系维护"
+    tools_methods:
+      - "元数据校验工具"
+      - "血缘追踪脚本"
+
+  time_travel_snapshots:
+    description: "Time Travel与快照测试"
+    key_metrics:
+      - "版本回溯正确性"
+      - "快照查询性能"
+      - "Rollback安全性"
+    test_points:
+      - "时间点查询"
+      - "快照管理"
+      - "数据恢复验证"
+    tools_methods:
+      - "快照回溯测试工具"
+      - "时间旅行验证脚本"
+
+lakehouse_features:
+  delta_lake:
+    description: "Delta Lake核心特性"
+    features:
+      - "ACID事务"
+      - "Schema演进"
+      - "Time Travel"
+      - "统一批流"
+    test_focus: ["事务一致性", "Schema兼容性", "时间旅行"]
+
+  iceberg:
+    description: "Apache Iceberg核心特性"
+    features:
+      - "表格式抽象"
+      - "分区演进"
+      - "快照隔离"
+      - "多引擎支持"
+    test_focus: ["分区策略", "快照管理", "多引擎兼容性"]
+
+  hudi:
+    description: "Apache Hudi核心特性"
+    features:
+      - "增量处理"
+      - "记录级更新"
+      - "时间轴管理"
+      - "多表查询"
+    test_focus: ["增量更新", "记录级操作", "时间轴查询"]
+
+test_scenarios:
+  - name: "Schema演进测试"
+    description: "验证Schema变更的兼容性"
+    steps:
+      - "创建初始表结构"
+      - "执行Schema变更"
+      - "验证读写兼容性"
+      - "测试回滚操作"
+
+  - name: "批流一致性测试"
+    description: "测试批流混合写入的一致性"
+    steps:
+      - "配置批流管道"
+      - "同时写入数据"
+      - "执行一致性校验"
+      - "分析冲突解决"
+
+  - name: "Time Travel验证"
+    description: "测试时间旅行功能的正确性"
+    steps:
+      - "创建多个数据版本"
+      - "执行时间点查询"
+      - "验证数据一致性"
+      - "测试快照恢复"

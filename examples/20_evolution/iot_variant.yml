@@ -1,0 +1,18 @@
+# examples/20_evolution/iot_variant.yml
+iot_case:
+  business_focus: "设备状态监控与预测性维护"
+  real_time_requirements:
+    - "设备传感器数据实时采集 (< 50ms)"
+    - "设备异常状态实时检测"
+    - "实时告警触发与通知"
+    - "设备控制指令实时下发"
+  batch_requirements:
+    - "设备历史数据批量分析"
+    - "预测性维护模型训练"
+    - "设备寿命周期评估"
+    - "维护计划批量制定"
+  key_metrics:
+    anomaly_detection_accuracy: "+40%"
+    false_positive_rate: "-60%"
+    maintenance_cost_reduction: "+35%"
+    equipment_downtime: "-50%"

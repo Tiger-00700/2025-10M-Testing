@@ -1,29 +1,122 @@
+# hdfs_focus_points.yml
+# 分布式文件系统测试关注点配置
+
 focus_points:
-  - category: "读写正确性"
-    key_metrics: ["上传/下载", "分块/合并", "断点续传"]
-    test_points: ["校验和一致性", "大小文件混合"]
-    tools_methods: ["哈希校验脚本"]
-  - category: "一致性与副本"
-    key_metrics: ["多副本写入", "一致性模型", "主备切换"]
-    test_points: ["跨AZ/Region同步延迟"]
-    tools_methods: ["副本健康检查"]
-  - category: "容错与恢复"
-    key_metrics: ["节点/磁盘/网络故障"]
-    test_points: ["自动复制与重建", "删除恢复"]
-    tools_methods: ["故障注入演练"]
-  - category: "性能与扩展性"
-    key_metrics: ["大文件/小文件混合", "列表性能"]
-    test_points: ["带宽与IO瓶颈", "压缩/分片策略"]
-    tools_methods: ["性能基准测试"]
-  - category: "权限与安全"
-    key_metrics: ["ACL", "Ranger/Sentry", "KMS加密"]
-    test_points: ["传输加密", "审计日志"]
-    tools_methods: ["权限变更测试"]
-  - category: "小文件与元数据压力"
-    key_metrics: ["小文件风暴下的NN负载"]
-    test_points: ["延迟与合并策略"]
-    tools_methods: ["元数据监控"]
-  - category: "生命周期管理"
-    key_metrics: ["冷热分层", "存储策略"]
-    test_points: ["过期清理与成本"]
-    tools_methods: ["策略验证脚本"]
+  read_write_correctness:
+    description: "读写正确性测试"
+    key_metrics:
+      - "上传/下载成功率"
+      - "分块/合并正确性"
+      - "断点续传完整性"
+    test_points:
+      - "校验和一致性验证"
+      - "大文件/小文件混合测试"
+    tools_methods:
+      - "哈希校验脚本"
+      - "文件完整性检查"
+
+  consistency_replication:
+    description: "一致性与副本测试"
+    key_metrics:
+      - "多副本写入延迟"
+      - "一致性模型验证"
+      - "主备切换时间"
+    test_points:
+      - "跨AZ/Region同步延迟"
+      - "副本健康状态监控"
+    tools_methods:
+      - "副本健康检查脚本"
+      - "一致性验证工具"
+
+  fault_tolerance_recovery:
+    description: "容错与恢复测试"
+    key_metrics:
+      - "节点故障恢复时间"
+      - "数据重建速度"
+      - "删除恢复成功率"
+    test_points:
+      - "自动复制与重建"
+      - "回收站/版本恢复"
+    tools_methods:
+      - "故障注入演练脚本"
+      - "恢复测试工具"
+
+  performance_scalability:
+    description: "性能与扩展性测试"
+    key_metrics:
+      - "大文件读写吞吐量"
+      - "小文件处理延迟"
+      - "列表操作性能"
+    test_points:
+      - "带宽与IO瓶颈分析"
+      - "压缩/分片策略优化"
+    tools_methods:
+      - "性能基准测试工具"
+      - "负载测试脚本"
+
+  security_permissions:
+    description: "权限与安全测试"
+    key_metrics:
+      - "ACL权限控制准确性"
+      - "加密传输安全性"
+      - "审计日志完整性"
+    test_points:
+      - "Ranger/Sentry集成"
+      - "KMS加密验证"
+    tools_methods:
+      - "权限变更测试脚本"
+      - "安全审计工具"
+
+  metadata_pressure:
+    description: "元数据压力测试"
+    key_metrics:
+      - "NameNode负载"
+      - "元数据操作延迟"
+      - "小文件合并效率"
+    test_points:
+      - "小文件风暴场景"
+      - "元数据缓存策略"
+    tools_methods:
+      - "元数据监控工具"
+      - "压力测试脚本"
+
+  lifecycle_management:
+    description: "生命周期管理测试"
+    key_metrics:
+      - "冷热分层准确性"
+      - "过期清理效率"
+      - "存储成本优化"
+    test_points:
+      - "存储策略执行"
+      - "生命周期规则验证"
+    tools_methods:
+      - "策略验证脚本"
+      - "成本评估工具"
+
+test_scenarios:
+  - name: "基础读写测试"
+    description: "验证基本的文件上传下载功能"
+    steps:
+      - "准备测试文件"
+      - "执行上传操作"
+      - "验证文件完整性"
+      - "执行下载操作"
+      - "对比源文件和下载文件"
+
+  - name: "故障恢复测试"
+    description: "模拟节点故障场景下的恢复能力"
+    steps:
+      - "部署多节点HDFS集群"
+      - "模拟DataNode故障"
+      - "观察副本重建过程"
+      - "验证数据可用性"
+      - "检查恢复时间"
+
+  - name: "性能压力测试"
+    description: "测试高并发场景下的性能表现"
+    steps:
+      - "配置并发客户端"
+      - "执行混合读写操作"
+      - "监控系统资源使用"
+      - "分析性能瓶颈"
+      - "生成性能报告"

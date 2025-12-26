@@ -1,29 +1,138 @@
+# rdbms_focus_points.yml
+# 关系型数据库存储测试关注点配置
+
 focus_points:
-  - category: "数据完整性"
-    key_metrics: ["主键/外键", "唯一/非空", "检查约束"]
-    test_points: ["分区/分表下的约束一致性"]
-    tools_methods: ["约束校验脚本"]
-  - category: "事务一致性"
-    key_metrics: ["ACID", "隔离级别（RC/RR/SI/Serializable）"]
-    test_points: ["死锁/幻读/脏读用例"]
-    tools_methods: ["事务隔离测试"]
-  - category: "性能与扩展性"
-    key_metrics: ["批量写入", "复杂查询", "索引/统计信息"]
-    test_points: ["执行计划", "分库分表/分区裁剪"]
-    tools_methods: ["执行计划对比"]
-  - category: "备份与恢复"
-    key_metrics: ["全量/增量/日志备份"]
-    test_points: ["恢复时间", "恢复点", "校验与演练"]
-    tools_methods: ["备份恢复演练"]
-  - category: "高可用"
-    key_metrics: ["主备/多活", "只读节点延迟与一致性"]
-    test_points: ["故障切换的连接与事务影响"]
-    tools_methods: ["切换测试脚本"]
-  - category: "权限与安全"
-    key_metrics: ["用户/角色/行列权限", "加密（TDE/传输）"]
-    test_points: ["SQL注入", "审计"]
-    tools_methods: ["权限审计工具"]
-  - category: "存储与成本"
-    key_metrics: ["冷热分层", "压缩", "归档策略"]
-    test_points: ["对性能与费用的影响"]
-    tools_methods: ["成本评估脚本"]
+  data_integrity:
+    description: "数据完整性测试"
+    key_metrics:
+      - "约束校验通过率"
+      - "主键唯一性"
+      - "外键引用完整性"
+    test_points:
+      - "分区/分表约束一致性"
+      - "非空/检查约束验证"
+    tools_methods:
+      - "约束校验脚本"
+      - "完整性检查工具"
+
+  transaction_consistency:
+    description: "事务一致性测试"
+    key_metrics:
+      - "ACID属性验证"
+      - "隔离级别正确性"
+      - "死锁检测率"
+    test_points:
+      - "脏读/不可重复读/幻读场景"
+      - "事务隔离级别测试"
+    tools_methods:
+      - "事务隔离测试工具"
+      - "并发测试脚本"
+
+  performance_scalability:
+    description: "性能与扩展性测试"
+    key_metrics:
+      - "查询执行时间"
+      - "批量操作吞吐量"
+      - "索引使用效率"
+    test_points:
+      - "执行计划优化"
+      - "分库分表性能"
+    tools_methods:
+      - "执行计划分析工具"
+      - "性能基准测试"
+
+  backup_recovery:
+    description: "备份与恢复测试"
+    key_metrics:
+      - "备份成功率"
+      - "恢复时间(RTO)"
+      - "恢复点目标(RPO)"
+    test_points:
+      - "全量/增量备份验证"
+      - "恢复流程测试"
+    tools_methods:
+      - "备份恢复演练脚本"
+      - "恢复验证工具"
+
+  high_availability:
+    description: "高可用性测试"
+    key_metrics:
+      - "主备延迟时间"
+      - "故障切换时间"
+      - "服务可用性"
+    test_points:
+      - "主备切换测试"
+      - "只读节点一致性"
+    tools_methods:
+      - "切换测试脚本"
+      - "可用性监控工具"
+
+  security_permissions:
+    description: "权限与安全测试"
+    key_metrics:
+      - "权限控制准确性"
+      - "加密数据安全性"
+      - "审计日志完整性"
+    test_points:
+      - "SQL注入防护"
+      - "传输加密验证"
+    tools_methods:
+      - "权限审计工具"
+      - "安全测试脚本"
+
+  storage_cost:
+    description: "存储与成本测试"
+    key_metrics:
+      - "存储利用率"
+      - "压缩效果"
+      - "成本效益比"
+    test_points:
+      - "冷热分层策略"
+      - "归档存储测试"
+    tools_methods:
+      - "成本评估脚本"
+      - "存储优化工具"
+
+isolation_levels:
+  read_uncommitted:
+    description: "读未提交隔离级别"
+    allows: ["脏读", "不可重复读", "幻读"]
+    performance: "最高"
+    use_case: "对一致性要求不高的场景"
+
+  read_committed:
+    description: "读已提交隔离级别"
+    allows: ["不可重复读", "幻读"]
+    performance: "较高"
+    use_case: "大多数业务场景"
+
+  repeatable_read:
+    description: "可重复读隔离级别"
+    allows: ["幻读"]
+    performance: "中等"
+    use_case: "需要一致性保证的场景"
+
+  serializable:
+    description: "串行化隔离级别"
+    allows: []
+    performance: "最低"
+    use_case: "强一致性要求的场景"
+
+test_scenarios:
+  - name: "事务隔离测试"
+    description: "验证不同隔离级别下的并发行为"
+    steps:
+      - "设置数据库隔离级别"
+      - "创建测试表和数据"
+      - "启动并发事务"
+      - "观察并发行为"
+      - "验证隔离级别保证"
+
+  - name: "备份恢复演练"
+    description: "测试备份和恢复流程的完整性"
+    steps:
+      - "执行全量备份"
+      - "模拟数据变更"
+      - "执行恢复操作"
+      - "验证数据完整性"
+      - "检查恢复时间"

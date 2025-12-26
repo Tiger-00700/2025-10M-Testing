@@ -1,0 +1,18 @@
+# examples/20_evolution/ecommerce_variant.yml
+ecommerce_case:
+  business_focus: "个性化推荐与精准营销"
+  real_time_requirements:
+    - "用户点击流实时分析 (< 100ms)"
+    - "实时个性化推荐生成"
+    - "推荐效果实时评估与调整"
+    - "A/B测试实时切换"
+  batch_requirements:
+    - "历史行为数据批量分析"
+    - "用户画像批量更新"
+    - "营销策略批量优化"
+    - "销售预测模型训练"
+  key_metrics:
+    recommendation_precision: "+25%"
+    conversion_rate: "+15%"
+    user_engagement: "+30%"
+    revenue_per_user: "+20%"

@@ -1,0 +1,25 @@
+cloud_native_migration_platforms:
+  aws_application_migration_service:
+    description: "AWS应用迁移服务"
+    features:
+      - lift_and_shift: "直接迁移"
+      - modernization_options: "现代化选项"
+      - testing_and_validation: "测试验证"
+      - operational_readiness: "运营就绪性"
+    integration: "AWS生态系统"
+  azure_arc:
+    description: "Azure混合云管理平台"
+    features:
+      - unified_management: "统一管理"
+      - app_services: "应用服务"
+      - data_services: "数据服务"
+      - kubernetes_support: "Kubernetes支持"
+    hybrid_capabilities: "混合云能力"
+  google_anthos:
+    description: "GCP混合云应用平台"
+    features:
+      - multi_cloud_kubernetes: "多云Kubernetes"
+      - service_mesh: "服务网格"
+      - config_management: "配置管理"
+      - security_policies: "安全策略"
+    portability: "应用可移植性"

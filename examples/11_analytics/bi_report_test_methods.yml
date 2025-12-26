@@ -1,21 +1,67 @@
-bi_report_test_methods:
-  - test_category: "数据准确性校验"
-    key_methods: "总量/分组/明细/汇总口径一致性"
-    validation_points: "跨时区/货币/日界线校验"
-    tools_examples: "对账脚本"
-  - test_category: "业务逻辑验证"
-    key_methods: "指标定义/过滤/分组/时间窗口回归"
-    validation_points: "缓存/刷新策略时效性"
-    tools_examples: "业务规则引擎"
-  - test_category: "性能测试"
-    key_methods: "多用户并发/复杂查询评估"
-    validation_points: "冷/热缓存加载SLI"
-    tools_examples: "性能监控工具"
-  - test_category: "权限与安全测试"
-    key_methods: "角色/用户数据隔离验证"
-    validation_points: "行列级权限/掩码策略"
-    tools_examples: "安全测试框架"
-  - test_category: "可用性与容错"
-    key_methods: "空数据/极端值处理"
-    validation_points: "异常格式降级提示"
-    tools_examples: "UI自动化工具"
+# BI报表测试方法配置
+# 涵盖数据准确性、业务逻辑、性能、安全性等测试维度
+
+test_categories:
+  - name: "数据准确性校验"
+    description: "验证报表数据与源数据的完全一致性"
+    methods:
+      - "总量、分组、明细、汇总口径一致性检查"
+      - "跨时区、跨货币、跨日界线数据转换验证"
+      - "源表 vs 中间表 vs 报表数据三重对账"
+    tools: ["SQL查询", "数据对比工具", "自动化脚本"]
+    
+  - name: "业务逻辑验证"
+    description: "确保报表计算逻辑符合业务规则"
+    methods:
+      - "指标定义、过滤、分组、时间窗口验证"
+      - "口径变更回归测试"
+      - "缓存/刷新策略时效性检查"
+    tools: ["业务规则引擎", "回归测试套件"]
+    
+  - name: "性能测试"
+    description: "评估报表系统在各种负载下的表现"
+    methods:
+      - "多用户并发查询性能测试"
+      - "复杂查询和大数据量处理测试"
+      - "冷/热缓存性能对比分析"
+    metrics:
+      - "加载时间 P95/P99"
+      - "查询响应时间"
+      - "系统资源利用率"
+    tools: ["JMeter", "LoadRunner", "自定义性能测试脚本"]
+    
+  - name: "权限与安全测试"
+    description: "验证数据访问控制和安全机制"
+    methods:
+      - "角色/用户数据隔离测试"
+      - "行列级权限控制验证"
+      - "数据脱敏和掩码策略检查"
+      - "导出/下载权限控制测试"
+    tools: ["安全测试框架", "权限管理工具"]
+    
+  - name: "可用性与容错测试"
+    description: "测试异常情况下的系统稳定性和用户体验"
+    methods:
+      - "空数据、极端值处理测试"
+      - "异常格式数据容错测试"
+      - "网络异常、超时降级机制验证"
+    tools: ["UI自动化测试", "异常模拟工具"]
+
+# 测试执行策略
+execution_strategy:
+  automation_level: "高"
+  regression_frequency: "每日"
+  performance_baseline: "每周更新"
+  security_audit: "每月执行"
+
+# 质量门禁配置
+quality_gates:
+  - metric: "数据准确性"
+    threshold: "100%"
+    action: "阻断发布"
+  - metric: "性能P95"
+    threshold: "< 3秒"
+    action: "性能告警"
+  - metric: "安全漏洞"
+    threshold: "0个"
+    action: "阻断发布"

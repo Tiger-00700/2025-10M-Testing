@@ -1,0 +1,25 @@
+third_party_migration_platforms:
+  morphis_migration_platform:
+    description: "企业应用现代化平台"
+    capabilities:
+      - application_assessment: "应用评估"
+      - automated_migration: "自动化迁移"
+      - testing_automation: "测试自动化"
+      - governance_reporting: "治理报告"
+    supported_applications: ["Oracle", "SAP", "自定义应用"]
+  micro_focus_transformation_progress:
+    description: "大型机现代化平台"
+    capabilities:
+      - mainframe_analysis: "大型机分析"
+      - application_reengineering: "应用重构"
+      - data_migration: "数据迁移"
+      - testing_framework: "测试框架"
+    legacy_systems: ["COBOL", "PL/I", "大型机数据库"]
+  unleash_migration_platform:
+    description: "云迁移自动化平台"
+    capabilities:
+      - discovery_and_planning: "发现规划"
+      - automated_migration: "自动化迁移"
+      - validation_and_testing: "验证测试"
+      - continuous_optimization: "持续优化"
+    cloud_targets: ["AWS", "Azure", "GCP", "私有云"]

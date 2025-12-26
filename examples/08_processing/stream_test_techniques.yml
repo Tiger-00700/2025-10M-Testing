@@ -1,25 +1,136 @@
-test_techniques:
-  - category: "实时性与延迟"
-    key_metrics: ["端到端延迟、各节点延迟"]
-    test_points: ["带时间戳注入、背压监测"]
-    tools_methods: ["延迟测量工具"]
-  - category: "乱序/迟到/重复"
-    key_metrics: ["乱序、迟到、重复、空洞ID"]
-    test_points: ["窗口、水位线、去重、侧输出"]
-    tools_methods: ["事件模拟器"]
-  - category: "高并发与压力"
-    key_metrics: ["突增/抖动负载"]
-    test_points: ["背压、丢包、阻塞、扩缩容"]
-    tools_methods: ["压力测试框架"]
-  - category: "容错与恢复"
-    key_metrics: ["断源/断链路/故障节点"]
-    test_points: ["checkpoint/savepoint、重启、幂等"]
-    tools_methods: ["故障注入工具"]
-  - category: "批流一致性"
-    key_metrics: ["与离线结果对账"]
-    test_points: ["窗口对齐、去重口径、CDC一致性"]
-    tools_methods: ["对账脚本"]
-  - category: "状态与水位"
-    key_metrics: ["大状态快照恢复、状态TTL"]
-    test_points: ["State Backend变更、Watermark策略"]
-    tools_methods: ["状态管理工具"]
+# stream_test_techniques.yml
+# 流处理作业测试技术配置
+
+stream_processing_tests:
+  version: "1.0"
+  description: "流处理作业测试技术配置"
+
+  test_categories:
+    real_time_latency:
+      description: "实时性与延迟测试"
+      methods:
+        - end_to_end_latency_measurement: "端到端延迟测量"
+        - node_level_latency_tracking: "各节点延迟跟踪"
+        - timestamp_injection: "时间戳注入"
+        - backpressure_monitoring: "背压监测"
+      tools:
+        - latency_measurement_tool: "延迟测量工具"
+        - timestamp_generator: "时间戳生成器"
+
+    disorder_late_duplicate:
+      description: "乱序/迟到/重复处理测试"
+      methods:
+        - out_of_order_simulation: "乱序模拟"
+        - late_event_handling: "迟到事件处理"
+        - duplicate_event_detection: "重复事件检测"
+        - watermark_strategy_testing: "水位线策略测试"
+      tools:
+        - event_simulator: "事件模拟器"
+        - disorder_injection_tool: "乱序注入工具"
+
+    high_concurrency_pressure:
+      description: "高并发与压力测试"
+      methods:
+        - burst_load_simulation: "突增负载模拟"
+        - load_fluctuation_testing: "负载波动测试"
+        - backpressure_response: "背压响应验证"
+        - auto_scaling_validation: "自动扩缩容验证"
+      tools:
+        - load_generator: "负载生成器"
+        - pressure_testing_framework: "压力测试框架"
+
+    fault_tolerance_recovery:
+      description: "容错与恢复测试"
+      methods:
+        - source_failure_simulation: "数据源故障模拟"
+        - network_partition_testing: "网络分区测试"
+        - node_failure_handling: "节点故障处理"
+        - checkpoint_savepoint_validation: "检查点/保存点验证"
+      tools:
+        - fault_injection_tool: "故障注入工具"
+        - recovery_time_measurer: "恢复时间测量器"
+
+    batch_stream_consistency:
+      description: "批流一致性测试"
+      methods:
+        - offline_result_comparison: "离线结果对比"
+        - window_alignment_verification: "窗口对齐验证"
+        - deduplication_logic_consistency: "去重逻辑一致性"
+        - cdc_consistency_check: "CDC一致性检查"
+      tools:
+        - consistency_checker: "一致性检查器"
+        - batch_stream_comparator: "批流对比工具"
+
+    state_watermark_management:
+      description: "状态与水位管理测试"
+      methods:
+        - large_state_snapshot_recovery: "大状态快照恢复"
+        - state_ttl_validation: "状态TTL验证"
+        - state_backend_migration: "状态后端迁移"
+        - watermark_strategy_optimization: "水位线策略优化"
+      tools:
+        - state_management_tool: "状态管理工具"
+        - watermark_validator: "水位线验证器"
+
+  streaming_specific_challenges:
+    event_time_processing:
+      - event_time_extraction: "事件时间提取"
+      - event_time_watermark: "事件时间水位线"
+      - late_event_buffering: "迟到事件缓冲"
+      - event_time_skew_handling: "事件时间倾斜处理"
+
+    stateful_operations:
+      - keyed_state_management: "键控状态管理"
+      - operator_state_scaling: "算子状态扩展"
+      - state_backend_choice: "状态后端选择"
+      - state_hotspot_mitigation: "状态热点缓解"
+
+    exactly_once_semantics:
+      - transaction_coordination: "事务协调"
+      - checkpoint_alignment: "检查点对齐"
+      - failure_recovery_consistency: "故障恢复一致性"
+      - duplicate_prevention: "重复预防"
+
+  monitoring_alerting:
+    key_metrics:
+      - end_to_end_latency: "端到端延迟"
+      - processing_throughput: "处理吞吐量"
+      - event_disorder_rate: "事件乱序率"
+      - duplicate_event_rate: "重复事件率"
+      - backpressure_ratio: "背压比例"
+      - checkpoint_duration: "检查点持续时间"
+
+    alerting_rules:
+      - latency_threshold_breach: "延迟阈值突破"
+      - throughput_degradation: "吞吐量下降"
+      - error_rate_spike: "错误率激增"
+      - backpressure_activation: "背压激活"
+
+  best_practices:
+    testing_environments:
+      - shadow_environment_testing: "影子环境测试"
+      - canary_deployment: "金丝雀部署"
+      - blue_green_deployment: "蓝绿部署"
+      - chaos_engineering: "混沌工程"
+
+    automation_patterns:
+      - continuous_integration: "持续集成"
+      - automated_regression: "自动化回归"
+      - performance_baselining: "性能基线化"
+      - anomaly_detection: "异常检测"
+
+  tools_recommendations:
+    apache_flink:
+      - flink_test_harness: "Flink测试工具"
+      - state_processor_api: "状态处理器API"
+      - mini_cluster_setup: "迷你集群设置"
+
+    apache_kafka:
+      - kafka_streams_test_utils: "Kafka Streams测试工具"
+      - embedded_kafka: "嵌入式Kafka"
+      - topology_test_driver: "拓扑测试驱动"
+
+    apache_spark:
+      - spark_streaming_test_suite: "Spark Streaming测试套件"
+      - memory_streaming_source: "内存流数据源"
+      - streaming_query_test: "流查询测试"

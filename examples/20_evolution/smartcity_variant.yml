@@ -1,0 +1,15 @@
+# examples/20_evolution/smartcity_variant.yml
+smartcity_case:
+  business_focus: "城市交通流量优化与拥堵预测"
+  real_time_requirements:
+    - "交通流量实时监测与分析 (< 1s)"
+    - "拥堵情况实时预警"
+    - "信号灯实时智能调节"
+  batch_requirements:
+    - "历史交通数据批量建模分析"
+    - "城市规划批量优化"
+    - "交通政策效果批量评估"
+  key_metrics:
+    traffic_congestion_reduction: "-30%"
+    average_travel_time: "-20%"
+    air_quality_improvement: "+15%"

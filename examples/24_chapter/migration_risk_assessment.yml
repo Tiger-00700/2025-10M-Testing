@@ -1,0 +1,22 @@
+migration_risk_assessment:
+  technical_risks:
+    compatibility_issues:
+      description: "应用与目标云环境不兼容"
+      impact: "高"
+      probability: "中等"
+      mitigation: "前期兼容性测试"
+    performance_degradation:
+      description: "迁移后性能下降"
+      impact: "高"
+      probability: "中等"
+      mitigation: "性能基准测试"
+    data_integrity_issues:
+      description: "数据迁移过程中的完整性问题"
+      impact: "极高"
+      probability: "低"
+      mitigation: "数据校验和备份"
+    security_vulnerabilities:
+      description: "迁移过程中的安全风险"
+      impact: "高"
+      probability: "中等"
+      mitigation: "安全评估和加固"

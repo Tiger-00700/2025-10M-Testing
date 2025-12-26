@@ -1,21 +1,79 @@
-visualization_test_methods:
-  - test_category: "数据驱动校验"
-    key_methods: "黄金数据集+预期结果对比"
-    validation_points: "坐标/比例尺/颜色编码一致性"
-    tools_examples: "可视化测试框架"
-  - test_category: "交互测试"
-    key_methods: "自动化脚本覆盖筛选/联动/下钻"
-    validation_points: "会话状态持久化验证"
-    tools_examples: "UI录制工具"
-  - test_category: "性能与兼容性"
-    key_methods: "大数据量渲染FPS评估"
-    validation_points: "多终端/浏览器对比测试"
-    tools_examples: "性能分析工具"
-  - test_category: "异常与边界"
-    key_methods: "空/缺失/极值数据处理"
-    validation_points: "网络超时降级提示"
-    tools_examples: "错误处理框架"
-  - test_category: "可访问性检查"
-    key_methods: "对比度/键盘导航验证"
-    validation_points: "辅助工具可读性测试"
-    tools_examples: "无障碍测试工具"
+# 可视化测试方法配置
+# 涵盖数据驱动校验、交互测试、性能评估、可访问性等维度
+
+test_categories:
+  - name: "数据驱动校验"
+    description: "验证可视化组件的数据准确性和展示正确性"
+    methods:
+      - "已知数据集+黄金结果对比测试"
+      - "坐标、比例尺、颜色编码一致性验证"
+      - "数据格式转换和展示逻辑检查"
+    tools: ["图像对比工具", "数据验证脚本", "视觉回归测试"]
+    
+  - name: "交互测试"
+    description: "测试用户交互行为的正确性和流畅性"
+    methods:
+      - "筛选、联动、下钻、跳转功能测试"
+      - "URL/书签状态恢复验证"
+      - "会话状态持久化检查"
+    automation:
+      - "Selenium WebDriver"
+      - "Playwright"
+      - "Cypress"
+    coverage: ["桌面端", "移动端", "平板"]
+    
+  - name: "性能与兼容性测试"
+    description: "评估可视化性能和跨平台兼容性"
+    methods:
+      - "大数据量渲染性能测试"
+      - "复杂联动操作响应时间测试"
+      - "实时数据刷新性能评估"
+      - "多终端、多浏览器兼容性验证"
+    metrics:
+      - "渲染FPS (Frames Per Second)"
+      - "交互响应时间"
+      - "内存使用率"
+      - "CPU利用率"
+    tools: ["Chrome DevTools", "Lighthouse", "WebPageTest"]
+    
+  - name: "异常与边界测试"
+    description: "测试异常数据和边界条件的处理能力"
+    methods:
+      - "空数据、缺失数据处理测试"
+      - "重复数据、极值数据展示测试"
+      - "异常格式数据容错机制验证"
+      - "权限不足、网络异常降级测试"
+    scenarios:
+      - "数据加载失败"
+      - "网络超时"
+      - "权限被拒绝"
+      - "后台服务异常"
+    
+  - name: "可访问性测试"
+    description: "确保可视化内容对所有用户都可访问"
+    standards: ["WCAG 2.1 AA", "Section 508"]
+    methods:
+      - "对比度检查"
+      - "键盘导航测试"
+      - "读屏软件兼容性验证"
+      - "颜色盲用户测试"
+    tools: ["axe-core", "WAVE", "NVDA", "JAWS"]
+
+# 自动化测试配置
+automation_config:
+  framework: "Playwright + Visual Regression"
+  browser_support: ["Chrome", "Firefox", "Safari", "Edge"]
+  device_emulation: ["Desktop", "Tablet", "Mobile"]
+  ci_integration: "GitHub Actions"
+
+# 质量标准
+quality_standards:
+  performance:
+    fps_threshold: 30
+    response_time_threshold: "2秒"
+  accessibility:
+    wcag_compliance: "AA级"
+    keyboard_navigation: "100%覆盖"
+  compatibility:
+    browser_support: "现代浏览器"
+    mobile_support: "响应式设计"

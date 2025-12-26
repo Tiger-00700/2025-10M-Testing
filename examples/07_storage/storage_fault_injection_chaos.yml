@@ -1,0 +1,251 @@
+# storage_fault_injection_chaos.yml
+# 存储故障注入与混沌工程配置
+
+chaos_experiments:
+  network_chaos:
+    description: "网络故障模拟"
+    experiments:
+      - name: "network_partition"
+        description: "网络分区测试"
+        tool: "Chaos Mesh"
+        config:
+          selector:
+            namespaces: ["storage-test"]
+            labels:
+              app: "storage-service"
+          mode: "all"
+          action: "partition"
+          direction: "both"
+          duration: "5m"
+          scheduler:
+            cron: "@every 1h"
+
+      - name: "network_delay"
+        description: "网络延迟注入"
+        tool: "tc (traffic control)"
+        config:
+          interface: "eth0"
+          delay: "100ms"
+          jitter: "10ms"
+          correlation: "25%"
+          duration: "10m"
+
+      - name: "packet_loss"
+        description: "丢包模拟"
+        tool: "Chaos Monkey"
+        config:
+          probability: 0.01
+          duration: "30s"
+          targets: ["storage-nodes"]
+
+  storage_chaos:
+    description: "存储层故障"
+    experiments:
+      - name: "disk_failure"
+        description: "磁盘故障模拟"
+        tool: "Chaos Blade"
+        config:
+          target: "disk"
+          action: "burn"
+          flags:
+            - "--filepath /data"
+            - "--size 1GB"
+            - "--timeout 300s"
+
+      - name: "filesystem_corruption"
+        description: "文件系统损坏"
+        tool: "Custom Script"
+        config:
+          script: "inject_fs_corruption.py"
+          parameters:
+            corruption_type: "metadata"
+            affected_files: "10%"
+            recovery_test: true
+
+      - name: "storage_full"
+        description: "存储空间耗尽"
+        tool: "Docker Chaos"
+        config:
+          container: "storage-service"
+          action: "fill_disk"
+          size: "95%"
+          cleanup: true
+
+  process_chaos:
+    description: "进程级故障"
+    experiments:
+      - name: "process_kill"
+        description: "进程杀死"
+        tool: "Chaos Monkey"
+        config:
+          enabled: true
+          probability: 0.1
+          kill_method: "SIGKILL"
+          excluded_processes: ["systemd", "sshd"]
+
+      - name: "resource_exhaustion"
+        description: "资源耗尽"
+        tool: "Stress-ng"
+        config:
+          stressors:
+            - cpu: "100%"
+            - memory: "90%"
+            - io: "heavy"
+          duration: "5m"
+
+      - name: "service_restart"
+        description: "服务重启"
+        tool: "Systemd Chaos"
+        config:
+          services: ["hdfs", "cassandra", "minio"]
+          restart_delay: "30s"
+          max_restarts: 3
+
+fault_injection_framework:
+  injection_points:
+    - layer: "application"
+      methods: ["exception_injection", "delay_injection", "data_corruption"]
+    - layer: "network"
+      methods: ["partition", "delay", "loss", "reorder"]
+    - layer: "storage"
+      methods: ["disk_failure", "fs_corruption", "permission_denied"]
+    - layer: "system"
+      methods: ["cpu_exhaust", "memory_exhaust", "io_saturation"]
+
+  safety_mechanisms:
+    - name: "circuit_breaker"
+      description: "熔断机制"
+      threshold: "error_rate > 50%"
+      action: "stop_injection"
+
+    - name: "rollback"
+      description: "自动回滚"
+      conditions: ["data_loss_detected", "service_unavailable"]
+      action: "restore_from_backup"
+
+    - name: "monitoring"
+      description: "实时监控"
+      metrics: ["error_rate", "latency", "availability"]
+      alerts: ["threshold_exceeded"]
+
+chaos_testing_patterns:
+  gradual_injection:
+    description: "渐进式故障注入"
+    phases:
+      - phase: "baseline"
+        duration: "10m"
+        injection: "none"
+      - phase: "light_chaos"
+        duration: "15m"
+        injection: "low_probability"
+      - phase: "medium_chaos"
+        duration: "20m"
+        injection: "medium_probability"
+      - phase: "heavy_chaos"
+        duration: "10m"
+        injection: "high_probability"
+
+  targeted_testing:
+    description: "针对性测试"
+    targets:
+      - component: "HDFS NameNode"
+        faults: ["crash", "network_isolation", "disk_failure"]
+      - component: "Cassandra"
+        faults: ["node_failure", "network_partition", "disk_full"]
+      - component: "S3 Compatible Storage"
+        faults: ["service_unavailable", "throttling", "data_corruption"]
+
+  game_days:
+    description: "游戏日测试"
+    schedule: "monthly"
+    participants: ["dev_team", "ops_team", "qa_team"]
+    scenarios:
+      - name: "data_center_failure"
+        description: "数据中心故障"
+        impact: "high"
+        duration: "4h"
+      - name: "storage_cluster_degradation"
+        description: "存储集群性能下降"
+        impact: "medium"
+        duration: "2h"
+
+observability_during_chaos:
+  metrics_collection:
+    - name: "system_metrics"
+      tools: ["Prometheus", "Grafana"]
+      metrics: ["cpu_usage", "memory_usage", "disk_io", "network_io"]
+
+    - name: "application_metrics"
+      tools: ["Application Insights", "Custom Exporters"]
+      metrics: ["request_rate", "error_rate", "latency", "throughput"]
+
+    - name: "business_metrics"
+      tools: ["Custom Monitors"]
+      metrics: ["data_consistency", "backup_success", "recovery_time"]
+
+  logging_strategies:
+    - level: "DEBUG"
+      components: ["chaos_engine", "fault_injector"]
+    - level: "INFO"
+      components: ["application", "monitoring"]
+    - level: "WARN"
+      components: ["system", "infrastructure"]
+
+  alerting_rules:
+    - rule: "high_error_rate"
+      condition: "error_rate > 10%"
+      severity: "critical"
+      channels: ["slack", "email", "pager"]
+    - rule: "service_unavailable"
+      condition: "up == 0"
+      severity: "critical"
+      channels: ["phone", "slack"]
+
+recovery_testing:
+  automated_recovery:
+    description: "自动化恢复测试"
+    scenarios:
+      - name: "self_healing"
+        trigger: "component_failure"
+        expected_recovery: "< 5m"
+        verification: "service_health_check"
+
+      - name: "failover"
+        trigger: "primary_failure"
+        expected_recovery: "< 30s"
+        verification: "data_consistency_check"
+
+      - name: "backup_restore"
+        trigger: "data_corruption"
+        expected_recovery: "< 1h"
+        verification: "data_integrity_check"
+
+  manual_intervention:
+    description: "人工干预测试"
+    procedures:
+      - name: "emergency_shutdown"
+        steps: ["isolate_affected_system", "notify_stakeholders", "execute_shutdown"]
+      - name: "data_recovery"
+        steps: ["identify_backup_source", "validate_backup", "perform_restore"]
+      - name: "system_rebuild"
+        steps: ["provision_new_resources", "restore_configuration", "validate_functionality"]
+
+reporting_and_analysis:
+  chaos_reports:
+    - name: "Experiment Summary"
+      content: ["executed_experiments", "failure_points", "recovery_times"]
+    - name: "Impact Analysis"
+      content: ["affected_services", "data_loss", "user_impact"]
+    - name: "Improvement Recommendations"
+      content: ["weakness_identified", "mitigation_strategies", "future_tests"]
+
+  trend_analysis:
+    - metric: "mean_time_to_recovery"
+      trend: "decreasing"
+      target: "< 5m"
+    - metric: "system_resilience_score"
+      trend: "increasing"
+      target: "> 99.9%"
+    - metric: "chaos_maturity_level"
+      assessment: "quarterly"
+      framework: "Chaos Engineering Maturity Model"

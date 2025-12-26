@@ -1,0 +1,278 @@
+# 大数据质量规则配置
+
+# 数据质量维度定义
+quality_dimensions:
+  # 完整性 - 数据是否完整
+  completeness:
+    description: "数据完整性检查"
+    rules:
+      - name: "null_check"
+        type: "null_value"
+        threshold: 0.05  # 允许5%的空值
+        action: "alert"
+        severity: "high"
+
+      - name: "missing_value_check"
+        type: "missing_value"
+        threshold: 0.10  # 允许10%的缺失值
+        action: "block"
+        severity: "critical"
+
+  # 准确性 - 数据是否正确
+  accuracy:
+    description: "数据准确性检查"
+    rules:
+      - name: "range_check"
+        type: "value_range"
+        field: "age"
+        min_value: 0
+        max_value: 150
+        action: "alert"
+        severity: "medium"
+
+      - name: "format_check"
+        type: "regex_pattern"
+        field: "email"
+        pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+        action: "alert"
+        severity: "medium"
+
+      - name: "reference_check"
+        type: "foreign_key"
+        table: "orders"
+        field: "customer_id"
+        reference_table: "customers"
+        reference_field: "id"
+        action: "block"
+        severity: "high"
+
+  # 一致性 - 数据是否一致
+  consistency:
+    description: "数据一致性检查"
+    rules:
+      - name: "duplicate_check"
+        type: "duplicate_value"
+        fields: ["customer_id", "order_date"]
+        action: "alert"
+        severity: "medium"
+
+      - name: "cross_table_consistency"
+        type: "cross_reference"
+        source_table: "orders"
+        source_field: "total_amount"
+        target_table: "order_items"
+        target_field: "sum(price * quantity)"
+        tolerance: 0.01
+        action: "alert"
+        severity: "high"
+
+  # 时效性 - 数据是否及时
+  timeliness:
+    description: "数据时效性检查"
+    rules:
+      - name: "freshness_check"
+        type: "data_freshness"
+        table: "user_events"
+        max_age_hours: 24
+        action: "alert"
+        severity: "high"
+
+      - name: "latency_check"
+        type: "processing_latency"
+        pipeline: "data_ingestion"
+        max_latency_minutes: 30
+        action: "alert"
+        severity: "critical"
+
+  # 唯一性 - 数据是否唯一
+  uniqueness:
+    description: "数据唯一性检查"
+    rules:
+      - name: "primary_key_check"
+        type: "unique_constraint"
+        table: "users"
+        fields: ["user_id"]
+        action: "block"
+        severity: "critical"
+
+      - name: "business_key_check"
+        type: "unique_constraint"
+        table: "products"
+        fields: ["sku", "supplier_id"]
+        action: "alert"
+        severity: "high"
+
+# 质量监控配置
+monitoring:
+  # 监控频率
+  frequency:
+    real_time: ["completeness", "accuracy"]  # 实时监控
+    hourly: ["consistency", "timeliness"]     # 每小时监控
+    daily: ["uniqueness"]                     # 每日监控
+
+  # 告警配置
+  alerting:
+    channels:
+      - type: "email"
+        recipients: ["data-quality@company.com"]
+        thresholds:
+          high: "immediate"
+          medium: "daily_digest"
+          low: "weekly_report"
+
+      - type: "slack"
+        channel: "#data-quality"
+        webhook_url: "${SLACK_WEBHOOK_URL}"
+
+      - type: "pagerduty"
+        service_key: "${PAGERDUTY_SERVICE_KEY}"
+        urgency_levels:
+          critical: "high"
+          high: "high"
+          medium: "low"
+
+  # 质量门禁
+  quality_gates:
+    - name: "data_ingestion_gate"
+      rules: ["completeness", "accuracy"]
+      threshold: 0.95  # 95%通过率
+      action: "block_pipeline"
+
+    - name: "data_processing_gate"
+      rules: ["consistency", "timeliness"]
+      threshold: 0.90
+      action: "alert_team"
+
+    - name: "data_delivery_gate"
+      rules: ["uniqueness", "accuracy"]
+      threshold: 0.98
+      action: "block_release"
+
+# 质量改进配置
+improvement:
+  # 自动修复规则
+  auto_fix:
+    - name: "null_value_imputation"
+      rule: "completeness.null_check"
+      strategy: "mean_imputation"
+      applicable_types: ["numeric"]
+
+    - name: "format_standardization"
+      rule: "accuracy.format_check"
+      strategy: "regex_replace"
+      patterns:
+        phone: "^(\\d{3})(\\d{3})(\\d{4})$"
+        replacement: "($1) $2-$3"
+
+  # 质量趋势分析
+  trend_analysis:
+    enabled: true
+    window_days: 30
+    metrics:
+      - "quality_score_trend"
+      - "error_rate_trend"
+      - "fix_success_rate"
+
+  # 持续改进
+  continuous_improvement:
+    feedback_loop: true
+    model_retraining:
+      frequency: "weekly"
+      algorithm: "isolation_forest"
+      parameters:
+        contamination: 0.1
+        random_state: 42
+
+# 数据血缘追踪
+data_lineage:
+  enabled: true
+  tracking_level: "column"  # table, column, field
+  retention_days: 365
+
+  # 血缘可视化
+  visualization:
+    enabled: true
+    format: "graphml"
+    layout: "hierarchical"
+
+  # 影响分析
+  impact_analysis:
+    enabled: true
+    cascade_levels: 3
+    risk_assessment: true
+
+# 合规性检查
+compliance:
+  # GDPR合规
+  gdpr:
+    enabled: true
+    rules:
+      - name: "data_retention"
+        max_retention_days: 2555  # 7年
+        action: "auto_delete"
+
+      - name: "consent_tracking"
+        required_fields: ["consent_given", "consent_date"]
+        action: "block_processing"
+
+  # SOX合规
+  sox:
+    enabled: true
+    audit_trail: true
+    immutable_logs: true
+
+  # HIPAA合规 (如果适用)
+  hipaa:
+    enabled: false
+    phi_fields: []
+    encryption_required: true
+
+# 性能优化
+performance:
+  # 并行处理
+  parallel_processing:
+    enabled: true
+    max_workers: 4
+    chunk_size: 10000
+
+  # 缓存配置
+  caching:
+    enabled: true
+    ttl_seconds: 3600
+    max_size_mb: 512
+
+  # 采样配置
+  sampling:
+    enabled: true
+    sample_rate: 0.1  # 10%采样用于快速检查
+    stratified: true   # 分层采样
+
+# 报告配置
+reporting:
+  # 质量仪表板
+  dashboard:
+    enabled: true
+    refresh_interval: 300  # 5分钟
+    metrics:
+      - "overall_quality_score"
+      - "rule_compliance_rate"
+      - "data_freshness"
+      - "error_trend"
+
+  # 定期报告
+  scheduled_reports:
+    - name: "daily_quality_report"
+      frequency: "daily"
+      format: "html"
+      recipients: ["data-team@company.com"]
+
+    - name: "weekly_quality_summary"
+      frequency: "weekly"
+      format: "pdf"
+      include_trends: true
+
+    - name: "monthly_compliance_report"
+      frequency: "monthly"
+      format: "pdf"
+      include_audit_trail: true</content>
+<parameter name="filePath">e:\DONT_TOUCH\10M-2025-Testing\examples\31_chapter\quality_rules.yml

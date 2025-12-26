@@ -1,21 +1,139 @@
+# consistency_reliability_focus_points.yml
+# 存储一致性、可靠性与备份恢复测试关注点配置
+
 focus_points:
-  - category: "可靠性测试"
-    key_metrics: ["节点/机房故障", "网络分区", "磁盘损坏"]
-    test_points: ["数据可用性", "自动恢复/副本重建"]
-    tools_methods: ["故障注入工具"]
-  - category: "容灾测试"
-    key_metrics: ["跨AZ/Region复制延迟"]
-    test_points: ["复制中断后的追平时间"]
-    tools_methods: ["复制监控脚本"]
-  - category: "备份恢复测试"
-    key_metrics: ["全量/增量/日志/快照备份"]
-    test_points: ["恢复时间", "恢复点", "元数据同步"]
-    tools_methods: ["备份恢复演练"]
-  - category: "灾备切换测试"
-    key_metrics: ["计划内/计划外切换"]
-    test_points: ["步骤", "回滚与复原", "隔离演练"]
-    tools_methods: ["切换测试脚本"]
-  - category: "一致性校验"
-    key_metrics: ["副本/分片/索引/元数据"]
-    test_points: ["差异报告输出"]
-    tools_methods: ["对账脚本"]
+  reliability_testing:
+    description: "可靠性测试"
+    key_metrics:
+      - "系统可用性(SLA)"
+      - "故障恢复时间(MTTR)"
+      - "平均无故障时间(MTBF)"
+    test_points:
+      - "节点故障场景"
+      - "机房故障场景"
+      - "网络分区场景"
+    tools_methods:
+      - "故障注入工具"
+      - "可用性监控脚本"
+
+  disaster_recovery_testing:
+    description: "容灾测试"
+    key_metrics:
+      - "恢复时间目标(RTO)"
+      - "恢复点目标(RPO)"
+      - "数据丢失量"
+    test_points:
+      - "跨AZ复制延迟"
+      - "跨Region复制延迟"
+      - "复制中断恢复"
+    tools_methods:
+      - "复制监控脚本"
+      - "容灾演练工具"
+
+  backup_recovery_testing:
+    description: "备份恢复测试"
+    key_metrics:
+      - "备份成功率"
+      - "恢复成功率"
+      - "恢复时间"
+    test_points:
+      - "全量备份验证"
+      - "增量备份验证"
+      - "快照备份验证"
+    tools_methods:
+      - "备份恢复演练脚本"
+      - "恢复验证工具"
+
+  failover_testing:
+    description: "灾备切换测试"
+    key_metrics:
+      - "切换成功率"
+      - "切换时间"
+      - "业务影响时间"
+    test_points:
+      - "计划内切换"
+      - "计划外切换"
+      - "回滚操作"
+    tools_methods:
+      - "切换测试脚本"
+      - "隔离演练工具"
+
+  consistency_validation:
+    description: "一致性校验"
+    key_metrics:
+      - "数据一致性率"
+      - "校验通过率"
+      - "差异发现率"
+    test_points:
+      - "副本一致性"
+      - "分片一致性"
+      - "元数据一致性"
+    tools_methods:
+      - "对账脚本"
+      - "一致性校验工具"
+
+rto_rpo_definitions:
+  rto:
+    full_name: "Recovery Time Objective"
+    description: "恢复时间目标：系统从故障发生到恢复正常所需的最大时间"
+    typical_values: ["< 1小时", "< 4小时", "< 24小时"]
+    measurement: "从故障检测到服务恢复的时间"
+
+  rpo:
+    full_name: "Recovery Point Objective"
+    description: "恢复点目标：可接受的最大数据丢失量"
+    typical_values: ["< 1分钟", "< 1小时", "< 24小时"]
+    measurement: "故障发生时可能丢失的数据时间窗口"
+
+disaster_scenarios:
+  - name: "单节点故障"
+    description: "单个存储节点发生故障"
+    impact: "低"
+    recovery: "自动故障转移"
+    test_focus: "副本重建时间"
+
+  - name: "多节点故障"
+    description: "多个存储节点同时故障"
+    impact: "中"
+    recovery: "跨机架恢复"
+    test_focus: "数据重建速度"
+
+  - name: "机房级故障"
+    description: "整个机房或可用区故障"
+    impact: "高"
+    recovery: "跨AZ切换"
+    test_focus: "RTO/RPO验证"
+
+  - name: "区域级故障"
+    description: "整个地域发生故障"
+    impact: "严重"
+    recovery: "跨Region恢复"
+    test_focus: "容灾演练"
+
+test_scenarios:
+  - name: "故障注入测试"
+    description: "模拟各种故障场景验证系统韧性"
+    steps:
+      - "选择故障场景"
+      - "配置监控指标"
+      - "注入故障"
+      - "观察系统响应"
+      - "验证恢复过程"
+
+  - name: "备份恢复演练"
+    description: "定期验证备份数据的可恢复性"
+    steps:
+      - "执行备份操作"
+      - "准备恢复环境"
+      - "执行恢复流程"
+      - "验证数据完整性"
+      - "记录恢复时间"
+
+  - name: "容灾切换演练"
+    description: "测试灾备系统的切换能力"
+    steps:
+      - "准备主备环境"
+      - "执行切换操作"
+      - "验证业务连续性"
+      - "执行回滚操作"
+      - "总结切换效果"

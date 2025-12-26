@@ -1,0 +1,16 @@
+multi_cloud_native_patterns:
+  active_active_deployment: # 双活部署
+    description: "同时在多个云上运行相同服务"
+    load_distribution: "基于地理位置或性能"
+    benefits: ["高可用性", "低延迟", "容灾能力"]
+    challenges: ["数据同步", "复杂性管理"]
+  cloud_specific_optimization: # 云特定优化
+    description: "针对每个云的特点进行优化"
+    service_mapping: "选择最适合的服务"
+    benefits: ["性能优化", "成本控制"]
+    challenges: ["管理复杂性"]
+  unified_control_plane: # 统一控制面
+    description: "跨云的统一管理和监控"
+    tools: "多云管理平台"
+    benefits: ["简化运维", "一致性保证"]
+    challenges: ["集成复杂度"]

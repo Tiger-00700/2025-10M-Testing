@@ -1,21 +1,127 @@
-ai_ml_test_methods:
-  - test_category: "偏差与公平性"
-    key_methods: "分群体评估差异化指标"
-    validation_points: "公平性阈值与告警设置"
-    tools_examples: "公平性评估工具"
-  - test_category: "鲁棒性/对抗"
-    key_methods: "噪声/缺失/极值注入测试"
-    validation_points: "性能下降幅度评估"
-    tools_examples: "对抗测试框架"
-  - test_category: "漂移监控"
-    key_methods: "PSI/KS分布距离监测"
-    validation_points: "自动告警与回滚触发"
-    tools_examples: "漂移检测工具"
-  - test_category: "回归/A-B/灰度"
-    key_methods: "离线回归+在线A/B对比"
-    validation_points: "显著性检验与停机规则"
-    tools_examples: "实验平台"
-  - test_category: "上线闸门"
-    key_methods: "模型卡契约化验证"
-    validation_points: "回滚与熔断开关测试"
-    tools_examples: "部署验证工具"
+# AI/ML分析模型测试方法配置
+# 涵盖偏差公平性、鲁棒性、漂移监控等AI/ML特有测试维度
+
+test_categories:
+  - name: "偏差与公平性测试"
+    description: "检测和缓解模型在不同群体间的偏差问题"
+    methods:
+      - "分群体性能评估"
+      - "公平性指标监控 (TPR, FPR, 误报漏报率)"
+      - "偏差检测算法应用"
+      - "公平性阈值设置和告警"
+    fairness_metrics:
+      - "Demographic Parity"
+      - "Equal Opportunity"
+      - "Equalized Odds"
+      - "Predictive Equality"
+    tools: ["Fairlearn", "AIF360", "自定义公平性测试套件"]
+    
+  - name: "鲁棒性与对抗测试"
+    description: "评估模型对异常输入和对抗攻击的抵抗能力"
+    methods:
+      - "噪声注入测试"
+      - "缺失值容错测试"
+      - "极值数据处理验证"
+      - "对抗样本生成和检测"
+      - "性能下降幅度评估"
+    robustness_scenarios:
+      - "数据质量下降"
+      - "分布偏移"
+      - "异常值干扰"
+      - "对抗性攻击"
+    defense_techniques:
+      - "输入验证和清洗"
+      - "模型正则化"
+      - "集成方法"
+    
+  - name: "漂移监控"
+    description: "实时监控模型性能和数据分布的变化"
+    methods:
+      - "PSI (Population Stability Index) 计算"
+      - "KS检验和分布距离测量"
+      - "特征/标签/预测漂移检测"
+      - "自动告警和干预机制"
+    drift_types:
+      - "概念漂移 (Concept Drift)"
+      - "数据漂移 (Data Drift)"
+      - "模型退化 (Model Decay)"
+    monitoring_tools:
+      - "Evidently AI"
+      - "Alibi Detect"
+      - "自定义监控仪表盘"
+    
+  - name: "回归与A/B测试"
+    description: "系统性比较模型版本的性能差异"
+    methods:
+      - "离线回归基准测试"
+      - "在线A/B实验设计"
+      - "指标、时延、成本对比分析"
+      - "统计显著性检验"
+      - "停机规则和回滚机制"
+    experimental_design:
+      - "样本量计算"
+      - "分层抽样"
+      - "多臂老虎机算法"
+      - "贝叶斯优化"
+    
+  - name: "上线质量门禁"
+    description: "模型部署前的质量把关和风险控制"
+    methods:
+      - "模型卡标准化 (数据、特征、指标、SLO)"
+      - "资源和延迟基线测试"
+      - "回滚和熔断开关验证"
+      - "影子测试和金丝雀发布"
+    quality_gates:
+      - "准确率阈值"
+      - "延迟SLO"
+      - "公平性指标"
+      - "安全漏洞扫描"
+
+# AI/ML测试生命周期
+testing_lifecycle:
+  development_phase:
+    - "单元测试"
+    - "集成测试"
+    - "性能测试"
+  validation_phase:
+    - "交叉验证"
+    - "公平性测试"
+    - "鲁棒性测试"
+  deployment_phase:
+    - "影子测试"
+    - "A/B测试"
+    - "金丝雀发布"
+  monitoring_phase:
+    - "持续监控"
+    - "漂移检测"
+    - "性能退化告警"
+
+# 自动化与工具链
+automation_stack:
+  testing_frameworks:
+    - "pytest + pytest-cov"
+    - "TensorFlow Model Analysis"
+    - "PyTorch Lightning"
+  monitoring_platforms:
+    - "Prometheus + Grafana"
+    - "MLflow"
+    - "Weights & Biases"
+  ci_cd_integration:
+    - "GitHub Actions"
+    - "Jenkins Pipeline"
+    - "Azure DevOps"
+
+# 最佳实践指南
+best_practices:
+  data_management:
+    - "数据版本控制"
+    - "血缘追踪"
+    - "质量监控"
+  model_governance:
+    - "模型注册表"
+    - "审计日志"
+    - "合规检查"
+  operational_excellence:
+    - "自动化部署"
+    - "性能监控"
+    - "故障恢复"

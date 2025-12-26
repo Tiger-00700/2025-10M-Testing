@@ -1,0 +1,90 @@
+# 环境隔离与配额策略配置
+# 对应锚点12-005: 环境隔离与配额策略表格
+
+# 配额策略配置
+quota_policies:
+  dimensions:
+    - name: resource_allocation
+      measures:
+        - CPU/内存/存储按环境权重分配
+        - 静态配额 + 动态调整
+      monitoring: 资源利用率 > 80%
+      actions: [auto_scale_up, alert]
+
+    - name: dynamic_adjustment
+      measures:
+        - 高峰期弹性扩容，低峰期回收
+        - HPA + 定时任务
+      monitoring: [QPS, response_time]
+      actions: [scale_based_on_metrics]
+
+    - name: priority_guarantee
+      measures:
+        - 生产 > 预发 > 测试 > 开发
+        - QoS分类 + 抢占式调度
+      monitoring: SLO达成率
+      actions: [priority_queue_scheduling]
+
+    - name: cost_control
+      measures:
+        - 按使用量计费，设置预算上限
+        - 多租户计费 + 预算告警
+      monitoring: 月度成本增长率
+      actions: [shutdown, scale_down]
+
+    - name: isolation_level
+      measures:
+        - 网络/存储/计算资源隔离
+        - Namespace/VPC/资源池
+      monitoring: 串扰事件发生率
+      actions: [isolation_policy_reinforcement]
+
+# 环境配额配置示例
+environment_quotas:
+  dev:
+    cpu: "2"
+    memory: "4Gi"
+    storage: "50Gi"
+    priority: low
+
+  test:
+    cpu: "4"
+    memory: "8Gi"
+    storage: "100Gi"
+    priority: medium
+
+  staging:
+    cpu: "8"
+    memory: "16Gi"
+    storage: "200Gi"
+    priority: high
+
+  prod:
+    cpu: "16"
+    memory: "32Gi"
+    storage: "500Gi"
+    priority: critical
+
+# 监控指标配置
+monitoring_config:
+  metrics:
+    - name: resource_utilization
+      threshold: 80%
+      action: scale_up
+    - name: error_rate
+      threshold: 1%
+      action: alert
+    - name: response_time
+      threshold: 200ms
+      action: alert
+
+  alerts:
+    - condition: cpu_usage > 90%
+      severity: critical
+      channels: [email, slack, pager]
+
+# 隔离策略选择指南
+isolation_guide:
+  physical: 最高安全，但成本最高，适合生产/预发环境
+  logical: 平衡安全与成本，适合测试/开发环境
+  hybrid: 按敏感度分级，灵活配置

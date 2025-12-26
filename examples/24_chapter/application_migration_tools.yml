@@ -1,0 +1,25 @@
+application_migration_tools:
+  cloudendure:
+    category: "企业级迁移工具"
+    capabilities:
+      - block_level_replication: "块级复制"
+      - automated_cutover: "自动化切换"
+      - disaster_recovery: "灾备功能"
+      - multi_cloud_support: "多云支持"
+    supported_clouds: ["AWS", "Azure", "GCP"]
+  river_migrate:
+    category: "现代化迁移平台"
+    capabilities:
+      - application_replatforming: "应用重构"
+      - database_migration: "数据库迁移"
+      - testing_automation: "测试自动化"
+      - performance_optimization: "性能优化"
+    supported_technologies: ["Java", ".NET", "数据库"]
+  carbonite_migrate:
+    category: "端到端迁移解决方案"
+    capabilities:
+      - server_migration: "服务器迁移"
+      - application_migration: "应用迁移"
+      - data_migration: "数据迁移"
+      - validation_reporting: "验证报告"
+    compliance_support: ["GDPR", "HIPAA", "PCI DSS"]

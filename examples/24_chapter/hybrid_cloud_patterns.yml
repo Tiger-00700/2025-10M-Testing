@@ -1,0 +1,16 @@
+hybrid_cloud_patterns:
+  cloud_bursting: # 云爆发
+    description: "根据负载动态扩展到公有云"
+    trigger: "私有云资源不足时"
+    use_case: "季节性负载高峰"
+    benefits: ["成本控制", "弹性扩展"]
+  cloud_backup: # 云备份
+    description: "使用公有云作为灾备环境"
+    trigger: "生产环境故障时"
+    use_case: "灾备和业务连续性"
+    benefits: ["高可用性", "成本效益"]
+  cloud_mirroring: # 云镜像
+    description: "实时同步数据到公有云"
+    trigger: "数据保护和合规要求"
+    use_case: "数据保护和合规"
+    benefits: ["数据安全", "合规性"]

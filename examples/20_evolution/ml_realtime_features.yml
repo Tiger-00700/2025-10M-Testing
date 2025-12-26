@@ -1,0 +1,36 @@
+# examples/20_evolution/ml_realtime_features.yml
+realtime_ml_processing:
+  feature_engineering:
+    streaming_features:
+      - name: "user_behavior_sequence"
+        type: "sequence_embedding"
+        window: "1h"
+        embedding_dim: 128
+      - name: "real_time_trends"
+        type: "trend_analysis"
+        calculation: "exponential_moving_average"
+        alpha: 0.1
+
+    online_inference:
+      model_serving:
+        framework: "TensorFlow Serving"
+        model_version: "v2.0"
+        input_features: ["user_id", "item_id", "context_features"]
+        output_predictions: ["click_probability", "conversion_score"]
+
+      inference_optimization:
+        batch_size: 32
+        timeout_ms: 50
+        fallback_strategy: "rule_based"
+
+  model_update_pipeline:
+    incremental_learning:
+      trigger_conditions:
+        - "performance_degradation > 5%"
+        - "data_drift_detected"
+        - "new_feature_importance > threshold"
+
+      update_strategy:
+        online_learning: "stochastic_gradient_descent"
+        batch_retraining: "daily_full_retrain"
+        model_validation: "a_b_testing"

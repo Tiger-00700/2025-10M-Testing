@@ -1,0 +1,88 @@
+# examples/20_evolution/cost_benefit_analysis.yml
+cost_benefit_analysis:
+  # 成本分析
+  cost_analysis:
+    initial_investment:
+      infrastructure_costs:
+        compute_resources: "$50,000"  # 服务器/云资源
+        storage_resources: "$20,000"  # 存储系统
+        networking: "$10,000"        # 网络设备
+        software_licenses: "$30,000"  # 开源软件支持
+
+      development_costs:
+        team_salaries: "$200,000"     # 开发团队6个月
+        consulting_services: "$50,000" # 外部咨询
+        training_programs: "$20,000"   # 团队培训
+
+      operational_costs:
+        ongoing_maintenance: "$15,000/month"  # 运维成本
+        cloud_services: "$25,000/month"       # 云服务费用
+        monitoring_tools: "$5,000/month"      # 监控工具
+
+    total_cost_breakdown:
+      year_1_total: "$485,000"
+      year_2_total: "$240,000"
+      year_3_total: "$240,000"
+
+  # 效益分析
+  benefit_analysis:
+    quantitative_benefits:
+      revenue_increase:
+        conversion_rate_improvement: "$2,000,000"  # 转化率提升带来的收入
+        user_engagement_boost: "$800,000"          # 用户活跃度提升
+        new_feature_monetization: "$500,000"       # 新功能商业化
+
+      cost_reductions:
+        operational_efficiency: "$300,000"         # 运营效率提升
+        reduced_downtime: "$150,000"               # 减少宕机损失
+        manual_process_automation: "$100,000"      # 流程自动化
+
+    qualitative_benefits:
+      brand_enhancement: "提升品牌技术形象"
+      competitive_advantage: "技术领先优势"
+      customer_satisfaction: "用户体验改善"
+      team_capability: "团队技术能力提升"
+
+  # ROI计算模型
+  roi_calculation:
+    net_present_value:
+      discount_rate: 0.10  # 10%折现率
+      year_1_npv: "$1,515,000"
+      year_2_npv: "$1,320,000"
+      year_3_npv: "$1,440,000"
+      total_npv: "$4,275,000"
+
+    return_on_investment:
+      total_benefits: "$4,275,000"
+      total_costs: "$965,000"
+      roi_percentage: "343%"  # (总收益-总成本)/总成本
+      payback_period: "4.2 months"
+
+    sensitivity_analysis:
+      conservative_scenario:
+        benefits_reduction: "-20%"
+        roi_range: "274%-343%"
+
+      optimistic_scenario:
+        benefits_increase: "+30%"
+        roi_range: "343%-446%"
+
+  # 关键绩效指标
+  kpi_tracking:
+    business_kpis:
+      monthly_recurring_revenue: "$150,000"
+      customer_acquisition_cost: "-15%"
+      customer_lifetime_value: "+25%"
+      churn_rate: "-10%"
+
+    technical_kpis:
+      system_availability: "> 99.9%"
+      response_time_p95: "< 100ms"
+      throughput_capacity: "> 10,000 req/sec"
+      data_processing_latency: "< 5 minutes"
+
+    operational_kpis:
+      mean_time_to_resolution: "< 30 minutes"
+      deployment_frequency: "daily"
+      change_failure_rate: "< 5%"
+      automation_coverage: "> 80%"

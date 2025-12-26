@@ -1,0 +1,17 @@
+migration_assessment:
+  application_inventory:
+    - application_name: "应用名称"
+      business_criticality: "业务重要性"
+      dependencies: "依赖关系"
+      data_volume: "数据量"
+      compliance_requirements: "合规要求"
+  technical_assessment:
+    - cloud_compatibility: "云兼容性"
+      modernization_opportunities: "现代化机会"
+      security_requirements: "安全要求"
+      performance_requirements: "性能要求"
+  cost_benefit_analysis:
+    - current_costs: "当前成本"
+      target_costs: "目标成本"
+      migration_costs: "迁移成本"
+      roi_timeline: "投资回报周期"

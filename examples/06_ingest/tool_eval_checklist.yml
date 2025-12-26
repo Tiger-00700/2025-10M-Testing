@@ -1,0 +1,52 @@
+# tool_eval_checklist.yml
+# 大数据测试管理平台特性评估清单
+
+platforms:
+  - name: "Apache Nifi"
+    features:
+      - "数据流设计"
+      - "实时监控"
+      - "扩展性"
+    use_cases:
+      - "数据采集管道"
+      - "ETL流程"
+    script_reference: "examples/06_ingest/nifi_test_example.py"
+
+  - name: "StreamSets"
+    features:
+      - "可视化管道构建"
+      - "数据质量验证"
+      - "多源支持"
+    use_cases:
+      - "复杂数据转换"
+      - "实时数据处理"
+    script_reference: "examples/06_ingest/streamsets_config.yml"
+
+  - name: "Talend"
+    features:
+      - "拖拽式开发"
+      - "大数据集成"
+      - "调度管理"
+    use_cases:
+      - "企业级数据集成"
+      - "批量处理"
+    script_reference: "examples/06_ingest/talend_job_example.xml"
+
+evaluation_criteria:
+  - automation: "自动化程度"
+  - scalability: "扩展性"
+  - monitoring: "监控能力"
+  - integration: "集成便利性"
+  - cost: "成本效益"
+
+sample_config:
+  platform: "Apache Nifi"
+  version: "1.15.0"
+  processors:
+    - type: "GetFile"
+      properties:
+        Input Directory: "/data/input"
+    - type: "PutHDFS"
+      properties:
+        Hadoop Configuration Resources: "/etc/hadoop/core-site.xml"
+        Directory: "/data/output"

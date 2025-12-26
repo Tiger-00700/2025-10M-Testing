@@ -1,0 +1,21 @@
+post_migration_operations:
+  monitoring_and_alerting:
+    - infrastructure_monitoring: "基础设施监控"
+    - application_monitoring: "应用监控"
+    - security_monitoring: "安全监控"
+    - business_monitoring: "业务监控"
+  incident_management:
+    - incident_detection: "事件检测"
+    - incident_response: "事件响应"
+    - incident_resolution: "事件解决"
+    - incident_prevention: "事件预防"
+  capacity_management:
+    - resource_planning: "资源规划"
+    - performance_optimization: "性能优化"
+    - cost_optimization: "成本优化"
+    - scalability_planning: "扩展性规划"
+  compliance_and_governance:
+    - regulatory_compliance: "监管合规"
+    - security_governance: "安全治理"
+    - audit_and_reporting: "审计报告"
+    - risk_management: "风险管理"

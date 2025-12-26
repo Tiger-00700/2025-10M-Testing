@@ -1,0 +1,18 @@
+# examples/20_evolution/social_variant.yml
+social_case:
+  business_focus: "内容个性化分发与用户互动"
+  real_time_requirements:
+    - "用户互动行为实时分析"
+    - "内容新鲜度实时评估"
+    - "实时内容推荐调整"
+    - "用户兴趣实时更新"
+  batch_requirements:
+    - "用户兴趣模型批量训练"
+    - "内容质量批量评估"
+    - "社区关系批量分析"
+    - "推荐策略批量优化"
+  key_metrics:
+    content_engagement: "+40%"
+    user_retention: "+20%"
+    content_discovery: "+35%"
+    user_satisfaction: "+25%"

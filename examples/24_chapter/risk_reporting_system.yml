@@ -1,0 +1,13 @@
+risk_reporting_system:
+  operational_reports:
+    - daily_risk_summary: "每日风险摘要"
+    - weekly_risk_dashboard: "每周风险仪表板"
+    - monthly_risk_assessment: "每月风险评估"
+  executive_reports:
+    - risk_heat_map: "风险热力图"
+    - risk_trend_analysis: "风险趋势分析"
+    - risk_mitigation_effectiveness: "风险缓解效果"
+  stakeholder_communication:
+    - risk_transparency: "风险透明度"
+    - mitigation_progress: "缓解进度"
+    - confidence_levels: "信心水平"

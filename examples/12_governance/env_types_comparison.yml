@@ -1,0 +1,54 @@
+# 大数据测试环境类型对比
+# 对应锚点12-006: 大数据测试环境类型对比表
+
+environment_types:
+  development:
+    physical_isolation: 可选
+    network_isolation: VLAN隔离
+    data_isolation: 模拟数据
+    permission_isolation: 开发团队
+    monitoring_focus: 功能可用性
+    cost_consideration: 按需付费
+
+  testing:
+    physical_isolation: 推荐
+    network_isolation: VPC隔离
+    data_isolation: 脱敏数据
+    permission_isolation: 测试团队
+    monitoring_focus: 功能正确性
+    cost_consideration: 固定配额
+
+  staging:
+    physical_isolation: 必须
+    network_isolation: 独立网络
+    data_isolation: 生产影子
+    permission_isolation: 运维团队
+    monitoring_focus: 性能/稳定性
+    cost_consideration: 高可用配置
+
+  production_mirror:
+    physical_isolation: 完全隔离
+    network_isolation: 生产同网
+    data_isolation: 生产数据
+    permission_isolation: 最小权限
+    monitoring_focus: 业务SLO
+    cost_consideration: 企业级SLA
+
+  disaster_recovery:
+    physical_isolation: 异地隔离
+    network_isolation: 跨区域
+    data_isolation: 实时同步
+    permission_isolation: 备份账户
+    monitoring_focus: RTO/RPO
+    cost_consideration: 冷备策略
+
+# 隔离策略选择指南
+isolation_strategies:
+  physical: 最高安全，但成本最高，适合生产/预发环境
+  logical: 平衡安全与成本，适合测试/开发环境
+  hybrid: 按敏感度分级，灵活配置
+
+# 管理与监控
+management_monitoring:
+  - 定期评估资源利用率，动态优化分配
+  - 建立资源配额与环境隔离的自动化管理平台

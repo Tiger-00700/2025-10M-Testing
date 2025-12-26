@@ -1,25 +1,98 @@
-processes:
-  - stage: "识别"
-    key_steps: ["告警触发", "监控指标异常"]
-    tools_methods: ["仪表盘", "日志分析"]
-    notes: ["快速判定类型"]
-  - stage: "定位"
-    key_steps: ["血缘追溯", "变更记录交叉"]
-    tools_methods: ["血缘图", "调度日志"]
-    notes: ["确认影响范围"]
-  - stage: "分析"
-    key_steps: ["根因挖掘", "影响评估"]
-    tools_methods: ["变更记录", "配置管理"]
-    notes: ["避免误判"]
-  - stage: "修复"
-    key_steps: ["重跑/回补", "规则调整"]
-    tools_methods: ["补偿脚本", "降级开关"]
-    notes: ["留痕可回滚"]
-  - stage: "验证"
-    key_steps: ["修复效果确认", "对账"]
-    tools_methods: ["自动化校验"]
-    notes: ["确保无副作用"]
-  - stage: "预防"
-    key_steps: ["SOP更新", "阈值优化"]
-    tools_methods: ["案例库", "回归用例"]
-    notes: ["沉淀经验"]
+# 数据质量问题识别、定位与修复配置
+# 锚点053 对应配置
+
+issue_identification_fix:
+  - stage: 识别 (Identification)
+    steps:
+      - 告警触发
+      - 监控指标异常
+      - 仪表盘告警
+      - 日志分析
+    tools_methods:
+      - 监控仪表盘
+      - 日志分析工具
+      - 告警系统
+    notes:
+      - 快速判定问题类型
+      - 评估影响范围
+      - 避免误报干扰
+
+  - stage: 定位 (Localization)
+    steps:
+      - 血缘追溯
+      - 变更记录交叉分析
+      - 影响范围确认
+      - 根因初步判断
+    tools_methods:
+      - 血缘图工具
+      - 调度日志
+      - 配置管理系统
+      - 变更记录查询
+    notes:
+      - 利用数据血缘
+      - 结合最近变更
+      - 确认下游影响
+
+  - stage: 分析 (Analysis)
+    steps:
+      - 根因深度挖掘
+      - 影响范围评估
+      - 修复方案制定
+      - 风险评估
+    tools_methods:
+      - 变更记录分析
+      - 配置管理工具
+      - 影响分析工具
+      - 业务专家咨询
+    notes:
+      - 避免表面原因
+      - 全面评估影响
+      - 制定备用方案
+
+  - stage: 修复 (Fix)
+    steps:
+      - 修复动作执行
+      - 重跑/回补数据
+      - 规则/阈值调整
+      - 补偿数据生成
+    tools_methods:
+      - 补偿脚本
+      - 降级开关
+      - 回滚工具
+      - 自动化修复脚本
+    notes:
+      - 留痕可回滚
+      - 验证修复效果
+      - 避免引入新问题
+
+  - stage: 验证 (Verification)
+    steps:
+      - 修复效果确认
+      - 自动化对账
+      - 监控指标恢复
+      - 业务验收
+    tools_methods:
+      - 自动化校验脚本
+      - 对账工具
+      - 监控系统
+      - 业务测试用例
+    notes:
+      - 确保无副作用
+      - 全面验证修复
+      - 记录验证结果
+
+  - stage: 预防 (Prevention)
+    steps:
+      - SOP更新
+      - 阈值优化
+      - 案例库沉淀
+      - 回归用例添加
+    tools_methods:
+      - 知识库系统
+      - 自动化测试平台
+      - 监控配置工具
+      - 文档管理系统
+    notes:
+      - 沉淀经验教训
+      - 建立预防机制
+      - 持续改进流程

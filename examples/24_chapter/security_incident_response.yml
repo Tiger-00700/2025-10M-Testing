@@ -1,0 +1,17 @@
+security_incident_response:
+  detection_and_alerting:
+    - siem_integration: "安全信息和事件管理"
+    - threat_intelligence: "威胁情报"
+    - automated_alerting: "自动化告警"
+  incident_response_plan:
+    - incident_classification: "事件分类"
+    - escalation_procedures: "升级流程"
+    - communication_protocols: "沟通协议"
+  forensic_analysis:
+    - log_aggregation: "日志聚合"
+    - evidence_collection: "证据收集"
+    - root_cause_analysis: "根本原因分析"
+  recovery_and_lessons_learned:
+    - system_recovery: "系统恢复"
+    - impact_assessment: "影响评估"
+    - process_improvements: "流程改进"

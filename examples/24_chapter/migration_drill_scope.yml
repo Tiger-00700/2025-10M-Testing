@@ -1,0 +1,16 @@
+migration_drill_scope:
+  application_scope:
+    - core_applications: "核心应用系统"
+    - supporting_services: "支撑服务"
+    - data_services: "数据服务"
+    - monitoring_systems: "监控系统"
+  infrastructure_scope:
+    - compute_resources: "计算资源"
+    - storage_resources: "存储资源"
+    - network_resources: "网络资源"
+    - security_resources: "安全资源"
+  data_scope:
+    - critical_data: "关键业务数据"
+    - configuration_data: "配置数据"
+    - log_data: "日志数据"
+    - backup_data: "备份数据"

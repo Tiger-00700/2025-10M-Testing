@@ -1,0 +1,89 @@
+# examples/14_monitoring/alerting_rules.yml
+# 测试环境告警规则配置
+# Alerting Rules for Test Environment Monitoring
+
+groups:
+  - name: test_environment_alerts
+    rules:
+      # 基础监控告警
+      - alert: TestEnvironmentDown
+        expr: up{job="test_environment"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "测试环境服务不可用"
+          description: "测试环境 {{ $labels.instance }} 已宕机 5 分钟"
+
+      - alert: HighResourceUtilization
+        expr: (1 - avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m]))) > 0.9
+        for: 10m
+        labels:
+          severity: warning
+          team: infrastructure
+        annotations:
+          summary: "高资源利用率告警"
+          description: "实例 {{ $labels.instance }} CPU 使用率超过 90%"
+
+      # 应用性能告警
+      - alert: SlowAPIResponse
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+          team: application
+        annotations:
+          summary: "API 响应时间过慢"
+          description: "95 分位 API 响应时间超过 2 秒"
+
+      # SLO 违反告警
+      - alert: SLOViolation
+        expr: |
+          (
+            1 - (
+              sum(rate(http_requests_total{status=~"2.."}[5m]))
+              /
+              sum(rate(http_requests_total[5m]))
+            )
+          ) > 0.05
+        for: 10m
+        labels:
+          severity: critical
+          team: reliability
+        annotations:
+          summary: "SLO 违反：错误率过高"
+          description: "API 错误率超过 5%"
+
+      # 测试执行告警
+      - alert: TestExecutionFailure
+        expr: rate(test_execution_failures_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+          team: qa
+        annotations:
+          summary: "测试执行失败率过高"
+          description: "测试失败率超过 10%"
+
+      # 容量告警
+      - alert: LowDiskSpace
+        expr: (node_filesystem_avail_bytes / node_filesystem_size_bytes) < 0.1
+        for: 15m
+        labels:
+          severity: warning
+          team: infrastructure
+        annotations:
+          summary: "磁盘空间不足"
+          description: "实例 {{ $labels.instance }} 磁盘可用空间不足 10%"
+
+      # 网络告警
+      - alert: HighNetworkLatency
+        expr: rate(network_latency_seconds[5m]) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          team: network
+        annotations:
+          summary: "网络延迟过高"
+          description: "网络延迟超过 500ms"

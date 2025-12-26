@@ -1,0 +1,17 @@
+risk_matrix_analysis:
+  impact_levels:
+    critical: "极高 - 可能导致项目失败"
+    high: "高 - 重大影响业务目标"
+    medium: "中等 - 可控的影响"
+    low: "低 - 最小影响"
+  probability_levels:
+    very_high: "极高 - >80%可能性"
+    high: "高 - 60-80%可能性"
+    medium: "中等 - 40-60%可能性"
+    low: "低 - 20-40%可能性"
+    very_low: "极低 - <20%可能性"
+  risk_priority:
+    extreme: "极高影响 + 极高概率"
+    high: "高影响 + 高概率"
+    medium: "中等影响 + 中等概率"
+    low: "低影响 + 低概率"

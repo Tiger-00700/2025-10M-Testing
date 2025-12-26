@@ -1,0 +1,95 @@
+# examples/20_evolution/case_requirements.yml
+case_requirements:
+  # 案例基本信息
+  case_info:
+    case_name: "电商实时推荐流批一体链路"
+    business_domain: "电商推荐系统"
+    case_version: "1.0.0"
+    start_date: "2025-01-01"
+    end_date: "2025-06-30"
+
+  # 业务场景分析
+  business_scenario:
+    real_time_requirements:
+      - "用户行为实时采集与分析"
+      - "实时个性化推荐生成"
+      - "推荐效果实时评估"
+      - "A/B测试实时切换"
+
+    batch_requirements:
+      - "历史数据批量训练模型"
+      - "离线特征工程处理"
+      - "批量效果分析报告"
+      - "模型离线评估"
+
+    hybrid_requirements:
+      - "实时特征与离线特征融合"
+      - "流批数据一致性保证"
+      - "实时训练与批量训练结合"
+      - "在线学习与离线学习协同"
+
+  # 技术挑战评估
+  technical_challenges:
+    data_processing:
+      volume: "每日处理10TB+数据"
+      velocity: "实时处理峰值10万QPS"
+      variety: "结构化/半结构化/非结构化数据"
+      veracity: "数据质量波动控制在1%以内"
+
+    system_complexity:
+      components: ["Kafka", "Flink", "Spark", "HBase", "Redis"]
+      integration_points: 15
+      failure_scenarios: ["网络分区", "组件宕机", "数据倾斜"]
+      recovery_time: "< 5分钟"
+
+    consistency_requirements:
+      data_consistency: "最终一致性保证"
+      processing_semantics: "至少一次语义"
+      state_management: "状态容错与恢复"
+      transaction_boundaries: "跨系统事务一致性"
+
+  # 质量目标设定
+  quality_targets:
+    performance_sla:
+      real_time_latency: "< 100ms for P95"
+      batch_completion: "< 2 hours"
+      throughput: "> 10,000 events/second"
+      availability: "> 99.9%"
+
+    data_quality:
+      accuracy: "> 99.5%"
+      completeness: "> 99.8%"
+      timeliness: "> 99.9%"
+      consistency: "> 99.7%"
+
+    business_metrics:
+      recommendation_precision: "> 85%"
+      user_engagement: "+20% improvement"
+      conversion_rate: "+15% improvement"
+      system_cost: "< $500,000/month"
+
+  # 约束条件识别
+  constraints:
+    technical_constraints:
+      - "必须使用现有数据湖架构"
+      - "兼容现有推荐算法框架"
+      - "支持多云部署模式"
+      - "满足数据安全合规要求"
+
+    resource_constraints:
+      - "计算资源预算: 500 CPU cores"
+      - "存储资源预算: 100TB"
+      - "网络带宽限制: 10Gbps"
+      - "开发团队规模: 8人"
+
+    time_constraints:
+      - "POC阶段: 2个月"
+      - "MVP上线: 4个月"
+      - "完整上线: 6个月"
+      - "关键里程碑管控"
+
+    compliance_constraints:
+      - "数据隐私保护(GDPR"
+      - "数据安全等级保护2.0"
+      - "业务连续性要求"
+      - "审计合规要求"

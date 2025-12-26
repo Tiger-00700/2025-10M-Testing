@@ -1,0 +1,320 @@
+# cloud_provider_specific_configs.yml
+# 云服务商专项配置示例
+
+aws_s3_production:
+  buckets:
+    standard:
+      name: "prod-data-standard-${env}"
+      region: "us-east-1"
+      storage_class: "STANDARD"
+      versioning: true
+      encryption:
+        type: "SSE-KMS"
+        kms_key_id: "alias/prod-data-key"
+      lifecycle:
+        - prefix: "logs/"
+          expiration_days: 30
+          transition_days: 7
+          storage_class: "STANDARD_IA"
+        - prefix: "archive/"
+          expiration_days: 365
+          storage_class: "GLACIER"
+
+    intelligent_tiering:
+      name: "prod-data-intelligent-${env}"
+      region: "us-west-2"
+      storage_class: "INTELLIGENT_TIERING"
+      intelligent_tiering:
+        prefix: "analytics/"
+        archive_access_days: 90
+        deep_archive_access_days: 180
+
+  testing_scenarios:
+    cross_region_replication:
+      source_bucket: "prod-data-standard-us-east-1"
+      destination_bucket: "prod-data-replica-us-west-2"
+      replication_role: "arn:aws:iam::123456789012:role/replication-role"
+      replication_rules:
+        - id: "replicate-all"
+          status: "Enabled"
+          prefix: ""
+          destination:
+            bucket: "arn:aws:s3:::prod-data-replica-us-west-2"
+
+    presigned_url_testing:
+      bucket: "prod-data-standard-${env}"
+      key: "sensitive-document.pdf"
+      expiration: 3600
+      allowed_operations: ["get_object", "put_object"]
+
+    batch_operations:
+      manifest_prefix: "batch-manifests/"
+      operations:
+        - type: "copy"
+          source_bucket: "prod-data-standard-${env}"
+          destination_bucket: "prod-data-archive-${env}"
+          storage_class: "GLACIER"
+
+azure_blob_production:
+  storage_accounts:
+    hot_tier:
+      name: "prodstoragehot${env}"
+      kind: "StorageV2"
+      sku: "Standard_LRS"
+      access_tier: "Hot"
+      allow_blob_public_access: false
+      minimum_tls_version: "TLS1_2"
+      network_rules:
+        default_action: "Deny"
+        virtual_network_rules:
+          - virtual_network_resource_id: "/subscriptions/.../virtualNetworks/prod-vnet"
+        ip_rules:
+          - "10.0.0.0/8"
+
+    cool_tier:
+      name: "prodstoragecool${env}"
+      kind: "StorageV2"
+      sku: "Standard_LRS"
+      access_tier: "Cool"
+      blob_soft_delete: true
+      blob_soft_delete_retention_days: 7
+
+  testing_scenarios:
+    geo_redundant_storage:
+      primary_account: "prodstoragehot${env}"
+      secondary_account: "prodstoragehot${env}secondary"
+      replication_type: "GRS"
+      failover_testing:
+        manual_failover: true
+        planned_failover: false
+
+    lifecycle_management:
+      rules:
+        - name: "archive-old-data"
+          enabled: true
+          type: "Lifecycle"
+          definition:
+            filters:
+              blobTypes: ["blockBlob"]
+              prefixMatch: ["archive/"]
+            actions:
+              baseBlob:
+                tierToCool:
+                  daysAfterModificationGreaterThan: 30
+                tierToArchive:
+                  daysAfterModificationGreaterThan: 90
+                delete:
+                  daysAfterModificationGreaterThan: 365
+
+    shared_access_signatures:
+      container: "private-data"
+      permissions: "r"
+      expiry: "2025-12-31T23:59:59Z"
+      start: "2025-12-24T00:00:00Z"
+      ip_range: "192.168.1.0-192.168.1.255"
+
+gcp_cloud_storage_production:
+  buckets:
+    multi_regional:
+      name: "prod-data-multi-${env}"
+      location: "us"
+      storage_class: "STANDARD"
+      versioning:
+        enabled: true
+      encryption:
+        default_kms_key_name: "projects/prod-project/locations/us/keyRings/prod-ring/cryptoKeys/prod-key"
+      retention_policy:
+        retention_period: 2592000
+      lifecycle:
+        rule:
+          - action:
+              type: "SetStorageClass"
+              storage_class: "COLDLINE"
+            condition:
+              age: 90
+          - action:
+              type: "Delete"
+            condition:
+              age: 365
+
+    regional:
+      name: "prod-data-regional-${env}"
+      location: "us-central1"
+      storage_class: "REGIONAL"
+      autoclass:
+        enabled: true
+        terminal_storage_class: "ARCHIVE"
+
+  testing_scenarios:
+    dual_region_buckets:
+      primary_bucket: "prod-data-multi-${env}"
+      secondary_bucket: "prod-data-backup-${env}"
+      replication_config:
+        rule:
+          - origin: "us"
+            destination: "eu"
+            mirror:
+              enabled: true
+
+    signed_urls:
+      bucket: "prod-data-multi-${env}"
+      object: "confidential-report.pdf"
+      method: "GET"
+      expiration: 3600
+      headers:
+        - "content-type: application/pdf"
+
+    batch_operations:
+      job_name: "prod-data-migration-${timestamp}"
+      source_bucket: "prod-data-multi-${env}"
+      destination_bucket: "prod-data-archive-${env}"
+      transfer_spec:
+        gcs_data_source:
+          bucket_name: "prod-data-multi-${env}"
+          include_prefixes: ["archive/"]
+        gcs_data_sink:
+          bucket_name: "prod-data-archive-${env}"
+        transfer_options:
+          delete_objects_from_source_after_transfer: true
+
+aliyun_oss_production:
+  buckets:
+    standard_storage:
+      name: "prod-data-standard-${env}"
+      region: "oss-cn-hangzhou"
+      storage_class: "Standard"
+      versioning: "Enabled"
+      server_side_encryption: "AES256"
+      access_control: "private"
+
+    infrequent_access:
+      name: "prod-data-ia-${env}"
+      region: "oss-cn-shanghai"
+      storage_class: "IA"
+      data_redundancy_type: "ZRS"
+      transfer_acceleration: "Enabled"
+
+  testing_scenarios:
+    cross_region_replication:
+      source_bucket: "prod-data-standard-${env}"
+      target_bucket: "prod-data-replica-${env}"
+      target_region: "oss-cn-shanghai"
+      replication_rule:
+        historical_object_replication: "Enabled"
+        sync_deletes: "Enabled"
+
+    lifecycle_rules:
+      - id: "archive-rule"
+        prefix: "logs/"
+        status: "Enabled"
+        expiration:
+          days: 30
+        transitions:
+          - days: 7
+            storage_class: "IA"
+          - days: 30
+            storage_class: "Archive"
+
+    access_logging:
+      target_bucket: "prod-access-logs-${env}"
+      target_prefix: "access-logs/"
+      status: "Enabled"
+
+huawei_obs_production:
+  buckets:
+    standard:
+      name: "prod-data-standard-${env}"
+      region: "cn-north-1"
+      storage_class: "STANDARD"
+      versioning: true
+      encryption:
+        type: "sse-kms"
+        kms_key_id: "prod-data-key"
+      lifecycle:
+        rules:
+          - name: "log-cleanup"
+            prefix: "logs/"
+            enabled: true
+            expiration:
+              days: 30
+            transitions:
+              - storage_class: "WARM"
+                days: 7
+
+  testing_scenarios:
+    cross_region_replication:
+      source_bucket: "prod-data-standard-${env}"
+      destination_bucket: "prod-data-dr-${env}"
+      destination_region: "cn-south-1"
+      replication_rules:
+        - agency: "obs-replication-agency"
+          destination:
+            bucket: "prod-data-dr-${env}"
+            region: "cn-south-1"
+
+tencent_cos_production:
+  buckets:
+    standard:
+      name: "prod-data-standard-${env}-1234567890"
+      region: "ap-guangzhou"
+      storage_class: "STANDARD"
+      versioning: "Enabled"
+      encryption: "SSE-COS"
+      access_control: "private"
+
+  testing_scenarios:
+    cross_region_replication:
+      source_bucket: "prod-data-standard-${env}-1234567890"
+      destination_bucket: "prod-data-replica-${env}-1234567890"
+      destination_region: "ap-shanghai"
+      replication_configuration:
+        role: "qcs::cam::uin/1234567890:roleName/COSReplicationRole"
+        rules:
+          - id: "replica-all"
+            status: "Enabled"
+            prefix: ""
+            destination:
+              bucket: "qcs::cos:ap-shanghai::prod-data-replica-${env}-1234567890"
+
+cloud_provider_comparison:
+  feature_matrix:
+    aws_s3:
+      multi_region_replication: true
+      intelligent_tiering: true
+      batch_operations: true
+      presigned_urls: true
+      kms_encryption: true
+      lifecycle_management: true
+
+    azure_blob:
+      geo_redundant_storage: true
+      lifecycle_management: true
+      shared_access_signatures: true
+      soft_delete: true
+      immutable_storage: true
+      static_website: true
+
+    gcp_cloud_storage:
+      dual_region_buckets: true
+      autoclass: true
+      signed_urls: true
+      retention_policies: true
+      batch_operations: true
+      object_versioning: true
+
+    aliyun_oss:
+      cross_region_replication: true
+      transfer_acceleration: true
+      lifecycle_rules: true
+      access_logging: true
+      server_side_encryption: true
+      img_style: true
+
+  testing_priorities:
+    - data_durability: "所有云服务商"
+    - cross_region_replication: "AWS S3, Azure Blob, GCP, 阿里云OSS"
+    - lifecycle_management: "所有云服务商"
+    - encryption: "所有云服务商"
+    - access_control: "所有云服务商"
+    - performance: "根据业务场景选择"
+    - cost_optimization: "根据数据访问模式选择"

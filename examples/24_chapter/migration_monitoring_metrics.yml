@@ -1,0 +1,21 @@
+migration_monitoring_metrics:
+  progress_metrics:
+    - migration_completion_percentage: "迁移完成百分比"
+    - milestone_achievement: "里程碑达成情况"
+    - timeline_variance: "时间偏差"
+    - resource_utilization: "资源利用率"
+  quality_metrics:
+    - system_availability: "系统可用性"
+    - performance_degradation: "性能下降程度"
+    - error_rates: "错误率"
+    - user_experience_impact: "用户体验影响"
+  risk_metrics:
+    - incident_count: "事件数量"
+    - downtime_duration: "停机时长"
+    - rollback_frequency: "回滚频率"
+    - issue_resolution_time: "问题解决时间"
+  business_metrics:
+    - business_continuity: "业务连续性"
+    - cost_variance: "成本偏差"
+    - stakeholder_satisfaction: "利益相关者满意度"
+    - compliance_status: "合规状态"

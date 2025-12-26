@@ -1,0 +1,18 @@
+# examples/20_evolution/finance_variant.yml
+finance_case:
+  business_focus: "实时风控与反欺诈检测"
+  real_time_requirements:
+    - "交易行为实时风险评估 (< 10ms)"
+    - "实时欺诈模式识别"
+    - "交易异常实时拦截"
+    - "风险评分实时更新"
+  batch_requirements:
+    - "历史交易数据批量分析"
+    - "风险模型批量训练"
+    - "客户信用评估更新"
+    - "监管报告批量生成"
+  key_metrics:
+    fraud_detection_rate: "+45%"
+    false_positive_rate: "-30%"
+    risk_assessment_accuracy: "+35%"
+    transaction_processing_time: "-70%"

@@ -1,0 +1,21 @@
+disaster_recovery_drills:
+  tabletop_exercise: # 桌面演练
+    frequency: "每季度"
+    participants: "管理层和技术团队"
+    objective: "验证灾备计划的合理性"
+    duration: "2-4小时"
+  functional_test: # 功能测试
+    frequency: "每半年"
+    participants: "技术团队"
+    objective: "测试灾备系统的功能完整性"
+    duration: "4-8小时"
+  full_dr_test: # 完整灾备测试
+    frequency: "每年"
+    participants: "全团队"
+    objective: "验证端到端灾备能力"
+    duration: "1-2天"
+  chaos_engineering: # 混沌工程
+    frequency: "持续进行"
+    participants: "SRE团队"
+    objective: "提升系统韧性"
+    duration: "按需进行"

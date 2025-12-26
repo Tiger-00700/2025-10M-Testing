@@ -1,27 +1,28 @@
-# examples/13_data_gov/ai_governance_config.yml
-# AI增强数据治理配置示例
+# AI增强数据治理配置模板
+# 对应锚点13-005: AI治理配置模板
 
 ai_enhanced_governance:
-  # 智能数据分类配置
+  # 智能分类配置
   intelligent_classification:
     model: "bert_sensitive_data_classifier"
-    model_version: "v2.1"
     confidence_threshold: 0.85
     auto_labeling: true
-    supported_languages: ["zh", "en"]
-    update_frequency: "weekly"
+    training_data_path: "examples/13_data_gov/training_data.json"
+    model_update_frequency: "weekly"
+    fallback_strategy: "heuristic_based"
 
   # 异常检测配置
   anomaly_detection:
     algorithm: "isolation_forest"
-    sensitivity: "medium"  # low/medium/high
+    sensitivity: "medium"
     alert_threshold: 0.95
+    contamination: 0.1
     training_window: "30_days"
-    features:
-      - "access_frequency"
-      - "data_volume"
-      - "time_pattern"
-      - "user_role"
+    feature_engineering:
+      - "time_based_features"
+      - "access_pattern_features"
+      - "user_behavior_features"
+      - "data_volume_features"
 
   # 预测性监控配置
   predictive_monitoring:
@@ -29,38 +30,269 @@ ai_enhanced_governance:
     risk_indicators:
       - "data_volume_spike"
       - "unusual_access_pattern"
-      - "classification_confidence_drop"
-      - "anomaly_score_increase"
-    prediction_model: "time_series_forecast"
-    alert_sensitivity: "medium"
+      - "permission_escalation"
+      - "bulk_data_export"
+      - "off_hours_access"
+    prediction_model: "time_series_forecasting"
+    alert_lead_time: "24_hours"
 
-  # AI治理策略
-  governance_policies:
-    automated_actions:
-      high_risk: ["immediate_audit", "access_restriction", "data_masking", "stakeholder_notification"]
-      medium_risk: ["enhanced_monitoring", "approval_required", "weekly_report"]
-      low_risk: ["standard_monitoring", "monthly_review"]
+  # 自然语言处理配置
+  nlp_processing:
+    enabled: true
+    models:
+      - name: "data_classification_bert"
+        type: "bert"
+        max_length: 512
+        num_labels: 10
+      - name: "policy_analysis_gpt"
+        type: "gpt"
+        temperature: 0.3
+        max_tokens: 1000
+    compliance_analysis:
+      frameworks:
+        - "GDPR"
+        - "CCPA"
+        - "HIPAA"
+        - "SOX"
+      analysis_depth: "detailed"
 
-    human_override:
-      enabled: true
-      approval_required: true
-      audit_trail: true
-      max_override_duration: "24_hours"
-
-  # 模型治理
-  model_governance:
-    model_validation:
-      accuracy_threshold: 0.90
+  # 机器学习模型管理
+  model_management:
+    model_registry: "mlflow"
+    versioning: "semantic_versioning"
+    monitoring:
       drift_detection: true
-      retraining_trigger: "performance_drop_10_percent"
-    explainability:
-      feature_importance: true
-      decision_explanation: true
-      bias_detection: true
+      performance_tracking: true
+      fairness_monitoring: true
+    retraining:
+      trigger: "performance_degradation"
+      threshold: 0.05
+      frequency: "monthly"
+
+  # 自动化响应配置
+  automated_response:
+    risk_levels:
+      critical:
+        actions:
+          - "immediate_block"
+          - "security_alert"
+          - "manual_review"
+        notification_channels:
+          - "email"
+          - "slack"
+          - "pagerduty"
+        escalation_time: "5_minutes"
+      high:
+        actions:
+          - "enhanced_monitoring"
+          - "access_logging"
+          - "additional_verification"
+        notification_channels:
+          - "email"
+          - "slack"
+        escalation_time: "15_minutes"
+      medium:
+        actions:
+          - "additional_verification"
+          - "audit_logging"
+        notification_channels:
+          - "email"
+        escalation_time: "1_hour"
+      low:
+        actions:
+          - "audit_logging"
+        notification_channels: []
+        escalation_time: "24_hours"
+
+  # 数据质量监控
+  data_quality_monitoring:
+    metrics:
+      - name: "completeness"
+        threshold: 0.95
+        alert_level: "warning"
+      - name: "accuracy"
+        threshold: 0.98
+        alert_level: "error"
+      - name: "consistency"
+        threshold: 0.90
+        alert_level: "warning"
+      - name: "timeliness"
+        threshold: "24_hours"
+        alert_level: "error"
+    profiling:
+      enabled: true
+      frequency: "daily"
+      sample_size: 10000
+
+  # 合规监控
+  compliance_monitoring:
+    frameworks:
+      gdpr:
+        enabled: true
+        checks:
+          - "data_minimization"
+          - "purpose_limitation"
+          - "consent_management"
+          - "data_subject_rights"
+        reporting_frequency: "quarterly"
+      ccpa:
+        enabled: true
+        checks:
+          - "privacy_notice"
+          - "data_sales_disclosure"
+          - "opt_out_mechanism"
+        reporting_frequency: "annual"
+      hipaa:
+        enabled: false
+        checks:
+          - "privacy_rule"
+          - "security_rule"
+          - "breach_notification"
+        reporting_frequency: "annual"
+
+  # 性能优化
+  performance_optimization:
+    caching:
+      enabled: true
+      ttl: "1_hour"
+      max_size: "1GB"
+    parallel_processing:
+      enabled: true
+      max_workers: 4
+    batch_processing:
+      enabled: true
+      batch_size: 1000
+
+  # 日志和审计
+  logging_and_audit:
+    log_level: "INFO"
+    log_format: "json"
+    retention_period: "365_days"
+    audit_trail:
+      enabled: true
+      immutable: true
+      encryption: true
+    monitoring:
+      elk_stack: true
+      custom_dashboards: true
 
   # 集成配置
   integrations:
-    data_catalog: "enabled"
-    monitoring_dashboard: "enabled"
-    alert_system: "enabled"
-    audit_log: "enabled"
+    data_catalog:
+      enabled: true
+      provider: "alation"
+      sync_frequency: "hourly"
+    workflow_engine:
+      enabled: true
+      provider: "airflow"
+      dag_location: "dags/ai_governance/"
+    notification_system:
+      enabled: true
+      providers:
+        - "slack"
+        - "email"
+        - "webhook"
+      templates:
+        alert: "templates/alert_notification.j2"
+        report: "templates/compliance_report.j2"
+
+  # 安全配置
+  security:
+    encryption:
+      data_at_rest: "AES256"
+      data_in_transit: "TLS1.3"
+    authentication:
+      method: "oauth2"
+      mfa_required: true
+    authorization:
+      model: "rbac"
+      fine_grained: true
+
+  # 可扩展性配置
+  scalability:
+    horizontal_scaling:
+      enabled: true
+      min_instances: 2
+      max_instances: 10
+      scaling_metric: "cpu_utilization"
+    load_balancing:
+      algorithm: "least_connections"
+      health_checks: true
+    resource_limits:
+      cpu: "2"
+      memory: "4Gi"
+      storage: "50Gi"
+
+# 环境特定配置覆盖
+environments:
+  development:
+    ai_enhanced_governance:
+      anomaly_detection:
+        sensitivity: "low"
+        alert_threshold: 0.90
+      automated_response:
+        enabled: false
+
+  staging:
+    ai_enhanced_governance:
+      anomaly_detection:
+        sensitivity: "medium"
+        alert_threshold: 0.93
+      automated_response:
+        critical:
+          escalation_time: "10_minutes"
+
+  production:
+    ai_enhanced_governance:
+      anomaly_detection:
+        sensitivity: "high"
+        alert_threshold: 0.97
+      automated_response:
+        critical:
+          escalation_time: "2_minutes"
+      security:
+        authentication:
+          mfa_required: true
+
+# 监控和告警阈值
+monitoring_thresholds:
+  model_performance:
+    accuracy_drop_threshold: 0.05
+    latency_threshold: "500ms"
+    error_rate_threshold: 0.01
+
+  system_health:
+    cpu_usage_threshold: 80
+    memory_usage_threshold: 85
+    disk_usage_threshold: 90
+
+  data_quality:
+    null_value_threshold: 0.05
+    duplicate_threshold: 0.01
+    outlier_threshold: 0.10
+
+# 报告配置
+reporting:
+  compliance_reports:
+    frequency: "quarterly"
+    format: "pdf"
+    distribution_list:
+      - "compliance@company.com"
+      - "legal@company.com"
+    retention_period: "7_years"
+
+  performance_reports:
+    frequency: "monthly"
+    format: "html"
+    distribution_list:
+      - "data_team@company.com"
+      - "management@company.com"
+    retention_period: "3_years"
+
+  incident_reports:
+    trigger: "security_incident"
+    format: "json"
+    distribution_list:
+      - "security@company.com"
+      - "incident_response@company.com"
+    retention_period: "7_years"

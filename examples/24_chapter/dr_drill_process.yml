@@ -1,0 +1,20 @@
+dr_drill_execution:
+  preparation_phase:
+    - define_objectives: "明确演练目标"
+    - assemble_team: "组建演练团队"
+    - prepare_environment: "准备演练环境"
+    - communication_plan: "制定沟通计划"
+  execution_phase:
+    - simulate_failure: "模拟故障场景"
+    - execute_failover: "执行故障转移"
+    - monitor_recovery: "监控恢复过程"
+    - validate_functionality: "验证功能完整性"
+  evaluation_phase:
+    - measure_metrics: "测量关键指标"
+    - identify_gaps: "识别改进点"
+    - document_lessons: "记录经验教训"
+    - update_procedures: "更新灾备流程"
+  follow_up_phase:
+    - implement_improvements: "实施改进措施"
+    - schedule_next_drill: "规划下次演练"
+    - report_to_stakeholders: "向利益相关者汇报"
