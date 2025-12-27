@@ -30,4 +30,8 @@ def format_anchor_blocks(docx_path, output_path):
     print(f'Formatted {formatted_count} anchor block paragraphs with light blue background')
 
 if __name__ == '__main__':
-    format_anchor_blocks('1225全书定稿.docx', '1225全书定稿_anchors_formatted.docx')
+    import sys
+    if len(sys.argv) != 3:
+        print("Usage: python format_anchors_docx.py <input_docx> <output_docx>")
+        sys.exit(1)
+    format_anchor_blocks(sys.argv[1], sys.argv[2])

@@ -1,7 +1,18 @@
 from docx import Document
 
 doc = Document('1225全书定稿.docx')
-for i, para in enumerate(doc.paragraphs[:100]):
+
+print("Checking anchor formats...")
+for i, para in enumerate(doc.paragraphs):
     text = para.text.strip()
-    if '锚点' in text or '更新时间' in text or '时间戳' in text:
-        print(f'Para {i}: "{text}"')
+    if text.startswith('> [') and ']' in text:
+        print(f"\nFound anchor at para {i}: {text}")
+
+        # Check next few paragraphs
+        for j in range(1, 8):
+            if i + j < len(doc.paragraphs):
+                next_text = doc.paragraphs[i + j].text.strip()
+                print(f"  {j}: '{next_text}'")
+                print(f"     starts with '> ': {next_text.startswith('> ')}")
+                print(f"     contains ':': {':' in next_text}")
+        break  # Just check first anchor
